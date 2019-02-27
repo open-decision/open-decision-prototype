@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{%block content%}
+
+<form method="POST">{%csrf_token%}
+  <input type="text" name="question" value="Gib hier deine Frage ein" required><br>
+  <input type="text" name="answer1" value='Gut' required><input type="text" name="rule1" value='2'  required><br>
+  <input type="text" name="answer2" value='Schlecht' required><input type="text" name="rule2" value='3' required><br>
+  <input type="text" name="answer3" value='Ok'><input type="text" name="rule3" value='4' ><br>
+
+<button class="button" type="submit" name="action">Knoten erstellen</button>
+</form>
+
+
+
+<br>
+<form method="POST">{%csrf_token%}
+<button  class="button grey" type="submit" name="demo" value=start>Baum ausprobieren</button>
+</form>
+<br>
+<form method="POST">{%csrf_token%}
+<button  class="button grey" type="submit" name="reset" value=True >Reset</button>
+</form>
+{%endblock%}
+
+'''
+{% if item == 'Nein' %}
+  {% else %}
+{% endif %}
+
+'name': 'start',
+'question': 'Did your applicant apply for asylum in Germany?',
+'answer_type': 'select',
+'answers': ['Ja', 'Nein'],
+'checks': None,
+'rules': {
+'Ja': 'zwei',
+'Nein': 'end'
+'''
