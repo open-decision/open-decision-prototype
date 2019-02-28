@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{%block content%}
+<form class="build_form" method="POST">{%csrf_token%}
+  <input id="question" type="text" name="question" value="bitte Frage eingeben" required><br>
+  <input type="text" name="answer1" value='bitte erste Antwort eingeben' required><input type="text" name="rule1" value='2'  required><br>
+  <input type="text" name="answer2" value='bitte zweite Antwort eingeben' required><input type="text" name="rule2" value='3' required><br>
+  <input type="text" name="answer3" value='bitte dritte Antwort eingeben'><input type="text" name="rule3" value='4' ><br>
+
+<button class="button" style="width:100%;" type="submit" name="action">Knoten erstellen</button>
+</form>
+
+
+
+<br>
+<form method="POST">{%csrf_token%}
+<button  class="button grey" style="display:block; margin: 0 auto 0;" type="submit" name="demo" value=start>Baum ausprobieren</button>
+</form>
+<br>
+<form method="POST">{%csrf_token%}
+<button  class="button grey" style="display:block; margin: 0 auto 0;" type="submit" name="reset" value=True >Reset</button>
+</form>
+{%endblock%}
+
+'''
+{% if item == 'Nein' %}
+  {% else %}
+{% endif %}
+
+'name': 'start',
+'question': 'Did your applicant apply for asylum in Germany?',
+'answer_type': 'select',
+'answers': ['Ja', 'Nein'],
+'checks': None,
+'rules': {
+'Ja': 'zwei',
+'Nein': 'end'
+'''

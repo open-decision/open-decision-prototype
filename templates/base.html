@@ -10,7 +10,7 @@
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
-  background-color: #fbfaef;
+  background-color: #f1f4f7;
 
 }
 .flex-container {
@@ -18,52 +18,120 @@ body {
   flex-direction: row;
   flex-wrap: wrap;
 }
-.button {
-  background-color: #4CAF50;
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
+
+.wrap_all {
+	max-width:1218px;
+	padding:1em;
+	margin: 0 auto 0;
+	background-color: white;	
 }
 
-.button.red {
-  background-color: red;
-}
-.button.grey {
-  background-color: grey;
-}
-.topnav {
-  overflow: hidden;
-  background-color: #d6d9c7;
+.wrap_content {
+	margin:0;
+	padding: 1em;
 }
 
-.topnav a {
-  float: left;
-  color: #9e6405;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
+.clearfix::after {
+	content: "";
+	display: table;
+	clear: both;
 }
 
-.topnav a:hover {
-  background-color: #ddd;
-  color: black;
+
+.build_form input {
+	width: 50%;
+	margin:1em 0;
+	padding:1em;
 }
 
-.topnav a:active {
-  background-color: #dfdfdf;
-  color: white;
+.build_form #question {
+	width: 100%;
 }
+
+/*buttons*/
+	.button {
+	  background-color: #4CAF50;
+	  border: none;
+	  color: white;
+	  padding: 15px 32px;
+	  text-align: center;
+	  text-decoration: none;
+	  display: inline-block;
+	  font-size: 16px;
+	  margin: 4px 2px;
+	}
+
+	.button.red {
+	  background-color: red;
+	}
+	.button.grey {
+	  background-color: grey;
+	}
+/*buttonsEND*/
+
+/*topnav*/
+	.topnav {
+	  overflow: hidden;
+	  background-color: #03316c;
+	}
+
+	.topnav a {
+	  float: left;
+	  color: #dce0e4;
+	  text-align: center;
+	  padding: 14px 16px;
+	  text-decoration: none;
+	  font-size: 17px;
+	}
+
+	.topnav a:hover {
+	  background-color: #ddd;
+	  color: black;
+	}
+
+	.topnav a:active {
+	  background-color: #dfdfdf;
+	  color: white;
+	}
+/*topnav END*/
+
+/*footer*/
+	.footer{
+		overflow: hidden;
+		background-color:#03316c;
+	}
+
+	.footer a {
+	  float: right;
+	  color: white;
+	  text-align: center;
+	  padding: 14px 16px;
+	  text-decoration: none;
+	  font-size: 13px;
+	}
+
+	.footer a:hover {
+	  background-color: #ddd;
+	  color: black;
+	}
+
+	.footer a:active {
+	  background-color: #dfdfdf;
+	  color: white;
+	}
+/*footer END*/
 </style>
   </head>
 <body>
-{%include 'navbar.html'%}
-  {%block content%}{%endblock%}
-  {%block test%}{%endblock%}
+	<div class="wrap_all">
+		<div class="clearfix">
+		<!--<img src="/humboldtlogo.png" style="float:right;" alt="Humboldt Universität zu Berlin">-->
+		</div><!--clearfix-->
+		{%include 'navbar.html'%}
+	<div class="wrap_content">
+		{%block content%}{%endblock%}
+	</div><!--wrap_content-->
+		{%include 'footer.html'%}
+	</div><!--wrap_all-->
   </body>
 </html>
