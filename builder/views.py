@@ -3,12 +3,23 @@ from django.shortcuts import render, redirect
 # Create your views here.
 # Wann i/node id als string bzw. int
 def build_tree_view(request):
+    print (request.POST)
+    print(request.POST.get('resrfet'))
     if request.method == 'POST' and request.POST.get('reset'):
         request.session.flush()
-
+        try:
+            bool(context)
+        except:
+            context = {}
     elif request.method == 'POST' and request.POST.get('demo'):
-        response = redirect('/builder_demo/')
-        return response
+        try:
+            request.session['demo']
+            response = redirect('/builder_demo/')
+            return response
+        except:
+            print('Demo not yet defined')
+            context = {}
+            #raise ValueError('Demo not yet defined')
     elif request.method == 'POST':
         i = request.session.get('id', 1)
         try:
@@ -34,12 +45,16 @@ def build_tree_view(request):
             request.session['demo'][i]['rules'][request.session['demo'][i]['answers'][2]]= request.POST['rule3']
         else:
             print('No third answer-rules')
-        print(request.session['demo'])
-        context = request.session['demo']
+        #print(request.session['demo'])
+        context = {
+        'test': request.session['demo'],
+        'node_id': request.session.get('id')
+        }
         request.session['id'] = i + 1
+        print(context)
     else:
         print (request.POST)
-    context = {}
+        context = {}
     return render(request, 'build_tree.html', context)
 
 
@@ -71,17 +86,18 @@ def builder_demo(request):
             context = {}
             answer_given = request.POST.get('action')
             print(answer_given)
-            #try:
-            next_node = request.session['demo'][last_node]['rules'][answer_given]
-            #except:
-                #for key in request.session['demo'][request.session['last_node']]['rules']:
-                #    if key.startswith(answer_given):
-                #        next_node = request.session['demo'][request.session['last_node']]['rules'][key]
+            try:
+                next_node = request.session['demo'][last_node]['rules'][answer_given]
+            except:
+                for key in request.session['demo'][request.session['last_node']]['rules']:
+                    if key.startswith(answer_given):
+                        next_node = request.session['demo'][request.session['last_node']]['rules'][key]
             try:
                 print(request.session['demo'][next_node]['question'])
                 context['question'] = request.session['demo'][next_node]['question']
+                context['answers'] = request.session['demo'][next_node]['answers']
             except:
                 context['question'] = 'Soweit ist dein Baum leider noch nicht gebaut.'
-            context['answers'] = request.session['demo'][next_node]['answers']
+
             request.session['last_node'] = next_node
     return render(request, 'builder_demo.html', context)

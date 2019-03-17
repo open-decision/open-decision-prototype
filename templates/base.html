@@ -1,7 +1,10 @@
 {% load static %}
-
+<script type="text/javascript" src="{% static 'jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'jquery-ui.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'bootstrap.min.js' %}"></script>
 <link rel="stylesheet" type="text/css" href="{% static 'question/style.css' %}">
-
+<link rel="stylesheet" type="text/css" href="{% static 'jquery-ui.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
 <!doctype html>
 <html>
 <head>
@@ -11,8 +14,22 @@ body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
   background-color: #f1f4f7;
-
 }
+
+.formset {
+  width: 50%;
+  margin: 0 auto 0;
+  display: inline-block;
+}
+
+#answer-formset {
+float: left;
+}
+
+#logic-formset {
+  float: right;
+}
+
 .flex-container {
   display: flex;
   flex-direction: row;
@@ -23,7 +40,7 @@ body {
 	max-width:1218px;
 	padding:1em;
 	margin: 0 auto 0;
-	background-color: white;	
+	background-color: white;
 }
 
 .wrap_content {
@@ -37,6 +54,10 @@ body {
 	clear: both;
 }
 
+.build_form {
+  width: 60%;
+  margin: 0 auto 0;
+}
 
 .build_form input {
 	width: 50%;
@@ -49,7 +70,7 @@ body {
 }
 
 /*buttons*/
-	.button {
+	.button_old {
 	  background-color: #4CAF50;
 	  border: none;
 	  color: white;
@@ -60,6 +81,11 @@ body {
 	  font-size: 16px;
 	  margin: 4px 2px;
 	}
+.btn_alignment {
+
+  margin: 6px 4px;
+}
+
 
 	.button.red {
 	  background-color: red;
@@ -67,6 +93,10 @@ body {
 	.button.grey {
 	  background-color: grey;
 	}
+  .button.form {
+    padding: 5px 15px;
+    background-color: grey;
+  }
 /*buttonsEND*/
 
 /*topnav*/
@@ -97,8 +127,9 @@ body {
 
 /*footer*/
 	.footer{
-		overflow: hidden;
+		overflow-x: hidden;
 		background-color:#03316c;
+    width: 100%;
 	}
 
 	.footer a {
