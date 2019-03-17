@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from decisiontree.views import product_detail_view, product_create_view
+from decisiontree.views import product_create_view, load_answer_field, load_logic_field
 from pages.views import home_view, contact_view
 from question.views import show_question
 from builder.views import build_tree_view, builder_demo
@@ -24,10 +24,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_view, name='home'),
     path('contact/', contact_view),
-    path('product/', product_detail_view),
     path('create/', product_create_view),
     path('question/', show_question),
     path('builder/', build_tree_view),
     path('builder_demo/', builder_demo),
+    path('ajax/load_answer_field/', load_answer_field, name='ajax_load_answer_field'),
+    path('ajax/load_logic_field/', load_logic_field, name='ajax_load_logic_field')
 
 ]

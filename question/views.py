@@ -142,9 +142,9 @@ ruecklastschriftgebuehren = {
           },
 'end': {
             'name': 'drei',
-            'question': 'Leider kann der Bewerber nicht arbeiten. Schreibe /cancel um neuzustarten.',
+            'question': 'Leider kann der Bewerber nicht arbeiten. Klicke auf Neustart, um von vorne zu beginnen.',
             'answer_type': 'select',
-            'answers': ['Ja', 'Nein'],
+            'answers': [],
             'checks': None,
             'rules': {
             'Ja': 'success',
@@ -155,7 +155,7 @@ ruecklastschriftgebuehren = {
             'name': 'drei',
             'question': 'Der Bewerber darf arbeiten! Hier gibt es mehr Informationen. https://immigration-legaltech.herokuapp.com/nineth/results/5/results',
             'answer_type': 'select',
-            'answers': ['/cancel', '/start'],
+            'answers': [],
             'checks': None,
             'rules': {
             'Ja': 'success',

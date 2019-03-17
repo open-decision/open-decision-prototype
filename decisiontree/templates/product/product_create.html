@@ -1,13 +1,103 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
-<form method="POST">{%csrf_token%}
-  <input type="submit" name="" value="Save"/>
-  <button type="submit" name="action" value="0">IP-Adresse</button>
+<form method="POST" id='nodeForm' answer-form-url="{% url 'ajax_load_answer_field' %}" logic-form-url="{% url 'ajax_load_logic_field' %}">{%csrf_token%}
+
+    <div class="row">
+        <div class="col">
+            {{ form.non_field_errors }}
+            <div class="fieldWrapper">
+                {{ form.name.errors }}
+                  {{ form.name.label_tag }}
+                {{ form.name }}
+              </div>
+        </div>
+        <div class="row">
+            <div class="col">
+  <div class="fieldWrapper">
+      {{ form.question.errors }}
+        {{ form.question.label_tag }}
+      {{ form.question }}
+  </div>
+  </div>
+  </div>
+  </div>
+  <div class="fieldWrapper">
+      {{ form.example.errors }}
+        {{ form.example.label_tag }}
+      {{ form.example }}
+  </div>
+  <div class="fieldWrapper">
+      {{ form.input_type.errors }}
+        {{ form.input_type.label_tag }}
+      {{ form.input_type }}
+  </div>
+
+<div class='formset' id='answer-formset'>
+</div>
+
+<div class='formset' id='logic-formset'>
+</div>
+    <button type="submit" name="save" value='True' class="btn btn-primary btn_alignment" style="float:left; width:100%;">Knoten speichern</button>
 </form>
-{% if title %}
-  <p>{{title}}</p>
-{% else %}
-  <p>Nothing Here</p>
-{% endif %}
+
+
+
+<script>
+$(document).ready(function(){
+  $("#id_input_type").change(function () {
+        var url = $("#nodeForm").attr("logic-form-url");
+        var url2 = $("#nodeForm").attr("answer-form-url");
+        var inputType = $(this).val();
+
+        $.ajax({
+          url: url,
+          data: {
+            'input_type': inputType
+          },
+          success: function (data) {
+            $("#logic-formset").html(data);
+          }
+        });
+
+        $.ajax({
+          url: url2,
+          data: {
+            'input_type': inputType
+          },
+          success: function (data) {
+            $("#answer-formset").html(data);
+          }
+        });
+
+
+
+      });
+
+  $("#answer-formset").on('blur',"input[name^='answer']",
+      function(){
+        console.log('Activated')
+        let answer_given = $(this).val(),
+            input_type = $('#id_input_type').val();
+
+      if (input_type == 'button' && answer_given !== '') {
+            let answers = $("#id_answer-TOTAL_FORMS").val(),
+                logics = $("#id_logic-TOTAL_FORMS").val(),
+                diff = answers - logics,
+                num = $(this).attr('id').match(/\d+/);
+                console.log(diff);
+          if (diff > 0) {
+            let i;
+            for (i = 0; i < diff; i++) {
+            $('.logic_add').trigger("click" );
+          };
+        };
+          $("#id_logic-"+ num +"-antworten").html("<option value=" + answer_given + ">" + answer_given + "</option>");
+        };
+});
+   });
+
+</script>
+
+
 {% endblock %}
