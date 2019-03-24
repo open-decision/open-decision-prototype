@@ -1,21 +1,23 @@
 {% extends 'base.html' %}
 {%block content%}
-<p style="font-size:30px;">{{question}}</p>
+<h2 style="margin-top:1em;padding-bottom:0.5em;border-bottom:solid lightgrey 1px;">Beratung</h2>
+<p>{{question}}</p>
 <div class="flex-container">
 {% for item in answers %}
 <form method="POST">{%csrf_token%}
     {% if item == 'Nein' %}
-        <div><button class="button red" type="submit" name="action" value={{item}}>{{item}}</button></div>
+        <div><button class="button" type="submit" name="action" id="submit" value={{item}}>{{item}}</button></div>
     {% else %}
-        <div><button class="button" type="submit" name="action" value={{item}}>{{item}}</button></div>
+        <div><button class="button" type="submit" name="action" id="submit" value={{item}}>{{item}}</button></div>
     {% endif %}
 </form>
 {% endfor %}
 </div>
 <br>
 <form method="POST">{%csrf_token%}
-<button  class="button grey" type="submit" name="restart" value=True>Neustart</button>
+<button  class="button" type="submit" name="restart" value=True>Neustart</button>
 </form>
+
 {%endblock%}
 
 
@@ -24,3 +26,30 @@
   <div>2</div>
   <div>3</div>
 </div>
+
+<div class="fadeotfadein fadeout">Guten Tag!</div>
+<button class="fadeinfadeout fadein">Tutorial</button>
+<div class="fadeoutfadein fadeinout">Ich bin der Botvocat, der automatischer Rechtsberater der access to justice App! Beantworte mir einfach ein paar Fragen, damit ich deine Situation verstehe. Keine Sorge, es werden nicht mehr als zehn Fragen sein und deine Daten speichere ich auch nicht! Wenn ich deinen Fall verstanden habe, kann ich dir die rechtliche Lage schildern und Tipps geben. Wenn nicht, leite ich dich gerne an die Rechtsberater der Humboldt Customer Law Clinic weiter!</div>
+<div class="fadeoutfadein fadeout">Hier ist meine erste Frage:</div>
+
+
+<script>
+$('#tutorial').on('click', function() {
+  if ($('.fadeinout').css('opacity') == 1) {
+      $('.fadeinout').css('opacity', 0);
+  }
+  else {
+      $('.container').css('opacity', 0);
+  }
+});
+$('#submit').on('click', function() {
+  if ($('.fadeout').css('opacity') == 1) {
+      $('.fadeout').css('opacity', 0);
+  }
+  else {}
+  if ($('.fadein').css('opacity') == 0) {
+      $('.fadein').css('opacity', 1);
+  }
+  else {}
+  });
+</script>

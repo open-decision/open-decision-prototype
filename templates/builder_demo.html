@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {%block content%}
-<p style="font-size:30px">{{question}}</p>
+<h2 style="margin-top:1em;padding-bottom:0.5em;border-bottom:solid lightgrey 1px;">Testlauf</h2>
+<p>{{question}}</p>
 <div class="flex-container">
 {% for item in answers %}
 <form method="POST">{%csrf_token%}
