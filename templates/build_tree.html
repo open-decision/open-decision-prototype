@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {%block content%}
-<h2 style="margin-top:1em;padding-bottom:0.5em;border-bottom:solid lightgrey 1px;">Builder (alt)</h2>
+<h2 class="pageheader">Builder (alt)</h2>
 <form class="build_form" method="POST">{%csrf_token%}
   <input id="question" type="text" name="question" placeholder='Frage' value='Wie geht es dir?' required><br>
   <input type="text" name="answer1" placeholder='erste Antwort' value='Gut' required><input type="text" name="rule1" placeholder='nächster Knoten'  value='2' required><br>
