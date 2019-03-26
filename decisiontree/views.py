@@ -4,14 +4,14 @@ from django.forms import formset_factory
 from django.utils.html import escape
 
 
-def product_create_view(request):
+def node_create_view(request):
     if request.method == 'GET':
         node_form = NodeForm
         NodeButtonFormSet = formset_factory(ButtonAnswersForm)
         context = {
         'form': node_form,
         }
-        return render(request, 'product/product_create.html', context)
+        return render(request, 'node_create.html', context)
     elif request.method == 'POST' and request.POST.get('save'):
         print (request.POST)
         clean_data(request)
@@ -19,7 +19,7 @@ def product_create_view(request):
         context = {
         'form': node_form
         }
-        return render(request, 'product/product_create.html', context)
+        return render(request, 'node_create.html', context)
 
 
 def load_answer_field(request):
@@ -33,7 +33,7 @@ def load_answer_field(request):
     'answer_formset': answer_formset,
     'expandable': expandable,
     }
-    return render(request, 'product/answer_field.html', context)
+    return render(request, 'answer_field.html', context)
 
 def set_answer_form(input_type):
     if input_type == 'button':
@@ -93,7 +93,7 @@ def load_logic_field(request):
     context = {
     'logic': logic_form
     }
-    return render(request, 'product/logic_field.html', context)
+    return render(request, 'logic_field.html', context)
 
 
 
