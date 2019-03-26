@@ -52,13 +52,13 @@ class DateAnswerForm(forms.Form):
 
 
 class LogicForm(forms.Form):
-    operators = forms.ChoiceField(label='Operator', choices = [])
-    antworten = forms.ChoiceField(label='Mögliche Antworten', choices = [])
-    action = forms.ChoiceField(label='Action', choices = (
+    operator = forms.ChoiceField(label='Operator', choices = [], required=False)
+    answers_logic = forms.ChoiceField(label='Mögliche Antworten', choices = [], required=False)
+    action = forms.ChoiceField(label='Action', required=False, choices = (
     ('go_to', 'gehe zu'),
 #    ('set', 'setze')
     ))
-    var_to_modify = forms.CharField(label='Object to perform action on')
+    var_to_modify = forms.CharField(label='Object to perform action on', required=False)
 
     def __init__(self, *args, **kwargs):
         self.test1 = kwargs.pop('test1', None)
@@ -74,13 +74,13 @@ class LogicForm(forms.Form):
 #            self.fields['value_to_set'] = forms.CharField()
 
         if self.input_type == 'button':
-            self.fields['operators'].choices = (
+            self.fields['operator'].choices = (
             ('==', 'gleich'),
             ('!=', 'nicht'))
 
         elif self.input_type == 'list':
-            self.fields['antworten'] = forms.CharField(widget=forms.Textarea)
-            self.fields['operators'].choices = (
+            self.fields['answers_logic'] = forms.CharField(widget=forms.Textarea)
+            self.fields['operator'].choices = (
             ('==', 'gleich'),
             ('!=', 'nicht'))
 
@@ -96,8 +96,8 @@ class LogicForm(forms.Form):
 #            pass
 
         elif self.input_type == 'number':
-            self.fields['antworten'] = forms.FloatField()
-            self.fields['operators'].choices = (
+            self.fields['answers_logic'] = forms.FloatField()
+            self.fields['operator'].choices = (
             ('==', 'gleich'),
             ('!=', 'nicht'),
             ('<', 'kleiner als'),
@@ -107,11 +107,11 @@ class LogicForm(forms.Form):
             )
 
         elif self.input_type == 'date':
-            self.fields['antworten'] = forms.DateField(widget=forms.TextInput(attrs=
+            self.fields['answers_logic'] = forms.DateField(widget=forms.TextInput(attrs=
                                 {
                                     'class':'datepicker'
                                 }))
-            self.fields['operators'].choices = (
+            self.fields['operator'].choices = (
             ('==', 'gleich'),
             ('!=', 'nicht'),
             ('<', 'kleiner als'),
@@ -121,3 +121,12 @@ class LogicForm(forms.Form):
             )
         else:
             pass
+#These custom clean functions are not working, building a dirty workaround in the view for now
+    def clean_answers_logic(self):
+        data = self.cleaned_data['answers_logic']
+        if True:
+            return data
+    def clean_operator(self):
+        data = self.cleaned_data['operator']
+        if True:
+            return data
