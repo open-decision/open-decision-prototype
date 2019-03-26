@@ -10,3 +10,4 @@ The system is split in several different applications.
 <br> Apps: Using React Native, apps for Android and iOS are planned.
 <br> Chat-Bot: A demo of the Telegram-Bot is already running, Facebook and WhatsApp bots are planned.
 
+**The code is still quite messy, cleaning will take place the next weeks**
