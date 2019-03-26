@@ -1,168 +1,35 @@
 {% load static %}
 <script type="text/javascript" src="{% static 'jquery.js' %}"></script>
 <script type="text/javascript" src="{% static 'jquery-ui.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'popper.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'bootstrap.min.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'ourstylesheet.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'question/style.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'jquery-ui.min.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
+
+
 <!doctype html>
 <html>
 <head>
 <title>HCLC App</title>
-<style>
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: #f1f4f7;
-}
 
-.formset {
-  width: 50%;
-  margin: 0 auto 0;
-  display: inline-block;
-}
-
-#answer-formset {
-float: left;
-}
-
-#logic-formset {
-  float: right;
-}
-
-.flex-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-.wrap_all {
-	max-width:1218px;
-	padding:1em;
-	margin: 0 auto 0;
-	background-color: white;
-}
-
-.wrap_content {
-	margin:0;
-	padding: 1em;
-}
-
-.clearfix::after {
-	content: "";
-	display: table;
-	clear: both;
-}
-
-.build_form {
-  width: 60%;
-  margin: 0 auto 0;
-}
-
-.build_form input {
-	width: 50%;
-	margin:1em 0;
-	padding:1em;
-}
-
-.build_form #question {
-	width: 100%;
-}
-
-/*buttons*/
-	.button_old {
-	  background-color: #4CAF50;
-	  border: none;
-	  color: white;
-	  padding: 15px 32px;
-	  text-align: center;
-	  text-decoration: none;
-	  display: inline-block;
-	  font-size: 16px;
-	  margin: 4px 2px;
-	}
-.btn_alignment {
-
-  margin: 6px 4px;
-}
-
-
-	.button.red {
-	  background-color: red;
-	}
-	.button.grey {
-	  background-color: grey;
-	}
-  .button.form {
-    padding: 5px 15px;
-    background-color: grey;
-  }
-/*buttonsEND*/
-
-/*topnav*/
-	.topnav {
-	  overflow: hidden;
-	  background-color: #03316c;
-	}
-
-	.topnav a {
-	  float: left;
-	  color: #dce0e4;
-	  text-align: center;
-	  padding: 14px 16px;
-	  text-decoration: none;
-	  font-size: 17px;
-	}
-
-	.topnav a:hover {
-	  background-color: #ddd;
-	  color: black;
-	}
-
-	.topnav a:active {
-	  background-color: #dfdfdf;
-	  color: white;
-	}
-/*topnav END*/
-
-/*footer*/
-	.footer{
-		overflow-x: hidden;
-		background-color:#03316c;
-    width: 100%;
-	}
-
-	.footer a {
-	  float: right;
-	  color: white;
-	  text-align: center;
-	  padding: 14px 16px;
-	  text-decoration: none;
-	  font-size: 13px;
-	}
-
-	.footer a:hover {
-	  background-color: #ddd;
-	  color: black;
-	}
-
-	.footer a:active {
-	  background-color: #dfdfdf;
-	  color: white;
-	}
-/*footer END*/
-</style>
   </head>
 <body>
-	<div class="wrap_all">
-		<div class="clearfix">
-		<!--<img src="/humboldtlogo.png" style="float:right;" alt="Humboldt Universität zu Berlin">-->
+		<div class="container clearfix">
+		<img href="{% static 'humboldtlogo.png' %}" style="float:right;padding:1em;" alt="Humboldt Universität zu Berlin">
 		</div><!--clearfix-->
-		{%include 'navbar.html'%}
-	<div class="wrap_content">
-		{%block content%}{%endblock%}
-	</div><!--wrap_content-->
-		{%include 'footer.html'%}
-	</div><!--wrap_all-->
+		  {%include 'navbar.html'%}
+    <div class="container">
+        	{%block content%}{%endblock%}
+	  </div><!--container-->
+		      {%include 'footer.html'%}
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    console.log('Activated')
+  })
+  </script>
+
   </body>
 </html>
