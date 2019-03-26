@@ -1,9 +1,12 @@
-# HCLC_alpha
+# Legal-Decision-Automation 
 <br>
-Alle Templates liegen im Ordner /'Templates', bis auf das Template question.html, das ist unter /question/templates (wird noch mal geändert)<br>
+We are building an Open-Source Decision Automation System, which is optimized for legal processes. The project is a collaboration of several Law Clinics and Legal Tech initiatives throughout Germany. Currently the developement is coordinated by the Consumer Law Clinic of the Humboldt-University Berlin. The system will be used to build a platform for legal advice for consumers in Germany.
 
-- Base.html ist das Parent-Template für alle andere, dort liegt auch der CSS-Code im Style-tag. Ein externer Stylesheet wurde beim ersten Test gestern nicht erkannt<br>
-- Navbar.html ist die Navigationsleiste<br>
-- build_tree.html ist das Template für den noch überaus hässlichen Entscheidungsbaum Creator<br>
-- builder_demo.html ist das Template für die Test-App für im Builder gebaute Bäume<br>
-- question.html ist das Template für die Darstellung der Entscheidungsbäume<br>
+## Architecture
+The system is split in several different applications. 
+<br> The **builder** app enables legal scholars to build complex decision trees without requiring technical knowledge. The builder is currently build using the Python web-framework Django. The decision trees can be exported to plain JSON, the logic is currently encoded using Jsonlogic.
+<br> The decision trees can be interpreted on several plattforms. 
+<br> Website: The website is currently build using Django for back- and front-end, soon it will use React as front-end.
+<br> Apps: Using React Native, apps for Android and iOS are planned.
+<br> Chat-Bot: A demo of the Telegram-Bot is already running, Facebook and WhatsApp bots are planned.
+
