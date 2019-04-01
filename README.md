@@ -1,6 +1,6 @@
 # Legal-Decision-Automation 
 <br>
-We are building an Open-Source Decision Automation System, which is optimized for legal processes. The project is a collaboration of several Law Clinics and Legal Tech initiatives throughout Germany. Currently the developement is coordinated by the Consumer Law Clinic of the Humboldt-University Berlin. The system will be used to build a platform for legal advice for consumers in Germany.
+We are building an Open-Source Decision Automation System, that is optimized for legal processes. The project is a collaboration of several Law Clinics and Legal Tech initiatives throughout Germany. Currently the developement is coordinated by the Consumer Law Clinic of the Humboldt-University Berlin. The system will be used to build a platform for legal advice for consumers in Germany.
 
 ## Architecture
 The system is split in several different applications. 
