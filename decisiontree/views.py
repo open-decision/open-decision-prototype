@@ -2,26 +2,32 @@ from django.shortcuts import render, redirect
 from .forms import *
 from django.forms import formset_factory
 from django.utils.html import escape
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from dashboard.models import DecisionTree, Node
+from django.utils.text import slugify
 
 
-def node_create_view(request):
+@login_required
+def node_create_view(request, slug):
     if request.method == 'GET':
         node_form = NodeForm
         NodeButtonFormSet = formset_factory(ButtonAnswersForm)
         context = {
         'form': node_form,
+        'selected_tree': DecisionTree.objects.filter(slug=slug).values()[0]
         }
         return render(request, 'node_create.html', context)
     elif request.method == 'POST' and request.POST.get('save'):
         print (request.POST)
-        clean_data(request)
+        clean_data(request, slug)
         node_form = NodeForm
         context = {
         'form': node_form
         }
         return render(request, 'node_create.html', context)
 
-
+@login_required
 def load_answer_field(request):
     input_type = request.GET['input_type']
     list = set_answer_form(input_type)
@@ -62,6 +68,7 @@ def set_answer_form(input_type):
         pass
     return [answer_form, expandable]
 
+@login_required
 def load_logic_field(request):
     input_type = request.GET['input_type']
     LogicFormSet = formset_factory(LogicForm)
@@ -95,9 +102,22 @@ def load_logic_field(request):
     }
     return render(request, 'logic_field.html', context)
 
+@login_required
+def load_nodes(request):
+    selected_tree = request.GET['selected_tree']
+    data_all = Node.objects.filter(decision_tree__slug=selected_tree).values()
+    data = []
+    test = {'foo': 'bar'}
+    for item in data_all:
+        data.append(item['name'])
+    print(data)
+    response = JsonResponse(test)
+    return response
 
 
-def clean_data(request):
+@login_required
+def clean_data(request, slug):
+    selected_tree = slug
     try:
         data_node = {
             'name'      : request.POST.get('name'),
@@ -194,13 +214,12 @@ def clean_data(request):
                     else:
                         logic_cleaned[i]['answers_logic'] = escape(data_logic[i]['answers_logic'])
     print (node_cleaned, answers_cleaned, logic_cleaned)
-#    return save_node(node_cleaned, answers_cleaned, logic_cleaned)
+    return save_node(node_cleaned, answers_cleaned, logic_cleaned, selected_tree)
 
-''' def save_node(node_cleaned, answers_cleaned, logic_cleaned):
+def save_node(node_cleaned, answers_cleaned, logic_cleaned, selected_tree):
     node = node_cleaned
     if node['input_type'] == 'list':
         node['answers'] = answers_cleaned[0]
-
-    for key,value in node_cleaned:
-        node[key] = value
-    '''
+    n = Node(name= node['name'],slug= slugify(node['name']), decision_tree= DecisionTree.objects.get(slug=selected_tree))
+    n.save()
+    return redirect('/trees/'+str(selected_tree))

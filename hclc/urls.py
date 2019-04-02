@@ -14,21 +14,28 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from decisiontree.views import node_create_view, load_answer_field, load_logic_field
+from django.urls import path, include
+from decisiontree.views import node_create_view, load_answer_field, load_logic_field, load_nodes
 from pages.views import home_view, contact_view
 from question.views import show_question
 from builder.views import build_tree_view, builder_demo
+from dashboard.views import dashboard_view, add_tree, tree_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('', home_view, name='home'),
     path('contact/', contact_view),
-    path('create/', node_create_view),
     path('question/', show_question),
     path('builder/', build_tree_view),
     path('builder_demo/', builder_demo),
+
     path('ajax/load_answer_field/', load_answer_field, name='ajax_load_answer_field'),
-    path('ajax/load_logic_field/', load_logic_field, name='ajax_load_logic_field')
+    path('ajax/load_logic_field/', load_logic_field, name='ajax_load_logic_field'),
+    path('ajax/add_tree/', add_tree, name='add_tree'),
+    path('ajax/load_nodes/', load_nodes, name='ajax_load_nodes'),
+    path('dashboard/', dashboard_view),
+    path('trees/<str:slug>/', tree_view, name='tree_view'),
+    path('trees/<str:slug>/create', node_create_view, name='node_create_view'),
 
 ]

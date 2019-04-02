@@ -1,5 +1,4 @@
 from django import forms
-from .models import Product
 from django.forms.formsets import BaseFormSet
 
 class NodeForm(forms.Form):

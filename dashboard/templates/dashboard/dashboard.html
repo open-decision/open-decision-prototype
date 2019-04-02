@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Deine Entscheidungsbäume</h1>
+
+<div id="trees">
+  {% if decisiontree_list %}
+  <ul>
+    {% for decisiontree in decisiontree_list %}
+      <li>
+        <a href="/trees/{{ decisiontree.slug }}">{{ decisiontree.name }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>Du hast noch keinen Entscheidungsbaum erstellt.</p>
+  {% endif %}
+</div>
+
+{{ form.as_p }}
+
+<button type="submit" name="addTree" value='addTree' id ="addTree" class="btn btn-primary btn_alignment">Baum erstellen</button>
+
+<script>
+$(document).ready(function(){
+  $("#addTree").click(function () {
+    var name = $("#id_name").val();
+        $.post({
+          url: "{% url 'add_tree' %}",
+          headers: {'X-CSRFToken': '{{ csrf_token }}'},
+          data: {
+            'name': name
+          },
+          success: function (data) {
+            $("#id_name").empty();
+            $("#trees").empty();
+            $("#trees").html(data);
+          }
+        });
+      });
+   });
+
+</script>
+
+
+{% endblock %}

@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<form method="POST" id='nodeForm' answer-form-url="{% url 'ajax_load_answer_field' %}" logic-form-url="{% url 'ajax_load_logic_field' %}">{%csrf_token%}
-
+<form method="POST" id='nodeForm' answer-form-url="{% url 'ajax_load_answer_field' %}" logic-form-url="{% url 'ajax_load_logic_field' %}" load-nodes-url="{% url 'ajax_load_nodes' %}">{%csrf_token%}
     <div class="row">
         <div class="col">
             {{ form.non_field_errors }}
@@ -37,6 +36,7 @@
 </div>
 
 <div class='formset' id='logic-formset'>
+
 </div>
     <button type="submit" name="save" value='True' class="btn btn-primary btn_alignment" style="float:left; width:100%;">Knoten speichern</button>
 </form>
@@ -46,12 +46,13 @@
 <script>
 $(document).ready(function(){
   $("#id_input_type").change(function () {
-        var url = $("#nodeForm").attr("logic-form-url");
-        var url2 = $("#nodeForm").attr("answer-form-url");
+        var logicFormUrl = $("#nodeForm").attr("logic-form-url");
+        var answerFormUrl = $("#nodeForm").attr("answer-form-url");
         var inputType = $(this).val();
 
+
         $.ajax({
-          url: url,
+          url: logicFormUrl,
           data: {
             'input_type': inputType
           },
@@ -61,7 +62,7 @@ $(document).ready(function(){
         });
 
         $.ajax({
-          url: url2,
+          url: answerFormUrl,
           data: {
             'input_type': inputType
           },
@@ -69,9 +70,6 @@ $(document).ready(function(){
             $("#answer-formset").html(data);
           }
         });
-
-
-
       });
 
   $("#answer-formset").on('blur',"input[name^='answer']",

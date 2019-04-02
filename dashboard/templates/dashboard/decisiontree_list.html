@@ -1,0 +1,11 @@
+  {% if decisiontree_list %}
+  <ul>
+    {% for decisiontree in decisiontree_list %}
+      <li>
+        <a href="/trees/{{ decisiontree.slug }}">{{ decisiontree.name }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>Du hast noch keinen Entscheidungsbaum erstellt.</p>
+  {% endif %}

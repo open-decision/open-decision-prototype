@@ -43,3 +43,14 @@ let i;
 for (i = 0; i < 2; i++) {
 console.log(test.rules[i]);
 };
+
+
+
+
+
+
+
+
+
+sudo apt-get --purge remove pgdg-keyring postgresql-10 postgresql-client-10 postgresql-client-common
+a
