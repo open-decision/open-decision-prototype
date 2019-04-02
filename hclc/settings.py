@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'pages',
     'question',
     'builder',
+    'dashboard'
 ]
 
 MIDDLEWARE = [
@@ -123,3 +124,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = ( os.path.join('static'), )
+
+# Redirect to home URL after login (Default redirects to /accounts/profile/)
+LOGIN_REDIRECT_URL = '/dashboard'

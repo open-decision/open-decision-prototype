@@ -22,15 +22,24 @@
             <a class="dropdown-item" href="/builder">alter Builder</a>
             <a class="dropdown-item" href="/create">neuer Builder</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">login</a>
           </div>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/contact">Kontakt</a>
         </li>
+{% if user.is_authenticated %}
         <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">tba</a>
+          <a class="nav-link" href="/dashboard">Mein Profil: {{ user.get_username }}</a>
         </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout'%}?next={{request.path}}">Logout</a>
+        </li>
+{% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login'%}?next=/dashboard">Login</a>
+        </li>
+{% endif %}
       </ul>
       <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="search" placeholder="Suche" aria-label="Suche">

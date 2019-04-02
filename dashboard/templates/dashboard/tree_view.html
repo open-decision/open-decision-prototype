@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Deine Knoten im Baum: {{ selected_tree.name}}</h1>
+
+<div id="nodes">
+  {% if node_list %}
+  <ul>
+    {% for node in node_list %}
+      <li>
+        <a href="">{{ node.name }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>Du hast noch keine Knoten erstellt.</p>
+  {% endif %}
+</div>
+
+<a href="create">Neuen Knoten erstellen</a>
+
+{% endblock %}
