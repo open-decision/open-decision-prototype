@@ -16,14 +16,19 @@
 
   </head>
 <body>
-		<div class="container clearfix">
-		<img href="{% static 'humboldtlogo.png' %}" style="float:right;padding:1em;" alt="Humboldt Universität zu Berlin">
-		</div><!--clearfix-->
-		  {%include 'navbar.html'%}
+		<div class="topbar clearfix">
+      <div class="container">
+		    <img src="{% static 'humboldtlogo.png' %}" id="logo" alt="Humboldt Universität zu Berlin">
+		</div>
+  </div>
+{%include 'navbar.html'%}
+  <div class="main">
     <div class="container">
-        	{%block content%}{%endblock%}
-	  </div><!--container-->
-		      {%include 'footer.html'%}
+{%block content%}{%endblock%}
+	  </div>
+  </div>
+{%include 'footer.html'%}
+
   <script>
     $(function () {
     $('[data-toggle="tooltip"]').tooltip()
