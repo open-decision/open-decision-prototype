@@ -14,27 +14,20 @@
         <li class="nav-item">
           <a class="nav-link" href="/question">Beratung</a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Erstellen
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/builder">alter Builder</a>
-            <a class="dropdown-item" href="/create">neuer Builder</a>
-            <div class="dropdown-divider"></div>
-          </div>
-        </li>
         <li class="nav-item">
           <a class="nav-link" href="/contact">Kontakt</a>
         </li>
 {% if user.is_authenticated %}
+        <li>
+          <a class="nav-link" href="/create">Builder</a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" href="/dashboard">Mein Profil: {{ user.get_username }}</a>
         </li>
-
         <li class="nav-item">
           <a class="nav-link" href="{% url 'logout'%}?next={{request.path}}">Logout</a>
         </li>
+
 {% else %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'login'%}?next=/dashboard">Login</a>
