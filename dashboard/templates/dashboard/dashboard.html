@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Deine Entscheidungsbäume</h1>
+  <h2 class="pageheader">Dashboard</h2>
+  <h3 style="padding-top:1em; padding-bottom: 0.5em; font-size:1.2em; text-decoration:underline;">deine Entscheidungsbäume</h3>
 
 <div id="trees">
-  {% if decisiontree_list %}
+    {% if decisiontree_list %}
   <ul>
     {% for decisiontree in decisiontree_list %}
       <li>
@@ -17,7 +18,9 @@
   {% endif %}
 </div>
 
+<h3 style="padding-top:1em; padding-bottom: 0.5em; font-size:1.2em; text-decoration:underline;">neuen Baum erstellen</h3>
 {{ form.as_p }}
+
 
 <button type="submit" name="addTree" value='addTree' id ="addTree" class="btn btn-primary btn_alignment">Baum erstellen</button>
 
