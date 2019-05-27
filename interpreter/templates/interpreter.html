@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{%block content%}
+<h2 class="pageheader">Interpreter (Demo)</h2>
+<p>{{question}}</p>
+<div class="flex-container">
+{% for item in answers %}
+<form method="POST">{%csrf_token%}
+    {% if item == 'Nein' %}
+        <div><button class="button" type="submit" name="action" id="submit" value={{item}}>{{item}}</button></div>
+    {% else %}
+        <div><button class="button" type="submit" name="action" id="submit" value={{item}}>{{item}}</button></div>
+    {% endif %}
+</form>
+{% endfor %}
+</div>
+<br>
+<form method="POST">{%csrf_token%}
+<button  class="button" type="submit" name="restart" value=True>Neustart</button>
+</form>
+
+{%endblock%}
