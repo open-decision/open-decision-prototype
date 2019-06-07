@@ -8,10 +8,10 @@ class DecisionTree(models.Model):
      slug       = models.SlugField(unique=True, default="")
 
 class Node(models.Model):
+    name            = models.CharField(max_length=240)
+    slug            = models.SlugField(unique=True, default="")
     decision_tree   = models.ForeignKey(DecisionTree, on_delete=models.CASCADE)
-    name            = models.CharField(max_length=120)
-    data            = JSONField(null=True, blank=True)
-    slug         = models.SlugField(unique=True, default="")
-
-#    id              = False
-#    var             = False
+    question        = models.CharField(max_length=240)
+    input_type      = models.CharField(max_length=240)
+    data_answer     = models.TextField(null=True, blank=True)
+    data_logic      = models.TextField(null=True, blank=True)

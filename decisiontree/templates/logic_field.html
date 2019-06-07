@@ -5,7 +5,8 @@
   {{ logic_form.as_p }}
   {% endfor %}
 </div>
-<input type="hidden" id="input_hidden_field" value="" />
+<input type="hidden" id="input_hidden_field" value="" >
+<input type="hidden" id="create_new_node" value="" >
 
 <script src="{% static '/jquery.formset.js' %}"></script>
 <script>
@@ -15,7 +16,8 @@ $('.logic-formset').formset({
     addCssClass: "btn btn-primary btn_alignment logic_add",
     deleteCssClass: "btn btn-primary btn_alignment",
     prefix: 'logic',
-    formCssClass:'logic-formset'
+    formCssClass:'logic-formset',
+  //  added: ""   Build function to attach jQuery Handlers again for datepicker and load_nodes fct
 });
   </script>
 
@@ -32,12 +34,9 @@ $('.logic-formset').formset({
 </script>
 
 <script>
-
   $( function() {
-    //var loadNodesUrl= $("#nodeForm").attr("load-nodes-url");
     var loadNodesUrl="{% url 'ajax_load_nodes' %}";
     var selectedTree = $("#selectedTree").val();
-    var availableNodes = [];
     $.ajax({
       url: loadNodesUrl,
       data: {
@@ -45,13 +44,22 @@ $('.logic-formset').formset({
       },
       success: function (data) {
         $('#input_hidden_field').val(JSON.stringify(data));
-        console.log(data);
-      }
-    });
-    var availableNodes = $('#input_hidden_field').val();
-          availableNodes = JSON.parse(availableNodes);
-    $( "input[name^='logic']" ).autocomplete({
-      source: availableNodes;
-    });
-  } );
+        var availableNodes = $('#input_hidden_field').val();
+        availableNodes = JSON.parse(availableNodes);
+        console.log(availableNodes);
+        $( "input[id$='var_to_modify']").autocomplete({
+          source: availableNodes,
+          messages: {
+            noResults: function(count) {
+              $("input[id$='var_to_modify']").css("background-color","#4CAF50");
+    },
+            results: function(count) {
+              $("input[id$='var_to_modify']").css("background-color","");
+    }
+  }
+        });
+
+  }
+});
+  });
 </script>

@@ -14,8 +14,6 @@ class NodeForm(forms.Form):
 
     name = forms.CharField(label='Name für den Knoten')
     question = forms.CharField(label='Frage')
-    example = forms.CharField(label='Möchtest du Beispiele geben?', required=False)
-    image = forms.ImageField(required=False)
     input_type = forms.ChoiceField(label='Eingabeart', choices = INPUT_CHOICES)
 
 class ButtonAnswersForm(forms.Form):
@@ -52,7 +50,7 @@ class DateAnswerForm(forms.Form):
 
 class LogicForm(forms.Form):
     operator = forms.ChoiceField(label='Operator', choices = [], required=False)
-    answers_logic = forms.ChoiceField(label='Mögliche Antworten', choices = [], required=False)
+    answers_logic = forms.CharField(label='Mögliche Antworten', required=False)
     action = forms.ChoiceField(label='Action', required=False, choices = (
     ('go_to', 'gehe zu'),
 #    ('set', 'setze')
@@ -60,7 +58,6 @@ class LogicForm(forms.Form):
     var_to_modify = forms.CharField(label='Object to perform action on', required=False)
 
     def __init__(self, *args, **kwargs):
-        self.test1 = kwargs.pop('test1', None)
         self.input_type = kwargs.pop('input_type', None)
         self.action = kwargs.pop('action', None)
         super(LogicForm, self).__init__(*args, **kwargs)
@@ -120,12 +117,3 @@ class LogicForm(forms.Form):
             )
         else:
             pass
-#These custom clean functions are not working, building a dirty workaround in the view for now
-    def clean_answers_logic(self):
-        data = self.cleaned_data['answers_logic']
-        if True:
-            return data
-    def clean_operator(self):
-        data = self.cleaned_data['operator']
-        if True:
-            return data

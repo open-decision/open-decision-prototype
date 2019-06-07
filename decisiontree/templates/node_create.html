@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<h2 class="pageheader">Builder</h2>
+<h1 class="pageheader">Builder</h1>
+<h5">Baum: {{ selected_tree.name }}</h5>
+<input type="hidden" id="selectedTree" value="{{ selected_tree.slug }}" >
 <form method="POST" id='nodeForm' answer-form-url="{% url 'ajax_load_answer_field' %}" logic-form-url="{% url 'ajax_load_logic_field' %}" load-nodes-url="{% url 'ajax_load_nodes' %}">{%csrf_token%}
     <div class="row">
         <div class="col">
@@ -23,17 +25,13 @@
   </div>
   </div>
   <div class="fieldWrapper">
-      {{ form.example.errors }}
-        {{ form.example.label_tag }}
-      {{ form.example }}
-  </div>
-  <div class="fieldWrapper">
       {{ form.input_type.errors }}
         {{ form.input_type.label_tag }}
       {{ form.input_type }}
   </div>
 
 <div class='formset' id='answer-formset'>
+
 </div>
 
 <div class='formset' id='logic-formset'>
@@ -50,7 +48,6 @@ $(document).ready(function(){
         var logicFormUrl = $("#nodeForm").attr("logic-form-url");
         var answerFormUrl = $("#nodeForm").attr("answer-form-url");
         var inputType = $(this).val();
-
 
         $.ajax({
           url: logicFormUrl,
@@ -90,7 +87,7 @@ $(document).ready(function(){
             $('.logic_add').trigger("click" );
           };
         };
-          $("#id_logic-"+ num +"-answers_logic").html("<option value=" + answer_given + ">" + answer_given + "</option>");
+          $("#id_logic-"+ num +"-answers_logic").val(answer_given);
         };
 });
    });
