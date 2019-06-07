@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-# from builder.views import node_create_view, load_answer_field, load_logic_field, load_nodes
+from builder.views import node_create_view, node_edit_view, load_answer_field, load_logic_field, load_nodes
 from pages.views import home_view, contact_view
 from interpreter.views import show_interpreter
 from dashboard.views import dashboard_view, add_tree, tree_view
@@ -28,11 +28,14 @@ urlpatterns = [
     path('interpreter/', show_interpreter),
     path('dashboard/', dashboard_view),
 
-#    path('ajax/load_answer_field/', load_answer_field, name='ajax_load_answer_field'),
-#  path('ajax/load_logic_field/', load_logic_field, name='ajax_load_logic_field'),
-   path('ajax/add_tree/', add_tree, name='add_tree'),
-#  path('ajax/load_nodes/', load_nodes, name='ajax_load_nodes'),
-#    path('trees/<str:slug>/', tree_view, name='tree_view'),
-#    path('trees/<str:slug>/create', node_create_view, name='node_create_view'),
+    path('ajax/load_answer_field/', load_answer_field, name='ajax_load_answer_field'),
+    path('ajax/load_logic_field/', load_logic_field, name='ajax_load_logic_field'),
+    path('ajax/add_tree/', add_tree, name='add_tree'),
+    path('ajax/load_nodes/', load_nodes, name='ajax_load_nodes'),
+    path('dashboard/', dashboard_view),
+    path('trees/<str:slug>/', tree_view, name='tree_view'),
+    path('trees/<str:slug>/create', node_create_view, name='node_create_view'),
+    path('trees/<str:slug>/<str:node_slug>/edit', node_edit_view, name='node_edit_view')
+
 
 ]

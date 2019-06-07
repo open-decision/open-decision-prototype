@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h1 class="pageheader">Builder</h1>
+<h5">Baum: {{ selected_tree.name }}</h5>
+<input type="hidden" id="selectedTree" value="{{ selected_tree.slug }}" >
+<form method="POST" id='nodeForm' answer-form-url="{% url 'ajax_load_answer_field' %}" logic-form-url="{% url 'ajax_load_logic_field' %}" load-nodes-url="{% url 'ajax_load_nodes' %}">{%csrf_token%}
+    <div class="row">
+        <div class="col">
+            {{ form.non_field_errors }}
+            <div class="fieldWrapper">
+                {{ form.name.errors }}
+                  {{ form.name.label_tag }}
+                {{ form.name }}
+              </div>
+        </div>
+        <div class="row">
+            <div class="col">
+  <div class="fieldWrapper">
+      {{ form.question.errors }}
+        {{ form.question.label_tag }}
+      {{ form.question }}
+  </div>
+  </div>
+  </div>
+  </div>
+  <div class="fieldWrapper">
+      {{ form.input_type.errors }}
+        {{ form.input_type.label_tag }}
+      {{ form.input_type }}
+  </div>
+
+<div class='formset' id='answer-formset'>
+
+</div>
+
+<div class='formset' id='logic-formset'>
+
+</div>
+    <button type="submit" name="save" value='True' class="btn btn-primary btn_alignment" style="float:left; width:100%;">Knoten speichern</button>
+</form>
+
+
+
+<script>
+$(document).ready(function(){
+  $("#id_input_type").change(function () {
+        var logicFormUrl = $("#nodeForm").attr("logic-form-url");
+        var answerFormUrl = $("#nodeForm").attr("answer-form-url");
+        var inputType = $(this).val();
+
+        $.ajax({
+          url: logicFormUrl,
+          data: {
+            'input_type': inputType
+          },
+          success: function (data) {
+            $("#logic-formset").html(data);
+          }
+        });
+
+        $.ajax({
+          url: answerFormUrl,
+          data: {
+            'input_type': inputType
+          },
+          success: function (data) {
+            $("#answer-formset").html(data);
+          }
+        });
+      });
+
+  $("#answer-formset").on('blur',"input[name^='answer']",
+      function(){
+        let answer_given = $(this).val(),
+            input_type = $('#id_input_type').val();
+
+      if (input_type == 'button' && answer_given !== '') {
+            let answers = $("#id_answer-TOTAL_FORMS").val(),
+                logics = $("#id_logic-TOTAL_FORMS").val(),
+                diff = answers - logics,
+                num = $(this).attr('id').match(/\d+/);
+                console.log(diff);
+          if (diff > 0) {
+            let i;
+            for (i = 0; i < diff; i++) {
+            $('.logic_add').trigger("click" );
+          };
+        };
+          $("#id_logic-"+ num +"-answers_logic").val(answer_given);
+        };
+});
+   });
+
+</script>
+
+
+{% endblock %}
