@@ -1,0 +1,154 @@
+.formset {
+  width: 50%;
+  margin: 0 auto 0;
+  display: inline-block;
+}
+
+#answer-formset {
+float: left;
+}
+
+#logic-formset {
+  float: right;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.build_form {
+  width: 60%;
+  margin: 0 auto 0;
+}
+
+.build_form input {
+	width: 50%;
+	margin:1em 0;
+	padding:1em;
+}
+
+.build_form #question {
+	width: 100%;
+}
+/*buttons*/
+	.button_old {
+	  background-color: #4CAF50;
+	  border: none;
+	  color: white;
+	  padding: 15px 32px;
+	  text-align: center;
+	  text-decoration: none;
+	  display: inline-block;
+	  font-size: 16px;
+	  margin: 4px 2px;
+	}
+.btn_alignment {
+
+  margin: 6px 4px;
+}
+
+	.button.red {
+	  background-color: red;
+	}
+	.button.grey {
+	  background-color: grey;
+	}
+  .button.form {
+    padding: 5px 15px;
+    background-color: grey;
+  }
+/*buttonsEND*/
+
+
+/*AB HIER AARONS STUFF*/
+
+#logo {
+  float:right;
+  padding:0.3em 0 0.1em 0;"
+}
+
+@media screen and (max-width: 420px){
+  #logo {
+    width:100%;
+    padding:0.1em;
+  }
+}
+.clearfix::after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.fadeinfadeout {
+  opacity: 0;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+
+.fadeoutfadein {
+  opacity: 1;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+
+.pageheader {
+  margin-top:1em;
+  padding-bottom:0.5em;
+  border-bottom:solid lightgrey 1px;
+}
+
+/*footer*/
+  body {
+    height: 100%;
+    width: 100%;
+    display: table;
+    table-layout: fixed;
+  }
+
+  html {
+    height: 100%;
+  }
+
+  .topbar, .navbar, .main, .footer {
+    display: table-row;
+  }
+
+  .main {
+    height: 100%;
+  }
+
+	.footer{
+		overflow-x: hidden;
+		background-color:grey;
+    width: 100%;
+
+	}
+
+	.footer a {
+	  float: right;
+	  color: white;
+	  text-align: center;
+	  padding: 6px 8px;
+	  text-decoration: none;
+    font-size:0.8em;
+	}
+
+	.footer a:hover {
+	  background-color: #ddd;
+	  color: black;
+    text-decoration: none;
+	}
+
+	.footer a:active {
+	  background-color: #dfdfdf;
+	  color: white;
+	}
+/*footer END*/
