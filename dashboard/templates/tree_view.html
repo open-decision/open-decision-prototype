@@ -4,14 +4,24 @@
   <h2 class="pageheader">Knotenansicht: {{ selected_tree.name}}</h2>
 
 <div id="nodes">
-  {% if node_list %}
+  {% if existing_nodes or new_nodes%}
   <ul>
-    {% for node in node_list %}
+    {% for node in existing_nodes %}
+      <li>
+        <a href="{{ node.slug }}/edit">{{ node.name }}</a> | Frage: {{ node.question }} | <a class="btn btn-primary" href="{{ node.slug }}/edit" role="button">Bearbeiten</a>
+      </li>
+    {% endfor %}
+  </ul>
+  {% if new_nodes%}
+<p>Neue Knoten:</p>
+  <ul>
+    {% for node in new_nodes %}
       <li>
         <a href="{{ node.slug }}/edit">{{ node.name }}</a>
       </li>
     {% endfor %}
   </ul>
+{% endif %}
   {% else %}
     <p>Du hast noch keine Knoten erstellt.</p>
   {% endif %}

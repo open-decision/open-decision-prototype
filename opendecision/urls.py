@@ -26,7 +26,7 @@ urlpatterns = [
     path('', home_view, name='home'),
     path('contact/', contact_view),
     path('interpreter/', show_interpreter),
-    path('dashboard/', dashboard_view),
+    path('trees/', dashboard_view),
 
     path('ajax/load_answer_field/', load_answer_field, name='ajax_load_answer_field'),
     path('ajax/load_logic_field/', load_logic_field, name='ajax_load_logic_field'),

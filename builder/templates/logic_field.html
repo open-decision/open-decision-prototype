@@ -1,10 +1,21 @@
 {% load static %}
-  {{ logic.management_form }}
-<div class="logic-formset">
-{% for logic_form in logic %}
-  {{ logic_form.as_p }}
+{% if edit %}
+  {{ logic_formset_init.management_form }}
+  {% for logic_form in logic_formset_init %}
+    <div class="logic-formset">
+      {{ logic_form.as_p }}
+    </div>
+      {% endfor %}
+
+{% else %}
+  {{ logic_formset.management_form }}
+  <div class="logic-formset">
+  {% for logic_form in logic_formset %}
+    {{ logic_form.as_p }}
   {% endfor %}
-</div>
+  </div>
+{% endif %}
+
 <input type="hidden" id="input_hidden_field" value="" >
 <input type="hidden" id="create_new_node" value="" >
 
