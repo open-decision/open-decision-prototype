@@ -14,7 +14,7 @@ def dashboard_view(request):
          'decisiontree_list': DecisionTree.objects.filter(owner=request.user),
          'form':form,
          }
-    return render(request, 'dashboard/dashboard.html', context)
+    return render(request, 'dashboard.html', context)
 
 @login_required
 def add_tree(request):
@@ -26,7 +26,7 @@ def add_tree(request):
     context = {
      'decisiontree_list': DecisionTree.objects.filter(owner=request.user)
      }
-    return render(request, 'dashboard/decisiontree_list.html', context)
+    return render(request, 'decisiontree_list.html', context)
 
 @login_required
 def tree_view(request, slug):
@@ -36,4 +36,4 @@ def tree_view(request, slug):
          'node_list': Node.objects.filter(decision_tree__slug=slug),
          'selected_tree': DecisionTree.objects.filter(slug=slug).values()[0]
          }
-    return render(request, 'dashboard/tree_view.html', context)
+    return render(request, 'tree_view.html', context)
