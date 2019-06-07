@@ -31,11 +31,15 @@
   </div>
 
 <div class='formset' id='answer-formset'>
-
+{% if edit == 'true' %}
+  {{ answer_formset_init }}
+{% endif %}
 </div>
 
 <div class='formset' id='logic-formset'>
-
+  {% if edit == 'true' %}
+    {{ logic_formset_init }}
+  {% endif %}
 </div>
     <button type="submit" name="save" value='True' class="btn btn-primary btn_alignment" style="float:left; width:100%;">Knoten speichern</button>
 </form>
@@ -58,6 +62,7 @@ $(document).ready(function(){
             $("#logic-formset").html(data);
           }
         });
+
 
         $.ajax({
           url: answerFormUrl,

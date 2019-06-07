@@ -30,10 +30,12 @@ def add_tree(request):
 
 @login_required
 def tree_view(request, slug):
-    print(DecisionTree.objects.filter(slug=slug).values())
+    existing_nodes = Node.objects.filter(decision_tree__slug=slug).filter(new_node=False)
+    new_nodes = Node.objects.filter(decision_tree__slug=slug).filter(new_node=True)
     if request.method == 'GET':
         context = {
-         'node_list': Node.objects.filter(decision_tree__slug=slug),
+        'existing_nodes': existing_nodes,
+         'new_nodes': new_nodes,
          'selected_tree': DecisionTree.objects.filter(slug=slug).values()[0]
          }
     return render(request, 'tree_view.html', context)

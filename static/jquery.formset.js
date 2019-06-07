@@ -17,6 +17,7 @@
             totalForms = $('#id_' + options.prefix + '-TOTAL_FORMS'),
             maxForms = $('#id_' + options.prefix + '-MAX_NUM_FORMS'),
             minForms = $('#id_' + options.prefix + '-MIN_NUM_FORMS'),
+            initForms = $('#id_' + options.prefix + '-INITIAL_FORMS'),
             childElementSelector = 'input,select,textarea,label,div',
             $$ = $(this),
 
@@ -157,7 +158,16 @@
                 // Otherwise, use the last form in the formset; this works much better if you've got
                 // extra (>= 1) forms (thnaks to justhamade for pointing this out):
   // , $(this).parents('.formset') is fix for handling multiple formsets
+                var initCount = parseInt(initForms.val());
                 template = $('.' + options.formCssClass + ':last').clone(true).removeAttr('id');
+                /**
+                // Fix by Finn
+                if (initCount > 0) {
+                  console.log(options.formCssClass);
+                template = $('#id_answer-' + (initCount-1) + '-answer').clone(true).removeAttr('id');
+                };
+                // Fix end
+                */
                 template.find('input:hidden[id $= "-DELETE"]').remove();
                 // Clear all cloned fields, except those the user wants to keep (thanks to brunogola for the suggestion):
                 template.find(childElementSelector).not(options.keepFieldValues).each(function() {

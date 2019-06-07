@@ -1,11 +1,21 @@
 {% load static %}
+{% if edit %}
+  {{ answer_formset_init.management_form }}
+  {% for answer_form in answer_formset_init %}
+    <div class="answer-formset">
+    {{ answer_form.as_p }}
+    </div>
+  {% endfor %}
 
-{{ answer_formset.management_form }}
-  <div class="answer-formset">
-{% for answer_form in answer_formset %}
-  {{ answer_form.as_p }}
-{% endfor %}
-  </div>
+{% else %}
+  {{ answer_formset.management_form }}
+    <div class="answer-formset">
+    {% for answer_form in answer_formset %}
+      {{ answer_form.as_p }}
+    {% endfor %}
+    </div>
+{% endif %}
+
 {% if expandable %}
 <script src="{% static '/jquery.formset.js' %}"></script>
   <script>
@@ -15,7 +25,7 @@
       addCssClass: "btn btn-primary btn_alignment",
       deleteCssClass: "btn btn-primary btn_alignment",
       prefix: 'answer',
-      formCssClass:'answer-formset'
+      formCssClass:'answer-formset',
   });
   </script>
 {% endif %}
