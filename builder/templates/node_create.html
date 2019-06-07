@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 <h1 class="pageheader">Builder</h1>
-<h5">Baum: {{ selected_tree.name }}</h5>
+<h5"><a href="/trees/{{ selected_tree.slug }}">Zurück</a> | Baum: {{ selected_tree.name }}</h5>
 <input type="hidden" id="selectedTree" value="{{ selected_tree.slug }}" >
 <form method="POST" id='nodeForm' answer-form-url="{% url 'ajax_load_answer_field' %}" logic-form-url="{% url 'ajax_load_logic_field' %}" load-nodes-url="{% url 'ajax_load_nodes' %}">{%csrf_token%}
     <div class="row">
@@ -41,6 +41,9 @@
     {{ logic_formset_init }}
   {% endif %}
 </div>
+{% if edit == 'true' %}
+    <a class="btn btn-primary" href="/trees/{{ selected_tree.slug }}" role="button" style="float:left; width:100%; background-color:red;">Bearbeiten abbrechen</a>
+{% endif %}
     <button type="submit" name="save" value='True' class="btn btn-primary btn_alignment" style="float:left; width:100%;">Knoten speichern</button>
 </form>
 
