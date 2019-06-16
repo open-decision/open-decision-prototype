@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<h1 class="pageheader">Builder</h1>
-<h5"><a href="/trees/{{ selected_tree.slug }}">Zurück</a> | Baum: {{ selected_tree.name }}</h5>
+<h2 class="pageheader"><a href="/trees/{{ selected_tree.slug }}">&#x2190;</a> Knotenerstellung für: {{ selected_tree.name }}</h2>
 <input type="hidden" id="selectedTree" value="{{ selected_tree.slug }}" >
 <form method="POST" id='nodeForm' answer-form-url="{% url 'ajax_load_answer_field' %}" logic-form-url="{% url 'ajax_load_logic_field' %}" load-nodes-url="{% url 'ajax_load_nodes' %}">{%csrf_token%}
     <div class="row">

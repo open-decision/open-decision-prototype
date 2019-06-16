@@ -1,27 +1,40 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h2 class="pageheader">Knotenansicht: {{ selected_tree.name}}</h2>
+  <h2 class="pageheader"><a href="/dashboard">&#x2190;</a> Knotenübersicht von: {{ selected_tree.name}}</h2>
 
 <div id="nodes">
   {% if existing_nodes or new_nodes%}
-  <ul>
+  <table class="table">
+  <thead>
+    <tr>
+      <th style="border-top:none;" scope="col">#</th>
+      <th style="border-top:none;text-align:left;" scope="col">Knotenname</th>
+      <th style="border-top:none;text-align:left;" scope="col">Frage</th>
+      <th style="border-top:none;text-align:left;" scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
     {% for node in existing_nodes %}
-      <li>
-        <a href="{{ node.slug }}/edit">{{ node.name }}</a> | Frage: {{ node.question }} | <a class="btn btn-primary" href="{{ node.slug }}/edit" role="button">Bearbeiten</a>
-      </li>
+      <tr>
+        <th scope="row">1</th>
+        <td><a href="{{ node.slug }}/edit">{{ node.name }}</a></td>
+        <td>{{ node.question }}</td>
+        <td><a class="btn btn-primary" href="{{ node.slug }}/edit" role="button">Bearbeiten</a></td>
+      </tr>
     {% endfor %}
-  </ul>
+  </tbody>
   {% if new_nodes%}
-<p>Neue Knoten:</p>
-  <ul>
     {% for node in new_nodes %}
-      <li>
-        <a href="{{ node.slug }}/edit">{{ node.name }}</a>
-      </li>
+    <tr>
+      <th style="color:red;" scope="row">1</th>
+      <td><a style="color:red;" href="{{ node.slug }}/edit">{{ node.name }}</a></td>
+      <td style="color:red;">{{ node.question }}</td>
+      <td><a class="btn btn-primary" href="{{ node.slug }}/edit" role="button">Bearbeiten</a></td>
+    </tr>
     {% endfor %}
-  </ul>
 {% endif %}
+</table>
   {% else %}
     <p>Du hast noch keine Knoten erstellt.</p>
   {% endif %}
