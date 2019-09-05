@@ -1,82 +1,4 @@
-.formset {
-  width: 50%;
-  margin: 0 auto 0;
-  display: inline-block;
-}
-
-#answer-formset {
-float: left;
-}
-
-#logic-formset {
-  float: right;
-}
-
-.flex-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-.build_form {
-  width: 60%;
-  margin: 0 auto 0;
-}
-
-.build_form input {
-	width: 50%;
-	margin:1em 0;
-	padding:1em;
-}
-
-.build_form #question {
-	width: 100%;
-}
-/*buttons*/
-	.button_old {
-	  background-color: #4CAF50;
-	  border: none;
-	  color: white;
-	  padding: 15px 32px;
-	  text-align: center;
-	  text-decoration: none;
-	  display: inline-block;
-	  font-size: 16px;
-	  margin: 4px 2px;
-	}
-.btn_alignment {
-
-  margin: 6px 4px;
-}
-
-	.button.red {
-	  background-color: red;
-	}
-	.button.grey {
-	  background-color: grey;
-	}
-  .button.form {
-    padding: 5px 15px;
-    background-color: grey;
-  }
-/*buttonsEND*/
-
-
-/*AB HIER AARONS STUFF*/
-
-.clearfix::after {
-	content: "";
-	display: table;
-	clear: both;
-}
-
-.pageheader {
-  margin-top:1em;
-  padding-bottom:0.5em;
-  border-bottom:solid lightgrey 1px;
-}
-
-/*footer*/
+/*general*/
   body {
     height: 100%;
     width: 100%;
@@ -88,12 +10,49 @@ float: left;
     height: 100%;
   }
 
+  .flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .clearfix::after {
+  	content: "";
+  	display: table;
+  	clear: both;
+  }
+
+/*general END*/
+
+
+/*basic setup*/
+
+/*
+#logo {
+  float:right;
+  padding:0.3em 0 0.1em 0;"
+}
+
+@media screen and (max-width: 420px){
+  #logo {
+    width:100%;
+    padding:0.1em;
+  }
+}
+*/
+
   .topbar, .navbar, .main, .footer {
     display: table-row;
   }
 
   .main {
     height: 100%;
+  }
+
+  .pageheader {
+    margin-top:1em;
+    padding-bottom:0.5em;
+    border-bottom:solid lightgrey 1px;
   }
 
 	.footer{
@@ -122,18 +81,82 @@ float: left;
 	  background-color: #dfdfdf;
 	  color: white;
 	}
-/*footer END*/
 
-/*
-#logo {
-  float:right;
-  padding:0.3em 0 0.1em 0;"
+/*basic setup END*/
+
+/*node_create form*/
+
+.errorlist, .errorlist nonfield {
+
 }
 
-@media screen and (max-width: 420px){
-  #logo {
-    width:100%;
-    padding:0.1em;
-  }
+.node_create_name {
+  border:none;
+  background-color:#fcfcfc;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  outline: none;
 }
-*/
+
+.node_create_name:focus {
+  background-color:#fff;
+}
+
+#question-formset {
+  width: 100%;
+  text-align:center;
+  padding: 1em;
+
+}
+
+#input-formset  {
+  width: 100%;
+  text-align:center;
+  padding: 1em;
+
+}
+
+#answer-formset {
+  float: left;
+  width: 50%;
+  padding: 1em 0;
+  margin:0;
+}
+
+.answer-formset {
+  background-color:#99ff99;
+  padding:1em;
+  border:1px solid grey;
+}
+
+#logic-formset {
+  float: right;
+  width: 50%;
+  padding:1em 0;
+  margin:0;
+}
+
+.logic-formset {
+  background-color:#ffff99;
+  padding:1em;
+    border:1px solid grey;
+}
+
+.node_create_topbar {
+  background-color:#eee;
+  padding:1em;
+  margin:0;
+  overflow:hidden;
+}
+
+.logic_add {
+
+}
+
+.logic_delete {}
+
+.answer_add {}
+
+.answer_delete {}
+
+/*node_create form END*/

@@ -2,27 +2,51 @@
 
 {% block content %}
   <h2 class="pageheader">Dashboard</h2>
-  <h3 style="padding-top:1em; padding-bottom: 0.5em; font-size:1.2em; text-decoration:underline;">deine Entscheidungsbäume</h3>
-
 <div id="trees">
-    {% if decisiontree_list %}
-  <ul>
-    {% for decisiontree in decisiontree_list %}
-      <li>
-        <a href="/trees/{{ decisiontree.slug }}">{{ decisiontree.name }}</a>
-      </li>
-    {% endfor %}
-  </ul>
-  {% else %}
-    <p>Du hast noch keinen Entscheidungsbaum erstellt.</p>
-  {% endif %}
+    <table class="table"><!---fix length issue (long names break table)--->
+    <thead>
+      <tr>
+        <th style="border-top:none;" scope="col">#</th>
+        <th style="border-top:none;text-align:left;" scope="col">Entscheidungsbäume</th>
+        <th style="border-top:none;text-align:left;" scope="col">Knotenzahl</th>
+        <th style="border-top:none;text-align:left;" scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+{% if decisiontree_list %}
+      {% for decisiontree in decisiontree_list %}
+        <tr>
+          <th scope="row">{{ forloop.counter }}</th>
+          <td>{{ decisiontree.name }}</td>
+          <td>{{ decisiontree.node_number }}</td>
+          <td>
+            <a class="btn btn-primary" href="/trees/{{ decisiontree.slug }}" role="button">></a>
+            <button type="submit" name="" value='' id ="" class="btn btn-primary">x</button><!---delete node function needed--->
+          </td>
+        </tr>
+      {% endfor %}
+{% else %}
+    <tr>
+      <td></td>
+      <td>noch keine Entscheidungsbäume erstellt</td>
+      <td></td>
+      <td></td>
+    </tr>
+{% endif %}
+    <tr>
+    <td></td>
+    <td>{{ form.as_p }}</td> <!---delete label; remove fix desgin failures--->
+    <td></td>
+    <td>
+      <button type="submit" name="addTree" value='addTree' id ="addTree" class="btn btn-primary">+</button><!---function needs fixing--->
+    </td>
+  </tr>
+    </tbody>
+    </table>
 </div>
 
-<h3 style="padding-top:1em; padding-bottom: 0.5em; font-size:1.2em; text-decoration:underline;">neuen Baum erstellen</h3>
-{{ form.as_p }}
 
 
-<button type="submit" name="addTree" value='addTree' id ="addTree" class="btn btn-primary btn_alignment">Baum erstellen</button>
 
 <script>
 $(document).ready(function(){

@@ -3,7 +3,7 @@
   {{ logic_formset_init.management_form }}
   {% for logic_form in logic_formset_init %}
     <div class="logic-formset">
-      {{ logic_form.as_p }}
+      {{ logic_form }}
     </div>
       {% endfor %}
 
@@ -11,7 +11,7 @@
   {{ logic_formset.management_form }}
   <div class="logic-formset">
   {% for logic_form in logic_formset %}
-    {{ logic_form.as_p }}
+    {{ logic_form }}
   {% endfor %}
   </div>
 {% endif %}
@@ -22,10 +22,10 @@
 <script src="{% static '/jquery.formset.js' %}"></script>
 <script>
 $('.logic-formset').formset({
-    addText: 'Logik hinzufügen',
-    deleteText: 'Logik Entfernen',
-    addCssClass: "btn btn-primary btn_alignment logic_add",
-    deleteCssClass: "btn btn-primary btn_alignment",
+    addText: '+',
+    deleteText: '-',
+    addCssClass: "logic_add",
+    deleteCssClass: "logic_delete",
     prefix: 'logic',
     formCssClass:'logic-formset',
   //  added: ""   Build function to attach jQuery Handlers again for datepicker and load_nodes fct

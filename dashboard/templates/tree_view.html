@@ -5,7 +5,7 @@
 
 <div id="nodes">
   {% if existing_nodes or new_nodes%}
-  <table class="table">
+  <table class="table"><!---fix length issue (long names break table)--->
   <thead>
     <tr>
       <th style="border-top:none;" scope="col">#</th>
@@ -17,22 +17,28 @@
   <tbody>
     {% for node in existing_nodes %}
       <tr>
-        <th scope="row">1</th>
-        <td><a href="{{ node.slug }}/edit">{{ node.name }}</a></td>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{ node.name }}</td>
         <td>{{ node.question }}</td>
-        <td><a class="btn btn-primary" href="{{ node.slug }}/edit" role="button">Bearbeiten</a></td>
+        <td>
+          <a class="btn btn-primary" href="{{ node.slug }}/edit" role="button">Bearbeiten</a>
+          <button type="submit" name="" value='' id ="" class="btn btn-primary">x</button><!---delete node function needed--->
+        </td>
       </tr>
     {% endfor %}
-  </tbody>
   {% if new_nodes%}
     {% for node in new_nodes %}
     <tr>
       <th style="color:red;" scope="row">1</th>
-      <td><a style="color:red;" href="{{ node.slug }}/edit">{{ node.name }}</a></td>
+      <td style="color:red;">{{ node.name }}</td>
       <td style="color:red;">{{ node.question }}</td>
-      <td><a class="btn btn-primary" href="{{ node.slug }}/edit" role="button">Bearbeiten</a></td>
+      <td>
+        <a class="btn btn-primary" href="{{ node.slug }}/edit" role="button">Bearbeiten</a>
+        <button type="submit" name="" value='' id ="" class="btn btn-primary">x</button><!---delete node function needed--->
+      </td>
     </tr>
     {% endfor %}
+      </tbody>
 {% endif %}
 </table>
   {% else %}
