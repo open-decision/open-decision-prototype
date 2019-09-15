@@ -84,6 +84,18 @@
 
 /*basic setup END*/
 
+
+/*basic elements*/
+
+.back_button:hover {
+  text-decoration: none;
+
+}
+
+
+/*basic elements END*/
+
+
 /*node_create form*/
 
 .errorlist, .errorlist nonfield {
@@ -123,10 +135,37 @@
   margin:0;
 }
 
+#answer-formset p {
+  width: 60%;
+  float:left;
+}
+
+#answer-formset input {
+  width: 100%;
+  margin:0;
+  border:none;
+  background-color:#fcfcfc;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  outline: none;
+}
+#answer-formset input:focus {
+  background-color:#fff;
+}
+
+#answer-formset label {
+  display:none;
+}
+
+.answer_delete {
+  float: right;
+}
+
 .answer-formset {
-  background-color:#99ff99;
   padding:1em;
-  border:1px solid grey;
+  border-right:1px solid grey;
+  height: 120px;
+  border-bottom:1px solid grey;
 }
 
 #logic-formset {
@@ -136,10 +175,30 @@
   margin:0;
 }
 
+#logic-formset input, select {
+  width: 40%;
+  padding: 2px;
+  margin: 2px 4px;
+  border:none;
+  background-color:#fcfcfc;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  outline: none;
+}
+
+#logic-formset input:focus {
+  background-color:#fff;
+}
+
+#logic-formset label {
+
+}
+
+
 .logic-formset {
-  background-color:#ffff99;
   padding:1em;
-    border:1px solid grey;
+  height: 120px;
+  border-bottom:1px solid grey;
 }
 
 .node_create_topbar {
@@ -149,8 +208,20 @@
   overflow:hidden;
 }
 
-.logic_add {
+.logic_add, .answer_add {
+  padding: 0 49% 0;
+}
+.logic_add, .answer_add, .logic_delete, .answer_delete {
+  font-weight: bold;
+  font-size: 1.2em;
+}
 
+.logic_add:hover, .answer_add:hover, .logic_delete:hover, .answer_delete:hover{
+  text-decoration:none;
+}
+
+.answer_delete {
+  float: right;
 }
 
 .logic_delete {}

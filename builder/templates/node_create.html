@@ -16,14 +16,14 @@
 </div>
 
 <div id='answer-formset'>
-<div class="node_create_topbar"><p style="float:left;margin:0;">Antworten</p><a href="#" style="float:right">+</a></div>
+<div class="node_create_topbar" style="border-right:1px solid grey; border-bottom:1px solid grey;"><p style="float:left;margin:0;">Antworten</p><a href="javascript:void(0)" class="answer_add" style="float:right; padding:0;">+</a></div>
 {% if edit == 'true' %}
   {{ answer_formset_init }}
 {% endif %}
 </div>
 
 <div id='logic-formset'>
-<div class="node_create_topbar"><p style="float:left;margin:0;">Logik</p><a href="#" style="float:right">+</a></div>
+<div class="node_create_topbar" style="border-bottom:1px solid grey;"><p style="float:left;margin:0;">Logik</p><a href="javascript:void(0)" class="answer_add" style="float:right; padding:0;">+</a></div>
   {% if edit == 'true' %}
     {{ logic_formset_init }}
   {% endif %}
@@ -34,10 +34,12 @@
 {{ form.non_field_errors }}<!--creates ul (class="errorlist nonfield") with nonfield errors-->
 
 {% if edit == 'true' %}
-    <button class="button" href="/trees/{{ selected_tree.slug }}" role="button" style="float:left; width:100%; background-color:red;">Bearbeiten abbrechen</button>
+    <button class="btn btn-danger btn-sm btn-block" href="/trees/{{ selected_tree.slug }}">Bearbeiten abbrechen</button>
 {% endif %}
-    <button class="button" name="save" value='True' style="float:left; width:100%;">Knoten speichern</button>
+    <button class="btn btn-primary btn-sm btn-block" name="save" value='True'>Knoten speichern</button>
 </form>
+
+&nbsp;
 
 
 
