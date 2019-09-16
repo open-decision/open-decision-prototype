@@ -2,32 +2,39 @@
 {% load static %}
 {% block content %}
 
-<h2 class="pageheader"><a href="/trees/{{ selected_tree.slug }}">&#x2190;</a> Bearbeitung von {{ form.name }}{{ form.name.errors }}</h2>
+<h2 class="pageheader"><a class="back_button" href="/trees/{{ selected_tree.slug }}">&#x2190;</a> Bearbeitung von {{ form.name }}{{ form.name.errors }}</h2>
+<input type="hidden" id="selectedTree" value="{{ selected_tree.slug }}" >
+<form method="POST" id='nodeForm' answer-form-url="{% url 'ajax_load_answer_field' %}" logic-form-url="{% url 'ajax_load_logic_field' %}" load-nodes-url="{% url 'ajax_load_nodes' %}">{%csrf_token%}
 
-<div id='question-formset'>
+<div id='question-field'>
       {{ form.question.errors }}<!--creates ul (class="errorlist") with errors-->
       {{ form.question }}
 </div>
 
 
-<div id='input-formset'>
+<div id='inputtype-field'><!---broken--->
       {{ form.input_type.errors }}
       {{ form.input_type }}
 </div>
 
-<div id='answer-formset'>
-<div class="node_create_topbar" style="border-right:1px solid grey; border-bottom:1px solid grey;"><p style="float:left;margin:0;">Antworten</p><a href="javascript:void(0)" class="answer_add" style="float:right; padding:0;">+</a></div>
+<div id="answer-field">
+  <div class="node_create_topbar" style="border-right:1px solid grey; border-bottom:1px solid grey;"><p style="float:left;margin:0;">Antworten</p><a href="javascript:void(0)" class="answer_add" style="float:right; padding:0;">+</a></div>
+  <div class='formset' id='answer-formset'>
 {% if edit == 'true' %}
   {{ answer_formset_init }}
 {% endif %}
+  </div>
 </div>
-
-<div id='logic-formset'>
-<div class="node_create_topbar" style="border-bottom:1px solid grey;"><p style="float:left;margin:0;">Logik</p><a href="javascript:void(0)" class="answer_add" style="float:right; padding:0;">+</a></div>
+<div id="logic-field">
+  <div class="node_create_topbar" style="border-bottom:1px solid grey;"><p style="float:left;margin:0;">Logik</p><a href="javascript:void(0)" class="answer_add" style="float:right; padding:0;">+</a></div>
+  <div class='formset' id='logic-formset'>
   {% if edit == 'true' %}
     {{ logic_formset_init }}
   {% endif %}
+  </div>
 </div>
+
+
 
 <!--FEHLT: bei "+" script zu neue Antwort / neue Logik-->
 
