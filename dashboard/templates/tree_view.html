@@ -29,7 +29,7 @@
   {% if new_nodes%}
     {% for node in new_nodes %}
     <tr>
-      <th style="color:red;" scope="row">X</th><!---nötig wäre, den forloopcounter als Variable vom ersten forloop zu importieren -> möglich? alternativ new+existing zusammenführen und auf das "rotmachen" verzichten --->
+      <th style="color:red;" scope="row">{{ forloop.counter}}</th>
       <td style="color:red;">{{ node.name }}</td>
       <td style="color:red;">{{ node.question }}</td>
       <td>
@@ -45,7 +45,6 @@
     <p>Du hast noch keine Knoten erstellt.</p>
   {% endif %}
 </div>
-
-<button href="create" class="btn btn-primary btn-sm btn-block">Neuen Knoten erstellen</button>
+<a class="btn btn-primary btn-sm btn-block" role="button" href="create">Neuen Knoten erstellen</a>
 &nbsp;
 {% endblock %}

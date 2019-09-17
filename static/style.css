@@ -114,38 +114,25 @@
   background-color:#fff;
 }
 
-#question-field {
+#question-formset {
   width: 100%;
   text-align:center;
   padding: 1em;
 
 }
 
-#inputtype-field  {
+#input-formset  {
   width: 100%;
   text-align:center;
   padding: 1em;
+
 }
 
-#answer-field {
+#answer-formset {
   float: left;
   width: 50%;
   padding: 1em 0;
   margin:0;
-}
-
-#logic-field {
-  float: right;
-  width: 50%;
-  padding:1em 0;
-  margin:0;
-}
-
-.node_create_topbar {
-  background-color:#eee;
-  padding:1em;
-  margin:0;
-  overflow:hidden;
 }
 
 #answer-formset p {
@@ -181,6 +168,13 @@
   border-bottom:1px solid grey;
 }
 
+#logic-formset {
+  float: right;
+  width: 50%;
+  padding:1em 0;
+  margin:0;
+}
+
 #logic-formset input, select {
   width: 40%;
   padding: 2px;
@@ -205,6 +199,13 @@
   padding:1em;
   height: 120px;
   border-bottom:1px solid grey;
+}
+
+.node_create_topbar {
+  background-color:#eee;
+  padding:1em;
+  margin:0;
+  overflow:hidden;
 }
 
 .logic_add, .answer_add {

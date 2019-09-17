@@ -11,7 +11,6 @@ class NodeForm(forms.Form):
     ('number', 'Zahleneingabe'),
     ('date', 'Datum')
     )
-
     name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Knotenname', 'class' : 'node_create_name'}), max_length="15")
     question = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Frage'}), max_length="80")
     input_type = forms.ChoiceField(label='Eingabeart', choices = INPUT_CHOICES)

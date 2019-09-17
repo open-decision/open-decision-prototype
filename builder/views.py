@@ -167,6 +167,8 @@ def save_node(request, slug, *args):
     node_form = NodeForm(node_dirty)
     if node_form.is_valid():
         node_clean = node_form.cleaned_data
+    else:
+        print (node_form.non_field_errors)
 #Clean answer data
     data_answer = []
     data_answer_dirty = {

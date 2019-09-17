@@ -52,6 +52,7 @@
 $(document).ready(function(){
   $("#addTree").click(function () {
     var name = $("#id_name").val();
+    console.log(name)
         $.post({
           url: "{% url 'add_tree' %}",
           headers: {'X-CSRFToken': '{{ csrf_token }}'},
