@@ -1,32 +1,50 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h2 class="pageheader">Knotenansicht: {{ selected_tree.name}}</h2>
+  <h2 class="pageheader"><a href="/dashboard" class="back_button">&#x2190;</a> Knotenübersicht von: {{ selected_tree.name}}</h2>
 
 <div id="nodes">
   {% if existing_nodes or new_nodes%}
-  <ul>
+  <table class="table"><!---fix length issue (long names break table)--->
+  <thead>
+    <tr>
+      <th style="border-top:none;" scope="col">#</th>
+      <th style="border-top:none;text-align:left;" scope="col">Knotenname</th>
+      <th style="border-top:none;text-align:left;" scope="col">Frage</th>
+      <th style="border-top:none;text-align:left;" scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
     {% for node in existing_nodes %}
-      <li>
-        <a href="{{ node.slug }}/edit">{{ node.name }}</a> | Frage: {{ node.question }} | <a class="btn btn-primary" href="{{ node.slug }}/edit" role="button">Bearbeiten</a>
-      </li>
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{ node.name }}</td>
+        <td>{{ node.question }}</td>
+        <td>
+          <a class="btn btn-primary btn-sm" href="{{ node.slug }}/edit" role="button">Bearbeiten</a>
+          <button type="submit" name="" value='' id ="" class="btn btn-primary btn-sm">x</button><!---delete node function needed--->
+        </td>
+      </tr>
     {% endfor %}
-  </ul>
   {% if new_nodes%}
-<p>Neue Knoten:</p>
-  <ul>
     {% for node in new_nodes %}
-      <li>
-        <a href="{{ node.slug }}/edit">{{ node.name }}</a>
-      </li>
+    <tr>
+      <th style="color:red;" scope="row">{{ forloop.counter}}</th>
+      <td style="color:red;">{{ node.name }}</td>
+      <td style="color:red;">{{ node.question }}</td>
+      <td>
+        <a class="btn btn-primary btn-sm" href="{{ node.slug }}/edit" role="button">Bearbeiten</a>
+        <button type="submit" name="" value='' id ="" class="btn btn-primary btn-sm">x</button><!---delete node function needed--->
+      </td>
+    </tr>
     {% endfor %}
-  </ul>
+      </tbody>
 {% endif %}
+</table>
   {% else %}
     <p>Du hast noch keine Knoten erstellt.</p>
   {% endif %}
 </div>
-
-<a href="create">Neuen Knoten erstellen</a>
-
+<a class="btn btn-primary btn-sm btn-block" role="button" href="create">Neuen Knoten erstellen</a>
+&nbsp;
 {% endblock %}

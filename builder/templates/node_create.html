@@ -1,51 +1,47 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<h1 class="pageheader">Builder</h1>
-<h5"><a href="/trees/{{ selected_tree.slug }}">Zurück</a> | Baum: {{ selected_tree.name }}</h5>
-<input type="hidden" id="selectedTree" value="{{ selected_tree.slug }}" >
 <form method="POST" id='nodeForm' answer-form-url="{% url 'ajax_load_answer_field' %}" logic-form-url="{% url 'ajax_load_logic_field' %}" load-nodes-url="{% url 'ajax_load_nodes' %}">{%csrf_token%}
-    <div class="row">
-        <div class="col">
-            {{ form.non_field_errors }}
-            <div class="fieldWrapper">
-                {{ form.name.errors }}
-                  {{ form.name.label_tag }}
-                {{ form.name }}
-              </div>
-        </div>
-        <div class="row">
-            <div class="col">
-  <div class="fieldWrapper">
-      {{ form.question.errors }}
-        {{ form.question.label_tag }}
-      {{ form.question }}
-  </div>
-  </div>
-  </div>
-  </div>
-  <div class="fieldWrapper">
-      {{ form.input_type.errors }}
-        {{ form.input_type.label_tag }}
-      {{ form.input_type }}
-  </div>
+<h2 class="pageheader"><a href="/trees/{{ selected_tree.slug }}" class="back_button">&#x2190;</a> Bearbeitung von {{ form.name }}{{ form.name.errors }}</h2>
+<input type="hidden" id="selectedTree" value="{{ selected_tree.slug }}" >
 
-<div class='formset' id='answer-formset'>
+<div id='question-field'>
+      {{ form.question }}
+      {{ form.question.errors }}<!--creates ul (class="errorlist") with errors-->
+</div>
+
+<div id='inputtype-field'>
+      {{ form.input_type }}
+      {{ form.input_type.errors }}
+</div>
+
+<div id="answer-field">
+  <div class="node_create_topbar" style="border-right:1px solid grey; border-bottom:1px solid grey;"><p style="float:left;margin:0;">Antworten</p><!---<a href="javascript:void(0)" class="answer_add" style="float:right; padding:0;">+</a>---></div>
+  <div class='formset' id='answer-formset'>
 {% if edit == 'true' %}
   {{ answer_formset_init }}
 {% endif %}
+  </div>
 </div>
-
-<div class='formset' id='logic-formset'>
+<div id="logic-field">
+  <div class="node_create_topbar" style="border-bottom:1px solid grey;"><p style="float:left;margin:0;">Logik</p><!---<a href="javascript:void(0)" class="answer_add" style="float:right; padding:0;">+</a>---></div>
+  <div class='formset' id='logic-formset'>
   {% if edit == 'true' %}
     {{ logic_formset_init }}
   {% endif %}
+  </div>
 </div>
+
+<!--FEHLT: bei "+" script zu neue Antwort / neue Logik-->
+
+{{ form.non_field_errors }}<!--creates ul (class="errorlist nonfield") with nonfield errors-->
+
 {% if edit == 'true' %}
-    <a class="btn btn-primary" href="/trees/{{ selected_tree.slug }}" role="button" style="float:left; width:100%; background-color:red;">Bearbeiten abbrechen</a>
+<a class="btn btn-danger btn-sm btn-block" href="/trees/{{ selected_tree.slug }}" role="button" style="float:left; width:100%;">Bearbeiten abbrechen</a>
 {% endif %}
-    <button type="submit" name="save" value='True' class="btn btn-primary btn_alignment" style="float:left; width:100%;">Knoten speichern</button>
+<button type="submit" name="save" value='True' class="btn btn-primary btn-sm btn-block" style="float:left; width:100%;margin-bottom:1em;">Knoten speichern</button>
 </form>
+
 
 
 

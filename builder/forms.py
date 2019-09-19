@@ -11,9 +11,8 @@ class NodeForm(forms.Form):
     ('number', 'Zahleneingabe'),
     ('date', 'Datum')
     )
-
-    name = forms.CharField(label='Name für den Knoten')
-    question = forms.CharField(label='Frage')
+    name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Knotenname', 'class' : 'node_create_name'}), max_length="15")
+    question = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Frage'}), max_length="80")
     input_type = forms.ChoiceField(label='Eingabeart', choices = INPUT_CHOICES)
 
 class ButtonAnswersForm(forms.Form):
@@ -49,13 +48,13 @@ class DateAnswerForm(forms.Form):
 
 
 class LogicForm(forms.Form):
-    operator = forms.ChoiceField(label='Operator', choices = [], required=False)
-    answers_logic = forms.CharField(label='Mögliche Antworten', required=False)
-    action = forms.ChoiceField(label='Action', required=False, choices = (
+    answers_logic = forms.CharField(label='wenn', required=False)
+    operator = forms.ChoiceField(label='', choices = [], required=False)
+    action = forms.ChoiceField(label='dann', required=False, choices = (
     ('go_to', 'gehe zu'),
 #    ('set', 'setze')
     ))
-    var_to_modify = forms.CharField(label='Object to perform action on', required=False)
+    var_to_modify = forms.CharField(label='', required=False)
 
     def __init__(self, *args, **kwargs):
         self.input_type = kwargs.pop('input_type', None)
@@ -71,14 +70,14 @@ class LogicForm(forms.Form):
 
         if self.input_type == 'button':
             self.fields['operator'].choices = (
-            ('==', 'gleich'),
-            ('!=', 'nicht'))
+            ('==', 'vorliegt'),
+            ('!=', 'nicht vorliegt'))
 
         elif self.input_type == 'list':
-            self.fields['answers_logic'] = forms.CharField(widget=forms.Textarea)
+            self.fields['answers_logic'] = forms.CharField(widget=forms.Textarea, label='wenn')
             self.fields['operator'].choices = (
-            ('==', 'gleich'),
-            ('!=', 'nicht'))
+            ('==', 'vorliegt'),
+            ('!=', 'nicht vorliegt'))
 
 #        elif self.input_type == 'multiple_select':
 #            pass

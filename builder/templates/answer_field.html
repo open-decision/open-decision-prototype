@@ -20,10 +20,10 @@
 <script src="{% static '/jquery.formset.js' %}"></script>
   <script>
   $('.answer-formset').formset({
-      addText: 'Antwort hinzufügen',
-      deleteText: 'Antwort Entfernen',
-      addCssClass: "btn btn-primary btn_alignment",
-      deleteCssClass: "btn btn-primary btn_alignment",
+      addText: '+',
+      deleteText: '-',
+      addCssClass: "answer_add",
+      deleteCssClass: "answer_delete",
       prefix: 'answer',
       formCssClass:'answer-formset',
   });

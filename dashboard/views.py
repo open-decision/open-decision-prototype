@@ -5,13 +5,14 @@ from .forms import DecisionTreeForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.text import slugify
+from django.db.models import Count
 
 @login_required
 def dashboard_view(request):
     if request.method == 'GET':
         form = DecisionTreeForm()
         context = {
-         'decisiontree_list': DecisionTree.objects.filter(owner=request.user),
+         'decisiontree_list': DecisionTree.objects.filter(owner=request.user).annotate(node_number=Count("node")),
          'form':form,
          }
     return render(request, 'dashboard.html', context)
@@ -24,9 +25,10 @@ def add_tree(request):
         tree.owner = request.user
         tree.save()
     context = {
-     'decisiontree_list': DecisionTree.objects.filter(owner=request.user)
+     'decisiontree_list': DecisionTree.objects.filter(owner=request.user),
+     "form" : DecisionTreeForm()
      }
-    return render(request, 'decisiontree_list.html', context)
+    return render(request, 'decisiontree_list.html', context) #solve smoothly; not needed
 
 @login_required
 def tree_view(request, slug):
