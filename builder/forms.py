@@ -74,7 +74,7 @@ class LogicForm(forms.Form):
             ('!=', 'nicht vorliegt'))
 
         elif self.input_type == 'list':
-            self.fields['answers_logic'] = forms.CharField(widget=forms.Textarea)
+            self.fields['answers_logic'] = forms.CharField(widget=forms.Textarea, label='wenn')
             self.fields['operator'].choices = (
             ('==', 'vorliegt'),
             ('!=', 'nicht vorliegt'))

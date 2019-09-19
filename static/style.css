@@ -99,7 +99,10 @@
 /*node_create form*/
 
 .errorlist, .errorlist nonfield {
-
+  color:red;
+  list-style-type:none;
+  margin:5px;
+  padding: 0;
 }
 
 .node_create_name {
@@ -149,7 +152,7 @@
 }
 
 #answer-formset p {
-  width: 60%;
+  width: 100%;
   float:left;
 }
 
@@ -228,5 +231,20 @@
 .answer_add {}
 
 .answer_delete {}
+
+#answer-formset textarea {
+  margin:0;
+  padding:2%;
+  width: 96%;
+  height: 90px;
+}
+
+#logic-formset textarea {
+  margin:0;
+  padding:2%;
+  margin-left:8px;
+  width: 56%;
+  height: 1.8em;
+}
 
 /*node_create form END*/
