@@ -16,16 +16,21 @@
 </div>
 
 <div id="answer-field">
-  <div class="node_create_topbar" style="border-right:1px solid grey; border-bottom:1px solid grey;"><p style="float:left;margin:0;">Antworten</p><!---<a href="javascript:void(0)" class="answer_add" style="float:right; padding:0;">+</a>---></div>
-  <div class='formset' id='answer-formset'>
+  <div class="node_create_topbar" style="border-right:1px solid grey; border-bottom:1px solid grey;">
+    <p style="float:left;margin:0;">Antworten</p>
+    <a href="javascript:void(0)" class="answer_add2" id="add_a_2" style="float:right; padding:0;">+</a>
+  </div>
+    <div class='formset' id='answer-formset'>
 {% if edit == 'true' %}
   {{ answer_formset_init }}
 {% endif %}
   </div>
 </div>
 <div id="logic-field">
-  <div class="node_create_topbar" style="border-bottom:1px solid grey;"><p style="float:left;margin:0;">Logik</p><!---<a href="javascript:void(0)" class="answer_add" style="float:right; padding:0;">+</a>---></div>
-  <div class='formset' id='logic-formset'>
+  <div class="node_create_topbar" style="border-bottom:1px solid grey;">
+    <p style="float:left;margin:0;">Logik</p>
+    <a href="javascript:void(0)" class="logic_add2" id="add_l_2" style="float:right; padding:0;">+</a>
+  </div>  <div class='formset' id='logic-formset'>
   {% if edit == 'true' %}
     {{ logic_formset_init }}
   {% endif %}
@@ -72,6 +77,14 @@ $(document).ready(function(){
             $("#answer-formset").html(data);
           }
         });
+      });
+
+      $("#add_a_2").click(function() {
+        $('.answer_add').trigger("click" );
+      });
+
+      $("#add_l_2").click(function() {
+        $('.logic_add').trigger("click" );
       });
 
   $("#answer-formset").on('blur',"input[name^='answer']",
