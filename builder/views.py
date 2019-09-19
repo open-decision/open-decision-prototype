@@ -40,11 +40,12 @@ def node_edit_view(request, slug, node_slug):
             'logic_formset_init': logic_formset_init,
             'edit': 'true',
             }
+        return render(request, 'node_create.html', context)
     elif request.method == 'POST' and request.POST.get('save'):
             id = Node.objects.get(slug=node_slug).id
             save_node(request, slug, id)
             return redirect('/trees/'+str(slug)+'/')
-    return render(request, 'node_create.html', context)
+
 
 @login_required
 def load_answer_field(request, *args):
@@ -104,6 +105,9 @@ def set_answer_form(input_type):
         expandable = False
     elif input_type == 'date':
         answer_form = DateAnswerForm
+        expandable = False
+    elif input_type == 'end_node':
+        answer_form = EndNodeAnswerForm
         expandable = False
     else:
         raise Exception('Invalid input type.')
@@ -218,6 +222,7 @@ def save_node(request, slug, *args):
                 data_answer= json.dumps([]),
                 data_logic= json.dumps([]),
                 new_node= True,
+                start_node= False,
                         )
                 new.save()
                 data_logic[i]['var_to_modify'] = new.id
@@ -245,12 +250,15 @@ def save_node(request, slug, *args):
         input_type= node_form.cleaned_data['input_type'],
         data_answer= json.dumps(data_answer),
         data_logic= json.dumps(data_logic),
-        new_node= False
+        new_node= False,
+        start_node= False,
         )
         n.save()
 
-def export(request):
+def export_tree(request, slug):
+    context = {}
 #0. Check for errors - how?
 #1. Build header
 #2.
-    pass
+
+    return render(request, 'export.html', context)

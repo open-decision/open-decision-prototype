@@ -1,14 +1,12 @@
 {% extends "base.html" %}
-
 {% block content %}
-  <h2 class="pageheader">Knotenansicht: {{ selected_tree.name}}</h2>
-
+  <h2 class="pageheader">Entscheidungsbaum: {{ selected_tree.name }}</h2>
 <div id="nodes">
   {% if existing_nodes or new_nodes%}
   <ul>
     {% for node in existing_nodes %}
       <li>
-        <a href="{{ node.slug }}/edit">{{ node.name }}</a> | Frage: {{ node.question }} | <a class="btn btn-primary" href="{{ node.slug }}/edit" role="button">Bearbeiten</a>
+        <a href="{{ node.slug }}/edit">{{ node.name }}</a> | Frage: {{ node.question }} | {% if node.start_node %}<p>Startknoten</p>{% endif %} <a class="btn btn-primary" href="{{ node.slug }}/edit" role="button" style="margin:2px">Bearbeiten</a>
       </li>
     {% endfor %}
   </ul>
@@ -24,9 +22,12 @@
 {% endif %}
   {% else %}
     <p>Du hast noch keine Knoten erstellt.</p>
+    <p>Der erste Knoten, den Du erstellst, wird automatisch zum Startknoten - dort wird der Entscheidungsbaum beginnen.</p>
+
   {% endif %}
 </div>
 
-<a href="create">Neuen Knoten erstellen</a>
-
+<a class="btn btn-primary" href="create" role="button" style="margin:5px">Neuen Knoten erstellen</a>
+<br>
+<a class="btn btn-primary" href="export" role="button" style="background-color:green">Baum exportieren</a>
 {% endblock %}

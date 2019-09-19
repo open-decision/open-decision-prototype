@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 <h1 class="pageheader">Builder</h1>
-<h5"><a href="/trees/{{ selected_tree.slug }}">Zurück</a> | Baum: {{ selected_tree.name }}</h5>
+<a class="btn btn-primary" href="/trees/{{ selected_tree.slug }}" role="button" style="margin:5px">Zurück</a>| Baum: {{ selected_tree.name }}
 <input type="hidden" id="selectedTree" value="{{ selected_tree.slug }}" >
 <form method="POST" id='nodeForm' answer-form-url="{% url 'ajax_load_answer_field' %}" logic-form-url="{% url 'ajax_load_logic_field' %}" load-nodes-url="{% url 'ajax_load_nodes' %}">{%csrf_token%}
     <div class="row">
@@ -83,7 +83,7 @@ $(document).ready(function(){
         let answer_given = $(this).val(),
             input_type = $('#id_input_type').val();
 
-      if (input_type == 'button' && answer_given !== '') {
+      if (input_type == 'button' || input_type == 'short_text' || input_type == 'long_text' && answer_given !== '') {
             let answers = $("#id_answer-TOTAL_FORMS").val(),
                 logics = $("#id_logic-TOTAL_FORMS").val(),
                 diff = answers - logics,

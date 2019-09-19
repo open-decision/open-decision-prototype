@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from builder.views import node_create_view, node_edit_view, load_answer_field, load_logic_field, load_nodes
+from builder.views import node_create_view, node_edit_view, load_answer_field, load_logic_field, load_nodes, export_tree
 from pages.views import home_view, contact_view
 from interpreter.views import show_interpreter
 from dashboard.views import dashboard_view, add_tree, tree_view
@@ -35,7 +35,8 @@ urlpatterns = [
     path('dashboard/', dashboard_view),
     path('trees/<str:slug>/', tree_view, name='tree_view'),
     path('trees/<str:slug>/create', node_create_view, name='node_create_view'),
-    path('trees/<str:slug>/<str:node_slug>/edit', node_edit_view, name='node_edit_view')
+    path('trees/<str:slug>/<str:node_slug>/edit', node_edit_view, name='node_edit_view'),
+    path('trees/<str:slug>/export', export_tree, name='export_tree_view'),
 
 
 ]
