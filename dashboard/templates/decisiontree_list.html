@@ -14,10 +14,10 @@
         <th scope="row">{{ forloop.counter }}</th>
         <td>{{ decisiontree.name }}</td>
         <td>{{ decisiontree.node_number }}</td>
-        <td>
+        <td><nobr>
           <a class="btn btn-primary btn-sm" href="/trees/{{ decisiontree.slug }}" role="button">></a>
           <button type="submit" name="" value='' id ="" class="btn btn-primary btn-sm">x</button><!---delete node function needed--->
-        </td>
+        </nobr></td>
       </tr>
     {% endfor %}
 {% else %}

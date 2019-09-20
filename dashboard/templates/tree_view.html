@@ -20,10 +20,10 @@
         <th scope="row">{{ forloop.counter }}</th>
         <td>{{ node.name }}</td>
         <td>{{ node.question }}</td>
-        <td>
+        <td><nobr>
           <a class="btn btn-primary btn-sm" href="{{ node.slug }}/edit" role="button">Bearbeiten</a>
           <button type="submit" name="" value='' id ="" class="btn btn-primary btn-sm">x</button><!---delete node function needed--->
-        </td>
+        </nobr></td>
       </tr>
     {% endfor %}
   {% if new_nodes%}
@@ -32,10 +32,10 @@
       <th style="color:red;" scope="row">{{ forloop.counter}}</th>
       <td style="color:red;">{{ node.name }}</td>
       <td style="color:red;">{{ node.question }}</td>
-      <td>
+      <td><nobr>
         <a class="btn btn-primary btn-sm" href="{{ node.slug }}/edit" role="button">Bearbeiten</a>
         <button type="submit" name="" value='' id ="" class="btn btn-primary btn-sm">x</button><!---delete node function needed--->
-      </td>
+      </nobr></td>
     </tr>
     {% endfor %}
       </tbody>
