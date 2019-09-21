@@ -249,8 +249,9 @@ def save_node(request, slug, *args):
         )
         n.save()
 
-def export(request):
+def export_tree(request, slug):
+    context = {}
 #0. Check for errors - how?
 #1. Build header
 #2.
-    pass
+    return render(request, 'export.html', context)
