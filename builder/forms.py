@@ -6,10 +6,11 @@ class NodeForm(forms.Form):
     ('button', 'Buttons'),
     ('list', 'Auswahlliste'),
 #    ('multiple_select', 'Mehrfachauswahl'),
-#    ('short_text', 'Textfeld'),
-#    ('long_text', 'Großes Textfeld'),
+    ('short_text', 'Textfeld'),
+    ('long_text', 'Großes Textfeld'),
     ('number', 'Zahleneingabe'),
-    ('date', 'Datum')
+    ('date', 'Datum'),
+    ('end_node', 'Endknoten - keine Eingabe')
     )
     name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Knotenname', 'class' : 'node_create_name'}), max_length="15")
     question = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Frage'}), max_length="400")
@@ -29,31 +30,28 @@ class ListAnswersForms(forms.Form):
 #Num and Date Forms could be empty
 class NumberAnswersForm(forms.Form):
     pass
-#    rule = forms.CharField(label='Speichern als')
 
 class DateAnswerForm(forms.Form):
     pass
-#    rule = forms.CharField(label='Speichern als')
 
 
 #Build seperate getInfo-Node, with possibility to set label, type of input, no. per field
-#class ShortTextAnswersForm(forms.Form):
-#    answer = forms.CharField(label='Antwort')
-#    rule = forms.CharField(label='Speichern als')
-
-#class LongTextAnswersForm(forms.Form):
-#    answer = forms.CharField(widget=forms.Textarea, label='Antwort')
-#    rule = forms.CharField(label='Speichern als')
+class ShortTextAnswersForm(forms.Form):
+    answer = forms.CharField(label='Was soll der Nutzer als Feldname sehen?')
 
 
+class LongTextAnswersForm(forms.Form):
+    answer = forms.CharField(label='Was soll der Nutzer als Feldname sehen?')
+
+class EndNodeAnswersForm(forms.Form):
+    pass
 
 class LogicForm(forms.Form):
-    answers_logic = forms.CharField(label='wenn', required=False)
-    operator = forms.ChoiceField(label='', choices = [], required=False)
+    operator = forms.ChoiceField(label='Wenn die Antwort', choices = [], required=False)
+    answers_logic = forms.CharField(label='', required=False)
     action = forms.ChoiceField(label='dann', required=False, choices = (
     ('go_to', 'gehe zu'),
-#    ('set', 'setze')
-    ))
+    ('set', 'setze')))
     var_to_modify = forms.CharField(label='', required=False)
 
     def __init__(self, *args, **kwargs):
@@ -79,16 +77,27 @@ class LogicForm(forms.Form):
             ('==', 'vorliegt'),
             ('!=', 'nicht vorliegt'))
 
-#        elif self.input_type == 'multiple_select':
-#            pass
+        elif self.input_type == 'short_text':
+            self.fields['operator'] = forms.CharField(widget=forms.HiddenInput())
+            self.fields['answers_logic'] = forms.CharField(label='Nehme die Antwort aus')
+            self.fields['action'].choices = (
+            ('set', 'speicher den Wert als Variable'),
+            ('set', 'speicher den Wert als Variable'))
+            self.fields['action'].label = 'und dann'
+            self.fields['operator'].choices = (
+            ('==', 'gleich'),
+            ('==', 'gleich'))
 
-#        elif self.input_type == 'short_text':
-#            self.fields['to'] = forms.CharField()
-#            pass
-
-#        elif self.input_type == 'long_text':
-#            self.fields['to'] = forms.CharField()
-#            pass
+        elif self.input_type == 'long_text':
+            self.fields['operator'] = forms.CharField(widget=forms.HiddenInput())
+            self.fields['answers_logic'] = forms.CharField(label='Nehme die Antwort aus')
+            self.fields['action'].choices = (
+            ('set', 'speicher den Wert als Variable'),
+            ('set', 'speicher den Wert als Variable'))
+            self.fields['action'].label = 'und dann'
+            self.fields['operator'].choices = (
+            ('==', 'gleich'),
+            ('==', 'gleich'))
 
         elif self.input_type == 'number':
             self.fields['answers_logic'] = forms.FloatField()

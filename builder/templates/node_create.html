@@ -92,7 +92,7 @@ $(document).ready(function(){
         let answer_given = $(this).val(),
             input_type = $('#id_input_type').val();
 
-      if (input_type == 'button' && answer_given !== '') {
+      if (input_type == 'button' || input_type == 'short_text' || input_type == 'long_text' && answer_given !== '') {
             let answers = $("#id_answer-TOTAL_FORMS").val(),
                 logics = $("#id_logic-TOTAL_FORMS").val(),
                 diff = answers - logics,

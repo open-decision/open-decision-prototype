@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% block content %}
   <h2 class="pageheader"><a href="/dashboard" class="back_button">&#x2190;</a> Knotenübersicht von: {{ selected_tree.name}}</h2>
 
@@ -20,6 +19,7 @@
         <th scope="row">{{ forloop.counter }}</th>
         <td>{{ node.name }}</td>
         <td>{{ node.question }}</td>
+         {% if node.start_node %}<td>Startknoten</td>{% endif %}
         <td><nobr>
           <a class="btn btn-primary btn-sm" href="{{ node.slug }}/edit" role="button">Bearbeiten</a>
           <button type="submit" name="" value='' id ="" class="btn btn-primary btn-sm">x</button><!---delete node function needed--->
@@ -43,6 +43,8 @@
 </table>
   {% else %}
     <p>Du hast noch keine Knoten erstellt.</p>
+    <p>Der erste Knoten, den Du erstellst, wird automatisch zum Startknoten - dort wird der Entscheidungsbaum beginnen.</p>
+
   {% endif %}
 </div>
 <a class="btn btn-primary btn-sm btn-block" role="button" href="create">Neuen Knoten erstellen</a>
