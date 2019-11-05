@@ -19,3 +19,4 @@ class Node(models.Model):
     data_logic      = models.TextField(null=True, blank=True)
     new_node        = models.BooleanField()
     start_node      = models.BooleanField()
+    end_node        = models.BooleanField()
