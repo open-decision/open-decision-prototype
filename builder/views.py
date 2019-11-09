@@ -155,7 +155,7 @@ def load_nodes(request):
     data_all = Node.objects.filter(decision_tree__slug=selected_tree).values()
     data = []
     for item in data_all:
-        data.append({"label" : item["name"], "value" : item['slug']})
+        data.append({'label' : item['name'], 'value' : item['slug']})
     response = JsonResponse(data, safe=False)
     return response
 
@@ -223,10 +223,11 @@ def save_node(request, slug, *args):
                 data_logic= json.dumps([]),
                 new_node= True,
                 start_node= False,
+                end_node= False,
                         )
                 new.save()
                 data_logic[i]['var_to_modify'] = new.id
-#Save the node, TODO: change to JSON field for saving answer and logic
+#Save the node, todo: change to JSON field for saving answer and logic
     try:
         id = args[0]
     except:
@@ -252,122 +253,6 @@ def save_node(request, slug, *args):
         data_logic= json.dumps(data_logic),
         new_node= False,
         start_node= False,
+        end_node= False,
         )
         n.save()
-
-@login_required
-def export_tree(request, slug):
-    context = {}
-#0. Check for errors - how?
-#1. Build header
-#2.
-    check_tree(slug)
-    pass
-    #return render(request, 'export.html', context)
-
-
-def check_tree(slug):
-    #Build dic with tree structure to check tree integrity
-
-
-# if data_answer or data_logic empty AND not end_node
-# are answers matching? buttons -> make field not editable; how to check others?
-
-    tree_name=slug
-    all = Node.objects.filter(decision_tree__slug=slug)
-    end_nodes = all.filter(end_node=True)
-    no_end_nodes = all.filter(end_node=False)
-
-# Build errors dict for nodes without data_answer or data_logic
-    errors = {
-        'no_answers': [n.id for n in no_end_nodes.filter(data_answer='[]')],
-        'no_logic': [n.id for n in no_end_nodes.filter(data_logic='[]')],
-        'no_var':{},
-        'no_ref_to_start':{},
-        'no_ref_to_end':{},
-        }
-    paths = {'node_list':[], 'start_node': all.get(start_node=True).id, 'end_nodes':[], 'nodes':{}}
-    for n in all:
-        paths['node_list'].append(n.id)
-        paths['nodes'][n.id]=[]
-        l = []
-        for d in json.loads(n.data_logic):
-            if d['action'] == 'go_to':
-                if d['var_to_modify'] == "":
-        #Ist das hier noch relevant? -> ja, weil in Logic auch daten ohne
-                    errors['no_var'][n.id] = d['answers_logic']
-                else:
-                    l.append(d['var_to_modify'])
-        paths['nodes'][n.id] = l
-    paths['end_nodes'] = [e.id for e in end_nodes]
-    single_paths = build_paths(paths)
-    print(single_paths)
-
-def build_paths(paths):
-    num_of_childs_left = []
-    single_paths= []
-    if paths['nodes'][paths['start_node']] is None:
-        return #some Error saying start is not connected
-    return iterator(paths, num_of_childs_left, single_paths, 0)
-
-def iterator(paths, num_of_childs_left, single_paths, last_fork):
-# builds one full path and is then called again
-    temp_path = []
-# In first run
-    if len(single_paths) == 0:
-        node = paths['start_node']
-        temp_path.append(node)
-    else:
-        #Copy path till last_fork
-        #Slice obsolete rest of num_of_childs_left
-        temp_path = single_paths[-1][:last_fork+1]
-        num_of_childs_left = num_of_childs_left[:last_fork+1]
-        node = single_paths[-1][last_fork]
-
-#adds one step to the path
-#deal with key lookup error if there is a ref to a not existing node
-    while len(paths['nodes'][node]) != 0:
-        #Bug: Endnote will not be recorded or?
-        try:
-    #Check if node is not called the first time
-            left = num_of_childs_left[len(temp_path)-1]
-            num_childs = len(paths['nodes'][node])
-            temp_path.append(paths['nodes'][node][num_childs-left])
-            try:
-                num_of_childs_left[len(temp_path)-1] -= 1
-            except IndexError:
-                num_of_childs_left[-1] -= 1
-            node = paths['nodes'][node][num_childs-left]
-    #If node is called the fist time
-        except IndexError:
-            #temp_path.append(node)
-            temp_path.append(paths['nodes'][node][0])
-            num_of_childs_left.append(len(paths['nodes'][node])-1)
-            node = paths['nodes'][node][0]
-
-    #If while loop ends, we reached an end node
-    else:
-        single_paths.append(temp_path)
-        if all(i <= 0 for i in num_of_childs_left):
-            return single_paths
-        else:
-            for i in range(len(num_of_childs_left)-1, 0, -1):
-                if num_of_childs_left[i] > 0:
-                    last_fork = i
-                    break
-            iterator(paths, num_of_childs_left, single_paths, last_fork)
-
-
-
-
-
-
-
-
-
-
-
-
-# wenn node id in all, aber nicht in gecheckter liste/nicht aktiviert wurde -> nicht mit Start verknüpft
-#     and end node, no repetition in path
-# check if all answer have reference

@@ -1,8 +1,144 @@
 {% extends "base.html" %}
 {% block content %}
-  <h2 class="pageheader">Baum exportieren {{ selected_tree.name }}</h2>
-<p>Hier kann der Entscheidungsbaum in ein universelles Datenformat exportiert werden.</p>
+<h2 class="pageheader">Baum exportieren {{ selected_tree.name }}</h2>
+<p>Hier ist das Ergebnis des automatischen Integritätcheck.</p>
+
+{% if no_answers or no_logic or no_ref_to_start or no_var or no_ref_to_end %}
+<p>Bitte korrigiere die Fehler und klicke dann auf erneut kontrollieren.</p>
+{% else %}
+<p>Das sieht gut aus, wir haben keine Fehler gefunden.</p>
+{% endif %}
+
+{% if no_answers %}
+<h5>Fehlende Antworten</h5>
+<p>In diesen Knoten wurden keinerlei Antwortmöglichkeiten für den Nutzer vorgegeben.</p>
+    <table>
+    <tr>
+    <th scope="row">Knotenname</th>
+    <th>Frage</th>
+    </tr>
+    {% for node in no_answers %}
+      <tr>
+        <td>{{ node.name }}</td>
+        <td>{{ node.question }}</td>
+        <td><nobr>
+          <a class="btn btn-primary btn-sm" href="/trees/{{ selected_tree }}/{{ node.slug }}/edit" role="button" target="_blank">Korrigieren</a>
+        </nobr></td>
+      </tr>
+      {% endfor %}
+    </table>
+{% else %}
+  <tr>
+    <td></td>
+    <td>✓ Alle Knoten haben Antworten.</td>
+    <td></td>
+    <td></td>
+  </tr>
+{% endif %}
+<hr>
+{% if no_logic %}
+<h5>Fehlende Logikbausteine</h5>
+<p>In diesen Knoten wurden keinerlei Logikbausteine erstellt.</p>
+    <table>
+    <tr>
+    <th scope="row">Knotenname</th>
+    <th>Frage</th>
+    </tr>
+    {% for node in no_logic %}
+      <tr>
+        <td>{{ node.name }}</td>
+        <td>{{ node.question }}</td>
+        <td><nobr>
+          <a class="btn btn-primary btn-sm" href="/trees/{{ selected_tree }}/{{ node.slug }}/edit" role="button" target="_blank">Korrigieren</a>
+        </nobr></td>
+      </tr>
+      {% endfor %}
+    </table>
+{% else %}
+  <tr>
+    <td></td>
+    <td>✓ Alle Knoten haben Logikbausteine.</td>
+    <td></td>
+    <td></td>
+  </tr>
+{% endif %}
+<hr>
+{% if no_ref_to_start %}
+<h5>Fehlende Verknüpfung zum Startknoten</h5>
+<p>Diese Knoten sind nicht mit dem Startknoten verknüpft und können deswegen vom Nutzer nicht aufgerufen werden.</p>
+    <table>
+    <tr>
+    <th scope="row">Knotenname</th>
+    <th>Frage</th>
+    </tr>
+    {% for node in no_ref_to_start %}
+      <tr>
+        <td>{{ node.name }}</td>
+        <td>{{ node.question }}</td>
+        <td>{{ value }}</td>
+        <td><nobr>
+          <a class="btn btn-primary btn-sm" href="/trees/{{ selected_tree }}/{{ node.slug }}/edit" role="button" target="_blank">Korrigieren</a>
+        </nobr></td>
+      </tr>
+    {% endfor %}
+    </table>
+{% else %}
+  <tr>
+    <td></td>
+    <td>✓ Alle Knoten sind mit dem Startknoten verbunden.</td>
+    <td></td>
+    <td></td>
+  </tr>
+{% endif %}
+<hr>
+{% if no_var %}
+<h5>Unvollständige Logikbausteine</h5>
+<p>Bei diesen Knoten ist der Logikbaustein unvollständig, weil keine Verknüpfung zum nächsten Knoten erstellt wurde.</p>
+    <table>
+    <tr>
+    <th>Knotenname</th>
+    <th>Frage</th>
+    <th>Fehlerhafte Antwort</th>
+    </tr>
+    {% for node, answer in no_var.items %}
+      <tr>
+        <td>{{ node.name }}</td>
+        <td>{{ node.question }}</td>
+        <td>{{ value }}</td>
+        <td><nobr>
+          <a class="btn btn-primary btn-sm" href="/trees/{{ selected_tree }}/{{ node.slug }}/edit" role="button" target="_blank">Korrigieren</a>
+        </nobr></td>
+      </tr>
+      {% endfor %}
+    </table>
+{% else %}
+  <tr>
+    <td></td>
+    <td>✓ Alle Knoten haben vollständige Logikbausteine.</td>
+    <td></td>
+    <td></td>
+  </tr>
+{% endif %}
+<hr>
+<br>
+
+
 Ja, ich möchte den Entscheidungsbaum gemeinfrei unter CC 4.0 BY lizenzieren <input type="checkbox" label="hi "name="efads" value="Ja, unter CC 4.0 BY veröffentlichen" checked>
-<br><a href="https://creativecommons.org/choose/?lang=de">Mehr Infos</a>
+<br><a href="https://creativecommons.org/choose/?lang=de" target="_blank">Mehr Infos</a>
+
+{% if no_answers or no_logic or no_ref_to_start or no_var or no_ref_to_end %}
+<br><a class="btn btn-primary" href="#" role="button" style="margin:20px; background-color:maroon">Trotz Fehler exportieren</a>
+<a class="btn btn-primary" href="/trees/{{ selected_tree }}/export" role="button" style="background-color:green">Erneut prüfen</a>
+{% else %}
 <br><a class="btn btn-primary" href="#" role="button" style="margin:20px">Export</a>
+{% endif %}
+
+<script>
+$(document).ready(function(){
+$(".btn-sm").click(function(){
+  $(this).css("background-color", "green");
+  });
+});
+</script>
+
 {% endblock %}

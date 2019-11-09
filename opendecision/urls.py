@@ -15,10 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from builder.views import node_create_view, node_edit_view, load_answer_field, load_logic_field, load_nodes, export_tree
+from builder.views import node_create_view, node_edit_view, load_answer_field, load_logic_field, load_nodes
 from pages.views import home_view, contact_view
 from interpreter.views import show_interpreter
-from dashboard.views import dashboard_view, add_tree, tree_view
+from dashboard.views import dashboard_view, add_tree, tree_view, export_tree
 
 urlpatterns = [
     path('admin/', admin.site.urls),
