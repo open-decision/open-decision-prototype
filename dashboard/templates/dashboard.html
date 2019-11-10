@@ -3,7 +3,7 @@
 {% block content %}
   <h2 class="pageheader">Dashboard</h2>
 <div id="trees">
-    <table class="table"><!---fix length issue (long names break table)--->
+    <table class="table tree-table"><!---fix length issue (long names break table)--->
     <thead>
       <tr>
         <th style="border-top:none;" scope="col">#</th>
@@ -15,13 +15,13 @@
     <tbody>
 {% if decisiontree_list %}
       {% for decisiontree in decisiontree_list %}
-        <tr>
-          <th scope="row">{{ forloop.counter }}</th>
+        <tr id="tr_{{ decisiontree.id }}">
+          <th id="tree-counter" scope="row">{{ forloop.counter }}</th>
           <td>{{ decisiontree.name }}</td>
           <td>{{ decisiontree.node_number }}</td>
           <td><nobr>
             <a class="btn btn-primary btn-sm" href="/trees/{{ decisiontree.slug }}" role="button">></a>
-            <button type="submit" name="" value='' id ="" class="btn btn-primary btn-sm">x</button><!---delete node function needed--->
+            <button type="submit" data-toggle="modal" data-target="#deleteModal" tree-id="{{ decisiontree.id }}" tree-name="{{ decisiontree.name }}" class="btn btn-primary btn-sm">x</button>
           </nobr></td>
         </tr>
       {% endfor %}
@@ -33,26 +33,46 @@
       <td></td>
     </tr>
 {% endif %}
-    <tr>
-    <td></td>
-    <td>{{ form.as_p }}</td> <!---delete label--->
-    <td></td>
-    <td>
-      <button type="submit" name="addTree" value='addTree' id ="addTree" class="btn btn-primary btn-sm">+</button>
-    </td>
-  </tr>
     </tbody>
     </table>
 </div>
+<table>
+  <tr>
+    <td>{{ form.as_p }}</td>
+    <td><button type="submit" name="addTree" value='addTree' id="addTree" class="btn btn-primary btn-sm">+</button></td>
+  </tr>
+</table>
 
+<a class="btn btn-primary btn-sm btn-block" role="button" href="create">Neuen Knoten erstellen</a>
+<a class="btn btn-primary" href="export" role="button" style="background-color:green">Baum exportieren</a>
+</div>
 
+<br>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Bestätigen</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+        <button type="button" class="btn btn-primary btn-danger" data-dismiss="modal" id=deleteTree>Löschen</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <script>
 $(document).ready(function(){
   $("#addTree").click(function () {
     var name = $("#id_name").val();
-    console.log(name)
         $.post({
           url: "{% url 'add_tree' %}",
           headers: {'X-CSRFToken': '{{ csrf_token }}'},
@@ -60,12 +80,45 @@ $(document).ready(function(){
             'name': name
           },
           success: function (data) {
-            $("#id_name").empty();
-            $("#trees").empty();
-            $("#trees").html(data);
+             $(".tree-table tbody").append(data);
+             var rowCount = $("#tree-counter").first().html();
+             console.log(rowCount)
+
+             //$('<div class="item">Item 3</div>').insertAfter('.item:last');
+            // $("#id_name").empty();
+            // $("#trees").empty();
+            // $("#trees").html(data);
           }
         });
       });
+
+      //triggered when modal is about to be shown
+      $('#deleteModal').on('show.bs.modal', function(e) {
+        //get data-id attribute of the clicked element
+        var treeId = $(e.relatedTarget).attr('tree-id');
+        var treeName = $(e.relatedTarget).attr('tree-name');
+        //populate the textbox
+        $(e.currentTarget).find('.modal-body').html('<p>Soll der Entscheidungsbaum <b>' + treeName + '</b> wirklich gelöscht werden?</p>');
+        $(e.currentTarget).find('#deleteTree').attr('tree-id', treeId);
+      });
+
+
+      $("#deleteTree").click(function(){
+
+      var treeId = $(this).attr('tree-id');
+
+      $.ajax({
+        url: "{% url 'ajax_delete_tree' %}",
+        type: "POST",
+        data: {
+          'tree_id': treeId,
+          csrfmiddlewaretoken: '{{ csrf_token }}',
+        },
+        success: function (data) {
+      $('#tr_' + treeId).remove();
+            }
+          });
+        });
    });
 
 </script>

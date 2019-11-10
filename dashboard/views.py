@@ -7,6 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.utils.text import slugify
 from django.db.models import Count
 import json
+from django.http import HttpResponse
+
 
 
 @login_required
@@ -27,10 +29,16 @@ def add_tree(request):
         tree.owner = request.user
         tree.save()
     context = {
-     'decisiontree_list': DecisionTree.objects.filter(owner=request.user),
-     "form" : DecisionTreeForm()
+     'decisiontree_list': DecisionTree.objects.filter(id=tree.id)
      }
-    return render(request, 'decisiontree_list.html', context) #solve smoothly; not needed
+    return render(request, 'dashboard_table_row.html', context)
+
+@login_required
+def delete_tree (request):
+    id = request.POST.get('tree_id')
+    DecisionTree.objects.filter(id=id).delete()
+    #todo: look for return value, maybe sth like 200?
+    return HttpResponse()
 
 @login_required
 def tree_view(request, slug):
@@ -42,31 +50,32 @@ def tree_view(request, slug):
          'new_nodes': new_nodes,
          'selected_tree': DecisionTree.objects.filter(slug=slug).values()[0]
          }
-
     return render(request, 'tree_view.html', context)
-
 
 @login_required
 def export_tree(request, slug):
     #selected_tree object
 #1. Build header
 #2.
-    errors = check_tree(slug)
+    data = check_tree(slug)
+    errors = data[0]
+    all_nodes = data[1]
 
-    errors['no_answers'] = [Node.objects.get(id=element) for element in errors['no_answers']]
-    errors['no_logic'] = [Node.objects.get(id=element) for element in errors['no_logic']]
-    errors['no_ref_to_start'] = [Node.objects.get(id=element) for element in errors['no_ref_to_start']]
-    errors['no_var'] = {Node.objects.get(id=key):value for (key,value) in errors['no_var'].items()}
-    errors['selected_tree'] = slug
+    errors['no_answers'] = [all_nodes.get(id=element) for element in errors['no_answers']]
+    errors['no_logic'] = [all_nodes.get(id=element) for element in errors['no_logic']]
+    errors['no_ref_to_start'] = [all_nodes.get(id=element) for element in errors['no_ref_to_start']]
+    errors['no_var'] = {all_nodes.get(id=key):value for (key,value) in errors['no_var'].items()}
+    errors['no_ref_to_end'] = [[all_nodes.get(id=node) for node in path] for path in errors['no_ref_to_end']]
+    errors['not_end_nodes'] = list(set([path[-1] for path in errors['no_ref_to_end']]))
+    errors['selected_tree'] = DecisionTree.objects.get(slug=slug)
     print(errors)
-    return render(request, 'export.html',errors)
-
+    return render(request, 'export.html', errors)
 
 
 def check_tree(slug):
-    #Build dic with tree structure to check tree integrity
+    # Build dic with tree structure to check tree integrity
     # todo: are answers matching to logic? buttons -> make field not editable; how to check others?
-    tree_name=slug
+    tree_name = slug
     all = Node.objects.filter(decision_tree__slug=slug)
     end_nodes = all.filter(end_node=True)
     no_end_nodes = all.filter(end_node=False)
@@ -102,7 +111,7 @@ def check_tree(slug):
     print(single_paths)
     print(paths)
 
-    return errors
+    return [errors, all]
 
 
 def build_paths(paths):
@@ -175,3 +184,16 @@ def iterator(paths, num_of_childs_left, single_paths, last_fork):
             print('After loop: Temp_path', temp_path, 'last_fork', last_fork)
             print('Num of childs left: ', num_of_childs_left)
             iterator(paths, num_of_childs_left, single_paths, last_fork)
+
+
+@login_required
+def set_as_endnode (request):
+    slug = request.POST.get('node_slug')
+    Node.objects.filter(slug=slug).update(end_node= True)
+    return HttpResponse()
+
+@login_required
+def delete_node (request):
+    id = request.POST.get('node_id')
+    Node.objects.filter(id=id).delete()
+    return HttpResponse()

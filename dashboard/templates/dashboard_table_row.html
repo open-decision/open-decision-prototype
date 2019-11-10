@@ -1,0 +1,12 @@
+{% for decisiontree in decisiontree_list %}
+<tr id="tr_{{ decisiontree.id }}">
+  <th scope="row">
+  </th>
+  <td>{{ decisiontree.name }}</td>
+  <td>0</td>
+  <td><nobr>
+    <a class="btn btn-primary btn-sm" href="/trees/{{ decisiontree.slug }}" role="button">></a>
+    <button type="submit" data-toggle="modal" data-target="#deleteModal" tree-id="{{ decisiontree.id }}" tree-name="{{ decisiontree.name }}" class="btn btn-primary btn-sm">x</button>
+  </nobr></td>
+</tr>
+{% endfor %}
