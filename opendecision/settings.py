@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'interpreter',
     'pages',
     'builder',
-    'dashboard'
+    'dashboard',
+    'ckeditor',
 
 ]
 
@@ -124,6 +125,17 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = ( os.path.join('static'), )
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+CKEDITOR_BASEPATH = "static/ckeditor/ckeditor"
+CKEDITOR_CONFIGS = {
+   'default': {
+        'toolbar': 'Full',
+        'height': 300,
+        'width': 600,
+   },
+}
+
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/dashboard'

@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
   <h2 class="pageheader"><a href="/dashboard" class="back_button">&#x2190;</a> Knotenübersicht von: {{ selected_tree.name}}</h2>
-
 <div id="nodes">
   {% if existing_nodes or new_nodes%}
   <table class="table"><!---fix length issue (long names break table)--->
@@ -17,21 +16,21 @@
     {% for node in existing_nodes %}
       <tr id="tr_{{ node.id }}">
         <th scope="row">{{ forloop.counter }}</th>
-        <td>{{ node.name }}</td>
-        <td>{{ node.question }}</td>
-         {% if node.start_node %}<td>Startknoten</td>{% endif %}
+        <td>{{ node.name |truncatechars:40 }}</td>
+        <td>{{ node.question |truncatechars:80 |safe }}</td>
         <td><nobr>
           <a class="btn btn-primary btn-sm" href="{{ node.slug }}/edit" role="button">Bearbeiten</a>
-          <button type="submit" name="" data-toggle="modal" data-target="#deleteModal" node-id="{{ node.id }}" node-name="{{ node.name }}" class="btn btn-primary btn-sm">x</button><
+          <button type="submit" name="" data-toggle="modal" data-target="#deleteModal" node-id="{{ node.id }}" node-name="{{ node.name }}" class="btn btn-primary btn-sm">x</button>
         </nobr></td>
+        {% if node.start_node %}<td>Startknoten</td>{% endif %}
       </tr>
     {% endfor %}
   {% if new_nodes%}
     {% for node in new_nodes %}
     <tr id="tr_{{ node.id }}">
       <th style="color:red;" scope="row">{{ forloop.counter}}</th>
-      <td style="color:red;">{{ node.name }}</td>
-      <td style="color:red;">{{ node.question }}</td>
+      <td style="color:red;">{{ node.name |truncatechars:40}}</td>
+      <td style="color:red;">{{ node.question |truncatechars:80}}</td>
       <td><nobr>
         <a class="btn btn-primary btn-sm" href="{{ node.slug }}/edit" role="button">Bearbeiten</a>
         <button type="submit" data-toggle="modal" data-target="#deleteModal" node-id="{{ node.id }}" node-name="{{ node.name }}" class="btn btn-primary btn-sm">x</button>

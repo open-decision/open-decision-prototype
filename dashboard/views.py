@@ -8,8 +8,7 @@ from django.utils.text import slugify
 from django.db.models import Count
 import json
 from django.http import HttpResponse
-
-
+from .models import bleach_clean
 
 @login_required
 def dashboard_view(request):
@@ -36,12 +35,14 @@ def add_tree(request):
 @login_required
 def delete_tree (request):
     id = request.POST.get('tree_id')
-    DecisionTree.objects.filter(id=id).delete()
+    id_clean = bleach_clean(id)
+    DecisionTree.objects.filter(id=id_clean).delete()
     #todo: look for return value, maybe sth like 200?
     return HttpResponse()
 
 @login_required
 def tree_view(request, slug):
+
     existing_nodes = Node.objects.filter(decision_tree__slug=slug).filter(new_node=False)
     new_nodes = Node.objects.filter(decision_tree__slug=slug).filter(new_node=True)
     if request.method == 'GET':
@@ -81,8 +82,9 @@ def check_tree(slug):
     no_end_nodes = all.filter(end_node=False)
 
 # Build errors dict for nodes without data_answer or data_logic
+#todo: data answer und logic kann auch [{}] enthalten
     errors = {
-        'no_answers': [n.id for n in no_end_nodes.filter(data_answer='[]')],
+        'no_answers': [n.id for n in no_end_nodes.filter(data_answer='[]' )],
         'no_logic': [n.id for n in no_end_nodes.filter(data_logic='[]')],
         'no_var':{},
         'no_ref_to_start':[],
@@ -106,7 +108,8 @@ def check_tree(slug):
     single_paths = single_paths_final
     paths = paths_after_iterator
     errors['no_ref_to_end'] = paths['no_ref_to_end']
-    errors['no_ref_to_start'] = list(set(paths['node_list']).difference(paths['accessed_nodes']))
+    # Added set to second after difference
+    errors['no_ref_to_start'] = list(set(paths['node_list']).difference(set(paths['accessed_nodes'])))
 
     print(single_paths)
     print(paths)
@@ -131,7 +134,7 @@ def iterator(paths, num_of_childs_left, single_paths, last_fork):
         temp_path.append(node)
     else:
         #Copy path from start node to last_fork
-        #Slice obsolete rest of num_of_childs_left
+        #Slice obsolete rest of num_of_childs_left, +1 because slicing is exclusive of the end
         temp_path = single_paths[-1][:last_fork+1]
         num_of_childs_left = num_of_childs_left[:last_fork+1]
         node = single_paths[-1][last_fork]

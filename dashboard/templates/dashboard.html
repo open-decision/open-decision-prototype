@@ -17,7 +17,7 @@
       {% for decisiontree in decisiontree_list %}
         <tr id="tr_{{ decisiontree.id }}">
           <th id="tree-counter" scope="row">{{ forloop.counter }}</th>
-          <td>{{ decisiontree.name }}</td>
+          <td>{{ decisiontree.name |truncatechars:40}}</td>
           <td>{{ decisiontree.node_number }}</td>
           <td><nobr>
             <a class="btn btn-primary btn-sm" href="/trees/{{ decisiontree.slug }}" role="button">></a>
@@ -42,9 +42,6 @@
     <td><button type="submit" name="addTree" value='addTree' id="addTree" class="btn btn-primary btn-sm">+</button></td>
   </tr>
 </table>
-
-<a class="btn btn-primary btn-sm btn-block" role="button" href="create">Neuen Knoten erstellen</a>
-<a class="btn btn-primary" href="export" role="button" style="background-color:green">Baum exportieren</a>
 </div>
 
 <br>
