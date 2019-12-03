@@ -10,3 +10,9 @@ def contact_view(request, *args, **kwargs):
     my_context = {
     }
     return render(request, 'contact.html', my_context)
+
+def test_view(request, *args, **kwargs):
+    context = {}
+    return render(request, 'test.html', context)
+
+    

@@ -1,12 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
   <h2 class="pageheader"><a href="/dashboard" class="back_button">&#x2190;</a> Knotenübersicht von: {{ selected_tree.name}}</h2>
-
 <div id="nodes">
   {% if existing_nodes or new_nodes%}
   <table class="table"><!---fix length issue (long names break table)--->
   <thead>
-    <tr>
+    <tr id="tr_{{ node.id }}">
       <th style="border-top:none;" scope="col">#</th>
       <th style="border-top:none;text-align:left;" scope="col">Knotenname</th>
       <th style="border-top:none;text-align:left;" scope="col">Frage</th>
@@ -15,26 +14,26 @@
   </thead>
   <tbody>
     {% for node in existing_nodes %}
-      <tr>
+      <tr id="tr_{{ node.id }}">
         <th scope="row">{{ forloop.counter }}</th>
-        <td>{{ node.name }}</td>
-        <td>{{ node.question }}</td>
-         {% if node.start_node %}<td>Startknoten</td>{% endif %}
+        <td>{{ node.name |truncatechars:40 }}</td>
+        <td>{{ node.question |truncatechars:80 |safe }}</td>
         <td><nobr>
           <a class="btn btn-primary btn-sm" href="{{ node.slug }}/edit" role="button">Bearbeiten</a>
-          <button type="submit" name="" value='' id ="" class="btn btn-primary btn-sm">x</button><!---delete node function needed--->
+          <button type="submit" name="" data-toggle="modal" data-target="#deleteModal" node-id="{{ node.id }}" node-name="{{ node.name }}" class="btn btn-primary btn-sm">x</button>
         </nobr></td>
+        {% if node.start_node %}<td>Startknoten</td>{% endif %}
       </tr>
     {% endfor %}
   {% if new_nodes%}
     {% for node in new_nodes %}
-    <tr>
+    <tr id="tr_{{ node.id }}">
       <th style="color:red;" scope="row">{{ forloop.counter}}</th>
-      <td style="color:red;">{{ node.name }}</td>
-      <td style="color:red;">{{ node.question }}</td>
+      <td style="color:red;">{{ node.name |truncatechars:40}}</td>
+      <td style="color:red;">{{ node.question |truncatechars:80}}</td>
       <td><nobr>
         <a class="btn btn-primary btn-sm" href="{{ node.slug }}/edit" role="button">Bearbeiten</a>
-        <button type="submit" name="" value='' id ="" class="btn btn-primary btn-sm">x</button><!---delete node function needed--->
+        <button type="submit" data-toggle="modal" data-target="#deleteModal" node-id="{{ node.id }}" node-name="{{ node.name }}" class="btn btn-primary btn-sm">x</button>
       </nobr></td>
     </tr>
     {% endfor %}
@@ -50,4 +49,58 @@
 <a class="btn btn-primary btn-sm btn-block" role="button" href="create">Neuen Knoten erstellen</a>
 <a class="btn btn-primary" href="export" role="button" style="background-color:green">Baum exportieren</a>
 &nbsp;
+
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Bestätigen</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+        <button type="button" class="btn btn-primary btn-danger" data-dismiss="modal" id=deleteNode>Löschen</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+$(document).ready(function(){
+
+//triggered when modal is about to be shown
+$('#deleteModal').on('show.bs.modal', function(e) {
+  //get data-id attribute of the clicked element
+  var nodeId = $(e.relatedTarget).attr('node-id');
+  var nodeName = $(e.relatedTarget).attr('node-name');
+  //populate the textbox
+  $(e.currentTarget).find('.modal-body').html('<p>Soll der Knoten <b>' + nodeName + '</b> wirklich gelöscht werden?</p>');
+  $(e.currentTarget).find('#deleteNode').attr('node-id', nodeId);
+});
+
+
+$("#deleteNode").click(function(){
+
+var nodeId = $(this).attr('node-id');
+
+$.ajax({
+  url: "{% url 'ajax_delete_node' %}",
+  type: "POST",
+  data: {
+    'node_id': nodeId,
+    csrfmiddlewaretoken: '{{ csrf_token }}',
+  },
+  success: function (data) {
+$('#tr_'+nodeId).remove();
+      }
+    });
+  });
+});
+</script>
 {% endblock %}

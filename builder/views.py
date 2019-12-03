@@ -155,7 +155,7 @@ def load_nodes(request):
     data_all = Node.objects.filter(decision_tree__slug=selected_tree).values()
     data = []
     for item in data_all:
-        data.append({"label" : item["name"], "value" : item['slug']})
+        data.append({'label' : item['name'], 'value' : item['slug']})
     response = JsonResponse(data, safe=False)
     return response
 
@@ -223,10 +223,11 @@ def save_node(request, slug, *args):
                 data_logic= json.dumps([]),
                 new_node= True,
                 start_node= False,
+                end_node= False,
                         )
                 new.save()
                 data_logic[i]['var_to_modify'] = new.id
-#Save the node, TODO: change to JSON field for saving answer and logic
+#Save the node, todo: change to JSON field for saving answer and logic
     try:
         id = args[0]
     except:
@@ -252,13 +253,6 @@ def save_node(request, slug, *args):
         data_logic= json.dumps(data_logic),
         new_node= False,
         start_node= False,
+        end_node= False,
         )
         n.save()
-
-def export_tree(request, slug):
-    context = {}
-#0. Check for errors - how?
-#1. Build header
-#2.
-
-    return render(request, 'export.html', context)

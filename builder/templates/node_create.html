@@ -2,6 +2,7 @@
 {% load static %}
 {% block content %}
 <form method="POST" id='nodeForm' answer-form-url="{% url 'ajax_load_answer_field' %}" logic-form-url="{% url 'ajax_load_logic_field' %}" load-nodes-url="{% url 'ajax_load_nodes' %}">{%csrf_token%}
+{{ form.media }}
 <h2 class="pageheader"><a href="/trees/{{ selected_tree.slug }}" class="back_button">&#x2190;</a> Bearbeitung von {{ form.name }}{{ form.name.errors }}</h2>
 <input type="hidden" id="selectedTree" value="{{ selected_tree.slug }}" >
 
