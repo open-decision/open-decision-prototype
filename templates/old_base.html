@@ -1,0 +1,42 @@
+{% load static %}
+<script type="text/javascript" src="{% static 'jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'jquery-ui.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'popper.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'bootstrap.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'jquery-ui.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
+
+
+
+
+<!doctype html>
+<html>
+<head>
+<title>open decision</title>
+
+  </head>
+<body>
+		<div class="topbar clearfix">
+      <div class="container">
+		   <!---<img src="-" id="logo" alt="">--->
+		</div>
+  </div>
+{%include 'navbar.html'%}
+  <div class="main">
+    <div class="container">
+{%block content%}{%endblock%}
+	  </div>
+  </div>
+{%include 'footer.html'%}
+
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    console.log('Activated')
+  })
+  </script>
+
+  </body>
+</html>

@@ -16,13 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from builder.views import node_create_view, node_edit_view, load_answer_field, load_logic_field, load_nodes
-from pages.views import home_view, contact_view, test_view
+from pages.views import home_view, contact_view, test_view, register_user
 from interpreter.views import show_interpreter
 from dashboard.views import dashboard_view, add_tree, tree_view, export_tree, set_as_endnode, delete_node, delete_tree
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/', register_user, name='register_user'),
     path('', home_view, name='home'),
     path('contact/', contact_view),
     path('interpreter/', show_interpreter),

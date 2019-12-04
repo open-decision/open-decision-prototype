@@ -42,7 +42,6 @@ def delete_tree (request):
 
 @login_required
 def tree_view(request, slug):
-
     existing_nodes = Node.objects.filter(decision_tree__slug=slug).filter(new_node=False)
     new_nodes = Node.objects.filter(decision_tree__slug=slug).filter(new_node=True)
     if request.method == 'GET':
