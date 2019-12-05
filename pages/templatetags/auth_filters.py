@@ -8,7 +8,5 @@ register = template.Library()
 def addclass(value, args):
     if args is None:
         return False
-    print (args)
     arg_list = [arg.strip() for arg in args.split(';')]
-    print (arg_list[1])
     return value.as_widget(attrs={'class': arg_list[0], 'placeholder': arg_list[1]})

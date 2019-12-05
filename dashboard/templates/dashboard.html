@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 {% load auth_filters %}
+{% load static %}
 <div id="trees"
   <div class="main-content">
     <div class="container mt-7">
@@ -11,10 +12,8 @@
             <div class="card-header border-0">
               <h3 class="mb-0">Entscheidungsbäume</h3>
             </div>
-
-{% if decisiontree_list %}
             <div class="table-responsive">
-              <table class="table align-items-center table-flush tree-table">
+              <table class="table align-items-center table-flush tree-table table-hover">
                 <thead class="thead-light">
                   <tr>
                     <th scope="col">#</th>
@@ -26,9 +25,9 @@
                   </tr>
                 </thead>
                 <tbody>
+                  {% if decisiontree_list %}
                         {% for decisiontree in decisiontree_list %}
-
-                  <tr id="tr_{{ decisiontree.id }}">
+                  <tr id="tr_{{ decisiontree.id }}"  onclick="window.location='/trees/{{ decisiontree.slug }}'">
                     <th scope="row">
                       <div class="media align-items-center">
                         <div class="media-body">
@@ -40,8 +39,8 @@
                       {{ decisiontree.name |truncatechars:40}}
                     </td>
                     <td>
-                      <span class="badge badge-dot mr-4">
-                        <i class="bg-warning"></i> {{ decisiontree.node_number }}
+                      <span class="d-flex align-items-center">
+                        {{ decisiontree.node_number }}
                       </span>
                     </td>
                     <td>
@@ -76,51 +75,51 @@
                     </td>
                   </tr>
                   {% endfor %}
+                  {% else %}
+                  <tr id="empty-table-help">
+                    <th scope="row">
+                      <td>
+                        <div class="container">
+                          <div class="row align-items-center">
+                            <div class="col-lg-6 order-lg-1">
+                              <div class="p-5">
+                                <img class="img-fluid" src="{% static 'img/blank_canvas.svg' %}" alt="Empty List Illustration">
+                              </div>
+                            </div>
+                            <div class="col-md-6 order-lg-2">
+                              <div class="p-5 text-right">
+                                <h2>It's so empty here...</h2>
+                                <p class="mb-5">Enter a name and click the blue button to get started!</p>
+                              </div>
+                            </div>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </th>
+                  </tr>
+                  {% endif %}
                 </tbody>
               </table>
             </div>
-
-
             <div class="card-footer py-4">
               <nav aria-label="...">
                 <ul class="pagination justify-content-end mb-0">
 
-                  <li class="page-item mr-1">
-                    {{ form.name |addclass:'form-control form-control-user; Knotenname'}}
+                  <li class="page-item mr-3">
+                    {{ form.name |addclass:'form-control form-control-user; Name des neuen Baumes'}}
                   </li>
-                  <button type="submit" name="addTree" value='addTree' id="addTree" class="btn btn-primary btn-sm mr-5"><i class="fas fa-plus"></i></button>
-
-
-                  <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1">
-                      <i class="fas fa-angle-left"></i>
-                      <span class="sr-only">Previous</span>
-                    </a>
-                  </li>
-                  <li class="page-item active">
-                    <a class="page-link" href="#">1</a>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                  </li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">
-                      <i class="fas fa-angle-right"></i>
-                      <span class="sr-only">Next</span>
-                    </a>
+                  <li class="page-item mr-3">
+                    <button href="" class="btn btn-primary btn-icon-split btn-sm" value='addTree' id="addTree">
+                      <span class="icon text-white-50">
+                        <i class="fas fa-plus"></i>
+                      </span>
+                      <span class="text">Neuen Baum erstellen</span>
+                    </button>
                   </li>
                 </ul>
               </nav>
             </div>
-            {% else %}
-            <tr>
-              <td></td>
-              <td>noch keine Entscheidungsbäume erstellt</td>
-              <td></td>
-              <td></td>
-            </tr>
-            {% endif %}
           </div>
         </div>
       </div>
@@ -157,9 +156,19 @@
                 'name': name
               },
               success: function (data) {
-                 $(".tree-table tbody").append(data);
-                 var rowCount = $("#tree-counter").first().html();
-                 console.log(rowCount)
+                $(".tree-table tbody").append(data);
+                var rowCount = $("#tree-counter").first().html();
+                $("#empty-table-help").hide();
+
+                // console.log(data);
+                // if (data.match(/^<tr/)) {
+                //   $(".tree-table tbody").append(data);
+                //   var rowCount = $("#tree-counter").first().html();
+                //   $("#empty-table-help").hide();
+                //   console.log(rowCount)
+                // } else {
+                //   console.log("Error")
+                // }
 
                  //$('<div class="item">Item 3</div>').insertAfter('.item:last');
                 // $("#id_name").empty();
@@ -193,6 +202,10 @@
             },
             success: function (data) {
           $('#tr_' + treeId).remove();
+          var rowCount = $("#tree-counter").first().html();
+          $("#empty-table-help").hide();
+          console.log(rowCount);
+
                 }
               });
             });

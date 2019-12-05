@@ -1420,6 +1420,22 @@ pre code {
 .table-hover tbody tr:hover {
   color: #858796;
   background-color: rgba(0, 0, 0, 0.075);
+  cursor: pointer;
+}
+
+.table-hover tbody tr:hover {
+  color: #858796;
+  background-color: rgba(0, 0, 0, 0.075);
+  cursor: pointer;
+}
+
+.disable{
+
+}
+
+#empty-table-help {
+  background-color: rgba(0, 0, 0, 0);
+  cursor: default;
 }
 
 .table-primary,
@@ -10487,7 +10503,7 @@ a:focus {
 }
 
 .btn-icon-split .icon {
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0);
   display: inline-block;
   padding: 0.375rem 0.75rem;
 }

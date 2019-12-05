@@ -14,8 +14,8 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Catamaran';
-  font-weight: 800 !important;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-weight: 600 !important;
 }
 
 .btn-xl {

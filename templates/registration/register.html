@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
+{% load auth_filters %}
 {% load static %}
+
   <div class="container">
 
     <div class="card o-hidden border-0 shadow-lg my-5">
@@ -8,40 +10,83 @@
         <!-- Nested Row within Card Body -->
         <div class="row">
           <div class="col-lg-5 d-none d-lg-block">
-            <img class="img-fluid ml-3 mt-5 p-1" src="{% static 'img/celebration.svg' %}" alt="">
+            <img class="img-fluid ml-3 mt-5 p-1" src="{% static 'img/celebration.svg' %}" alt="Celebration Illustration">
           </div>
           <div class="col-lg-7">
             <div class="p-5">
               <div class="text-center">
                 <h1 class="h4 text-gray-900 mb-4">Yeah, create an Account!</h1>
               </div>
-              <form class="user">
+              <form class="user" method="post">
+                {% csrf_token %}
                 <div class="form-group row">
-                  <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="First Name">
+                  <div class="col-sm-6">
+                    <div class="border-left-danger">
+                      {% for error in form.first_name.errors %}
+                        {{ error }}
+                      {% endfor %}
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="border-left-danger pl-2">
+                    {% for error in form.username.errors %}
+                      {{ error }}<br>
+                    {% endfor %}
                   </div>
                 </div>
-                <div class="form-group">
-                  <input type="email" class="form-control form-control-user" id="exampleInputEmail" placeholder="Email Address">
                 </div>
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
+                    {{ form.first_name |addclass:'form-control form-control-user; First Name'}}
+                  </div>
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    {{ form.username |addclass:'form-control form-control-user; Pick a Username'}}
+                  </div>
+                </div>
+                <div class="form-group row">
+                    <div class="border-left-danger ml-6 pl-2">
+                      {% for error in form.email.errors %}
+                        {{ error }}
+                      {% endfor %}
+                    </div>
+                  </div>
+                <div class="form-group">
+                  {{ form.email |addclass:'form-control form-control-user; Enter Email Address'}}
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-6">
+                    <div class="border-left-danger">
+                      {% for error in form.password1.errors %}
+                        {{ error }}
+                      {% endfor %}
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="border-left-danger pl-2">
+                    {% for error in form.password2.errors %}
+                      {{ error }}<br>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+                <div class="form-group row">
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    {{ form.password1 |addclass:'form-control form-control-user; Password'}}
                   </div>
                   <div class="col-sm-6">
-                    <input type="password" class="form-control form-control-user" id="exampleRepeatPassword" placeholder="Repeat Password">
+                    {{ form.password2 |addclass:'form-control form-control-user; Repeat Password'}}
                   </div>
                 </div>
-                <a href="login.html" class="btn btn-primary btn-user btn-block">
-                  Register Account
-                </a>
+                <button class="btn btn-primary btn-user btn-block" type="submit">Register Account</button>
               </form>
               <hr>
-              <div class="text-center">
+              {% if False %}
+              <div class="text-center" >
                 <a class="small" href="forgot-password.html">Forgot Password?</a>
               </div>
+              {% endif %}
               <div class="text-center">
-                <a class="small" href="login.html">Already have an account? Login!</a>
+                <a class="medium" href="{% url 'login'%}?next=/dashboard">Already have an account? Login!</a>
               </div>
             </div>
           </div>
@@ -54,12 +99,13 @@
 <script type="text/javascript">
 function validateEmail(email) {
   var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
   return re.test(email);
 }
 
 function validate() {
-  var $result = $("#result");
-  var email = $("#email").val();
+  var $result = $(".h4 text-gray-900 mb-4");
+  var email = $("#id_email").val();
   $result.text("");
 
   if (validateEmail(email)) {
@@ -72,11 +118,8 @@ function validate() {
   return false;
 }
 
-$("#validate").on("click", validate);
+$("#validate").on("change", validate);
 </script>
-
-
-/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
 
 {% endblock %}
