@@ -5,8 +5,8 @@ Further information on open-decision.org
 
 ## Table of content
 - [Getting Started](#getting-started)
-    - [Experts, Lawyers, Designers, Ambassadors, Enthusiasts & Unicorns](#for-experts-lawyers-designers-ambassadors-enthusiasts)
-    - [Developers](#for-developers)
+    - [For Experts, Lawyers, Designers, Ambassadors & Enthusiasts](#for-experts-lawyers-designers-ambassadors-enthusiasts)
+    - [For Developers](#for-developers)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Built with](#built-with)
@@ -18,7 +18,7 @@ Further information on open-decision.org
 ## Getting Started
 
 
-### For Experts, Lawyers, Designers, Ambassadors, Enthusiasts
+### For Experts, Lawyers, Designers, Ambassadors & Enthusiasts
 AnswerFormUsedfsdf
 
 ### For Developers
