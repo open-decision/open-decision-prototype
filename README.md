@@ -33,7 +33,7 @@ Further information on open-decision.org
 We are happy about any contributions! Feel free to pick an issue, open a bug report, feature request or fork the project. We are open to any input or suggestions on how to bring the project forward. For further information feel free to join our [Slack-Channel](https://join.slack.com/t/opendecision/shared_invite/enQtNjM2NDUxNTQyNzU4LWYwMzJlZjlhOWJkMmIxMTBmMjYwMDE0Y2Y2OGUyZDBiY2FmOWU4OTVmMDFhMjNhNTIxYWZkZTNkNDRmNjQ4MmM)
 
 
-##Set-up
+## Set-up
 
 The instructions down below will get you a copy of the project up and running on your local machine for development and testing purposes.
 
