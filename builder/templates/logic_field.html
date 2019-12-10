@@ -47,7 +47,7 @@ $('.logic-formset').formset({
 <script>
   $( function() {
     var loadNodesUrl="{% url 'ajax_load_nodes' %}";
-    var selectedTree = $("#selectedTree").val();
+    var selectedTree = $("#selected-tree").val();
     $.ajax({
       url: loadNodesUrl,
       data: {

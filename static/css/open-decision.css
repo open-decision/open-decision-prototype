@@ -1,0 +1,35 @@
+.badge {
+    padding: 5px 12px;
+    font-size: 10px;
+    color: #fff;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.badge-secondary {
+    background-color: #6c757d;
+}
+
+.badge.badge-primary {
+    background-color: #9c27b0;
+}
+
+.badge.badge-info {
+    background-color: #00bcd4;
+}
+
+.badge.badge-success {
+    background-color: #4caf50;
+}
+
+.badge.badge-warning {
+    background-color: #ff9800;
+}
+
+.badge.badge-danger {
+    background-color: #f44336;
+}
+
+.badge.badge-rose {
+    background-color: #e91e63;
+}

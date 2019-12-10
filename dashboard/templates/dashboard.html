@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-{% load auth_filters %}
+{% load custom_filters %}
 {% load static %}
 <div id="trees"
   <div class="main-content">
@@ -27,7 +27,7 @@
                 <tbody>
                   {% if decisiontree_list %}
                         {% for decisiontree in decisiontree_list %}
-                  <tr id="tr_{{ decisiontree.id }}"  onclick="window.location='/trees/{{ decisiontree.slug }}'">
+                    <tr id="tr_{{ decisiontree.id }}" class="tr-clickable" data-href='/trees/{{ decisiontree.slug }}'>
                     <th scope="row">
                       <div class="media align-items-center">
                         <div class="media-body">
@@ -57,17 +57,17 @@
                       </a>
                     </td>
                     <td class="text-center">
-                      <div class="dropdown">
-                        <a class="btn btn-sm btn-icon-only text-dark" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <i class="fas fa-ellipsis-v"></i>
+                      <div class="dropdown no-bubbling">
+                        <a class="btn btn-sm btn-icon-only text-dark no-bubbling" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="fas fa-ellipsis-v no-bubbling"></i>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-left shadow animated--fade-in">
-                          <a class="dropdown-item" type="button" data-toggle="modal" data-target="#deleteModal" tree-id="{{ decisiontree.id }}" tree-name="{{ decisiontree.name }}">
-                            <i class="far fa-trash-alt"></i>
+                        <div class="dropdown-menu dropdown-menu-left shadow animated--fade-in no-bubbling">
+                          <a class="dropdown-item no-bubbling" type="button" data-toggle="modal" data-target="#deleteModal" tree-id="{{ decisiontree.id }}" tree-name="{{ decisiontree.name }}">
+                            <i class="far fa-trash-alt no-bubbling"></i>
                             Löschen
                           </a>
-                          <a class="dropdown-item" href="/trees/{{ decisiontree.slug }}/export">
-                            <i class="fas fa-download"></i>
+                          <a class="dropdown-item" href="/trees/{{ decisiontree.slug }}/export" data-click="">
+                            <i class="fas fa-download" data-click=""></i>
                             Exportieren
                           </a>
                         </div>
@@ -147,6 +147,16 @@
 
     <script>
     $(document).ready(function(){
+
+      // Make the table rows clickable
+    $('.tr-clickable').click(function(e){
+      console.log("Clicked")
+      // Do not react to clicks on elements with no-bubbling class (the dropdown menu)
+      if (!$(e.target).hasClass("no-bubbling")){
+         window.location = $(this).attr('data-href');
+      };
+    });
+
       $("#addTree").click(function () {
         var name = $("#id_name").val();
             $.post({

@@ -16,7 +16,7 @@ def node_create_view(request, slug):
         NodeButtonFormSet = formset_factory(ButtonAnswersForm)
         context = {
         'form': node_form,
-        'selected_tree': DecisionTree.objects.filter(slug=slug).values()[0]
+        'selected_tree': DecisionTree.objects.filter(slug=slug).values()[0],
         }
         return render(request, 'node_create.html', context)
     elif request.method == 'POST' and request.POST.get('save'):
@@ -25,9 +25,11 @@ def node_create_view(request, slug):
 
 @login_required
 def node_edit_view(request, slug, node_slug):
+
     if request.method == 'GET':
         data_node = Node.objects.get(slug=node_slug)
         input_type = data_node.input_type
+        print([[n.name, n.slug] for n in Node.objects.filter(decision_tree__slug=slug)])
         if input_type == '':
             input_type = 'button'
         node_form = NodeForm({'name': data_node.name, 'question': data_node.question, 'input_type': data_node.input_type})
@@ -41,10 +43,17 @@ def node_edit_view(request, slug, node_slug):
             'edit': 'true',
             }
         return render(request, 'node_create.html', context)
+
     elif request.method == 'POST' and request.POST.get('save'):
             id = Node.objects.get(slug=node_slug).id
             save_node(request, slug, id)
             return redirect('/trees/'+str(slug)+'/')
+
+@login_required
+def load_token(request):
+    selected_tree = request.GET.get('selected_tree')
+    data = [[n.name, n.slug] for n in Node.objects.filter(decision_tree__slug=selected_tree)]
+    return JsonResponse(data, safe=False)
 
 
 @login_required
@@ -151,6 +160,7 @@ def load_logic_field(request, *args):
 
 @login_required
 def load_nodes(request):
+    print (request.GET)
     selected_tree = request.GET['selected_tree']
     data_all = Node.objects.filter(decision_tree__slug=selected_tree).values()
     data = []

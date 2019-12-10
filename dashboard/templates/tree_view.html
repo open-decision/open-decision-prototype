@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-{% load auth_filters %}
+{% load custom_filters %}
 {% load static %}
 <div id="trees"
   <div class="main-content">
@@ -26,7 +26,7 @@
                 <tbody>
                   {% if existing_nodes or new_nodes%}
                         {% for node in existing_nodes %}
-                  <tr id="tr_{{ node.id }}" onclick="window.location='{{ node.slug }}/edit'">
+                  <tr id="tr_{{ node.id }}" class="tr-clickable" data-href='{{ node.slug }}/edit'>
                     <th scope="row">
                       <div class="media align-items-center">
                         <div class="media-body">
@@ -35,7 +35,7 @@
                       </div>
                     </th>
                     <td>
-                      {{ node.name |truncatechars:40 }}<br>{% if node.start_node %}<sub>Startknoten</sub>{% endif %}
+                      {{ node.name |truncatechars:40 }}<br>{% if node.start_node %}<span class="badge badge-pill badge-secondary">Startknoten</span>{% endif %}
                     </td>
                     <td>
                       <span class="d-flex align-items-center">
@@ -52,12 +52,12 @@
                     </td>
                     <td class="text-center">
                       <div class="dropdown">
-                        <a class="btn btn-sm btn-icon-only text-dark" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <i class="fas fa-ellipsis-v"></i>
+                        <a class="btn btn-sm btn-icon-only text-dark no-bubbling" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="fas fa-ellipsis-v no-bubbling"></i>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-left shadow animated--fade-in">
-                          <a class="dropdown-item" type="button" data-toggle="modal" data-target="#deleteModal" node-id="{{ node.id }}" node-name="{{ node.name }}">
-                            <i class="far fa-trash-alt"></i>
+                        <div class="dropdown-menu dropdown-menu-left shadow animated--fade-in no-bubbling">
+                          <a class="dropdown-item no-bubbling" type="button" data-toggle="modal" data-target="#deleteModal" node-id="{{ node.id }}" node-name="{{ node.name }}">
+                            <i class="far fa-trash-alt no-bubbling"></i>
                             Löschen
                           </a>
                         </div>
@@ -67,7 +67,7 @@
                   {% endfor %}
                   {% if new_nodes%}
                     {% for node in new_nodes %}
-                    <tr id="tr_{{ node.id }}" onclick="window.location='{{ node.slug }}/edit'">
+                    <tr id="tr_{{ node.id }}" class="tr-clickable" data-href='{{ node.slug }}/edit'>
                       <th scope="row">
                         <div class="media align-items-center">
                           <div class="media-body">
@@ -92,13 +92,13 @@
                         </a>
                       </td>
                       <td class="text-center">
-                        <div class="dropdown">
-                          <a class="btn btn-sm btn-icon-only text-dark" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-ellipsis-v"></i>
+                        <div class="dropdown no-bubbling">
+                          <a class="btn btn-sm btn-icon-only text-dark no-bubbling"href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v no-bubbling"></i>
                           </a>
-                          <div class="dropdown-menu dropdown-menu-left shadow animated--fade-in">
-                            <a class="dropdown-item" type="button" data-toggle="modal" data-target="#deleteModal" node-id="{{ node.id }}" node-name="{{ node.name }}">
-                              <i class="far fa-trash-alt"></i>
+                          <div class="dropdown-menu dropdown-menu-left shadow animated--fade-in no-bubbling">
+                            <a class="dropdown-item no-bubbling" type="button" data-toggle="modal" data-target="#deleteModal" node-id="{{ node.id }}" node-name="{{ node.name }}">
+                              <i class="far fa-trash-alt no-bubbling"></i>
                               Löschen
                             </a>
                           </div>
@@ -108,7 +108,7 @@
                     {% endfor %}
                   {% endif %}
               {% else %}
-                  <tr class="disabled" id="empty-table-help">
+                  <tr id="empty-table-help">
                     <th scope="row">
                       <td>
                         <div class="container">
@@ -184,6 +184,14 @@
     <script>
     $(document).ready(function(){
 
+      // Make the table rows clickable
+      $('.tr-clickable').click(function(e){
+        // Do not react to clicks on elements with no-bubbling class (the dropdown menu)
+        if (!$(e.target).hasClass("no-bubbling")){
+           window.location = $(this).attr('data-href');
+        };
+      });
+
     //triggered when modal is about to be shown
     $('#deleteModal').on('show.bs.modal', function(e) {
       //get data-id attribute of the clicked element
@@ -194,13 +202,12 @@
       $(e.currentTarget).find('#deleteNode').attr('node-id', nodeId);
     });
 
-
-    $("#deleteNode").click(function(){
-
+    // Deletes node via AJAX and than removes the list entry
+    $('#deleteNode').click(function(){
     var nodeId = $(this).attr('node-id');
 
     $.ajax({
-      url: "{% url 'ajax_delete_node' %}",
+      url: '{% url 'ajax_delete_node' %}',
       type: "POST",
       data: {
         'node_id': nodeId,
@@ -212,5 +219,6 @@
         });
       });
     });
+
     </script>
     {% endblock %}
