@@ -1,14 +1,4 @@
 /*general*/
-  body {
-    height: 100%;
-    width: 100%;
-    display: table;
-    table-layout: fixed;
-  }
-
-  html {
-    height: 100%;
-  }
 
   .flex-container {
     display: flex;
@@ -24,30 +14,7 @@
 
 /*general END*/
 
-
 /*basic setup*/
-
-/*
-#logo {
-  float:right;
-  padding:0.3em 0 0.1em 0;"
-}
-
-@media screen and (max-width: 420px){
-  #logo {
-    width:100%;
-    padding:0.1em;
-  }
-}
-*/
-
-  .topbar, .navbar, .main, .footer {
-    display: table-row;
-  }
-
-  .main {
-    height: 100%;
-  }
 
   .pageheader {
     margin-top:1em;
@@ -92,9 +59,46 @@
 
 }
 
-
 /*basic elements END*/
 
+/*badges*/
+
+.badge {
+    padding: 5px 12px;
+    font-size: 10px;
+    color: #fff;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.badge-secondary {
+    background-color: #6c757d;
+}
+
+.badge.badge-primary {
+    background-color: #9c27b0;
+}
+
+.badge.badge-info {
+    background-color: #00bcd4;
+}
+
+.badge.badge-success {
+    background-color: #4caf50;
+}
+
+.badge.badge-warning {
+    background-color: #ff9800;
+}
+
+.badge.badge-danger {
+    background-color: #f44336;
+}
+
+.badge.badge-rose {
+    background-color: #e91e63;
+}
+/*badges END */
 
 /*node_create form*/
 
