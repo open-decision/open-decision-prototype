@@ -19,7 +19,7 @@
         dialog:"placeholder",
         pathName:b.pathName,
         template:
-        '<span class="cke_placeholder">{}</span>',
+        '<span class="cke_placeholder">{explanation}{name}</span>',
         downcast:
         function()
         {

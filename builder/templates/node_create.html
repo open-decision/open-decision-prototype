@@ -2,6 +2,7 @@
 {% load static %}
 {% block content %}
 {% load custom_filters %}
+
 <form method="POST" id='nodeForm' answer-form-url="{% url 'ajax_load_answer_field' %}" logic-form-url="{% url 'ajax_load_logic_field' %}" load-nodes-url="{% url 'ajax_load_nodes' %}">{%csrf_token%}
 {{ form.media }}
 <h2 class="pageheader"><a href="/trees/{{ selected_tree.slug }}" class="back_button">&#x2190;</a> Bearbeitung von {{ form.name }}{{ form.name.errors }}</h2>
@@ -40,8 +41,6 @@
   </div>
 </div>
 
-<!--FEHLT: bei "+" script zu neue Antwort / neue Logik-->
-
 {{ form.non_field_errors }}<!--creates ul (class="errorlist nonfield") with nonfield errors-->
 
 {% if edit == 'true' %}
@@ -51,20 +50,19 @@
 </form>
 
 <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
-<script type="text/javascript" src="{% static 'ckeditor/ckeditor/adapters/jquery.js' %}"></script>
 
 
 <script>
 $(document).ready(function(){
 
-CKEDITOR.on('dialogDefinition', function(event) {
+$.fn.loadForms();
 
+CKEDITOR.on('dialogDefinition', function(event) {
   if ('token' == event.data.name) {
     //if ($('#available_tokens').val() == '') {
 var tokenUrl = $('#available_token').attr("data-token-url");
 var selectedTree = $('#selected-tree').val();
-var data2
-;
+
       $.ajax({
         url: tokenUrl,
         async: false,
@@ -74,46 +72,17 @@ var data2
         success: function (data) {
           $("#available_token").html(data);
           var input = event.data.definition.getContents('info').get('name');
-          input.type = 'select';
           input.items = data;
           input.setup = function() {
           this.setValue(data[0][0]);
         }
-
       }
     });
-
-    }
-
-  });
-
-
+  }
+});
 
   $("#id_input_type").change(function () {
-        var logicFormUrl = $("#nodeForm").attr("logic-form-url");
-        var answerFormUrl = $("#nodeForm").attr("answer-form-url");
-        var inputType = $(this).val();
-
-        $.ajax({
-          url: logicFormUrl,
-          data: {
-            'input_type': inputType
-          },
-          success: function (data) {
-            $("#logic-formset").html(data);
-          }
-        });
-
-
-        $.ajax({
-          url: answerFormUrl,
-          data: {
-            'input_type': inputType
-          },
-          success: function (data) {
-            $("#answer-formset").html(data);
-          }
-        });
+    $.fn.loadForms();
       });
 
       $("#add_a_2").click(function() {
@@ -145,6 +114,31 @@ var data2
         };
 });
    });
+   $.fn.loadForms = function(){
+     var logicFormUrl = $("#nodeForm").attr("logic-form-url");
+     var answerFormUrl = $("#nodeForm").attr("answer-form-url");
+     var inputType = $("#id_input_type").val();
+
+     $.ajax({
+       url: logicFormUrl,
+       data: {
+         'input_type': inputType
+       },
+       success: function (data) {
+         $("#logic-formset").html(data);
+       }
+     });
+
+     $.ajax({
+       url: answerFormUrl,
+       data: {
+         'input_type': inputType
+       },
+       success: function (data) {
+         $("#answer-formset").html(data);
+       }
+     });
+   };
 
 </script>
 

@@ -29,7 +29,6 @@ def node_edit_view(request, slug, node_slug):
     if request.method == 'GET':
         data_node = Node.objects.get(slug=node_slug)
         input_type = data_node.input_type
-        print([[n.name, n.slug] for n in Node.objects.filter(decision_tree__slug=slug)])
         if input_type == '':
             input_type = 'button'
         node_form = NodeForm({'name': data_node.name, 'question': data_node.question, 'input_type': data_node.input_type})
@@ -160,7 +159,6 @@ def load_logic_field(request, *args):
 
 @login_required
 def load_nodes(request):
-    print (request.GET)
     selected_tree = request.GET['selected_tree']
     data_all = Node.objects.filter(decision_tree__slug=selected_tree).values()
     data = []
