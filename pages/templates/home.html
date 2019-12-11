@@ -1,10 +1,82 @@
 {% extends 'base.html' %}
 {%block content%}
+{% load static %}
 
-<h2 class="pageheader">open decision</h2>
-  <br>
-  <p style="color:grey;">by Finn Schädlich and Aaron Rothmann</p>
-  <p>tba</p>
-{%endblock%}
-{%block test%}
+<link href="{% static 'css/one-page-wonder.css' %}" rel="stylesheet">
+
+<header class="masthead text-center text-white">
+  <div class="masthead-content">
+    <h2 class="masthead-heading mb-0">Open Decision</h2>
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-6 order-lg-1">
+            <div class="p-1">
+              <img class="img-fluid" src="{% static 'img/decision_tree.svg' %}" alt="">
+            </div>
+          </div>
+          <div class="col-lg-6 order-lg-2">
+            <div class="p-1">
+              <h2 class="display-4">Civil Legal Tech</h2>
+              <p>Mit dem Projekt open decision soll eine Open-Source-Plattform zur Entscheidungsautomatisierung geschaffen werden. Mittels einer intuitiven Weboberfläche können Experten spezifische Fragestellungen in komplexe Entscheidungsbäume aufbereiten. Diese können in ein offenes Datenformat exportiert und Nutzern online oder per App in Form einer Abfrage präsentiert werden.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    <a href="{% url 'login'%}?next=/dashboard" class="btn btn-primary btn-xl rounded-pill mt-1">Try now</a>
+    </div>
+</header>
+
+<section>
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 order-lg-2">
+        <div class="p-5">
+          <img class="img-fluid" src="{% static 'img/g1.svg' %}" alt="">
+        </div>
+      </div>
+      <div class="col-lg-6 order-lg-1">
+        <div class="p-5">
+          <h2 class="display-4">Easy solution for legal issues</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <div class="p-5">
+          <img class="img-fluid" src="{% static 'img/chat_bot.svg' %}" alt="">
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="p-5">
+          <h2 class="display-4">Modern technologies!</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 order-lg-2">
+        <div class="p-5">
+          <img class="img-fluid" src="{% static 'img/judge.svg' %}" alt="">
+        </div>
+      </div>
+      <div class="col-lg-6 order-lg-1">
+        <div class="p-5">
+          <h2 class="display-4">Justice for everyone</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 {%endblock%}

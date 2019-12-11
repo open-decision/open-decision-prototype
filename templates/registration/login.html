@@ -1,40 +1,71 @@
 {% extends "base.html" %}
-
 {% block content %}
-  <h2 class="pageheader">Login</h2>
-{% if form.errors %}
-  <p>Your username and password didn't match. Please try again.</p>
-{% endif %}
+{% load custom_filters %}
+{% load static %}
 
-{% if next %}
-  {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
-  {% else %}
-    <p>Please login to see this page.</p>
-  {% endif %}
-{% endif %}
+  <div class="container">
 
-<form method="post" action="{% url 'login' %}">
-{% csrf_token %}
-<table>
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
 
-<tr>
-  <td>{{ form.username.label_tag }}</td>
-  <td>{{ form.username }}</td>
-</tr>
+      <div class="col-xl-10 col-lg-12 col-md-9">
 
-<tr>
-  <td>{{ form.password.label_tag }}</td>
-  <td>{{ form.password }}</td>
-</tr>
-</table>
+        <div class="card o-hidden border-0 shadow-lg my-5">
+          <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+              <div class="col-lg-6 d-none d-lg-block">
+                <img class="img-fluid mt-3 p-5" src="{% static 'img/login.svg' %}" alt="Login Illustration">
+              </div>
+              <div class="col-lg-6">
+                <div class="p-5">
+                  <div class="text-center">
+                    <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                  </div>
 
-<input type="submit" value="login" />
-<input type="hidden" name="next" value="{{ next }}" />
-</form>
+                  {% if form.errors %}
+                  <div class="border-left-danger pl-2">
+                    <p>Your username and password didn't match. Please try again.</p>
+                  </div>
+                  {% endif %}
 
-{# Assumes you setup the password_reset view in your URLconf #}
-<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+                  {% if next %}
+                    {% if user.is_authenticated %}
+                      <p>Your account doesn't have access to this page. To proceed,
+                      please login with an account that has access.</p>
+                    {% endif %}
+                  {% endif %}
 
+                    <form class="user" method="post" action="{% url 'login' %}">
+                      {% csrf_token %}
+                    <div class="form-group">
+                      <!-- addclass takes to arguments, first the css class, second the placeholder -->
+                      {{ form.username |addclass:'form-control form-control-user; Enter Username' }}
+                    </div>
+                    <div class="form-group">
+                      {{ form.password |addclass:'form-control form-control-user; Password' }}
+                    </div>
+                    <input type="hidden" name="next" value="{{ next }}"/>
+                    <input type="submit" value="Login" class="btn btn-primary btn-user btn-block">
+                  </form>
+                  <hr class="pt-2 pb-1">
+                  {% if False %}
+                  <div class="text-center">
+                    <a class="small" href="{% url 'password_reset' %}">Forgot Password?</a>
+                  </div>
+                  {% endif %}
+                  <div class="text-center">
+                    <a class="medium" href="{% url 'register_user' %}">Create an Account!</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
 {% endblock %}

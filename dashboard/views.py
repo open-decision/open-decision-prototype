@@ -9,6 +9,7 @@ from django.db.models import Count
 import json
 from django.http import HttpResponse
 from .models import bleach_clean
+from django.db import IntegrityError
 
 @login_required
 def dashboard_view(request):
@@ -23,10 +24,13 @@ def dashboard_view(request):
 @login_required
 def add_tree(request):
     f = DecisionTreeForm(request.POST)
-    if f.is_valid():
-        tree = f.save(commit=False)
-        tree.owner = request.user
-        tree.save()
+    try:
+        if f.is_valid():
+            tree = f.save(commit=False)
+            tree.owner = request.user
+            tree.save()
+    except IntegrityError as e:
+        return HttpResponse('<div class="border-left-danger pl-2"><p>Bitte wähle einen anderen Namen, dieser ist bereits vergeben.</p></div>')
     context = {
      'decisiontree_list': DecisionTree.objects.filter(id=tree.id)
      }
@@ -42,7 +46,6 @@ def delete_tree (request):
 
 @login_required
 def tree_view(request, slug):
-
     existing_nodes = Node.objects.filter(decision_tree__slug=slug).filter(new_node=False)
     new_nodes = Node.objects.filter(decision_tree__slug=slug).filter(new_node=True)
     if request.method == 'GET':

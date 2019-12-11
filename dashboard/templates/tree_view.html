@@ -1,106 +1,224 @@
 {% extends "base.html" %}
 {% block content %}
-  <h2 class="pageheader"><a href="/dashboard" class="back_button">&#x2190;</a> Knotenübersicht von: {{ selected_tree.name}}</h2>
-<div id="nodes">
-  {% if existing_nodes or new_nodes%}
-  <table class="table"><!---fix length issue (long names break table)--->
-  <thead>
-    <tr id="tr_{{ node.id }}">
-      <th style="border-top:none;" scope="col">#</th>
-      <th style="border-top:none;text-align:left;" scope="col">Knotenname</th>
-      <th style="border-top:none;text-align:left;" scope="col">Frage</th>
-      <th style="border-top:none;text-align:left;" scope="col"></th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for node in existing_nodes %}
-      <tr id="tr_{{ node.id }}">
-        <th scope="row">{{ forloop.counter }}</th>
-        <td>{{ node.name |truncatechars:40 }}</td>
-        <td>{{ node.question |truncatechars:80 |safe }}</td>
-        <td><nobr>
-          <a class="btn btn-primary btn-sm" href="{{ node.slug }}/edit" role="button">Bearbeiten</a>
-          <button type="submit" name="" data-toggle="modal" data-target="#deleteModal" node-id="{{ node.id }}" node-name="{{ node.name }}" class="btn btn-primary btn-sm">x</button>
-        </nobr></td>
-        {% if node.start_node %}<td>Startknoten</td>{% endif %}
-      </tr>
-    {% endfor %}
-  {% if new_nodes%}
-    {% for node in new_nodes %}
-    <tr id="tr_{{ node.id }}">
-      <th style="color:red;" scope="row">{{ forloop.counter}}</th>
-      <td style="color:red;">{{ node.name |truncatechars:40}}</td>
-      <td style="color:red;">{{ node.question |truncatechars:80}}</td>
-      <td><nobr>
-        <a class="btn btn-primary btn-sm" href="{{ node.slug }}/edit" role="button">Bearbeiten</a>
-        <button type="submit" data-toggle="modal" data-target="#deleteModal" node-id="{{ node.id }}" node-name="{{ node.name }}" class="btn btn-primary btn-sm">x</button>
-      </nobr></td>
-    </tr>
-    {% endfor %}
-      </tbody>
-{% endif %}
-</table>
-  {% else %}
-    <p>Du hast noch keine Knoten erstellt.</p>
-    <p>Der erste Knoten, den Du erstellst, wird automatisch zum Startknoten - dort wird der Entscheidungsbaum beginnen.</p>
+{% load custom_filters %}
+{% load static %}
+<div id="trees"
+  <div class="main-content">
+    <div class="container mt-7">
+      <!-- Table -->
+      <div class="row">
+        <div class="col">
+          <div class="card shadow">
+            <div class="card-header border-0">
+              <h3 class="mb-0"><a href="/dashboard" class="back_button">&#x2190;</a> Knotenübersicht von: {{ selected_tree.name}}</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="table align-items-center table-flush tree-table table-hover">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Knotenname</th>
+                    <th scope="col">Frage</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% if existing_nodes or new_nodes%}
+                        {% for node in existing_nodes %}
+                  <tr id="tr_{{ node.id }}" class="tr-clickable" data-href='{{ node.slug }}/edit'>
+                    <th scope="row">
+                      <div class="media align-items-center">
+                        <div class="media-body">
+                          <span class="mb-0 text-sm" id="tree-counter">{{ forloop.counter }}</span>
+                        </div>
+                      </div>
+                    </th>
+                    <td>
+                      {{ node.name |truncatechars:40 }}<br>{% if node.start_node %}<span class="badge badge-pill badge-secondary">Startknoten</span>{% endif %}
+                    </td>
+                    <td>
+                      <span class="d-flex align-items-center">
+                        {{ node.question |truncatechars:60 |safe }}
+                      </span>
+                    </td>
+                    <td>
+                      <a href="{{ node.slug }}/edit" class="btn btn-primary btn-icon-split btn-sm">
+                        <span class="icon text-white-50">
+                          <i class="far fa-edit"></i>
+                        </span>
+                        <span class="text">Bearbeiten</span>
+                      </a>
+                    </td>
+                    <td class="text-center">
+                      <div class="dropdown">
+                        <a class="btn btn-sm btn-icon-only text-dark no-bubbling" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="fas fa-ellipsis-v no-bubbling"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-left shadow animated--fade-in no-bubbling">
+                          <a class="dropdown-item no-bubbling" type="button" data-toggle="modal" data-target="#deleteModal" node-id="{{ node.id }}" node-name="{{ node.name }}">
+                            <i class="far fa-trash-alt no-bubbling"></i>
+                            Löschen
+                          </a>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                  {% if new_nodes%}
+                    {% for node in new_nodes %}
+                    <tr id="tr_{{ node.id }}" class="tr-clickable" data-href='{{ node.slug }}/edit'>
+                      <th scope="row">
+                        <div class="media align-items-center">
+                          <div class="media-body">
+                            <span class="mb-0 text-sm" id="tree-counter">{{ forloop.counter }}</span>
+                          </div>
+                        </div>
+                      </th>
+                      <td>
+                        {{ node.name |truncatechars:40 }}<br><sub>Neuer Knoten</sub>
+                      </td>
+                      <td>
+                        <span class="d-flex align-items-center">
+                          {{ node.question |truncatechars:80 |safe }}
+                        </span>
+                      </td>
+                      <td>
+                        <a href="{{ node.slug }}/edit" class="btn btn-primary btn-icon-split btn-sm">
+                          <span class="icon text-white-50">
+                            <i class="far fa-edit"></i>
+                          </span>
+                          <span class="text">Bearbeiten</span>
+                        </a>
+                      </td>
+                      <td class="text-center">
+                        <div class="dropdown no-bubbling">
+                          <a class="btn btn-sm btn-icon-only text-dark no-bubbling"href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v no-bubbling"></i>
+                          </a>
+                          <div class="dropdown-menu dropdown-menu-left shadow animated--fade-in no-bubbling">
+                            <a class="dropdown-item no-bubbling" type="button" data-toggle="modal" data-target="#deleteModal" node-id="{{ node.id }}" node-name="{{ node.name }}">
+                              <i class="far fa-trash-alt no-bubbling"></i>
+                              Löschen
+                            </a>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  {% endif %}
+              {% else %}
+                  <tr id="empty-table-help">
+                    <th scope="row">
+                      <td>
+                        <div class="container">
+                          <div class="row align-items-center">
+                            <div class="col-lg-6 order-lg-1">
+                              <div class="p-5">
+                                <img class="img-fluid" src="{% static 'img/blank_canvas.svg' %}" alt="Empty List Illustration">
+                              </div>
+                            </div>
+                            <div class="col-lg-6 order-lg-2">
+                              <div class="p-5 text-center">
+                                <h2>It feels so empty here...</h2>
+                                <p class="mb-5">Let's click the blue button and create a new Node!</p>
+                                <i class="fas fa-arrow-down fa-4x mt-5"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </th>
+                  </tr>
+                  {% endif %}
+                </tbody>
+              </table>
+            </div>
+            <div class="card-footer py-4">
+              <nav aria-label="...">
+                <ul class="pagination justify-content-end mb-0">
+                  <li class="page-item mr-3">
+                    <a href="create" class="btn btn-primary btn-icon-split btn-sm">
+                      <span class="icon text-white-50">
+                        <i class="fas fa-plus"></i>
+                      </span>
+                      <span class="text">Neuen Knoten erstellen</span>
+                    </a>
+                  </li>
+                  <li class="page-item mr-3">
 
-  {% endif %}
-</div>
-<a class="btn btn-primary btn-sm btn-block" role="button" href="create">Neuen Knoten erstellen</a>
-<a class="btn btn-primary" href="export" role="button" style="background-color:green">Baum exportieren</a>
-&nbsp;
-
-
-<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Bestätigen</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
-        <button type="button" class="btn btn-primary btn-danger" data-dismiss="modal" id=deleteNode>Löschen</button>
+                    <a href="export" class="btn btn-success btn-icon-split btn-sm">
+                      <span class="icon text-white-50">
+                        <i class="fas fa-download"></i>
+                      </span>
+                      <span class="text">Baum exportieren</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+    </div>
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Bestätigen</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+            <button type="button" class="btn btn-primary btn-danger" data-dismiss="modal" id=deleteNode>Löschen</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
+    <script>
+    $(document).ready(function(){
 
-<script>
-$(document).ready(function(){
+      // Make the table rows clickable
+      $('.tr-clickable').click(function(e){
+        // Do not react to clicks on elements with no-bubbling class (the dropdown menu)
+        if (!$(e.target).hasClass("no-bubbling")){
+           window.location = $(this).attr('data-href');
+        };
+      });
 
-//triggered when modal is about to be shown
-$('#deleteModal').on('show.bs.modal', function(e) {
-  //get data-id attribute of the clicked element
-  var nodeId = $(e.relatedTarget).attr('node-id');
-  var nodeName = $(e.relatedTarget).attr('node-name');
-  //populate the textbox
-  $(e.currentTarget).find('.modal-body').html('<p>Soll der Knoten <b>' + nodeName + '</b> wirklich gelöscht werden?</p>');
-  $(e.currentTarget).find('#deleteNode').attr('node-id', nodeId);
-});
-
-
-$("#deleteNode").click(function(){
-
-var nodeId = $(this).attr('node-id');
-
-$.ajax({
-  url: "{% url 'ajax_delete_node' %}",
-  type: "POST",
-  data: {
-    'node_id': nodeId,
-    csrfmiddlewaretoken: '{{ csrf_token }}',
-  },
-  success: function (data) {
-$('#tr_'+nodeId).remove();
-      }
+    //triggered when modal is about to be shown
+    $('#deleteModal').on('show.bs.modal', function(e) {
+      //get data-id attribute of the clicked element
+      var nodeId = $(e.relatedTarget).attr('node-id');
+      var nodeName = $(e.relatedTarget).attr('node-name');
+      //populate the textbox
+      $(e.currentTarget).find('.modal-body').html('<p>Soll der Knoten <b>' + nodeName + '</b> wirklich gelöscht werden?</p>');
+      $(e.currentTarget).find('#deleteNode').attr('node-id', nodeId);
     });
-  });
-});
-</script>
-{% endblock %}
+
+    // Deletes node via AJAX and than removes the list entry
+    $('#deleteNode').click(function(){
+    var nodeId = $(this).attr('node-id');
+
+    $.ajax({
+      url: '{% url 'ajax_delete_node' %}',
+      type: "POST",
+      data: {
+        'node_id': nodeId,
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+      },
+      success: function (data) {
+    $('#tr_'+nodeId).remove();
+          }
+        });
+      });
+    });
+
+    </script>
+    {% endblock %}
