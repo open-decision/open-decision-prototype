@@ -1,4 +1,4 @@
-# Contributing to Atom
+# Contributing to Open Decision
 Thanks for taking the time to contribute!
 
 The following is a set of guidelines for contributing.
