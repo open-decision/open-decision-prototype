@@ -179,7 +179,7 @@ CKEDITOR_CONFIGS = {
             'dialogui',
             'placeholder',
             'abbr',
-            #'token',
+            'token',
         ]),
     }
 }
