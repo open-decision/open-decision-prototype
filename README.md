@@ -23,14 +23,13 @@ Further information on open-decision.org
 
 ## Participate
 
-
 ### For Experts, Lawyers, Designers, Ambassadors, Enthusiasts
 
-
+We are currently preparing everything for your contributions. Please join the [Slack-Channel](https://join.slack.com/t/opendecision/shared_invite/enQtNjM2NDUxNTQyNzU4LWYwMzJlZjlhOWJkMmIxMTBmMjYwMDE0Y2Y2OGUyZDBiY2FmOWU4OTVmMDFhMjNhNTIxYWZkZTNkNDRmNjQ4MmM) to stay up to date.
 
 ### For Developers
 
-We are happy about any contributions! Feel free to pick an issue, open a bug report, feature request or fork the project. We are open to any input or suggestions on how to bring the project forward. For further information feel free to join our [Slack-Channel](https://join.slack.com/t/opendecision/shared_invite/enQtNjM2NDUxNTQyNzU4LWYwMzJlZjlhOWJkMmIxMTBmMjYwMDE0Y2Y2OGUyZDBiY2FmOWU4OTVmMDFhMjNhNTIxYWZkZTNkNDRmNjQ4MmM)
+We are happy about any contributions! Feel free to pick an issue, open a bug report, feature request or fork the project. We are open to any input or suggestions on how to bring the project forward. For further information join our [Slack-Channel](https://join.slack.com/t/opendecision/shared_invite/enQtNjM2NDUxNTQyNzU4LWYwMzJlZjlhOWJkMmIxMTBmMjYwMDE0Y2Y2OGUyZDBiY2FmOWU4OTVmMDFhMjNhNTIxYWZkZTNkNDRmNjQ4MmM)
 
 
 ## Set-up
@@ -82,7 +81,12 @@ python manage.py runserver
 ```
 
 Now you can create an account and start playing around with Open Decision!
+You can use the demo-account to get a first impression:
 
+```
+User: Testperson
+Password: Mustermann1
+```
 
 ## Built With
 
