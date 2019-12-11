@@ -55,7 +55,9 @@
 <script>
 $(document).ready(function(){
 
+{% if edit != 'true' %}
 $.fn.loadForms();
+{% endif %}
 
 CKEDITOR.on('dialogDefinition', function(event) {
   if ('token' == event.data.name) {
