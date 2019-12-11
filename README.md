@@ -79,9 +79,9 @@ Now start the Django development server and enjoy!
 # Start the development server
 python manage.py runserver
 ```
+Access the server at [http://localhost:8000](http://localhost:8000) or [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
-Now you can create an account and start playing around with Open Decision!
-You can use the demo-account to get a first impression:
+Now you can create an account and start playing around or use the demo-account to get a first impression:
 
 ```
 User: Testperson
