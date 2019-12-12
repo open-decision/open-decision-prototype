@@ -8,6 +8,7 @@ Further information on open-decision.org
 - [Participate](#participate)
     - [Experts, Lawyers, Designers, Ambassadors, Enthusiasts & Unicorns](#for-experts-lawyers-designers-ambassadors-enthusiasts)
     - [Developers](#for-developers)
+    - [Experts](#for-experts)
 - [Set-Up](#set-up)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
@@ -31,6 +32,9 @@ We are currently preparing everything for your contributions. Please join the [S
 
 We are happy about any contributions! Feel free to pick an issue, open a bug report, feature request or fork the project. We are open to any input or suggestions on how to bring the project forward. For further information join our [Slack-Channel](https://join.slack.com/t/opendecision/shared_invite/enQtNjM2NDUxNTQyNzU4LWYwMzJlZjlhOWJkMmIxMTBmMjYwMDE0Y2Y2OGUyZDBiY2FmOWU4OTVmMDFhMjNhNTIxYWZkZTNkNDRmNjQ4MmM)
 
+### For Experts
+
+Non-code contributions such as research on the automatisation of fields of law or other fields of work are coordinated via [Trello](https://trello.com/invite/opendecision/2de51a8fbeacf13b9ee1ee24a23cfe71).
 
 ## Set-up
 
