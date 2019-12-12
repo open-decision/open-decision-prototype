@@ -18,10 +18,6 @@ There is however no reason to restrict the software to one country and one langu
 Communication on [Slack](https://join.slack.com/t/opendecision/shared_invite/enQtNjM2NDUxNTQyNzU4LWYwMzJlZjlhOWJkMmIxMTBmMjYwMDE0Y2Y2OGUyZDBiY2FmOWU4OTVmMDFhMjNhNTIxYWZkZTNkNDRmNjQ4MmM)
 and other Channels is in german, although english is equally fine.
 
-## Issue Templates
-
-Before Submitting an Issue please see our Issue Templates for [Feature Requests](.github/ISSUE_TEMPLATE/feature_request.md) and [Bug Reports](.github/ISSUE_TEMPLATE/bug_report.md).
-
 ## Coding Conventions and Styleguides
 
 tba
