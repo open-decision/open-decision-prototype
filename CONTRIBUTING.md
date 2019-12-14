@@ -21,3 +21,7 @@ and other Channels is in german, although english is equally fine.
 ## Coding Conventions and Styleguides
 
 tba
+
+## Submitting pull requests
+
+tba
