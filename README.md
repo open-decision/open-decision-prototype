@@ -1,14 +1,14 @@
 # Open Decision
 
 Open Decision is an Open-Source Decision Automation System, that is optimized for legal processes. The system will be used to build a platform to provide free legal advice for consumers.
-Further information on open-decision.org
+
+Further information about the project on www.open-decision.org
 
 ## Table of content
 - [Getting Started](#getting-started)
 - [Participate](#participate)
     - [Experts, Lawyers, Designers, Ambassadors, Enthusiasts & Unicorns](#for-experts-lawyers-designers-ambassadors-enthusiasts)
     - [Developers](#for-developers)
-    - [Experts](#for-experts)
 - [Set-Up](#set-up)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
@@ -20,21 +20,17 @@ Further information on open-decision.org
 
 ## Getting Started
 
-
-
 ## Participate
+
+We are happy about any contributions and currently preparing everything for a smooth process. During the next week (16.-20.12.) we will get most of the preperations done. Please join the [Slack-Channel](https://join.slack.com/t/opendecision/shared_invite/enQtNjM2NDUxNTQyNzU4LWYwMzJlZjlhOWJkMmIxMTBmMjYwMDE0Y2Y2OGUyZDBiY2FmOWU4OTVmMDFhMjNhNTIxYWZkZTNkNDRmNjQ4MmM) to stay up to date.
 
 ### For Experts, Lawyers, Designers, Ambassadors, Enthusiasts
 
-We are currently preparing everything for your contributions. Please join the [Slack-Channel](https://join.slack.com/t/opendecision/shared_invite/enQtNjM2NDUxNTQyNzU4LWYwMzJlZjlhOWJkMmIxMTBmMjYwMDE0Y2Y2OGUyZDBiY2FmOWU4OTVmMDFhMjNhNTIxYWZkZTNkNDRmNjQ4MmM) to stay up to date.
+Non-code contributions are coordinated via [Trello](https://trello.com/invite/opendecision/2de51a8fbeacf13b9ee1ee24a23cfe71).
 
 ### For Developers
 
-We are happy about any contributions! Feel free to pick an issue, open a bug report, feature request or fork the project. We are open to any input or suggestions on how to bring the project forward.
-
-### For Experts
-
-Non-code contributions such as research on the automatisation of fields of law or other fields of work are coordinated via [Trello](https://trello.com/invite/opendecision/2de51a8fbeacf13b9ee1ee24a23cfe71).
+Feel free to pick an issue, open a bug report, feature request or fork the project. We are open to any input or suggestions on how to bring the project forward.
 
 ## Set-up
 
