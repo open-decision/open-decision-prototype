@@ -22,7 +22,7 @@ Further information about the project on www.open-decision.org
 
 ## Participate
 
-We are happy about any contributions and currently preparing everything for a smooth process. During the next week (16.-20.12.) we will get most of the preperations done. Please join the [Slack-Channel](https://join.slack.com/t/opendecision/shared_invite/enQtNjM2NDUxNTQyNzU4LWYwMzJlZjlhOWJkMmIxMTBmMjYwMDE0Y2Y2OGUyZDBiY2FmOWU4OTVmMDFhMjNhNTIxYWZkZTNkNDRmNjQ4MmM) to stay up to date.
+We are happy about any contributions and currently preparing everything for a smooth process. Please join the [Slack-Channel](https://join.slack.com/t/opendecision/shared_invite/enQtNjM2NDUxNTQyNzU4LWYwMzJlZjlhOWJkMmIxMTBmMjYwMDE0Y2Y2OGUyZDBiY2FmOWU4OTVmMDFhMjNhNTIxYWZkZTNkNDRmNjQ4MmM) to stay up to date.
 
 ### For Experts, Lawyers, Designers, Ambassadors, Enthusiasts
 
