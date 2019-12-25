@@ -65,9 +65,9 @@ def load_answer_field(request, *args):
         input_type = False
 # If called by edit view
     if input_type:
-        list = set_answer_form(input_type)
-        answer_form = list[0]
-        expandable = list[1]
+        returned = set_answer_form(input_type)
+        answer_form = returned[0]
+        expandable = returned[1]
         data = json.loads(data_node.data_answer)
         AnswerFormSet = formset_factory(answer_form, extra=0)
         answer_formset_init = AnswerFormSet(initial=data, prefix='answer')
@@ -81,9 +81,9 @@ def load_answer_field(request, *args):
 # If called by ajax when creating new node
     else:
         input_type = request.GET['input_type']
-        list = set_answer_form(input_type)
-        answer_form = list[0]
-        expandable = list[1]
+        returned = set_answer_form(input_type)
+        answer_form = returned[0]
+        expandable = returned[1]
         AnswerFormSet = formset_factory(answer_form)
         answer_formset = AnswerFormSet(prefix='answer')
         context = {

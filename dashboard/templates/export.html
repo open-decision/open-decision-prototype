@@ -164,17 +164,20 @@
 {% endif %}
 <hr>
 <br>
+<form class="" action="index.html" method="post">
 
-Ja, ich möchte den Entscheidungsbaum gemeinfrei unter CC 4.0 BY lizenzieren <input type="checkbox" label="hi "name="efads" value="Ja, unter CC 4.0 BY veröffentlichen" checked>
+
+Ja, ich möchte den Entscheidungsbaum gemeinfrei unter CC 4.0 BY lizenzieren
+<input type="checkbox" value="Ja, unter CC 4.0 BY veröffentlichen" checked>
 <br><a href="https://creativecommons.org/choose/?lang=de" target="_blank">Mehr Infos</a>
 
 {% if no_answers or no_logic or no_ref_to_start or no_var or no_ref_to_end %}
-<br><a class="btn btn-primary btn-danger" href="#" role="button" style="margin:20px;">Trotz Fehler exportieren</a>
+<br><a class="btn btn-primary btn-danger" href="export/output" role="button" style="margin:20px;">Trotz Fehler exportieren</a>
 <a class="btn btn-primary" href="/trees/{{ selected_tree.slug }}/export" role="button" style="background-color:green">Erneut prüfen</a>
 {% else %}
-<br><a class="btn btn-primary" href="#" role="button" style="margin:20px">Export</a>
+<br><a class="btn btn-primary" href="export/output" role="button" style="margin:20px">Export</a>
 {% endif %}
-
+</form>
 
 <script>
 $(document).ready(function(){

@@ -8,8 +8,8 @@ class NodeForm(forms.Form):
     ('button', 'Buttons'),
     ('list', 'Auswahlliste'),
 #    ('multiple_select', 'Mehrfachauswahl'),
-    ('short_text', 'Textfeld'),
-    ('long_text', 'Großes Textfeld'),
+#    ('short_text', 'Textfeld'),
+#    ('long_text', 'Großes Textfeld'),
     ('number', 'Zahleneingabe'),
     ('date', 'Datum'),
     ('end_node', 'Endknoten - keine Eingabe')
