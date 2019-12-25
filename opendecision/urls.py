@@ -18,7 +18,7 @@ from django.urls import path, include
 from builder.views import node_create_view, node_edit_view, load_answer_field, load_logic_field, load_nodes, load_token
 from pages.views import home_view, contact_view, test_view, register_user
 from interpreter.views import show_interpreter
-from dashboard.views import dashboard_view, add_tree, tree_view, export_tree, set_as_endnode, delete_node, delete_tree
+from dashboard.views import dashboard_view, add_tree, tree_view, export_tree, set_as_endnode, delete_node, delete_tree, export_file
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -45,6 +45,7 @@ urlpatterns = [
     path('trees/<str:slug>/create', node_create_view, name='node_create_view'),
     path('trees/<str:slug>/<str:node_slug>/edit', node_edit_view, name='node_edit_view'),
     path('trees/<str:slug>/export', export_tree, name='export_tree_view'),
+    path('trees/<str:slug>/export/output', export_file, name='export_file'),
 
 
 ]

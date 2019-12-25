@@ -10,6 +10,11 @@ import json
 from django.http import HttpResponse
 from .models import bleach_clean
 from django.db import IntegrityError
+from datetime import date
+from django.core import serializers
+from django.http import JsonResponse
+VERSION = 0.1
+LOGIC_TYPE = 'jsonLogic version X'
 
 @login_required
 def dashboard_view(request):
@@ -78,8 +83,7 @@ def export_tree(request, slug):
 
 def check_tree(slug):
     # Build dic with tree structure to check tree integrity
-    # todo: are answers matching to logic? buttons -> make field not editable; how to check others?
-    tree_name = slug
+    # todo: are answers matching to logic? button -> make field not editable; how to check others?
     all = Node.objects.filter(decision_tree__slug=slug)
     end_nodes = all.filter(end_node=True)
     no_end_nodes = all.filter(end_node=False)
@@ -87,7 +91,7 @@ def check_tree(slug):
 # Build errors dict for nodes without data_answer or data_logic
 #todo: data answer und logic kann auch [{}] enthalten
     errors = {
-        'no_answers': [n.id for n in no_end_nodes.filter(data_answer='[]' )],
+        'no_answers': [n.id for n in no_end_nodes.filter(data_answer='[]')],
         'no_logic': [n.id for n in no_end_nodes.filter(data_logic='[]')],
         'no_var':{},
         'no_ref_to_start':[],
@@ -203,3 +207,121 @@ def delete_node (request):
     id = request.POST.get('node_id')
     Node.objects.filter(id=id).delete()
     return HttpResponse()
+
+@login_required
+def export_file (request, slug):
+    export = build_tree(slug)
+    response = JsonResponse(export, safe=False, content_type='application/json', json_dumps_params={'indent': 2})
+    response['Content-Disposition'] = 'attachment; filename="{}.json"'.format(slug)
+    return  response
+
+
+def build_tree (slug):
+    # Build localization input
+    # pass all_nodes
+    all_nodes = Node.objects.filter(decision_tree__slug=slug)
+    export = {}
+# Set some header data to ensure proper processing of the created tree
+    export['header'] = {
+        'version' : VERSION,
+        #'localization': request.POST.get('localization', 'de-de'),
+        'build_date': date.today(),
+        'logic_type': LOGIC_TYPE,
+
+        'tree_name' : DecisionTree.objects.get(slug=slug).name,
+        'tree_slug' : slug,
+        'start_node': all_nodes.get(start_node = True).slug,
+        'vars': {},
+    }
+
+# Set the data that can be copied from the database
+    for n in all_nodes:
+        export[n.slug] = {
+        'name': n.name,
+        'question': n.question,
+        'input_type': n.input_type,
+        'end_node': n.end_node,
+        'rules': {},
+        }
+# Build the answer value according to the selected input_type
+# When the user needs to enter a number, date or if the node is an end-node, no
+# answers need to be displayed
+        if (n.input_type == 'number') or (n.input_type == 'date') or (n.input_type == 'end_node'):
+            export[n.slug]['answers'] = []
+        elif n.input_type == 'button':
+            export[n.slug]['answers'] = [single_answer['answer'] for single_answer in json.loads(n.data_answer)]
+# For lists answers separated by line breaks are split into a list of single answers
+        elif n.input_type == 'list':
+            export[n.slug]['answers'] = json.loads(n.data_answer)['answer'].splitlines()
+
+# Build the logic dict
+
+# If "==" do the normal logic, if create  a value entry in the header
+# Button -> normal connection by key
+# List -> if selected  value in list of values provided, go  to
+# Date or number -> compare to user defined values and execute logic
+# End node -> empty
+
+#todo: refactor code to use a counter within the forloop to know if the dict exists
+#todo: option to set a value for variables
+
+        for l in json.loads(n.data_logic):
+            # Loop through logic forms
+
+            if n.input_type == 'number' or 'date' or 'button':
+                # Build the rules first
+                # If dict already exists
+                try:
+                    export[n.slug]['rules']['if'].extend(
+                    [
+                        {l['operator']: [{"var":"answer"}, l['answers_logic']]},
+                        str(int(len(export[n.slug]['rules']['if'])/2)),
+                        ])
+                # If dict does not exist
+                except KeyError:
+                    export[n.slug]['rules'] = {
+                    'if' : [
+                        {l['operator']: [{"var":"answer"}, l['answers_logic']]}, "0",
+                    ]}
+
+                # Then build the  results block
+                if l['action'] == 'go_to':
+                    data = {'destination': all_nodes.get(id = l['var_to_modify']).slug}
+
+                # Commented out as the value for the var cannot be set yet
+                # elif l['action'] == 'set'::
+                #     data = {'set': {
+                #         'name': l['var_to_modify'],
+                #         'value': # cannot be set by user yet
+                #         }}
+                #
+                #     export['header']['vars'][l['var_to_modify']] = {
+                #     'type': '',
+                #     'set_in_node': n.slug,
+                #     }
+
+
+            if n.input_type == 'list':
+                try:
+                    export[n.slug]['rules']['if'].extend(
+                    [
+                        {'in': [{"var":"answer"}, l['answers_logic'].splitlines()]},
+                        str(int(len(export[n.slug]['rules']['if'])/2)),
+                        ])
+                # If dict does not exist
+                except KeyError:
+                    export[n.slug]['rules'] = {
+                    'if' : [
+                        {'in': [{"var":"answer"}, l['answers_logic'].splitlines()]}, "0",
+                    ]}
+
+                # Then build the  results block
+                if l['action'] == 'go_to':
+                    data = {'destination': all_nodes.get(id = l['var_to_modify']).slug}
+
+            try:
+                export[n.slug]['results'][str(int(len(export[n.slug]['results'])))] = data
+            except KeyError:
+                export[n.slug]['results'] = {}
+                export[n.slug]['results']['0'] = data
+    return export
