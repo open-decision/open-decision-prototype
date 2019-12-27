@@ -252,7 +252,7 @@ def build_tree (slug):
             export[n.slug]['answers'] = [single_answer['answer'] for single_answer in json.loads(n.data_answer)]
 # For lists answers separated by line breaks are split into a list of single answers
         elif n.input_type == 'list':
-            export[n.slug]['answers'] = json.loads(n.data_answer)['answer'].splitlines()
+            export[n.slug]['answers'] = json.loads(n.data_answer)[0]['answer'].splitlines()
 
 # Build the logic dict
 
@@ -268,7 +268,7 @@ def build_tree (slug):
         for l in json.loads(n.data_logic):
             # Loop through logic forms
 
-            if n.input_type == 'number' or 'date' or 'button':
+            if (n.input_type == 'number') or (n.input_type =='date') or (n.input_type == 'button'):
                 # Build the rules first
                 # If dict already exists
                 try:
@@ -301,7 +301,7 @@ def build_tree (slug):
                 #     }
 
 
-            if n.input_type == 'list':
+            elif n.input_type == 'list':
                 try:
                     export[n.slug]['rules']['if'].extend(
                     [

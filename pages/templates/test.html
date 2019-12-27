@@ -21,29 +21,38 @@
 var currentNode
 var tree
 var preString
-var log = {'nodes': [], 'answers': []}
+var log
 var selectedDiv
 
 window.onhashchange = function() {
+  if (currentNode != location.hash.replace('#','')) {
     if (location.hash.length > 0) {
-        currentNode = location.hash.replace('#','');
-        log.nodes.pop();
-        log.answers.pop();
+        if (log.nodes.length > 0) {
+          currentNode = location.hash.replace('#','');
+          log.nodes.pop();
+          log.answers.pop();
+        } else {
+          currentNode = tree.header.start_node;
+          log = {'nodes': [], 'answers': []};
+        }
         displayNode();
     }
   }
+};
 
 function displayTree  (path, divId) {
   tree = path;
   currentNode = tree.header.start_node;
   preString = '<h3>' + tree.header.tree_name + '</h3><br>';
   selectedDiv = divId
-displayNode()
+  log = {'nodes': [], 'answers': []}
+  displayNode()
 };
 
 function displayNode () {
   // Check if <p> should be default
   // Check for vars that need to be replaced
+  console.log(log);
   location.hash = currentNode;
   var string = preString + tree[currentNode].question + '<br>';
 
@@ -53,7 +62,21 @@ function displayNode () {
       }
     }
   else if (tree[currentNode].input_type == 'list') {
- };
+    string += '<select id="list-select">'
+    for (i = 0; i < tree[currentNode].answers.length; i++) {
+      string += '<option value=' + tree[currentNode].answers[i] + '>' + tree[currentNode].answers[i] + '</option>'
+      }
+      string += '</select><br><button type="button" class="btn btn-primary ml-2 mt-3" id="submit-list-button">Submit</button>'
+    }
+  else if (tree[currentNode].input_type == 'number') {
+  string += '<input type="number" id="number-input">'
+  string += '</select><br><button type="button" class="btn btn-primary ml-2 mt-3" id="submit-number-button">Submit</button>'
+}
+else if (tree[currentNode].input_type == 'date') {
+  string += '<input type="number" id="date-input">'
+  string += '</select><br><button type="button" class="btn btn-primary ml-2 mt-3" id="submit-number-button">Submit</button>'
+};
+
   string += '<br><button type="button" class="btn btn-primary ml-2 mt-3" id="restart-button">Restart</button><button type="button" class="btn btn-primary ml-2 mt-3" id="back-button">Back</button>'
   document.getElementById(selectedDiv).innerHTML = string;
   document.addEventListener( "click", listener );
@@ -65,36 +88,57 @@ function listener (event) {
  var target = event.target || event.srcElement;
 
   if (target.id == 'answer-button') {
-    checkAnswer(target);
+    var answer = target.textContent;
+    checkAnswer(answer, 'button');
+
+  } else if (target.id == 'submit-list-button') {
+    var answer = document.getElementById("list-select").value;
+    checkAnswer(answer, 'list');
+
+  } else if (target.id == 'submit-number-button') {
+    var answer = document.getElementById("number-input").value;
+    checkAnswer(answer, 'number');
+
+  } else if (target.id == 'submit-date-button') {
+    var answer = document.getElementById("date-input").value;
+    // Load datepicker
+    checkAnswer(answer, 'date');
+
   } else if (target.id == 'restart-button') {
     currentNode = tree.header.start_node;
     displayNode();
+    log = {'nodes': [], 'answers': []};
+
   } else if (target.id == 'back-button') {
-    currentNode = log.nodes.pop();
-    log.answers.pop();
+      if (log.nodes.length > 0) {
+        currentNode = log.nodes.pop();
+        log.answers.pop();
+      } else {
+        currentNode = tree.header.start_node;
+        log = {'nodes': [], 'answers': []};
+      }
     displayNode();
   }
 };
 
-function checkAnswer (target) {
-  var rule = jsonLogic.apply(tree[currentNode].rules, {"answer":target.textContent});
+function checkAnswer (answer, input_type) {
+  var rule = jsonLogic.apply(tree[currentNode].rules, {"answer":answer});
   log['nodes'].push(currentNode);
-  log['answers'].push(target.textContent);
+  log['answers'].push(answer);
   currentNode = tree[currentNode].results[rule].destination;
   displayNode();
 };
 
 // Initiate with path(s) for trees and div to display everything in, CSS classes later
-// Load tree, display name as heading and get set current node to start node
 
 // Show question (display as safe html, look for variables) and display answers
-// buttons: get answers, display buttons with css and a listener attached
 // list: take answers from a list in display selectfield with listener attached
 // date/number: show numberfield or datefield with datepicker attached, attach listener
 // end_node: show restart or save-button
 
-//click received -> get data, perform json logic, set current node  to result, log  node  and  user answer
-
+// Save/download progress function
+// Check header data
+// Validate user input and give errors
 
 var  testTree = {
   "header": {
@@ -156,7 +200,7 @@ var  testTree = {
   },
   "start": {
     "name": "start",
-    "question": "Wie hoch sind die von Ihnen geforderten Geb\u00fchren?",
+    "question": "Wie hoch sind die von <b>Ihnen geforderten</b> Geb\u00fchren?",
     "input_type": "button",
     "end_node": false,
     "rules": {
@@ -196,67 +240,62 @@ var  testTree = {
   },
   "ankundigungsart": {
     "name": "Ank\u00fcndigungsart",
-    "question": "Wie wurdest du nach der fehlgeschlagenen Lastschrift benachrichtigt?",
-    "input_type": "button",
+    "question": "<p>Wie wurdest du nach der fehlgeschlagenen Lastschrift benachrichtigt?</p>",
+    "input_type": "list",
     "end_node": false,
     "rules": {
       "if": [
         {
-          "==": [
+          "in": [
             {
               "var": "answer"
             },
-            "Brief"
+            [
+              "SMS"
+            ]
           ]
         },
         "0",
         {
-          "==": [
+          "in": [
             {
               "var": "answer"
             },
-            "SMS"
+            [
+              "E-Mail",
+              "Nicht"
+            ]
           ]
         },
         "1",
         {
-          "==": [
+          "in": [
             {
               "var": "answer"
             },
-            "E-Mail"
+            [
+              "Brief"
+            ]
           ]
         },
-        "2",
-        {
-          "==": [
-            {
-              "var": "answer"
-            },
-            "nicht"
-          ]
-        },
-        "3"
+        "2"
       ]
     },
     "answers": [
       "Brief",
-      "SMS",
       "E-Mail",
-      "nicht"
+      "Nicht",
+      "SMS"
     ],
     "results": {
       "0": {
-        "destination": "max4"
-      },
-      "1": {
         "destination": "max309"
       },
-      "2": {
+      "1": {
         "destination": "max3"
       },
-      "3": {
-        "destination": "max3"
+      "2": {
+        "destination": "max4"
       }
     }
   },
