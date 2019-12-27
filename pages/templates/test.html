@@ -1,23 +1,377 @@
 {% extends 'base.html' %}
 {%block content%}
+{% load static %}
 
 
 <!DOCTYPE html>
 <html>
 <head>
-  <script src='https://cdn.tiny.cloud/1/a4qdrm7upe3diwvldfxsq06xho77qxki137pevbgypv4b3kg/tinymce/5/tinymce.min.js' referrerpolicy="origin"></script>
-  <script>
-  tinymce.init({
-    selector: '#mytextarea'
-  });
-  </script>
 </head>
 
 <body>
-<h1>TinyMCE Quick Start Guide</h1>
-  <form method="post">
-    <textarea id="mytextarea" name="mytextarea">Hello, World!</textarea>
-  </form>
+<div id="test">
+
+</div>
 </body>
 </html>
+
+<script type="text/javascript" src="{% static 'logic.js' %}"></script>
+<script type="text/javascript">
+
+var currentNode
+var tree
+var preString
+var log = {'nodes': [], 'answers': []}
+var selectedDiv
+
+window.onhashchange = function() {
+    if (location.hash.length > 0) {
+        currentNode = location.hash.replace('#','');
+        log.nodes.pop();
+        log.answers.pop();
+        displayNode();
+    }
+  }
+
+function displayTree  (path, divId) {
+  tree = path;
+  currentNode = tree.header.start_node;
+  preString = '<h3>' + tree.header.tree_name + '</h3><br>';
+  selectedDiv = divId
+displayNode()
+};
+
+function displayNode () {
+  // Check if <p> should be default
+  // Check for vars that need to be replaced
+  location.hash = currentNode;
+  var string = preString + tree[currentNode].question + '<br>';
+
+  if (tree[currentNode].input_type == 'button') {
+    for (i = 0; i < tree[currentNode].answers.length; i++) {
+        string += '<button type="button" class="btn btn-primary ml-2" id="answer-button">' + tree[currentNode].answers[i] + '</button>'
+      }
+    }
+  else if (tree[currentNode].input_type == 'list') {
+ };
+  string += '<br><button type="button" class="btn btn-primary ml-2 mt-3" id="restart-button">Restart</button><button type="button" class="btn btn-primary ml-2 mt-3" id="back-button">Back</button>'
+  document.getElementById(selectedDiv).innerHTML = string;
+  document.addEventListener( "click", listener );
+};
+
+
+function listener (event) {
+  // Support IE6-8
+ var target = event.target || event.srcElement;
+
+  if (target.id == 'answer-button') {
+    checkAnswer(target);
+  } else if (target.id == 'restart-button') {
+    currentNode = tree.header.start_node;
+    displayNode();
+  } else if (target.id == 'back-button') {
+    currentNode = log.nodes.pop();
+    log.answers.pop();
+    displayNode();
+  }
+};
+
+function checkAnswer (target) {
+  var rule = jsonLogic.apply(tree[currentNode].rules, {"answer":target.textContent});
+  log['nodes'].push(currentNode);
+  log['answers'].push(target.textContent);
+  currentNode = tree[currentNode].results[rule].destination;
+  displayNode();
+};
+
+// Initiate with path(s) for trees and div to display everything in, CSS classes later
+// Load tree, display name as heading and get set current node to start node
+
+// Show question (display as safe html, look for variables) and display answers
+// buttons: get answers, display buttons with css and a listener attached
+// list: take answers from a list in display selectfield with listener attached
+// date/number: show numberfield or datefield with datepicker attached, attach listener
+// end_node: show restart or save-button
+
+//click received -> get data, perform json logic, set current node  to result, log  node  and  user answer
+
+
+var  testTree = {
+  "header": {
+    "version": 0.1,
+    "build_date": "2019-12-26",
+    "logic_type": "jsonLogic version X",
+    "tree_name": "R\u00fccklastschriftgeb\u00fchren",
+    "tree_slug": "rucklastschriftgebuhren",
+    "start_node": "start",
+    "vars": {}
+  },
+  "angemessen": {
+    "name": "angemessen",
+    "question": "Eine Geb\u00fchr von bis zu vier Euro ist leider angemessen.",
+    "input_type": "button",
+    "end_node": true,
+    "rules": {},
+    "answers": []
+  },
+  "ankundigung": {
+    "name": "Ank\u00fcndigung",
+    "question": "Wurde die Lastschrift vorher durch eine Rechnung angek\u00fcndigt oder zieht die Firma regelm\u00e4\u00dfig Geld ein?",
+    "input_type": "button",
+    "end_node": false,
+    "rules": {
+      "if": [
+        {
+          "==": [
+            {
+              "var": "answer"
+            },
+            "Ja"
+          ]
+        },
+        "0",
+        {
+          "==": [
+            {
+              "var": "answer"
+            },
+            "Nein"
+          ]
+        },
+        "1"
+      ]
+    },
+    "answers": [
+      "Ja",
+      "Nein"
+    ],
+    "results": {
+      "0": {
+        "destination": "ankundigungsart"
+      },
+      "1": {
+        "destination": "musterschreiben"
+      }
+    }
+  },
+  "start": {
+    "name": "start",
+    "question": "Wie hoch sind die von Ihnen geforderten Geb\u00fchren?",
+    "input_type": "button",
+    "end_node": false,
+    "rules": {
+      "if": [
+        {
+          "==": [
+            {
+              "var": "answer"
+            },
+            "vier Euro oder weniger"
+          ]
+        },
+        "0",
+        {
+          "==": [
+            {
+              "var": "answer"
+            },
+            "mehr als vier Euro"
+          ]
+        },
+        "1"
+      ]
+    },
+    "answers": [
+      "vier Euro oder weniger",
+      "mehr als vier Euro"
+    ],
+    "results": {
+      "0": {
+        "destination": "angemessen"
+      },
+      "1": {
+        "destination": "ankundigung"
+      }
+    }
+  },
+  "ankundigungsart": {
+    "name": "Ank\u00fcndigungsart",
+    "question": "Wie wurdest du nach der fehlgeschlagenen Lastschrift benachrichtigt?",
+    "input_type": "button",
+    "end_node": false,
+    "rules": {
+      "if": [
+        {
+          "==": [
+            {
+              "var": "answer"
+            },
+            "Brief"
+          ]
+        },
+        "0",
+        {
+          "==": [
+            {
+              "var": "answer"
+            },
+            "SMS"
+          ]
+        },
+        "1",
+        {
+          "==": [
+            {
+              "var": "answer"
+            },
+            "E-Mail"
+          ]
+        },
+        "2",
+        {
+          "==": [
+            {
+              "var": "answer"
+            },
+            "nicht"
+          ]
+        },
+        "3"
+      ]
+    },
+    "answers": [
+      "Brief",
+      "SMS",
+      "E-Mail",
+      "nicht"
+    ],
+    "results": {
+      "0": {
+        "destination": "max4"
+      },
+      "1": {
+        "destination": "max309"
+      },
+      "2": {
+        "destination": "max3"
+      },
+      "3": {
+        "destination": "max3"
+      }
+    }
+  },
+  "max4": {
+    "name": "max4",
+    "question": "In diesem Fall ist eine Geb\u00fchr von bis zu vier Euro leider angemessen.",
+    "input_type": "button",
+    "end_node": true,
+    "rules": {},
+    "answers": []
+  },
+  "max309": {
+    "name": "max3.09",
+    "question": "In diesem Fall ist nur eine Geb\u00fchr von 3,09 Euro zul\u00e4ssig. Soll ein Musterschreiben zur R\u00fcckforderung generiert werden?",
+    "input_type": "button",
+    "end_node": false,
+    "rules": {
+      "if": [
+        {
+          "==": [
+            {
+              "var": "answer"
+            },
+            "Ja"
+          ]
+        },
+        "0",
+        {
+          "==": [
+            {
+              "var": "answer"
+            },
+            "Nein"
+          ]
+        },
+        "1"
+      ]
+    },
+    "answers": [
+      "Ja",
+      "Nein"
+    ],
+    "results": {
+      "0": {
+        "destination": "musterschreiben"
+      },
+      "1": {
+        "destination": "ende"
+      }
+    }
+  },
+  "max3": {
+    "name": "max3",
+    "question": "In diesem Fall ist nur eine Geb\u00fchr von 3 Euro zul\u00e4ssig. Soll ein Musterschreiben zur R\u00fcckforderung generiert werden?",
+    "input_type": "button",
+    "end_node": false,
+    "rules": {
+      "if": [
+        {
+          "==": [
+            {
+              "var": "answer"
+            },
+            "Ja"
+          ]
+        },
+        "0",
+        {
+          "==": [
+            {
+              "var": "answer"
+            },
+            "Nein"
+          ]
+        },
+        "1"
+      ]
+    },
+    "answers": [
+      "Ja",
+      "Nein"
+    ],
+    "results": {
+      "0": {
+        "destination": "musterschreiben"
+      },
+      "1": {
+        "destination": "ende"
+      }
+    }
+  },
+  "musterschreiben": {
+    "name": "Musterschreiben",
+    "question": "- Musterschreiben -",
+    "input_type": "button",
+    "end_node": true,
+    "rules": {},
+    "answers": []
+  },
+  "ende": {
+    "name": "Ende",
+    "question": "-",
+    "input_type": "button",
+    "end_node": true,
+    "rules": {},
+    "answers": []
+  }
+}
+
+document.addEventListener('readystatechange', function() {
+   if (document.readyState === "complete") {
+     displayTree (testTree, 'test');
+   }
+ });
+
+
+</script>
 {%endblock%}
