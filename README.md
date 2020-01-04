@@ -26,7 +26,7 @@ We are happy about any contributions and currently preparing everything for a sm
 
 ### For Experts, Lawyers, Designers, Ambassadors, Enthusiasts
 
-Non-code contributions are coordinated via [Trello](https://trello.com/invite/opendecision/2de51a8fbeacf13b9ee1ee24a23cfe71).
+Non-code contributions are soon coordinated via Trello. For the moment, please contact us on Slack or Email if you want to contribute.
 
 ### For Developers
 
