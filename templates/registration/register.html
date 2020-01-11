@@ -2,6 +2,7 @@
 {% block content %}
 {% load custom_filters %}
 {% load static %}
+{% load i18n %}
 
   <div class="container">
     <div class="card o-hidden border-0 shadow-lg my-5">
@@ -14,7 +15,7 @@
           <div class="col-lg-7">
             <div class="p-5">
               <div class="text-center">
-                <h1 class="h4 text-gray-900 mb-4">Yeah, create an Account!</h1>
+                <h1 class="h4 text-gray-900 mb-4">{% trans "Yeah, create an Account!" %}</h1>
               </div>
               <form class="user" method="post">
                 {% csrf_token %}
@@ -36,10 +37,10 @@
                 </div>
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
-                    {{ form.first_name |addclass:'form-control form-control-user; First Name'}}
+                    {{ form.first_name |addclass:'form-control form-control-user; _("First Name")'}}
                   </div>
                   <div class="col-sm-6 mb-3 mb-sm-0">
-                    {{ form.username |addclass:'form-control form-control-user; Pick a Username'}}
+                    {{ form.username |addclass:'form-control form-control-user; _("Pick a Username")'}}
                   </div>
                 </div>
                 <div class="form-group row">
@@ -50,7 +51,7 @@
                     </div>
                   </div>
                 <div class="form-group">
-                  {{ form.email |addclass:'form-control form-control-user; Enter Email Address'}}
+                  {{ form.email |addclass:'form-control form-control-user; _("Enter Email Address")'}}
                 </div>
                 <div class="form-group row">
                   <div class="col-sm-6">
@@ -70,22 +71,22 @@
               </div>
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
-                    {{ form.password1 |addclass:'form-control form-control-user; Password'}}
+                    {{ form.password1 |addclass:'form-control form-control-user; _("Password")'}}
                   </div>
                   <div class="col-sm-6">
-                    {{ form.password2 |addclass:'form-control form-control-user; Repeat Password'}}
+                    {{ form.password2 |addclass:'form-control form-control-user; _("Repeat Password")'}}
                   </div>
                 </div>
-                <button class="btn btn-primary btn-user btn-block" type="submit">Register Account</button>
+                <button class="btn btn-primary btn-user btn-block" type="submit">{% trans "Register Account" %}</button>
               </form>
               <hr>
               {% if False %}
               <div class="text-center" >
-                <a class="small" href="forgot-password.html">Forgot Password?</a>
+                <a class="small" href="forgot-password.html">{% trans "Forgot Password?" %}</a>
               </div>
               {% endif %}
               <div class="text-center">
-                <a class="medium" href="{% url 'login'%}?next=/dashboard">Already have an account? Login!</a>
+                <a class="medium" href="{% url 'login'%}?next=/dashboard">{% trans "Already have an account?" %} Login!</a>
               </div>
             </div>
           </div>
@@ -97,6 +98,8 @@
 
 <script type="text/javascript">
 function validateEmail(email) {
+
+  //Currently not working
   var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   return re.test(email);

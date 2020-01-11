@@ -1,0 +1,103 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-01-04 22:02+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: templates/base.html:58
+msgid "Dashboard"
+msgstr ""
+
+#: templates/base.html:64 templates/base.html:339 templates/navbar.html:22
+msgid "Logout"
+msgstr ""
+
+#: templates/base.html:258 templates/navbar.html:11
+msgid "Home"
+msgstr ""
+
+#: templates/base.html:264 templates/navbar.html:14
+msgid "Get in touch"
+msgstr ""
+
+#: templates/base.html:270 templates/navbar.html:27
+msgid "Login"
+msgstr ""
+
+#: templates/base.html:308
+msgid "Support"
+msgstr ""
+
+#: templates/base.html:308
+msgid "Imprint"
+msgstr ""
+
+#: templates/base.html:308
+msgid "Privacy policy"
+msgstr ""
+
+#: templates/base.html:331
+msgid "Ready to Leave?"
+msgstr ""
+
+#: templates/base.html:336
+msgid "Select 'Logout' below if you are ready to end your current session."
+msgstr ""
+
+#: templates/base.html:338
+msgid "Cancel"
+msgstr ""
+
+#: templates/navbar.html:19
+msgid "Dashboard of "
+msgstr ""
+
+#: templates/registration/logged_out.html:4
+msgid "Logged out!"
+msgstr ""
+
+#: templates/registration/logged_out.html:5
+msgid "Click here to login again."
+msgstr ""
+
+#: templates/registration/login.html:24
+msgid "Welcome Back!"
+msgstr ""
+
+#: templates/registration/login.html:29
+msgid "Your username and password didn't match. Please try again."
+msgstr ""
+
+#: templates/registration/login.html:55 templates/registration/register.html:85
+msgid "Forgot Password?"
+msgstr ""
+
+#: templates/registration/login.html:59
+msgid "Create an Account!"
+msgstr ""
+
+#: templates/registration/register.html:18
+msgid "Yeah, create an Account!"
+msgstr ""
+
+#: templates/registration/register.html:80
+msgid "Register Account"
+msgstr ""
+
+#: templates/registration/register.html:89
+msgid "Already have an account?"
+msgstr ""

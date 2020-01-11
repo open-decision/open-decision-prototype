@@ -1,6 +1,8 @@
 {%extends 'base.html'%}
 {%block content%}
-<h2 class="pageheader">Kontakt</h2>
-<p>Anregungen, Tipps und Kritik gerne an <a href="mailto:contact@open-decision.org">contact@open-decision.org</a> oder auf <a href="https://join.slack.com/t/opendecision/shared_invite/enQtNjM2NDUxNTQyNzU4LWYwMzJlZjlhOWJkMmIxMTBmMjYwMDE0Y2Y2OGUyZDBiY2FmOWU4OTVmMDFhMjNhNTIxYWZkZTNkNDRmNjQ4MmM">Slack</a></p>
-<p>Weitere Infos auf <a href="open-decision.org">open-decision.org</a>
+{% load i18n %}
+
+<h2 class="pageheader">{% trans "Get in touch" %}</h2>
+<p>{% trans "Feel free to send your ideas, questions or critique to  " %}<a href="mailto:contact@open-decision.org">contact@open-decision.org</a>{% trans " or get in touch at " %}<a href="https://join.slack.com/t/opendecision/shared_invite/enQtNjM2NDUxNTQyNzU4LWYwMzJlZjlhOWJkMmIxMTBmMjYwMDE0Y2Y2OGUyZDBiY2FmOWU4OTVmMDFhMjNhNTIxYWZkZTNkNDRmNjQ4MmM">Slack</a>.</p>
+<p>{% trans "Further information at" %} <a href="open-decision.org">open-decision.org</a>
 {%endblock%}

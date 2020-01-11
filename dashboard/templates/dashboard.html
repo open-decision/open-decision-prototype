@@ -2,6 +2,8 @@
 {% block content %}
 {% load custom_filters %}
 {% load static %}
+{% load i18n %}
+
 <div id="trees"
   <div class="main-content">
     <div class="container mt-7">
@@ -10,16 +12,16 @@
         <div class="col">
           <div class="card shadow">
             <div class="card-header border-0">
-              <h3 class="mb-0">Entscheidungsbäume</h3>
+              <h3 class="mb-0">{% trans "Decision-Trees"  %}</h3>
             </div>
             <div class="table-responsive">
               <table class="table align-items-center table-flush tree-table table-hover">
                 <thead class="thead-light">
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Knotenzahl</th>
-                    <th scope="col">Status</th>
+                    <th scope="col">{% trans "Name" %}</th>
+                    <th scope="col">{% trans "No. of Nodes" %}</th>
+                    <th scope="col">{% trans "Status" %}</th>
                     <th scope="col"></th>
                     <th scope="col"></th>
                   </tr>
@@ -45,7 +47,7 @@
                     </td>
                     <td>
                       <div class="d-flex align-items-center">
-                        <span class="mr-2">In Progress</span>
+                        <span class="mr-2">{% trans "In Progress" %}</span>
                       </div>
                     </td>
                     <td>
@@ -53,7 +55,7 @@
                         <span class="icon text-white-50">
                           <i class="far fa-edit"></i>
                         </span>
-                        <span class="text">Bearbeiten</span>
+                        <span class="text">{% trans "Edit" %}</span>
                       </a>
                     </td>
                     <td class="text-center">
@@ -64,11 +66,11 @@
                         <div class="dropdown-menu dropdown-menu-left shadow animated--fade-in no-bubbling">
                           <a class="dropdown-item no-bubbling" type="button" data-toggle="modal" data-target="#deleteModal" tree-id="{{ decisiontree.id }}" tree-name="{{ decisiontree.name }}">
                             <i class="far fa-trash-alt no-bubbling"></i>
-                            Löschen
+                            {% trans "Delete" %}
                           </a>
                           <a class="dropdown-item" href="/trees/{{ decisiontree.slug }}/export" data-click="">
                             <i class="fas fa-download" data-click=""></i>
-                            Exportieren
+                            {% trans "Export" %}
                           </a>
                         </div>
                       </div>
@@ -88,8 +90,8 @@
                             </div>
                             <div class="col-md-6 order-lg-2">
                               <div class="p-5 text-right">
-                                <h2>It's so empty here...</h2>
-                                <p class="mb-5">Enter a name and click the blue button to get started!</p>
+                                <h2>{% trans "It's so empty here..." }%</h2>
+                                <p class="mb-5">{% trans "Enter a name and click the blue button to get started!" %}</p>
                               </div>
                             </div>
                             </div>
@@ -107,14 +109,14 @@
                 <ul class="pagination justify-content-end mb-0">
 
                   <li class="page-item mr-3">
-                    {{ form.name |addclass:'form-control form-control-user; Name des neuen Baumes'}}
+                    {{ form.name |addclass:'form-control form-control-user; _("Name of the new Tree")'}}
                   </li>
                   <li class="page-item mr-3">
                     <button href="" class="btn btn-primary btn-icon-split btn-sm" value='addTree' id="addTree">
                       <span class="icon text-white-50">
                         <i class="fas fa-plus"></i>
                       </span>
-                      <span class="text">Neuen Baum erstellen</span>
+                      <span class="text">{% trans "Create new Tree" %}</span>
                     </button>
                   </li>
                 </ul>
@@ -129,7 +131,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Bestätigen</h5>
+            <h5 class="modal-title" id="exampleModalLabel">{% trans  "Confirm" %}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -137,20 +139,19 @@
           <div class="modal-body">
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
-            <button type="button" class="btn btn-primary btn-danger" data-dismiss="modal" id=deleteTree>Löschen</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "Confirm"%}</button>
+            <button type="button" class="btn btn-primary btn-danger" data-dismiss="modal" id=deleteTree>{% trans "Delete" %}</button>
           </div>
         </div>
       </div>
     </div>
 
-
+    <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
     <script>
     $(document).ready(function(){
 
       // Make the table rows clickable
     $('.tr-clickable').click(function(e){
-      console.log("Clicked")
       // Do not react to clicks on elements with no-bubbling class (the dropdown menu)
       if (!$(e.target).hasClass("no-bubbling")){
          window.location = $(this).attr('data-href');
@@ -194,7 +195,7 @@
             var treeId = $(e.relatedTarget).attr('tree-id');
             var treeName = $(e.relatedTarget).attr('tree-name');
             //populate the textbox
-            $(e.currentTarget).find('.modal-body').html('<p>Soll der Entscheidungsbaum <b>' + treeName + '</b> wirklich gelöscht werden?</p>');
+            $(e.currentTarget).find('.modal-body').html('<p>' + gettext('Are you sure that you want to delete the tree') + ' <b>' + treeName + '</b></p>');
             $(e.currentTarget).find('#deleteTree').attr('tree-id', treeId);
           });
 

@@ -18,12 +18,15 @@ from django.urls import path, include
 from builder.views import node_create_view, node_edit_view, load_answer_field, load_logic_field, load_nodes, load_token
 from pages.views import home_view, contact_view, test_view, register_user
 from interpreter.views import show_interpreter
-from dashboard.views import dashboard_view, add_tree, tree_view, export_tree, set_as_endnode, delete_node, delete_tree, export_file
+from dashboard.views import dashboard_view, add_tree, tree_view, export_tree, set_as_endnode, delete_node, delete_tree, export_file, preview_view
+from django.views.i18n import JavaScriptCatalog
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', register_user, name='register_user'),
+    path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
+
     path('', home_view, name='home'),
     path('contact/', contact_view),
     path('interpreter/', show_interpreter),
@@ -46,6 +49,6 @@ urlpatterns = [
     path('trees/<str:slug>/<str:node_slug>/edit', node_edit_view, name='node_edit_view'),
     path('trees/<str:slug>/export', export_tree, name='export_tree_view'),
     path('trees/<str:slug>/export/output', export_file, name='export_file'),
-
+    path('trees/<str:slug>/preview', preview_view, name='preview_view'),
 
 ]

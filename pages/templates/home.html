@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {%block content%}
 {% load static %}
+{% load i18n %}
 
 <link href="{% static 'css/one-page-wonder.css' %}" rel="stylesheet">
 
@@ -16,13 +17,13 @@
           </div>
           <div class="col-lg-6 order-lg-2">
             <div class="p-1">
-              <h2 class="display-4">Civil Legal Tech</h2>
-              <p>Mit dem Projekt open decision soll eine Open-Source-Plattform zur Entscheidungsautomatisierung geschaffen werden. Mittels einer intuitiven Weboberfläche können Experten spezifische Fragestellungen in komplexe Entscheidungsbäume aufbereiten. Diese können in ein offenes Datenformat exportiert und Nutzern online oder per App in Form einer Abfrage präsentiert werden.</p>
+              <h2 class="display-4">{% trans "Civil Legal Tech" %}</h2>
+              <p>{% trans "The open decision project aims to create an open source platform for decision automation. Using an intuitive web interface, experts can process specific questions into complex decision trees. These can be exported into an open data format and presented to users online or via app in the form of a query." %}</p>
             </div>
           </div>
         </div>
       </div>
-    <a href="{% url 'login'%}?next=/dashboard" class="btn btn-primary btn-xl rounded-pill mt-1">Try now</a>
+    <a href="{% url 'login'%}?next=/dashboard" class="btn btn-primary btn-xl rounded-pill mt-1">{% trans "Try now" %}</a>
     </div>
 </header>
 
@@ -36,8 +37,8 @@
       </div>
       <div class="col-lg-6 order-lg-1">
         <div class="p-5">
-          <h2 class="display-4">Easy solution for legal issues</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati.</p>
+          <h2 class="display-4">{% trans "Easy solution for legal issues" %}</h2>
+          <p>{% trans "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati." %}</p>
         </div>
       </div>
     </div>
@@ -54,8 +55,8 @@
       </div>
       <div class="col-lg-6">
         <div class="p-5">
-          <h2 class="display-4">Modern technologies!</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati.</p>
+          <h2 class="display-4">{% trans "Modern technologies!" %}</h2>
+          <p>{% trans "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati." %}</p>
         </div>
       </div>
     </div>
@@ -72,8 +73,8 @@
       </div>
       <div class="col-lg-6 order-lg-1">
         <div class="p-5">
-          <h2 class="display-4">Justice for everyone</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati.</p>
+          <h2 class="display-4">{% trans "Justice for everyone" %}</h2>
+          <p>{% trans "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati." %}</p>
         </div>
       </div>
     </div>

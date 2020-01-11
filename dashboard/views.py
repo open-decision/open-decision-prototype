@@ -13,6 +13,8 @@ from django.db import IntegrityError
 from datetime import date
 from django.core import serializers
 from django.http import JsonResponse
+from django.utils.translation import gettext as _
+
 VERSION = 0.1
 LOGIC_TYPE = 'jsonLogic version X'
 
@@ -35,7 +37,7 @@ def add_tree(request):
             tree.owner = request.user
             tree.save()
     except IntegrityError as e:
-        return HttpResponse('<div class="border-left-danger pl-2"><p>Bitte wähle einen anderen Namen, dieser ist bereits vergeben.</p></div>')
+        return HttpResponse('<div class="border-left-danger pl-2">'+ _('<p>Please choose another name, this one is  already taken.</p>') + '</div>')
     context = {
      'decisiontree_list': DecisionTree.objects.filter(id=tree.id)
      }
@@ -89,7 +91,7 @@ def check_tree(slug):
     no_end_nodes = all.filter(end_node=False)
 
 # Build errors dict for nodes without data_answer or data_logic
-#todo: data answer und logic kann auch [{}] enthalten
+#todo: data answer und logic can contain [{}] as well
     errors = {
         'no_answers': [n.id for n in no_end_nodes.filter(data_answer='[]')],
         'no_logic': [n.id for n in no_end_nodes.filter(data_logic='[]')],
@@ -256,12 +258,6 @@ def build_tree (slug):
 
 # Build the logic dict
 
-# If "==" do the normal logic, if create  a value entry in the header
-# Button -> normal connection by key
-# List -> if selected  value in list of values provided, go  to
-# Date or number -> compare to user defined values and execute logic
-# End node -> empty
-
 #todo: refactor code to use a counter within the forloop to know if the dict exists
 #todo: option to set a value for variables
 
@@ -325,3 +321,8 @@ def build_tree (slug):
                 export[n.slug]['results'] = {}
                 export[n.slug]['results']['0'] = data
     return export
+
+def preview_view(request, slug):
+    print(slug)
+    context= {}
+    return render(request, 'preview.html', context)

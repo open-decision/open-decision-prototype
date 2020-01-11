@@ -2,6 +2,8 @@
 {% block content %}
 {% load custom_filters %}
 {% load static %}
+{% load i18n %}
+
 <div id="trees"
   <div class="main-content">
     <div class="container mt-7">
@@ -10,15 +12,15 @@
         <div class="col">
           <div class="card shadow">
             <div class="card-header border-0">
-              <h3 class="mb-0"><a href="/dashboard" class="back_button">&#x2190;</a> Knotenübersicht von: {{ selected_tree.name}}</h3>
+              <h3 class="mb-0"><a href="/dashboard" class="back_button">&#x2190;</a>{% trans "Nodes of: " %} {{ selected_tree.name}}</h3>
             </div>
             <div class="table-responsive">
               <table class="table align-items-center table-flush tree-table table-hover">
                 <thead class="thead-light">
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Knotenname</th>
-                    <th scope="col">Frage</th>
+                    <th scope="col">{% trans "Node name" %}</th>
+                    <th scope="col">{% trans "Question" %}</th>
                     <th scope="col"></th>
                     <th scope="col"></th>
                   </tr>
@@ -35,7 +37,7 @@
                       </div>
                     </th>
                     <td>
-                      {{ node.name |truncatechars:40 }}<br>{% if node.start_node %}<span class="badge badge-pill badge-secondary">Startknoten</span>{% endif %}
+                      {{ node.name |truncatechars:40 }}<br>{% if node.start_node %}<span class="badge badge-pill badge-secondary">{% trans "Start-Node" %}</span>{% endif %}
                     </td>
                     <td>
                       <span class="d-flex align-items-center">
@@ -47,7 +49,7 @@
                         <span class="icon text-white-50">
                           <i class="far fa-edit"></i>
                         </span>
-                        <span class="text">Bearbeiten</span>
+                        <span class="text">{% trans "Edit" %}</span>
                       </a>
                     </td>
                     <td class="text-center">
@@ -58,7 +60,7 @@
                         <div class="dropdown-menu dropdown-menu-left shadow animated--fade-in no-bubbling">
                           <a class="dropdown-item no-bubbling" type="button" data-toggle="modal" data-target="#deleteModal" node-id="{{ node.id }}" node-name="{{ node.name }}">
                             <i class="far fa-trash-alt no-bubbling"></i>
-                            Löschen
+                            {% trans "Delete" %}
                           </a>
                         </div>
                       </div>
@@ -76,7 +78,7 @@
                         </div>
                       </th>
                       <td>
-                        {{ node.name |truncatechars:40 }}<br><sub>Neuer Knoten</sub>
+                        {{ node.name |truncatechars:40 }}<br><span class="badge badge-pill badge-success">{% trans "New Node" %}</span>
                       </td>
                       <td>
                         <span class="d-flex align-items-center">
@@ -88,7 +90,7 @@
                           <span class="icon text-white-50">
                             <i class="far fa-edit"></i>
                           </span>
-                          <span class="text">Bearbeiten</span>
+                          <span class="text">{% trans "Edit" %}</span>
                         </a>
                       </td>
                       <td class="text-center">
@@ -99,7 +101,7 @@
                           <div class="dropdown-menu dropdown-menu-left shadow animated--fade-in no-bubbling">
                             <a class="dropdown-item no-bubbling" type="button" data-toggle="modal" data-target="#deleteModal" node-id="{{ node.id }}" node-name="{{ node.name }}">
                               <i class="far fa-trash-alt no-bubbling"></i>
-                              Löschen
+                              {% trans "Delete" %}
                             </a>
                           </div>
                         </div>
@@ -120,9 +122,9 @@
                             </div>
                             <div class="col-lg-6 order-lg-2">
                               <div class="p-5 text-center">
-                                <h2>It feels so empty here...</h2>
-                                <p class="mb-5">Let's click the blue button and create a new Node!</p>
-                                <i class="fas fa-arrow-down fa-4x mt-5"></i>
+                                <h2>{% trans "It feels so empty here..." %}</h2>
+                                <p class="mb-5">{% trans "Let's click the blue button and create a new Node!" %}</p>
+                                <i class="fas fa-arrow-down fa-4x mt-5 ml-5"></i>
                               </div>
                             </div>
                           </div>
@@ -142,18 +144,27 @@
                       <span class="icon text-white-50">
                         <i class="fas fa-plus"></i>
                       </span>
-                      <span class="text">Neuen Knoten erstellen</span>
+                      <span class="text">{% trans "Create new node" %}</span>
                     </a>
                   </li>
+                  {% if existing_nodes or new_nodes%}
                   <li class="page-item mr-3">
-
                     <a href="export" class="btn btn-success btn-icon-split btn-sm">
                       <span class="icon text-white-50">
                         <i class="fas fa-download"></i>
                       </span>
-                      <span class="text">Baum exportieren</span>
+                      <span class="text">{% trans "Export tree" %}</span>
                     </a>
                   </li>
+                  <li class="page-item mr-3">
+                    <a href="preview" class="btn btn-info btn-icon-split btn-sm">
+                      <span class="icon text-white-50">
+                        <i class="fas fa-download"></i>
+                      </span>
+                      <span class="text">{% trans "Preview tree" %}</span>
+                    </a>
+                  </li>
+                  {% endif %}
                 </ul>
               </nav>
             </div>
@@ -166,7 +177,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Bestätigen</h5>
+            <h5 class="modal-title" id="exampleModalLabel">{% trans "Confirm" %}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -174,13 +185,14 @@
           <div class="modal-body">
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
-            <button type="button" class="btn btn-primary btn-danger" data-dismiss="modal" id=deleteNode>Löschen</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "Cancel" %}</button>
+            <button type="button" class="btn btn-primary btn-danger" data-dismiss="modal" id=deleteNode>{% trans "Delete" %}</button>
           </div>
         </div>
       </div>
     </div>
 
+    <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
     <script>
     $(document).ready(function(){
 
@@ -198,7 +210,8 @@
       var nodeId = $(e.relatedTarget).attr('node-id');
       var nodeName = $(e.relatedTarget).attr('node-name');
       //populate the textbox
-      $(e.currentTarget).find('.modal-body').html('<p>Soll der Knoten <b>' + nodeName + '</b> wirklich gelöscht werden?</p>');
+
+      $(e.currentTarget).find('.modal-body').html('<p>' + gettext('Are you sure that you want to delete the node') + ' <b>' + nodeName + '?</b></p>');
       $(e.currentTarget).find('#deleteNode').attr('node-id', nodeId);
     });
 

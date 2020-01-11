@@ -1,5 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
+{% load i18n %}
+
 <html lang="en">
 
 <head>
@@ -53,13 +55,13 @@
           <li class="nav-item active">
             <a class="nav-link" href="/dashboard">
               <i class="fas fa-fw fa-tachometer-alt"></i>
-              <span>Mein Dashboard</span></a>
+              <span>{% trans "Dashboard" %}</span></a>
           </li>
 
           <li class="nav-item">
             <a class="nav-link" href="{% url 'logout'%}?next=/">
               <i class="fas fa-sign-out-alt"></i>
-              <span>Logout</span></a>
+              <span>{% trans "Logout" %}</span></a>
           </li>
       {% endif %}
 
@@ -253,19 +255,19 @@
             <ul class="navbar-nav mr-auto">
               <li class="nav-item">
                 <a class="nav-link" href="/" >
-                  <span class="mr-2 d-none d-lg-inline text-gray-800 medium">Home</span>
+                  <span class="mr-2 d-none d-lg-inline text-gray-800 medium">{% trans "Home" %}</span>
                 </a>
               </li>
               <div class="topbar-divider d-none d-sm-block"></div>
               <li class="nav-item">
                 <a class="nav-link" href="/contact"  role="button" >
-                  <span class="mr-2 d-none d-lg-inline text-gray-800 medium">Kontakt</span>
+                  <span class="mr-2 d-none d-lg-inline text-gray-800 medium">{% trans "Get in touch" %}</span>
                 </a>
               </li>
               <div class="topbar-divider d-none d-sm-block"></div>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'login'%}?next=/dashboard"  role="button" >
-                  <span class="mr-2 d-none d-lg-inline text-gray-800 medium">Login</span>
+                  <span class="mr-2 d-none d-lg-inline text-gray-800 medium">{% trans "Login" %}</span>
                   <i class="fas fa-sign-in-alt"></i>
                 </a>
               </li>
@@ -303,7 +305,7 @@
       <footer class="footer">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span><a href="/">Hilfe</a> <a href="/">Impressum</a> <a href="/">Datenschutz</a></span>
+            <span><a href="/">{% trans "Support" %}</a> <a href="/">{% trans "Imprint" %}</a> <a href="/">{% trans "Privacy policy" %}</a></span>
           </div>
         </div>
       </footer>
@@ -326,22 +328,18 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <h5 class="modal-title" id="exampleModalLabel">{% trans "Ready to Leave?" %}</h5>
           <button class="close" type="button" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-body">{% trans "Select 'Logout' below if you are ready to end your current session." %}</div>
         <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="{% url 'logout'%}?next=/">Logout</a>
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">{% trans "Cancel" %}</button>
+          <a class="btn btn-primary" href="{% url 'logout'%}?next=/">{% trans "Logout" %}</a>
         </div>
       </div>
     </div>
   </div>
-
-
-
 </body>
-
 </html>

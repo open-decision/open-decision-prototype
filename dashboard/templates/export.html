@@ -1,28 +1,30 @@
 {% extends "base.html" %}
 {% block content %}
-<h2 class="pageheader">Export von dem Baum: {{ selected_tree.name }}</h2>
-<p>Hier ist das Ergebnis des automatischen Integritätcheck.</p>
+{% load i18n %}
+
+<h2 class="pageheader">{% trans "Export of the Tree " %}{{ selected_tree.name }}</h2>
+<p>{% trans "This is the result of the integrity check."</p>
 
 {% if no_answers or no_logic or no_ref_to_start or no_var or no_ref_to_end %}
-<p>Bitte korrigiere die Fehler und klicke dann auf erneut kontrollieren.</p>
+<p>{% trans "Please correct the errors and click the 'Check again Button'." %}</p>
 {% else %}
-<p>Das sieht gut aus, es wurden keine Fehler gefunden.</p>
+<p>{% trans "Looks good, no errors were found!" %}</p>
 {% endif %}
 <hr>
 {% if no_answers %}
-<h5>Fehlende Antworten</h5>
-<p>In diesen Knoten wurden keinerlei Antwortmöglichkeiten für den Nutzer vorgegeben.</p>
+<h5>{% trans "Missing answers"</h5>
+<p>{% trans "In this nodes there were no answers for the users provided." %}</p>
     <table>
     <tr>
-    <th scope="row">Knotenname</th>
-    <th>Frage</th>
+    <th scope="row">{% trans "Node name" %}</th>
+    <th>{% trans "Question" %}</th>
     </tr>
     {% for node in no_answers %}
       <tr>
         <td>{{ node.name |truncatechars:80 |safe }}</td>
         <td>{{ node.question |truncatechars:80 |safe}}</td>
         <td><nobr>
-          <a class="btn btn-primary btn-sm" href="/trees/{{ selected_tree.slug }}/{{ node.slug }}/edit" role="button" target="_blank">Korrigieren</a>
+          <a class="btn btn-primary btn-sm" href="/trees/{{ selected_tree.slug }}/{{ node.slug }}/edit" role="button" target="_blank">{% trans "Correct" %}</a>
         </nobr></td>
       </tr>
       {% endfor %}
@@ -30,18 +32,18 @@
 {% else %}
   <tr>
     <td></td>
-    <td>✓ Alle Knoten haben Antworten.</td>
+    <td>✓ {% trans "All nodes have answers." %}</td>
     <td></td>
     <td></td>
   </tr>
 {% endif %}
 <hr>
 {% if no_logic %}
-<h5>Fehlende Logikbausteine</h5>
-<p>In diesen Knoten wurden keinerlei Logikbausteine erstellt.</p>
+<h5>{% trans "Missing logic modules" %}</h5>
+<p>{% trans "In this node there are no logic modules." %}</p>
     <table>
     <tr>
-    <th scope="row">Knotenname</th>
+    <th scope="row">{% trans "Node name" %}</th>
     <th>Frage</th>
     </tr>
     {% for node in no_logic %}
@@ -49,7 +51,7 @@
         <td>{{ node.name |truncatechars:40 }}</td>
         <td>{{ node.question |truncatechars:80 |safe }}</td>
         <td><nobr>
-          <a class="btn btn-primary btn-sm" href="/trees/{{ selected_tree.slug }}/{{ node.slug }}/edit" role="button" target="_blank">Korrigieren</a>
+          <a class="btn btn-primary btn-sm" href="/trees/{{ selected_tree.slug }}/{{ node.slug }}/edit" role="button" target="_blank">{% trans "Correct" %}</a>
         </nobr></td>
       </tr>
       {% endfor %}
@@ -57,18 +59,18 @@
 {% else %}
   <tr>
     <td></td>
-    <td>✓ Alle Knoten haben Logikbausteine.</td>
+    <td>✓ {% trans "All nodes have logic modules." %}</td>
     <td></td>
     <td></td>
   </tr>
 {% endif %}
 <hr>
 {% if no_ref_to_start %}
-<h5>Fehlende Verknüpfung zum Startknoten</h5>
-<p>Diese Knoten sind nicht mit dem Startknoten verknüpft und können deswegen vom Nutzer nicht aufgerufen werden.</p>
+<h5>{% trans "Missing connection to start-node" %}</h5>
+<p>{% trans "This nodes are not connected to the start-node and therefore cannot be accessed by the user." %}</p>
     <table>
     <tr>
-    <th scope="row">Knotenname</th>
+    <th scope="row">{% trans "Node name" %}</th>
     <th>Frage</th>
     </tr>
     {% for node in no_ref_to_start %}
@@ -77,7 +79,7 @@
         <td>{{ node.question |truncatechars:80 |safe }}</td>
         <td>{{ value }}</td>
         <td><nobr>
-          <a class="btn btn-primary btn-sm" href="/trees/{{ selected_tree.slug }}/{{ node.slug }}/edit" role="button" target="_blank">Korrigieren</a>
+          <a class="btn btn-primary btn-sm" href="/trees/{{ selected_tree.slug }}/{{ node.slug }}/edit" role="button" target="_blank">{% trans "Correct" %}</a>
         </nobr></td>
       </tr>
     {% endfor %}
@@ -85,15 +87,15 @@
 {% else %}
   <tr>
     <td></td>
-    <td>✓ Alle Knoten sind mit dem Startknoten verbunden.</td>
+    <td>✓ {% trans  "All nodes are connected to the start-node." %}</td>
     <td></td>
     <td></td>
   </tr>
 {% endif %}
 <hr>
 {% if no_ref_to_end %}
-<h5>Fehlende Verknüpfung zum Endknoten</h5>
-<p>Hier endet der Pfad nicht mit einem Endknoten.</p>
+<h5>{% trans "Missing connection to an end-node" %}</h5>
+<p>{% trans "This path doesn't end with a end-node." %}</p>
 {% for path in no_ref_to_end %}
   {% for node in path %}
     {% if forloop.last %}
@@ -105,7 +107,7 @@
   <br>
 {% endfor %}
 <br>
-<p>Diese Knoten stehen am Ende, handelt es sich dabei um Endknoten?</p>
+<p>{% trans "This nodes are at the end of an path, are they end-nodes?" %}</p>
     <table>
     <tr>
     <th scope="row">Knotenname</th>
@@ -116,10 +118,10 @@
         <td>{{ node.name |truncatechars:80 |safe }}</td>
         <td>{{ node.question |truncatechars:80 |safe }}</td>
         <td><nobr>
-          <button class="btn btn-primary btn-sm" type="button" id="endnode" value="{{ node.slug }}"> In Endknoten umwandeln</button>
+          <button class="btn btn-primary btn-sm" type="button" id="endnode" value="{{ node.slug }}">{% trans "Set as end-node" %}</button>
         </nobr></td>
         <td><nobr>
-          <a class="btn btn-primary btn-sm" href="/trees/{{ selected_tree.slug }}/{{ node.slug }}/edit" role="button" target="_blank">Knoten bearbeiten</a>
+          <a class="btn btn-primary btn-sm" href="/trees/{{ selected_tree.slug }}/{{ node.slug }}/edit" role="button" target="_blank">{% trans "Edit node" %}</a>
         </nobr></td>
       </tr>
     {% endfor %}
@@ -127,7 +129,7 @@
 {% else %}
   <tr>
     <td></td>
-    <td>✓ Alle Knoten sind mit Endknoten verbunden.</td>
+    <td>✓ {% trans "All nodes are connected to an end-node." %}</td>
     <td></td>
     <td></td>
   </tr>
@@ -135,13 +137,13 @@
 
 <hr>
 {% if no_var %}
-<h5>Unvollständige Logikbausteine</h5>
-<p>Bei diesen Knoten ist der Logikbaustein unvollständig, weil keine Verknüpfung zum nächsten Knoten erstellt wurde.</p>
+<h5>{% trans "Incomplete logic modules" %}</h5>
+<p>{% trans "The connection to the next node is missing in the logic modules of this nodes." %}</p>
     <table>
     <tr>
-    <th>Knotenname</th>
-    <th>Frage</th>
-    <th>Fehlerhafte Antwort</th>
+    <th>{% trans "Node name" %}</th>
+    <th>{% trans "Question" %}</th>
+    <th>{% trans "Faulty answer" %}</th>
     </tr>
     {% for node, answer in no_var.items %}
       <tr>
@@ -149,7 +151,7 @@
         <td>{{ node.question |truncatechars:80 |safe }}</td>
         <td>{{ value }}</td>
         <td><nobr>
-          <a class="btn btn-primary btn-sm" href="/trees/{{ selected_tree.slug }}/{{ node.slug }}/edit" role="button" target="_blank">Korrigieren</a>
+          <a class="btn btn-primary btn-sm" href="/trees/{{ selected_tree.slug }}/{{ node.slug }}/edit" role="button" target="_blank">{% trans "Correct" %}</a>
         </nobr></td>
       </tr>
       {% endfor %}
@@ -157,7 +159,7 @@
 {% else %}
   <tr>
     <td></td>
-    <td>✓ Alle Knoten haben vollständige Logikbausteine.</td>
+    <td>✓ {% trans "All nodes have complete logic modules." %}</td>
     <td></td>
     <td></td>
   </tr>
@@ -167,17 +169,19 @@
 <form class="" action="index.html" method="post">
 
 
-Ja, ich möchte den Entscheidungsbaum gemeinfrei unter CC 4.0 BY lizenzieren
-<input type="checkbox" value="Ja, unter CC 4.0 BY veröffentlichen" checked>
-<br><a href="https://creativecommons.org/choose/?lang=de" target="_blank">Mehr Infos</a>
+{% trans "Yes, I want to license the decision-tree under  CC 4.0 BY." %}
+<input type="checkbox" value={% trans "Yes, publish under CC 4.0 BY." %} checked>
+<br><a href="https://creativecommons.org/choose/?lang=de" target="_blank">{% trans "Read more" %}</a>
 
 {% if no_answers or no_logic or no_ref_to_start or no_var or no_ref_to_end %}
-<br><a class="btn btn-primary btn-danger" href="export/output" role="button" style="margin:20px;">Trotz Fehler exportieren</a>
-<a class="btn btn-primary" href="/trees/{{ selected_tree.slug }}/export" role="button" style="background-color:green">Erneut prüfen</a>
+<br><a class="btn btn-primary btn-danger" href="export/output" role="button" style="margin:20px;">{% trans "Export anyway" %}</a>
+<a class="btn btn-primary" href="/trees/{{ selected_tree.slug }}/export" role="button" style="background-color:green">{% trans "Check again" %}</a>
 {% else %}
-<br><a class="btn btn-primary" href="export/output" role="button" style="margin:20px">Export</a>
+<br><a class="btn btn-primary" href="export/output" role="button" style="margin:20px">{% trans "Export" %}</a>
 {% endif %}
 </form>
+
+<script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
 
 <script>
 $(document).ready(function(){
@@ -195,7 +199,7 @@ $("a.btn-sm").click(function(){
       },
       success: function (data) {
         $("#endnode").css("background-color", "green");
-        $("#endnode").html("Erfolgreich");
+        $("#endnode").html(gettext("Success"));
       }
     });
     });
