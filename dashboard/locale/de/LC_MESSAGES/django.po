@@ -85,35 +85,35 @@ msgstr "Bitte korrigiere die Fehler und klicke dann auf 'Erneut prüfen'"
 
 #: dashboard/templates/export.html:11
 msgid "Looks good, no errors were found!"
-msgstr ""
+msgstr "Das sieht gut aus, es wurden keine Fehler gefunden!"
 
 #: dashboard/templates/export.html:16
 msgid "In this nodes there were no answers for the users provided."
-msgstr ""
+msgstr "In diesen Knoten wurden keine Antworten für den Nutzer vorgegeben."
 
 #: dashboard/templates/export.html:19 dashboard/templates/export.html:46
 #: dashboard/templates/export.html:73 dashboard/templates/export.html:144
 #: dashboard/templates/tree_view.html:22
 msgid "Node name"
-msgstr ""
+msgstr "Knotenname"
 
 #: dashboard/templates/export.html:20 dashboard/templates/export.html:145
 #: dashboard/templates/tree_view.html:23
 msgid "Question"
-msgstr ""
+msgstr "Frage"
 
 #: dashboard/templates/export.html:27 dashboard/templates/export.html:54
 #: dashboard/templates/export.html:82 dashboard/templates/export.html:154
 msgid "Correct"
-msgstr ""
+msgstr "Korrigieren"
 
 #: dashboard/templates/export.html:35
 msgid "All nodes have answers."
-msgstr ""
+msgstr "Alle Knoten haben Antworten."
 
 #: dashboard/templates/export.html:42
 msgid "Missing logic modules"
-msgstr ""
+msgstr "Fehlende Logikbausteine"
 
 #: dashboard/templates/export.html:43
 msgid "In this node there are no logic modules."
@@ -141,7 +141,7 @@ msgstr ""
 #, fuzzy
 #| msgid "All nodes are connected to an end-node"
 msgid "All nodes are connected to the start-node."
-msgstr "Alle Knoten sind mit einem Endknoten verbunden"
+msgstr "Alle Knoten sind mit einem Endknoten verbunden."
 
 #: dashboard/templates/export.html:97
 msgid "Missing connection to an end-node"
@@ -167,7 +167,7 @@ msgstr "Knoten bearbeiten"
 #, fuzzy
 #| msgid "All nodes are connected to an end-node"
 msgid "All nodes are connected to an end-node."
-msgstr "Alle Knoten sind mit einem Endknoten verbunden"
+msgstr "Alle Knoten sind mit einem Endknoten verbunden."
 
 #: dashboard/templates/export.html:140
 msgid "Incomplete logic modules"
@@ -178,10 +178,12 @@ msgid ""
 "The connection to the next node is missing in the logic modules of this "
 "nodes."
 msgstr ""
+"Die Verbindung zum nächsten Knoten fehlt in den Logikbausteinen dieses"
+"Knotens."
 
 #: dashboard/templates/export.html:146
 msgid "Faulty answer"
-msgstr ""
+msgstr "Fehlerhafte Antwort"
 
 #: dashboard/templates/export.html:162
 #, fuzzy
