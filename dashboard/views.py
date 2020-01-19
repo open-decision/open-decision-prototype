@@ -14,6 +14,7 @@ from datetime import date
 from django.core import serializers
 from django.http import JsonResponse
 from django.utils.translation import gettext as _
+from pages.models import PublishedTree
 
 VERSION = 0.1
 LOGIC_TYPE = 'jsonLogic version X'
@@ -27,6 +28,14 @@ def dashboard_view(request):
          'form':form,
          }
     return render(request, 'dashboard.html', context)
+
+@login_required
+def published_tree_view(request):
+    if request.method == 'GET':
+        context = {
+         'published_tree_list': PublishedTree.objects.filter(owner=request.user),
+         }
+    return render(request, 'published_trees.html', context)
 
 @login_required
 def add_tree(request):
@@ -52,6 +61,15 @@ def delete_tree (request):
     return HttpResponse()
 
 @login_required
+def unpublish_tree (request):
+    id = request.POST.get('tree_id')
+    id_clean = bleach_clean(id)
+    print(id_clean)
+    PublishedTree.objects.filter(id=id_clean).delete()
+    #todo: look for return value, maybe sth like 200?
+    return HttpResponse()
+
+@login_required
 def tree_view(request, slug):
     existing_nodes = Node.objects.filter(decision_tree__slug=slug).filter(new_node=False)
     new_nodes = Node.objects.filter(decision_tree__slug=slug).filter(new_node=True)
@@ -65,13 +83,9 @@ def tree_view(request, slug):
 
 @login_required
 def export_tree(request, slug):
-    #selected_tree object
-#1. Build header
-#2.
     data = check_tree(slug)
     errors = data[0]
     all_nodes = data[1]
-
     errors['no_answers'] = [all_nodes.get(id=element) for element in errors['no_answers']]
     errors['no_logic'] = [all_nodes.get(id=element) for element in errors['no_logic']]
     errors['no_ref_to_start'] = [all_nodes.get(id=element) for element in errors['no_ref_to_start']]
@@ -122,7 +136,6 @@ def check_tree(slug):
 
     print(single_paths)
     print(paths)
-
     return [errors, all]
 
 
@@ -215,7 +228,7 @@ def export_file (request, slug):
     export = build_tree(slug)
     response = JsonResponse(export, safe=False, content_type='application/json', json_dumps_params={'indent': 2})
     response['Content-Disposition'] = 'attachment; filename="{}.json"'.format(slug)
-    return  response
+    return response
 
 
 def build_tree (slug):
@@ -229,6 +242,7 @@ def build_tree (slug):
         #'localization': request.POST.get('localization', 'de-de'),
         'build_date': date.today(),
         'logic_type': LOGIC_TYPE,
+        'owner': DecisionTree.objects.get(slug=slug).owner.username,
 
         'tree_name' : DecisionTree.objects.get(slug=slug).name,
         'tree_slug' : slug,
@@ -322,7 +336,8 @@ def build_tree (slug):
                 export[n.slug]['results']['0'] = data
     return export
 
-def preview_view(request, slug):
-    print(slug)
-    context= {}
-    return render(request, 'preview.html', context)
+@login_required
+def load_tree(request):
+    selected_tree = request.GET.get('selected_tree')
+    data = build_tree(selected_tree)
+    return JsonResponse(data, safe=False)

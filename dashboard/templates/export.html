@@ -3,7 +3,7 @@
 {% load i18n %}
 
 <h2 class="pageheader">{% trans "Export of the Tree " %}{{ selected_tree.name }}</h2>
-<p>{% trans "This is the result of the integrity check."</p>
+<p>{% trans "This is the result of the integrity check."  %}</p>
 
 {% if no_answers or no_logic or no_ref_to_start or no_var or no_ref_to_end %}
 <p>{% trans "Please correct the errors and click the 'Check again Button'." %}</p>
@@ -177,7 +177,10 @@
 <br><a class="btn btn-primary btn-danger" href="export/output" role="button" style="margin:20px;">{% trans "Export anyway" %}</a>
 <a class="btn btn-primary" href="/trees/{{ selected_tree.slug }}/export" role="button" style="background-color:green">{% trans "Check again" %}</a>
 {% else %}
-<br><a class="btn btn-primary" href="export/output" role="button" style="margin:20px">{% trans "Export" %}</a>
+<span>
+<br><a class="btn btn-primary" href="export/output" role="button" style="margin:20px">{% trans "Download Tree" %}</a>
+<a class="btn btn-primary" href="/publish/new_{{selected_tree.slug}}" role="button" style="margin:20px">{% trans "Publish Tree" %}</a>
+</span>
 {% endif %}
 </form>
 

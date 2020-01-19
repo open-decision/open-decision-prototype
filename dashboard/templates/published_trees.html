@@ -12,51 +12,44 @@
         <div class="col">
           <div class="card shadow">
             <div class="card-header border-0">
-              <h3 class="mb-0">{% trans "Decision-Trees"  %}</h3>
+              <h3 class="mb-0">{% trans "Published Trees"  %}</h3>
             </div>
             <div class="table-responsive">
               <table class="table align-items-center table-flush tree-table table-hover">
                 <thead class="thead-light">
                   <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">{% trans "Name" %}</th>
-                    <th scope="col">{% trans "No. of Nodes" %}</th>
-                    <th scope="col">{% trans "Status" %}</th>
+                    <th scope="col">{% trans "Exported Tree" %}</th>
+                    <th scope="col">{% trans "Export Date" %}</th>
+                    <th scope="col">{% trans "Link" %}</th>
                     <th scope="col"></th>
                     <th scope="col"></th>
                   </tr>
                 </thead>
                 <tbody>
-                  {% if decisiontree_list %}
-                        {% for decisiontree in decisiontree_list %}
-                    <tr id="tr_{{ decisiontree.id }}" class="tr-clickable" data-href='/trees/{{ decisiontree.slug }}'>
-                    <th scope="row">
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm" id="tree-counter">{{ forloop.counter }}</span>
-                        </div>
-                      </div>
+                  {% if published_tree_list %}
+                        {% for decisiontree in published_tree_list %}
+                    <tr id="tr_{{ decisiontree.id }}" class="tr-clickable" data-href='/publish/{{ decisiontree.url }}'>
                     </th>
                     <td>
-                      {{ decisiontree.name |truncatechars:40}}
+                      {{ decisiontree.decision_tree.name |truncatechars:40}}
                     </td>
                     <td>
                       <span class="d-flex align-items-center">
-                        {{ decisiontree.node_number }}
+                        {{ decisiontree.created_at }}
                       </span>
                     </td>
                     <td>
                       <div class="d-flex align-items-center">
-                        <span class="mr-2">{% trans "In Progress" %}</span>
+                        <span class="mr-2"><a href="/publish/{{ decisiontree.url }}">/publish/{{ decisiontree.url }}</a></span>
                       </div>
                     </td>
-                    <td>
-                      <a href="/trees/{{ decisiontree.slug }}" class="btn btn-primary btn-icon-split btn-sm">
-                        <span class="icon text-white-50">
-                          <i class="far fa-edit"></i>
+                    <td class="no-bubbling">
+                      <button id="copy-btn" type="button" data-url="publish/{{ decisiontree.url }}" class="btn btn-primary btn-icon-split btn-sm no-bubbling" name="button">
+                        <span class="icon text-white-50 no-bubbling">
+                          <i class="far fa-copy no-bubbling"></i>
                         </span>
-                        <span class="text">{% trans "Edit" %}</span>
-                      </a>
+                        <span class="text no-bubbling">{% trans "Copy Link" %}</span>
+                      </button>
                     </td>
                     <td class="text-center">
                       <div class="dropdown no-bubbling">
@@ -64,13 +57,9 @@
                           <i class="fas fa-ellipsis-v no-bubbling"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-left shadow animated--fade-in no-bubbling">
-                          <a class="dropdown-item no-bubbling" type="button" data-toggle="modal" data-target="#deleteModal" tree-id="{{ decisiontree.id }}" tree-name="{{ decisiontree.name }}">
-                            <i class="far fa-trash-alt no-bubbling"></i>
-                            {% trans "Delete" %}
-                          </a>
-                          <a class="dropdown-item" href="/trees/{{ decisiontree.slug }}/export" data-click="">
-                            <i class="fas fa-download" data-click=""></i>
-                            {% trans "Export" %}
+                          <a class="dropdown-item no-bubbling" type="button" data-toggle="modal" data-target="#deleteModal" tree-id="{{ decisiontree.id }}" tree-name="{{ decisiontree.decision_tree.name }}">
+                            <i class="fas fa-ban no-bubbling"></i>
+                            {% trans "Unpublish" %}
                           </a>
                         </div>
                       </div>
@@ -91,7 +80,7 @@
                             <div class="col-md-6 order-lg-2">
                               <div class="p-5 text-right">
                                 <h2>{% trans "It's so empty here..." %}</h2>
-                                <p class="mb-5">{% trans "Enter a name and click the blue button to get started!" %}</p>
+                                <p class="mb-5">{% trans "Build your first tree and publish it in the export-section." %}</p>
                               </div>
                             </div>
                             </div>
@@ -103,24 +92,6 @@
                   {% endif %}
                 </tbody>
               </table>
-            </div>
-            <div class="card-footer py-4">
-              <nav aria-label="...">
-                <ul class="pagination justify-content-end mb-0">
-
-                  <li class="page-item mr-3">
-                    {{ form.name |addclass:'form-control form-control-user; _("Name of the new Tree")'}}
-                  </li>
-                  <li class="page-item mr-3">
-                    <button href="" class="btn btn-primary btn-icon-split btn-sm" value='addTree' id="addTree">
-                      <span class="icon text-white-50">
-                        <i class="fas fa-plus"></i>
-                      </span>
-                      <span class="text">{% trans "Create new Tree" %}</span>
-                    </button>
-                  </li>
-                </ul>
-              </nav>
             </div>
           </div>
         </div>
@@ -140,7 +111,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "Cancel"%}</button>
-            <button type="button" class="btn btn-primary btn-danger" data-dismiss="modal" id=deleteTree>{% trans "Delete" %}</button>
+            <button type="button" class="btn btn-primary btn-danger" data-dismiss="modal" id=deleteTree>{% trans "Unpublish" %}</button>
           </div>
         </div>
       </div>
@@ -150,6 +121,41 @@
     <script>
     $(document).ready(function(){
 
+// Copy to clipboard functionality
+    function copyTextToClipboard(text) {
+      var textArea = document.createElement("textarea");
+      // Some styling if textArea should be visible
+      textArea.style.position = 'fixed';
+      textArea.style.top = 0;
+      textArea.style.left = 0;
+      textArea.style.width = '2em';
+      textArea.style.height = '2em';
+      textArea.style.padding = 0;
+      textArea.style.border = 'none';
+      textArea.style.outline = 'none';
+      textArea.style.boxShadow = 'none';
+      textArea.style.background = 'transparent';
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        el = event.target.closest('#copy-btn')
+        el.classList.remove('btn-primary');
+        el.classList.add('btn-success');
+        el.querySelector('.text').textContent='Copied!';
+      } catch (err) {
+      }
+      document.body.removeChild(textArea);
+    }
+
+    $(document).on('click', '#copy-btn', function(event) {
+      var url = window.location.href.replace("published-trees/",'') + event.target.closest('#copy-btn').getAttribute('data-url');
+      copyTextToClipboard(url);
+    });
+
+
       // Make the table rows clickable
     $('.tr-clickable').click(function(e){
       // Do not react to clicks on elements with no-bubbling class (the dropdown menu)
@@ -158,44 +164,13 @@
       };
     });
 
-      $("#addTree").click(function () {
-        var name = $("#id_name").val();
-            $.post({
-              url: "{% url 'add_tree' %}",
-              headers: {'X-CSRFToken': '{{ csrf_token }}'},
-              data: {
-                'name': name
-              },
-              success: function (data) {
-                $(".tree-table tbody").append(data);
-                var rowCount = $("#tree-counter").first().html();
-                $("#empty-table-help").hide();
-
-                // console.log(data);
-                // if (data.match(/^<tr/)) {
-                //   $(".tree-table tbody").append(data);
-                //   var rowCount = $("#tree-counter").first().html();
-                //   $("#empty-table-help").hide();
-                //   console.log(rowCount)
-                // } else {
-                //   console.log("Error")
-                // }
-
-                 //$('<div class="item">Item 3</div>').insertAfter('.item:last');
-                // $("#id_name").empty();
-                // $("#trees").empty();
-                // $("#trees").html(data);
-              }
-            });
-          });
-
           //triggered when modal is about to be shown
           $('#deleteModal').on('show.bs.modal', function(e) {
             //get data-id attribute of the clicked element
             var treeId = $(e.relatedTarget).attr('tree-id');
             var treeName = $(e.relatedTarget).attr('tree-name');
             //populate the textbox
-            $(e.currentTarget).find('.modal-body').html('<p>' + gettext('Are you sure that you want to delete the tree') + ' <b>' + treeName + '?</b></p>');
+            $(e.currentTarget).find('.modal-body').html('<p>' + gettext('Are you sure that you want to unpublish the tree') + ' <b>' + treeName + '?</b></p>');
             $(e.currentTarget).find('#deleteTree').attr('tree-id', treeId);
           });
 
@@ -205,7 +180,7 @@
           var treeId = $(this).attr('tree-id');
 
           $.ajax({
-            url: "{% url 'ajax_delete_tree' %}",
+            url: "{% url 'ajax_unpublish_tree' %}",
             type: "POST",
             data: {
               'tree_id': treeId,
@@ -215,7 +190,6 @@
           $('#tr_' + treeId).remove();
           var rowCount = $("#tree-counter").first().html();
           $("#empty-table-help").hide();
-          console.log(rowCount);
 
                 }
               });

@@ -1,12 +1,5 @@
-//<script type="text/javascript" src="{% static 'logic.js' %}"></script>
-
-//Todo: JS translation
-(function(){
-
-  loadTree(function(path) {
-  // Parse JSON string into object
-    let tree= JSON.parse(path);
-
+window.openDecision = (function(){
+"use strict";
 // The node of the tree the user is currently seeing
 let currentNode,
 // The decision tree that is being rendered
@@ -16,8 +9,15 @@ preString,
 // Used to log the nodes shown and answers given by the user, used for history
 log,
 // The div-container in which the tree is rendered in (where the question, buttons etc. is shown)
-selectedDiv;
+selectedDiv,
 
+ expose = {};
+
+expose.init = function (path, divId) {
+  tree = path;
+  selectedDiv = divId;
+  displayTree();
+};
 
 // Listener for hashchange in the URL if the user clicks the browser's back-button
 // The hash tells us the node name, that is currently displayed
@@ -37,11 +37,9 @@ window.onhashchange = function() {
     }
 };
 
-function displayTree  (path, divId) {
-  tree = path;
+function displayTree  () {
   currentNode = tree.header.start_node;
   preString = '<h3>' + tree.header.tree_name + '</h3><br>';
-  selectedDiv = divId
   log = {'nodes': [], 'answers': []}
   displayNode()
 };
@@ -53,13 +51,13 @@ function displayNode () {
   let string = preString + tree[currentNode].question + '<br>';
 
   if (tree[currentNode].input_type == 'button') {
-    for (i = 0; i < tree[currentNode].answers.length; i++) {
+    for (let i = 0; i < tree[currentNode].answers.length; i++) {
         string += '<button type="button" class="btn btn-primary ml-2" id="answer-button">' + tree[currentNode].answers[i] + '</button>'
       }
     }
   else if (tree[currentNode].input_type == 'list') {
     string += '<select id="list-select">'
-    for (i = 0; i < tree[currentNode].answers.length; i++) {
+    for (let i = 0; i < tree[currentNode].answers.length; i++) {
       string += '<option value=' + tree[currentNode].answers[i] + '>' + tree[currentNode].answers[i] + '</option>'
       }
       string += '</select><br><button type="button" class="btn btn-primary ml-2 mt-3" id="submit-list-button">Submit</button>'
@@ -135,12 +133,8 @@ function checkAnswer (answer, input_type) {
 // Save/download progress function
 // Check header data
 // Validate user input and give errors
+//Todo: JS translation
 
 
-
-document.addEventListener('readystatechange', function() {
-   if (document.readyState === "complete") {
-     displayTree ("tree.json", 'test');
-   }
- });
-})();
+ return expose;
+}());
