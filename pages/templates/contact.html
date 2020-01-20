@@ -1,8 +1,8 @@
 {%extends 'base.html'%}
 {%block content%}
-<h2 class="pageheader">Kontakt</h2>
-<p>Die code-bezogene Arbeit wird über <a href="https://github.com/fbennets/open-decision" target="_blank">GitHub</a> koordiniert.</p>
-      <p>Die nicht-code-bezogene Arbeit wird über <a href="https://trello.com/invite/opendecision/2de51a8fbeacf13b9ee1ee24a23cfe71" target="_blank">Trello</a> koordiniert.</p>
-		  <p>Die Kommunikation läuft über <a href="https://join.slack.com/t/opendecision/shared_invite/enQtNjM2NDUxNTQyNzU4LWYwMzJlZjlhOWJkMmIxMTBmMjYwMDE0Y2Y2OGUyZDBiY2FmOWU4OTVmMDFhMjNhNTIxYWZkZTNkNDRmNjQ4MmM" target="_blank">unseren Slack Channel</a>.</p>
-      <p>Fragen und Anmerkungen gerne jederzeit an <a href="mailto:&#097;&#097;&#114;&#111;&#110;&#046;&#114;&#111;&#116;&#104;&#109;&#097;&#110;&#110;&#064;&#103;&#109;&#097;&#105;&#108;&#046;&#099;&#111;&#109;">&#097;&#097;&#114;&#111;&#110;&#046;&#114;&#111;&#116;&#104;&#109;&#097;&#110;&#110;&#064;&#103;&#109;&#097;&#105;&#108;&#046;&#099;&#111;&#109;</a>.</p>
+{% load i18n %}
+
+<h2 class="pageheader">{% trans "Get in touch" %}</h2>
+<p>{% trans "Feel free to send your ideas, questions or critique to  " %}<a href="mailto:contact@open-decision.org">contact@open-decision.org</a>{% trans " or get in touch at " %}<a href="https://join.slack.com/t/opendecision/shared_invite/enQtNjM2NDUxNTQyNzU4LWYwMzJlZjlhOWJkMmIxMTBmMjYwMDE0Y2Y2OGUyZDBiY2FmOWU4OTVmMDFhMjNhNTIxYWZkZTNkNDRmNjQ4MmM">Slack</a>.</p>
+<p>{% trans "Further information at" %} <a href="http://open-decision.org">open-decision.org</a>
 {%endblock%}

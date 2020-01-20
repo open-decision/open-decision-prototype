@@ -13,6 +13,9 @@ from django.db import IntegrityError
 from datetime import date
 from django.core import serializers
 from django.http import JsonResponse
+from django.utils.translation import gettext as _
+from pages.models import PublishedTree
+
 VERSION = 0.1
 LOGIC_TYPE = 'jsonLogic version X'
 
@@ -27,6 +30,14 @@ def dashboard_view(request):
     return render(request, 'dashboard.html', context)
 
 @login_required
+def published_tree_view(request):
+    if request.method == 'GET':
+        context = {
+         'published_tree_list': PublishedTree.objects.filter(owner=request.user),
+         }
+    return render(request, 'published_trees.html', context)
+
+@login_required
 def add_tree(request):
     f = DecisionTreeForm(request.POST)
     try:
@@ -35,7 +46,7 @@ def add_tree(request):
             tree.owner = request.user
             tree.save()
     except IntegrityError as e:
-        return HttpResponse('<div class="border-left-danger pl-2"><p>Bitte wähle einen anderen Namen, dieser ist bereits vergeben.</p></div>')
+        return HttpResponse('<div class="border-left-danger pl-2">'+ _('<p>Please choose another name, this one is  already taken.</p>') + '</div>')
     context = {
      'decisiontree_list': DecisionTree.objects.filter(id=tree.id)
      }
@@ -46,6 +57,15 @@ def delete_tree (request):
     id = request.POST.get('tree_id')
     id_clean = bleach_clean(id)
     DecisionTree.objects.filter(id=id_clean).delete()
+    #todo: look for return value, maybe sth like 200?
+    return HttpResponse()
+
+@login_required
+def unpublish_tree (request):
+    id = request.POST.get('tree_id')
+    id_clean = bleach_clean(id)
+    print(id_clean)
+    PublishedTree.objects.filter(id=id_clean).delete()
     #todo: look for return value, maybe sth like 200?
     return HttpResponse()
 
@@ -63,13 +83,9 @@ def tree_view(request, slug):
 
 @login_required
 def export_tree(request, slug):
-    #selected_tree object
-#1. Build header
-#2.
     data = check_tree(slug)
     errors = data[0]
     all_nodes = data[1]
-
     errors['no_answers'] = [all_nodes.get(id=element) for element in errors['no_answers']]
     errors['no_logic'] = [all_nodes.get(id=element) for element in errors['no_logic']]
     errors['no_ref_to_start'] = [all_nodes.get(id=element) for element in errors['no_ref_to_start']]
@@ -89,7 +105,7 @@ def check_tree(slug):
     no_end_nodes = all.filter(end_node=False)
 
 # Build errors dict for nodes without data_answer or data_logic
-#todo: data answer und logic kann auch [{}] enthalten
+#todo: data answer und logic can contain [{}] as well
     errors = {
         'no_answers': [n.id for n in no_end_nodes.filter(data_answer='[]')],
         'no_logic': [n.id for n in no_end_nodes.filter(data_logic='[]')],
@@ -120,7 +136,6 @@ def check_tree(slug):
 
     print(single_paths)
     print(paths)
-
     return [errors, all]
 
 
@@ -213,7 +228,7 @@ def export_file (request, slug):
     export = build_tree(slug)
     response = JsonResponse(export, safe=False, content_type='application/json', json_dumps_params={'indent': 2})
     response['Content-Disposition'] = 'attachment; filename="{}.json"'.format(slug)
-    return  response
+    return response
 
 
 def build_tree (slug):
@@ -227,6 +242,7 @@ def build_tree (slug):
         #'localization': request.POST.get('localization', 'de-de'),
         'build_date': date.today(),
         'logic_type': LOGIC_TYPE,
+        'owner': DecisionTree.objects.get(slug=slug).owner.username,
 
         'tree_name' : DecisionTree.objects.get(slug=slug).name,
         'tree_slug' : slug,
@@ -252,15 +268,9 @@ def build_tree (slug):
             export[n.slug]['answers'] = [single_answer['answer'] for single_answer in json.loads(n.data_answer)]
 # For lists answers separated by line breaks are split into a list of single answers
         elif n.input_type == 'list':
-            export[n.slug]['answers'] = json.loads(n.data_answer)['answer'].splitlines()
+            export[n.slug]['answers'] = json.loads(n.data_answer)[0]['answer'].splitlines()
 
 # Build the logic dict
-
-# If "==" do the normal logic, if create  a value entry in the header
-# Button -> normal connection by key
-# List -> if selected  value in list of values provided, go  to
-# Date or number -> compare to user defined values and execute logic
-# End node -> empty
 
 #todo: refactor code to use a counter within the forloop to know if the dict exists
 #todo: option to set a value for variables
@@ -268,7 +278,7 @@ def build_tree (slug):
         for l in json.loads(n.data_logic):
             # Loop through logic forms
 
-            if n.input_type == 'number' or 'date' or 'button':
+            if (n.input_type == 'number') or (n.input_type =='date') or (n.input_type == 'button'):
                 # Build the rules first
                 # If dict already exists
                 try:
@@ -301,7 +311,7 @@ def build_tree (slug):
                 #     }
 
 
-            if n.input_type == 'list':
+            elif n.input_type == 'list':
                 try:
                     export[n.slug]['rules']['if'].extend(
                     [
@@ -325,3 +335,9 @@ def build_tree (slug):
                 export[n.slug]['results'] = {}
                 export[n.slug]['results']['0'] = data
     return export
+
+@login_required
+def load_tree(request):
+    selected_tree = request.GET.get('selected_tree')
+    data = build_tree(selected_tree)
+    return JsonResponse(data, safe=False)

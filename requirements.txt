@@ -1,10 +1,9 @@
 asgiref==3.2.3
 bleach==3.1.0
-Django==3.0
+Django==3.0.2
 django-ckeditor==5.8.0
 django-js-asset==1.2.2
-Pillow==6.2.1
-psycopg2-binary==2.7.7
+Pillow==7.0.0
 pytz==2018.9
 six==1.13.0
 sqlparse==0.3.0

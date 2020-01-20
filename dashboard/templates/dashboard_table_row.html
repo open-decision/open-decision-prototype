@@ -1,72 +1,74 @@
+{% load i18n %}
+
 {% for decisiontree in decisiontree_list %}
 <tr id="tr_{{ decisiontree.id }}" class="tr-clickable" data-href='/trees/{{ decisiontree.slug }}'>
 <th scope="row">
-<div class="media align-items-center">
-<div class="media-body">
-  <span class="mb-0 text-sm" id="tree-counter">{{ forloop.counter }}</span>
-</div>
-</div>
+  <div class="media align-items-center">
+    <div class="media-body">
+      <span class="mb-0 text-sm" id="tree-counter">{{ forloop.counter }}</span>
+    </div>
+  </div>
 </th>
 <td>
-{{ decisiontree.name |truncatechars:40}}
+  {{ decisiontree.name |truncatechars:40}}
 </td>
 <td>
-<span class="d-flex align-items-center">
-{{ decisiontree.node_number }}
-</span>
+  <span class="d-flex align-items-center">
+    {{ decisiontree.node_number }}
+  </span>
 </td>
 <td>
-<div class="d-flex align-items-center">
-<span class="mr-2">In Progress</span>
-</div>
+  <div class="d-flex align-items-center">
+    <span class="mr-2">{% trans "In Progress" %}</span>
+  </div>
 </td>
 <td>
-<a href="/trees/{{ decisiontree.slug }}" class="btn btn-primary btn-icon-split btn-sm">
-<span class="icon text-white-50">
-  <i class="far fa-edit"></i>
-</span>
-<span class="text">Bearbeiten</span>
-</a>
+  <a href="/trees/{{ decisiontree.slug }}" class="btn btn-primary btn-icon-split btn-sm">
+    <span class="icon text-white-50">
+      <i class="far fa-edit"></i>
+    </span>
+    <span class="text">{% trans "Edit" %}</span>
+  </a>
 </td>
 <td class="text-center">
-<div class="dropdown no-bubbling">
-<a class="btn btn-sm btn-icon-only text-dark no-bubbling" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-  <i class="fas fa-ellipsis-v no-bubbling"></i>
-</a>
-<div class="dropdown-menu dropdown-menu-left shadow animated--fade-in no-bubbling">
-  <a class="dropdown-item no-bubbling" type="button" data-toggle="modal" data-target="#deleteModal" tree-id="{{ decisiontree.id }}" tree-name="{{ decisiontree.name }}">
-    <i class="far fa-trash-alt no-bubbling"></i>
-    Löschen
-  </a>
-  <a class="dropdown-item" href="/trees/{{ decisiontree.slug }}/export" data-click="">
-    <i class="fas fa-download" data-click=""></i>
-    Exportieren
-  </a>
-</div>
-</div>
+  <div class="dropdown no-bubbling">
+    <a class="btn btn-sm btn-icon-only text-dark no-bubbling" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <i class="fas fa-ellipsis-v no-bubbling"></i>
+    </a>
+    <div class="dropdown-menu dropdown-menu-left shadow animated--fade-in no-bubbling">
+      <a class="dropdown-item no-bubbling" type="button" data-toggle="modal" data-target="#deleteModal" tree-id="{{ decisiontree.id }}" tree-name="{{ decisiontree.name }}">
+        <i class="far fa-trash-alt no-bubbling"></i>
+        {% trans "Delete" %}
+      </a>
+      <a class="dropdown-item" href="/trees/{{ decisiontree.slug }}/export" data-click="">
+        <i class="fas fa-download" data-click=""></i>
+        {% trans "Export" %}
+      </a>
+    </div>
+  </div>
 </td>
 </tr>
 {% endfor %}
 {% else %}
 <tr id="empty-table-help">
 <th scope="row">
-<td>
-<div class="container">
-  <div class="row align-items-center">
-    <div class="col-lg-6 order-lg-1">
-      <div class="p-5">
-        <img class="img-fluid" src="{% static 'img/blank_canvas.svg' %}" alt="Empty List Illustration">
+  <td>
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 order-lg-1">
+          <div class="p-5">
+            <img class="img-fluid" src="{% static 'img/blank_canvas.svg' %}" alt="Empty List Illustration">
+          </div>
+        </div>
+        <div class="col-md-6 order-lg-2">
+          <div class="p-5 text-right">
+            <h2>{% trans "It's so empty here..." }%</h2>
+            <p class="mb-5">{% trans "Enter a name and click the blue button to get started!" %}</p>
+          </div>
+        </div>
+        </div>
       </div>
     </div>
-    <div class="col-md-6 order-lg-2">
-      <div class="p-5 text-right">
-        <h2>It's so empty here...</h2>
-        <p class="mb-5">Enter a name and click the blue button to get started!</p>
-      </div>
-    </div>
-    </div>
-  </div>
-</div>
-</td>
+  </td>
 </th>
 </tr>

@@ -1,0 +1,79 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-01-04 22:02+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: pages/templates/contact.html:5
+msgid "Get in touch"
+msgstr ""
+
+#: pages/templates/contact.html:6
+msgid "Feel free to send your ideas, questions or critique to  "
+msgstr ""
+
+#: pages/templates/contact.html:6
+msgid " or get in touch at "
+msgstr ""
+
+#: pages/templates/contact.html:7
+msgid "Further information at"
+msgstr ""
+
+#: pages/templates/home.html:20
+msgid "Civil Legal Tech"
+msgstr ""
+
+#: pages/templates/home.html:21
+msgid ""
+"The open decision project aims to create an open source platform for "
+"decision automation. Using an intuitive web interface, experts can process "
+"specific questions into complex decision trees. These can be exported into "
+"an open data format and presented to users online or via app in the form of "
+"a query."
+msgstr ""
+"Mit dem Projekt open decision soll eine Open-Source-Plattform zur "
+"Entscheidungsautomatisierung geschaffen werden. Mittels einer intuitiven "
+"Weboberfläche können Experten spezifische Fragestellungen in komplexe "
+"Entscheidungsbäume aufbereiten. Diese können in ein offenes Datenformat "
+"exportiert und Nutzern online oder per App in Form einer Abfrage präsentiert "
+"werden."
+
+#: pages/templates/home.html:26
+msgid "Try now"
+msgstr ""
+
+#: pages/templates/home.html:40
+msgid "Easy solution for legal issues"
+msgstr ""
+
+#: pages/templates/home.html:41 pages/templates/home.html:59
+#: pages/templates/home.html:77
+msgid ""
+"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, "
+"mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea "
+"animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae "
+"obcaecati."
+msgstr ""
+
+#: pages/templates/home.html:58
+msgid "Modern technologies!"
+msgstr ""
+
+#: pages/templates/home.html:76
+msgid "Justice for everyone"
+msgstr ""

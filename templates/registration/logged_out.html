@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-
 {% block content %}
-  <h2 class="pageheader">Logged out!</h2>
-  <a href="{% url 'login'%}">Click here to login again.</a>
+{% load i18n %}
+  <h2 class="pageheader">{% trans "Logged out!" %}</h2>
+  <a href="{% url 'login'%}">{% trans "Click here to login again." %}</a>
 {% endblock %}

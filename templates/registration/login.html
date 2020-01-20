@@ -2,6 +2,7 @@
 {% block content %}
 {% load custom_filters %}
 {% load static %}
+{% load i18n %}
 
   <div class="container">
 
@@ -20,19 +21,18 @@
               <div class="col-lg-6">
                 <div class="p-5">
                   <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                    <h1 class="h4 text-gray-900 mb-4">{% trans "Welcome Back!" %}</h1>
                   </div>
 
                   {% if form.errors %}
                   <div class="border-left-danger pl-2">
-                    <p>Your username and password didn't match. Please try again.</p>
+                    <p>{% trans "Your username and password didn't match. Please try again." %}</p>
                   </div>
                   {% endif %}
 
                   {% if next %}
                     {% if user.is_authenticated %}
-                      <p>Your account doesn't have access to this page. To proceed,
-                      please login with an account that has access.</p>
+                      <p>{% trans "Your account doesn't have access to this page. To proceed, please login with an account that has access." %}</p>
                     {% endif %}
                   {% endif %}
 
@@ -40,10 +40,10 @@
                       {% csrf_token %}
                     <div class="form-group">
                       <!-- addclass takes to arguments, first the css class, second the placeholder -->
-                      {{ form.username |addclass:'form-control form-control-user; Enter Username' }}
+                      {{ form.username |addclass:'form-control form-control-user; _("Enter Username")' }}
                     </div>
                     <div class="form-group">
-                      {{ form.password |addclass:'form-control form-control-user; Password' }}
+                      {{ form.password |addclass:'form-control form-control-user; _("Password")' }}
                     </div>
                     <input type="hidden" name="next" value="{{ next }}"/>
                     <input type="submit" value="Login" class="btn btn-primary btn-user btn-block">
@@ -51,11 +51,11 @@
                   <hr class="pt-2 pb-1">
                   {% if False %}
                   <div class="text-center">
-                    <a class="small" href="{% url 'password_reset' %}">Forgot Password?</a>
+                    <a class="small" href="{% url 'password_reset' %}">{% trans "Forgot Password?" %}</a>
                   </div>
                   {% endif %}
                   <div class="text-center">
-                    <a class="medium" href="{% url 'register_user' %}">Create an Account!</a>
+                    <a class="medium" href="{% url 'register_user' %}">{% trans "Create an Account!" %}</a>
                   </div>
                 </div>
               </div>
