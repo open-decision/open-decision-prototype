@@ -31,7 +31,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', register_user, name='register_user'),
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
-    #re_path(r'^', include('django_telegrambot.urls')),
+    re_path(r'^', include('django_telegrambot.urls')),
 
     path('', home_view, name='home'),
     path('contact/', contact_view),
