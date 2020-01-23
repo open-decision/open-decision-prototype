@@ -6,7 +6,7 @@ else:
 
 DJANGO_TELEGRAMBOT = {
 
-    'MODE' : 'WEBHOOK', #(Optional [str]) # The default value is WEBHOOK,
+    'MODE' : 'POLLING', #(Optional [str]) # The default value is WEBHOOK,
                         # otherwise you may use 'POLLING'
                         # NB: if use polling you must provide to run
                         # a management command that starts a worker
