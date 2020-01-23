@@ -54,6 +54,8 @@ def check_answer (bot, update, chat_data):
     #If input_type is number but input no valid number prompt user again
     if (tree[chat_data['current_node']]['input_type'] == 'number') and not (is_number(answer)):
         update.message.reply_text('Bitte gib eine Zahl ein. Benutze als Trennzeichen bitte einen Punkt und kein Komma.')
+        current_node = chat_data['current_node']
+        display_node (bot, update, chat_data, current_node)
     #Use jsonLogic to parse the logic block of the node
     rule = jsonLogic(tree[chat_data['current_node']]['rules'], {"answer":answer})
     #Log node and answer
