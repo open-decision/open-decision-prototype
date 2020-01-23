@@ -13,6 +13,13 @@ import os
 from .ckeditor_settings import *
 from .telegrambot_settings import *
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
 
 if os.environ.get('DJANGO_PRODUCTION') is not None:
     # SECURITY WARNING: don't run with debug turned on in production!
@@ -21,7 +28,7 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
     ALLOWED_HOSTS = ['.herokuapp.com']
 
     # SECURITY WARNING: keep the secret key used in production secret!
-    SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+    SECRET_KEY = os.environ.get('SECRET_KEY')
 
     # Heroku: Update database configuration from $DATABASE_URL.
     import dj_database_url
@@ -120,12 +127,6 @@ WSGI_APPLICATION = 'opendecision.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
 
 # Password validation
