@@ -8,6 +8,8 @@ from dashboard.views import build_tree
 from dashboard.models import DecisionTree
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
+from django.views.decorators.clickjacking import xframe_options_exempt
+
 
 
 # Create your views here.
@@ -43,13 +45,15 @@ def register_user(request):
         form = SignUpForm()
     return render(request, 'registration/register.html', {'form': form})
 
-
+@xframe_options_exempt
 def show_published_tree(request, slug):
     if not slug.startswith('new_'):
         tree = PublishedTree.objects.get(url=slug)
         context = {'tree_data' : tree.tree_data}
         if request.GET.get('new'):
             context['url'] = slug
+        if request.GET.get('embedded'):
+            return render(request, 'publish_embedded.html', context)
         return render(request, 'publish.html', context)
     else:
         random_url = publish(request, slug)

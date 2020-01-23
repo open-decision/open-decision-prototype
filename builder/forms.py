@@ -18,6 +18,11 @@ class NodeForm(forms.Form):
     question = forms.CharField(widget=CKEditorWidget())
     input_type = forms.ChoiceField(label='Eingabeart', choices = INPUT_CHOICES)
 
+class NodeFormVisualBuilder(NodeForm):
+    question = forms.CharField(widget=CKEditorWidget(config_name='visualbuilder'))
+
+
+
 class ButtonAnswersForm(forms.Form):
     answer = forms.CharField(label='Antwort')
 

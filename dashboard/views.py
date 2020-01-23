@@ -175,13 +175,14 @@ def iterator(paths, num_of_childs_left, single_paths, last_fork):
             except IndexError:
                 num_of_childs_left[-1] -= 1
             node = paths['nodes'][node]['childs'][num_childs-left]
+            print('Called first time')
     # If node is called the first time
         except IndexError:
             temp_path.append(paths['nodes'][node]['childs'][0])
             paths['accessed_nodes'].append(paths['nodes'][node]['childs'][0])
             num_of_childs_left.append(len(paths['nodes'][node]['childs'])-1)
             node = paths['nodes'][node]['childs'][0]
-
+            print('Called second time')
     #If while loop ends, we reached an end node
     else:
         single_paths.append(temp_path)

@@ -1,0 +1,342 @@
+{% load static %}
+{% load i18n %}
+
+<html>
+<head>
+    <!-- Primary Meta Tags -->
+<title>Open Decision - Visual Builder</title>
+<meta name="title" content="Open Decision">
+<meta name="description" content="">
+
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
+    <link href="{% static 'flowy/styles.css'%}" rel='stylesheet' type='text/css'>
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" />
+    <link href="{% static 'flowy/flowy.min.css' %}" rel='stylesheet' type='text/css'>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <script src="{% static 'flowy/flowy.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+    <script type="text/javascript" src="{% static 'jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+
+
+
+
+</head>
+<body>
+    <div id="navigation">
+        <div id="leftside">
+            <div id="details">
+            <div id="back"><a href="/dashboard"><img src="{% static 'flowy/assets/arrow.svg' %}"></a></div>
+            <div id="names">
+                <p id="title">{{decisiontree.name}} Empty</p>
+                <p id="subtitle">{% trans "Your automation pipeline" %}</p>
+            </div>
+        </div>
+        </div>
+        <div id="centerswitch">
+            <div id="leftswitch">{% trans "Visual Builder" %}</div>
+            <div id="rightswitch">{% trans "Text Builder" %}</div>
+        </div>
+        <div id="buttonsright">
+            <div id="discard">{% trans "Preview" %}</div>
+            <div id="publish">{% trans "Export Tree" %}</div>
+        </div>
+    </div>
+    <div id="leftcard">
+        <div id="closecard">
+            <img src="{% static 'flowy/assets/closeleft.svg' %}">
+        </div>
+        <p id="header">{% trans "Nodes" %}</p>
+        <div id="search">
+            <img src="{% static 'flowy/assets/search.svg' %}">
+            <input type="text" placeholder="Search blocks">
+        </div>
+        <div id="subnav">
+            <div id="triggers" class="navactive side">{% trans "Content" %}</div>
+            <div id="actions" class="navdisabled side">{% trans "Actions" %}</div>
+            <div id="loggers" class="navdisabled side">{% trans "Loggers" %}</div>
+        </div>
+        <div id="blocklist">
+            <div class="blockelem create-flowy noselect">
+                <input type="hidden" name='blockelemtype' class="blockelemtype" value="1">
+                <div class="grabme">
+                    <img src="{% static 'flowy/assets/grabme.svg' %}">
+                </div>
+                <div class="blockin">
+                    <div class="blockico">
+                        <span></span>
+                        <img src="{% static 'flowy/assets/eye.svg' %}">
+                    </div>
+                    <div class="blocktext">
+                        <p class="blocktitle">New visitor</p>
+                        <p class="blockdesc">Triggers when somebody visits a specified page</p>
+                    </div>
+                </div>
+            </div>
+            <div class="blockelem create-flowy noselect">
+                <input type="hidden" name='blockelemtype' class="blockelemtype" value="2">
+                <div class="grabme">
+                    <img src="{% static 'flowy/assets/grabme.svg' %}">
+                </div>
+                <div class="blockin">
+                    <div class="blockico">
+                        <span></span>
+                        <img src="{% static 'flowy/assets/action.svg' %}">
+                    </div>
+                    <div class="blocktext">
+                        <p class="blocktitle">Action is performed</p>
+                        <p class="blockdesc">Triggers when somebody performs a specified action</p>
+                    </div>
+                </div>
+            </div>
+            <div class="blockelem create-flowy noselect">
+                <input type="hidden" name='blockelemtype' class="blockelemtype" value="3">
+                <div class="grabme">
+                    <img src="{% static 'flowy/assets/grabme.svg' %}">
+                </div>
+                <div class="blockin">
+                    <div class="blockico">
+                        <span></span>
+                        <img src="{% static 'flowy/assets/time.svg' %}">
+                    </div>
+                    <div class="blocktext">
+                        <p class="blocktitle">Time has passed</p>
+                        <p class="blockdesc">Triggers after a specified amount of time</p>
+                    </div>
+                </div>
+            </div>
+            <div class="blockelem create-flowy noselect">
+                <input type="hidden" name='blockelemtype' class="blockelemtype" value="4">
+                <div class="grabme">
+                    <img src="{% static 'flowy/assets/grabme.svg' %}">
+                </div>
+                <div class="blockin">
+                    <div class="blockico">
+                        <span></span>
+                        <img src="{% static 'flowy/assets/error.svg' %}">
+                    </div>
+                    <div class="blocktext">
+                        <p class="blocktitle">Error prompt</p>
+                        <p class="blockdesc">Triggers when a specified error happens</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="footer">
+            <a href="https://github.com/alyssaxuu/flowy/" target="_blank">GitHub</a>
+            <span>·</span>
+            <a href="https://twitter.com/alyssaxuu/status/1199724989353730048" target="_blank">Twitter</a>
+            <span>·</span>
+                <a href="https://alyssax.com" target="_blank"><p>Made with</p><img src="{% static 'flowy/assets/heart.svg' %}"><p>by</p> Alyssa X</a>
+        </div>
+    </div>
+    <div id="propwrap">
+        <div id="properties">
+            <div id="close">
+                <img src="{% static 'flowy/assets/close.svg' %}">
+            </div>
+            <p id="header2">{% trans "Properties" %}</p>
+            <div id="propswitch">
+                <div id="dataprop" class="nodepropswitch nodeprop propnavactive">{% trans "Node" %}</div>
+                <div id="alertprop" class="nodepropswitch answerprop propnavdisabled">{% trans "Anwers" %}</div>
+                <div id="logsprop" class="nodepropswitch logicprop propnavdisabled">{% trans "Logic" %}</div>
+            </div>
+            <div id="nodeproplist" class="mt-5"></div>
+            <div id="answerproplist"></div>
+            <div id="logicproplist"></div>
+            <div id="divisionthing"></div>
+            <div id="removeblock" class="pt-4">Delete blocks</div>
+        </div>
+
+    </div>
+    <div id="canvas">
+    </div>
+    <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function(){
+
+      //Warn user before reload
+      window.addEventListener('beforeunload', function (event) {
+      event.preventDefault();
+      // Chrome requires returnValue to be set.
+      event.returnValue = '';
+    });
+
+    $.fn.loadForms = function(){
+      var nodeFormUrl = "{% url 'ajax_load_node_form' %}";
+      var logicFormUrl = "{% url 'ajax_load_logic_field' %}"
+      var answerFormUrl = "{% url 'ajax_load_answer_field' %}";
+
+      var inputType = "button"
+
+      $.ajax({
+        url: nodeFormUrl,
+        data: {
+        },
+        success: function (data) {
+          $("#nodeproplist").html(data);
+          attachFormHandlers();
+        }
+      });
+
+      $.ajax({
+        url: logicFormUrl,
+        data: {
+          'input_type': inputType
+        },
+        success: function (data) {
+          $("#logicproplist").html(data).hide();
+        }
+      });
+
+      $.ajax({
+        url: answerFormUrl,
+        data: {
+          'input_type': inputType
+        },
+        success: function (data) {
+          $("#answerproplist").html(data).hide();
+        }
+      });
+      //Attach event handlers
+
+    };
+
+    function attachFormHandlers(){
+      el = document.getElementById("id_name");
+      el.addEventListener("change", function(){
+        selectedBlock = document.getElementsByClassName("selectedblock");
+        selectedBlock[0].querySelector('.blockyinfo').textContent= el.value;
+});
+    }
+
+    function unHide(e) {
+      document.querySelector(".propnavactive").classList.add("propnavdisabled");
+      document.querySelector(".propnavactive").classList.remove("propnavactive");
+      this.classList.add("propnavactive");
+      this.classList.remove("propnavdisabled");
+      if (e.target.classList.contains("nodeprop")) {
+        $("#logicproplist").hide();
+        $("#answerproplist").hide();
+        $("#nodeproplist").show();
+      } else if (e.target.classList.contains("answerprop")) {
+        $("#logicproplist").hide();
+        $("#answerproplist").show();
+        $("#nodeproplist").hide();
+      } else if (e.target.classList.contains("logicprop")) {
+        $("#logicproplist").show();
+        $("#answerproplist").hide();
+        $("#nodeproplist").hide();
+    }
+  }
+
+
+        var rightcard = false;
+        var tempblock;
+        var tempblock2;
+        document.getElementById("blocklist").innerHTML = '<div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value="1"><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin">                  <div class="blockico"><span></span><img src="{% static 'flowy/assets/eye.svg' %}"></div><div class="blocktext">                        <p class="blocktitle">Start Node</p><p class="blockdesc">This ist the Beginning of the tree</p>        </div></div></div><div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value="2"><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin">                    <div class="blockico"><span></span><img src="{% static 'flowy/assets/action.svg' %}"></div><div class="blocktext">                        <p class="blocktitle">Action is performed</p><p class="blockdesc">Triggers when somebody performs a specified action</p></div></div></div><div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value="3"><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin">                    <div class="blockico"><span></span><img src="{% static 'flowy/assets/time.svg' %}"></div><div class="blocktext">                        <p class="blocktitle">Time has passed</p><p class="blockdesc">Triggers after a specified amount of time</p>          </div></div></div><div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value="4"><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin">                    <div class="blockico"><span></span><img src="{% static 'flowy/assets/error.svg' %}"></div><div class="blocktext">                        <p class="blocktitle">Error prompt</p><p class="blockdesc">Triggers when a specified error happens</p>              </div></div></div>';
+        flowy(document.getElementById("canvas"), drag, release, snapping);
+        function addEventListenerMulti(type, listener, capture, selector) {
+            var nodes = document.querySelectorAll(selector);
+            for (var i = 0; i < nodes.length; i++) {
+                nodes[i].addEventListener(type, listener, capture);
+            }
+        }
+        function snapping(drag, first) {
+            var grab = drag.querySelector(".grabme");
+            grab.parentNode.removeChild(grab);
+            var blockin = drag.querySelector(".blockin");
+            blockin.parentNode.removeChild(blockin);
+            if (drag.querySelector(".blockelemtype").value == "1") {
+                drag.innerHTML += "<div class='blockyleft'><img src='assets/eyeblue.svg'><p class='blockyname'>Start Node</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>Empty</div>";
+            } else if (drag.querySelector(".blockelemtype").value == "2") {
+                drag.innerHTML += "<div class='blockyleft'><img src='assets/actionblue.svg'><p class='blockyname'>Action is performed</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>When <span>Action 1</span> is performed</div>";
+            } else if (drag.querySelector(".blockelemtype").value == "3") {
+                drag.innerHTML += "<div class='blockyleft'><img src='assets/timeblue.svg'><p class='blockyname'>Time has passed</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>When <span>10 seconds</span> have passed</div>";
+            } else if (drag.querySelector(".blockelemtype").value == "4") {
+                drag.innerHTML += "<div class='blockyleft'><img src='assets/errorblue.svg'><p class='blockyname'>Error prompt</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>When <span>Error 1</span> is triggered</div>";
+            } else if (drag.querySelector(".blockelemtype").value == "5") {
+                drag.innerHTML += "<div class='blockyleft'><img src='assets/databaseorange.svg'><p class='blockyname'>New database entry</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>Add <span>Data object</span> to <span>Database 1</span></div>";
+            } else if (drag.querySelector(".blockelemtype").value == "6") {
+                drag.innerHTML += "<div class='blockyleft'><img src='assets/databaseorange.svg'><p class='blockyname'>Update database</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>Update <span>Database 1</span></div>";
+            } else if (drag.querySelector(".blockelemtype").value == "7") {
+                drag.innerHTML += "<div class='blockyleft'><img src='assets/actionorange.svg'><p class='blockyname'>Perform an action</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>Perform <span>Action 1</span></div>";
+            } else if (drag.querySelector(".blockelemtype").value == "8") {
+                drag.innerHTML += "<div class='blockyleft'><img src='assets/twitterorange.svg'><p class='blockyname'>Make a tweet</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>Tweet <span>Query 1</span> with the account <span>@alyssaxuu</span></div>";
+            } else if (drag.querySelector(".blockelemtype").value == "9") {
+                drag.innerHTML += "<div class='blockyleft'><img src='assets/logred.svg'><p class='blockyname'>Add new log entry</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>Add new <span>success</span> log entry</div>";
+            } else if (drag.querySelector(".blockelemtype").value == "10") {
+                drag.innerHTML += "<div class='blockyleft'><img src='assets/logred.svg'><p class='blockyname'>Update logs</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>Edit <span>Log Entry 1</span></div>";
+            } else if (drag.querySelector(".blockelemtype").value == "11") {
+                drag.innerHTML += "<div class='blockyleft'><img src='assets/errorred.svg'><p class='blockyname'>Prompt an error</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>Trigger <span>Error 1</span></div>";
+            }
+            return true;
+        }
+        function drag(block) {
+            block.classList.add("blockdisabled");
+            tempblock2 = block;
+        }
+        function release() {
+            tempblock2.classList.remove("blockdisabled");
+        }
+        var disabledClick = function(){
+            document.querySelector(".navactive").classList.add("navdisabled");
+            document.querySelector(".navactive").classList.remove("navactive");
+            this.classList.add("navactive");
+            this.classList.remove("navdisabled");
+            if (this.getAttribute("id") == "triggers") {
+                document.getElementById("blocklist").innerHTML = '<div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value="1"><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin">                  <div class="blockico"><span></span><img src="{% static 'flowy/assets/eye.svg' %}"></div><div class="blocktext">                        <p class="blocktitle">New visitor</p><p class="blockdesc">Triggers when somebody visits a specified page</p>        </div></div></div><div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value="2"><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin">                    <div class="blockico"><span></span><img src="{% static 'flowy/assets/action.svg' %}"></div><div class="blocktext">                        <p class="blocktitle">Action is performed</p><p class="blockdesc">Triggers when somebody performs a specified action</p></div></div></div><div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value="3"><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin">                    <div class="blockico"><span></span><img src="{% static 'flowy/assets/time.svg' %}"></div><div class="blocktext">                        <p class="blocktitle">Time has passed</p><p class="blockdesc">Triggers after a specified amount of time</p>          </div></div></div><div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value="4"><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin">                    <div class="blockico"><span></span><img src="{% static 'flowy/assets/error.svg' %}"></div><div class="blocktext">                        <p class="blocktitle">Error prompt</p><p class="blockdesc">Triggers when a specified error happens</p>              </div></div></div>';
+            } else if (this.getAttribute("id") == "actions") {
+                document.getElementById("blocklist").innerHTML = '<div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value="5"><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin">                  <div class="blockico"><span></span><img src="{% static 'flowy/assets/database.svg' %}"></div><div class="blocktext">                        <p class="blocktitle">New database entry</p><p class="blockdesc">Adds a new entry to a specified database</p>        </div></div></div><div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value="6"><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin">                  <div class="blockico"><span></span><img src="{% static 'flowy/assets/database.svg' %}"></div><div class="blocktext">                        <p class="blocktitle">Update database</p><p class="blockdesc">Edits and deletes database entries and properties</p>        </div></div></div><div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value="7"><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin">                  <div class="blockico"><span></span><img src="{% static 'flowy/assets/action.svg' %}"></div><div class="blocktext">                        <p class="blocktitle">Perform an action</p><p class="blockdesc">Performs or edits a specified action</p>        </div></div></div><div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value="8"><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin">                  <div class="blockico"><span></span><img src="{% static 'flowy/assets/twitter.svg' %}"></div><div class="blocktext">                        <p class="blocktitle">Make a tweet</p><p class="blockdesc">Makes a tweet with a specified query</p>        </div></div></div>';
+            } else if (this.getAttribute("id") == "loggers") {
+                document.getElementById("blocklist").innerHTML = '<div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value="9"><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin">                  <div class="blockico"><span></span><img src="{% static 'flowy/assets/log.svg' %}"></div><div class="blocktext">                        <p class="blocktitle">Add new log entry</p><p class="blockdesc">Adds a new log entry to this project</p>        </div></div></div><div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value="10"><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin">                  <div class="blockico"><span></span><img src="{% static 'flowy/assets/log.svg' %}"></div><div class="blocktext">                        <p class="blocktitle">Update logs</p><p class="blockdesc">Edits and deletes log entries in this project</p>        </div></div></div><div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value="11"><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin">                  <div class="blockico"><span></span><img src="{% static 'flowy/assets/error.svg' %}"></div><div class="blocktext">                        <p class="blocktitle">Prompt an error</p><p class="blockdesc">Triggers a specified error</p>        </div></div></div>';
+            }
+        }
+        addEventListenerMulti("click", disabledClick, false, ".side");
+        document.getElementById("close").addEventListener("click", function(){
+           if (rightcard) {
+               rightcard = false;
+               document.getElementById("properties").classList.remove("expanded");
+               setTimeout(function(){
+                    document.getElementById("propwrap").classList.remove("itson");
+               }, 300);
+                tempblock.classList.remove("selectedblock");
+           }
+        });
+
+    document.getElementById("removeblock").addEventListener("click", function(){
+     flowy.deleteBlocks();
+    });
+    var aclick = false;
+    var beginTouch = function (event) {
+        aclick = true;
+    }
+    var checkTouch = function (event) {
+        aclick = false;
+    }
+    var doneTouch = function (event) {
+        if (event.type === "mouseup" && aclick) {
+          if (!rightcard && event.target.closest(".block")) {
+                tempblock = event.target.closest(".block");
+              $.fn.loadForms();
+                rightcard = true;
+                document.getElementById("properties").classList.add("expanded");
+                document.getElementById("propwrap").classList.add("itson");
+                tempblock.classList.add("selectedblock");
+           }
+        }
+    }
+    addEventListener("mousedown", beginTouch, false);
+    addEventListener("mousemove", checkTouch, false);
+    addEventListener("mouseup", doneTouch, false);
+    addEventListenerMulti("touchstart", beginTouch, false, ".block");
+    addEventListenerMulti("click", unHide, false, ".nodepropswitch");
+
+    //Handle interaction between blocks and property form
+
+
+    });
+    </script>
+</body>
+</html>

@@ -45,32 +45,32 @@ $('.logic-formset').formset({
 </script>
 
 <script>
-  $( function() {
-    var loadNodesUrl="{% url 'ajax_load_nodes' %}";
-    var selectedTree = $("#selected-tree").val();
-    $.ajax({
-      url: loadNodesUrl,
-      data: {
-        'selected_tree': selectedTree
-      },
-      success: function (data) {
-        $('#input_hidden_field').val(JSON.stringify(data));
-        var availableNodes = $('#input_hidden_field').val();
-        availableNodes = JSON.parse(availableNodes);
-        console.log(availableNodes);
-        $( "input[id$='var_to_modify']").autocomplete({
-          source: availableNodes,
-          messages: {
-            noResults: function(count) {
-              $("input[id$='var_to_modify']").css("background-color","#4CAF50");
-    },
-            results: function(count) {
-              $("input[id$='var_to_modify']").css("background-color","");
-    }
-  }
-        });
-
-  }
-});
-  });
+//   $( function() {
+//     var loadNodesUrl="{% url 'ajax_load_nodes' %}";
+//     var selectedTree = $("#selected-tree").val();
+//     $.ajax({
+//       url: loadNodesUrl,
+//       data: {
+//         'selected_tree': selectedTree
+//       },
+//       success: function (data) {
+//         $('#input_hidden_field').val(JSON.stringify(data));
+//         var availableNodes = $('#input_hidden_field').val();
+//         availableNodes = JSON.parse(availableNodes);
+//         console.log(availableNodes);
+//         $( "input[id$='var_to_modify']").autocomplete({
+//           source: availableNodes,
+//           messages: {
+//             noResults: function(count) {
+//               $("input[id$='var_to_modify']").css("background-color","#4CAF50");
+//     },
+//             results: function(count) {
+//               $("input[id$='var_to_modify']").css("background-color","");
+//     }
+//   }
+//         });
+//
+//   }
+// });
+//   });
 </script>

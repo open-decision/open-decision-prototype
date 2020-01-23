@@ -1,0 +1,30 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}"  rel="stylesheet" type="text/css">
+<link href="{% static 'css/sb-admin-2.css' %}" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+<html>
+<head>
+</head>
+<body>
+  {% if url %}
+  <div class="border-left-success">
+    <h4 class="ml-2">{% trans "Publishing successful!" %}</h4>
+    <p class="ml-2">{% trans "The tree was published successfully and can be accessed at " %}
+    <a href="{{ request.build_absolute_uri |cut:"?new=true" }}">{{ request.build_absolute_uri |cut:"?new=true" |cut:"http://" |cut:"https://"}}</a></p>
+  </div>
+  {% endif %}
+<div id="publish-div">
+</div>
+</body>
+</html>
+
+<script type="text/javascript" src="{% static 'logic.js' %}"></script>
+<script type="text/javascript" src="{% static 'od-js-interpreter.js' %}"></script>
+<script type="text/javascript">
+var  publishedTree = {{tree_data|safe}};
+openDecision.init (publishedTree, "publish-div");
+</script>
