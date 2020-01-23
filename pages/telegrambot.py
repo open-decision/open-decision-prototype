@@ -4,13 +4,11 @@ from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, Rege
                           ConversationHandler)
 from bot_data import *
 import logging
-from credentials_test import *
 from json_logic import jsonLogic
 import html2markdown
 from django_telegrambot.apps import DjangoTelegramBot
 
 
-# Implement routing for bot
 # Query database for the right tree using telegrams deeplink to pass init value
 
 
