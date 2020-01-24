@@ -2,7 +2,7 @@
 from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode)
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, RegexHandler,
                           ConversationHandler)
-from bot_data import *
+#from bot_data import *
 import logging
 from json_logic import jsonLogic
 import html2markdown
