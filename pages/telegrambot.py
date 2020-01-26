@@ -19,7 +19,7 @@ tree = {}
 START, CHECK_ANSWER, CHECK_ACCESS_CODE, END = range(4)
 
 def start(bot, update, chat_data):
-    start_query = update.message.text.decode('utf-8')[7::]
+    start_query = update.message.text[7::]
     if re.match("^[a-z]{10}$", start_query):
         tree = PublishedTree.objects.get(url=start_query)
         if tree:
@@ -43,7 +43,7 @@ def start(bot, update, chat_data):
         return CHECK_ACCESS_CODE
 
 def check_access_code(bot, update, chat_data):
-    start_query = update.message.text.decode('utf-8')
+    start_query = update.message.text
     if re.match("^[a-z]{10}$", start_query):
         if tree[tree['header']['start_node']]['answers']:
             reply_keyboard = [tree[tree['header']['start_node']]['answers']]
