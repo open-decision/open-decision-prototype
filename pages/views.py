@@ -72,9 +72,3 @@ def publish(request, slug):
                         )
     t.save()
     return random_url
-
-
-
-            # selected_tree = request.GET.get('selected_tree')
-            # data = build_tree(selected_tree)
-            # return JsonResponse(data, safe=False)
