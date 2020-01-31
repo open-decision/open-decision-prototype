@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.urls import path, re_path, include
 from builder.views import node_create_view, node_edit_view, load_answer_field, load_logic_field, load_nodes, load_token
-from pages.views import home_view, contact_view, test_view, register_user,show_published_tree
+from pages.views import home_view, contact_view, test_view, register_user,show_published_tree, get_published_tree
 from interpreter.views import show_interpreter
 from dashboard.views import (dashboard_view, published_tree_view, add_tree, tree_view, export_tree,
                             set_as_endnode, delete_node, delete_tree, export_file,
@@ -31,7 +31,6 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', register_user, name='register_user'),
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
-    path(r'^', include('django_telegrambot.urls')),
 
     path('', home_view, name='home'),
     path('contact/', contact_view),
@@ -51,6 +50,7 @@ urlpatterns = [
     path('ajax/load_token/', load_token, name='ajax_load_token'),
     path('ajax/load_tree/', load_tree, name='ajax_load_tree'),
     path('ajax/unpublish_tree/', unpublish_tree, name='ajax_unpublish_tree'),
+    path('ajax/get_published_tree/', get_published_tree, name='ajax_get_published_tree'),
 
 
     path('dashboard/', dashboard_view),

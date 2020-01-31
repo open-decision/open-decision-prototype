@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 import os
 from .ckeditor_settings import *
-from .telegrambot_settings import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -58,15 +57,13 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
         'django.contrib.messages',
         'django.contrib.staticfiles',
 
+        'ckeditor',
+
         'interpreter',
         'pages',
         'builder',
         'dashboard',
         'visualbuilder',
-
-        'ckeditor',
-        'django_telegrambot',
-
     ]
 
 else:
@@ -81,16 +78,14 @@ else:
         'django.contrib.messages',
         'django.contrib.staticfiles',
 
+        'ckeditor',
+        'debug_toolbar',
+
         'interpreter',
         'pages',
         'builder',
         'dashboard',
         'visualbuilder',
-
-        'ckeditor',
-        'debug_toolbar',
-        'django_telegrambot',
-
     ]
 
     MIDDLEWARE = [

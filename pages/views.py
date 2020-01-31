@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.contrib.auth import login, authenticate
 from .forms import SignUpForm
 from .models import PublishedTree
@@ -72,3 +72,8 @@ def publish(request, slug):
                         )
     t.save()
     return random_url
+
+def get_published_tree(request):
+    tree_query = request.GET.get('selected_tree')
+    tree_data = json.loads(PublishedTree.objects.get(url=tree_query).tree_data)
+    return JsonResponse(tree_data, safe=False)
