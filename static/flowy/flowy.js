@@ -1,4 +1,4 @@
-var flowy = function(canvas, grab, release, snapping, spacing_x, spacing_y) {
+var flowy = function(canvas, grab, release, snapping, deleted, spacing_x, spacing_y) {
     if (!grab) {
         grab = function() {};
     }
@@ -10,6 +10,9 @@ var flowy = function(canvas, grab, release, snapping, spacing_x, spacing_y) {
             return true;
         };
     }
+    if (!deleted) {
+        release = function() {};
+    }
     if (!spacing_x) {
         spacing_x = 20;
     }
@@ -20,7 +23,7 @@ var flowy = function(canvas, grab, release, snapping, spacing_x, spacing_y) {
     flowy.load = function() {
         if (!loaded)
             loaded = true;
-        else 
+        else
             return;
         var blocks = [];
         var blockstemp = [];
@@ -76,7 +79,7 @@ var flowy = function(canvas, grab, release, snapping, spacing_x, spacing_y) {
             blocks = [];
             canvas_div.innerHTML = "<div class='indicator invisible'></div>";
         }
-        
+
         flowy.beginDrag = function(event) {
             if (event.targetTouches) {
                 mouse_x = event.changedTouches[0].clientX;
@@ -118,7 +121,7 @@ var flowy = function(canvas, grab, release, snapping, spacing_x, spacing_y) {
         }
         document.addEventListener('mousedown',flowy.beginDrag);
         document.addEventListener('touchstart',flowy.beginDrag);
-        
+
         flowy.endDrag = function(event) {
             if (event.which != 3 && (active || rearrange)) {
                 dragblock = false;
@@ -195,10 +198,10 @@ var flowy = function(canvas, grab, release, snapping, spacing_x, spacing_y) {
                 }
             }
         }
-        
+
         document.addEventListener("mouseup", flowy.endDrag, false);
         document.addEventListener("touchend", flowy.endDrag, false);
-        
+
         function snap(drag, i, blocko) {
                             if (!rearrange) {
                                 canvas_div.appendChild(drag);
@@ -310,7 +313,7 @@ var flowy = function(canvas, grab, release, snapping, spacing_x, spacing_y) {
                             rearrangeMe();
                             checkOffset();
         }
-        
+
         function touchblock(event) {
             dragblock = false;
             if (hasParentClass(event.target, "block")) {
@@ -341,7 +344,7 @@ var flowy = function(canvas, grab, release, snapping, spacing_x, spacing_y) {
             }
             return element.parentNode && hasParentClass(element.parentNode, classname);
         }
-        
+
         flowy.moveBlock = function(event) {
             if (event.targetTouches) {
                 mouse_x = event.targetTouches[0].clientX;
@@ -388,6 +391,8 @@ var flowy = function(canvas, grab, release, snapping, spacing_x, spacing_y) {
                                     foundids = [];
                                 }
                             }
+
+
                             for (var i = 0; i < blocks.filter(a => a.parent == blockid).length; i++) {
                                 var blocknumber = blocks.filter(a => a.parent == blockid)[i];
                                 blocks = blocks.filter(function(e) {
@@ -400,6 +405,10 @@ var flowy = function(canvas, grab, release, snapping, spacing_x, spacing_y) {
                                     return e.id != blocknumber
                                 });
                             }
+                            if (drag.querySelector(".blockid").value !==  "0"){
+                              blockDeleted(drag, blocks);
+                            }
+                            
                             if (blocks.length > 1) {
                                 rearrangeMe();
                             }
@@ -436,7 +445,7 @@ var flowy = function(canvas, grab, release, snapping, spacing_x, spacing_y) {
                 }
             }
         }
-        
+
         document.addEventListener("mousemove", flowy.moveBlock, false);
         document.addEventListener("touchmove", flowy.moveBlock, false);
 
@@ -562,17 +571,21 @@ var flowy = function(canvas, grab, release, snapping, spacing_x, spacing_y) {
         release();
     }
 
+    function blockDeleted(block, blockList) {
+        deleted(block, blockList);
+    }
+
     function blockSnap(drag, first, parent) {
         return snapping(drag, first, parent);
     }
-    
+
     function addEventListenerMulti(type, listener, capture, selector) {
         var nodes = document.querySelectorAll(selector);
         for (var i=0; i < nodes.length; i++) {
             nodes[i].addEventListener(type, listener, capture);
         }
     }
-    
+
     function removeEventListenerMulti(type, listener, capture, selector) {
         var nodes = document.querySelectorAll(selector);
         for (var i = 0; i < nodes.length; i++) {

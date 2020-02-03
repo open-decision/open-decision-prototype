@@ -48,14 +48,14 @@
       <!-- Divider -->
       <hr class="sidebar-divider my-0">
       <!-- Nav Item - Dashboard -->
-      <li class="nav-item active">
-        <a class="nav-link" href="/dashboard">
+      <li class="nav-item">
+        <a class="nav-link" href="/dashboard/">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>{% trans "Dashboard" %}</span></a>
       </li>
 
               <li class="nav-item">
-          <a class="nav-link" href="/published-trees">
+          <a class="nav-link" href="/published-trees/">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>{% trans "Published Trees" %}</span></a>
           </li>
@@ -299,7 +299,6 @@
         <!-- /.container-fluid -->
 
       </div>
-
       <!-- End of Main Content -->
 
       <!-- Footer -->
@@ -310,7 +309,11 @@
           </div>
         </div>
       </footer>
-
+      <script type="text/javascript">
+      $(document).ready(function(){
+      $('a[href="' + this.location.pathname + '"]').closest('.nav-item').addClass('active');
+});
+</script>
       <!-- End of Footer -->
 
     </div>
