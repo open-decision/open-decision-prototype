@@ -65,8 +65,40 @@
                         <img src="{% static 'flowy/assets/eye.svg' %}">
                     </div>
                     <div class="blocktext">
-                        <p class="blocktitle">New visitor</p>
-                        <p class="blockdesc">Triggers when somebody visits a specified page</p>
+                        <p class="blocktitle">Start Block</p>
+                        <p class="blockdesc">The beginning of your Decision tree</p>
+                    </div>
+                </div>
+            </div>
+            <div class="blockelem create-flowy noselect">
+                <input type="hidden" name='blockelemtype' class="blockelemtype" value="2">
+                <div class="grabme">
+                    <img src="{% static 'flowy/assets/grabme.svg' %}">
+                </div>
+                <div class="blockin">
+                    <div class="blockico">
+                        <span></span>
+                        <img src="{% static 'flowy/assets/eye.svg' %}">
+                    </div>
+                    <div class="blocktext">
+                        <p class="blocktitle">Question Block</p>
+                        <p class="blockdesc">Ask the user a question</p>
+                    </div>
+                </div>
+            </div>
+            <div class="blockelem create-flowy noselect">
+                <input type="hidden" name='blockelemtype' class="blockelemtype" value="1">
+                <div class="grabme">
+                    <img src="{% static 'flowy/assets/grabme.svg' %}">
+                </div>
+                <div class="blockin">
+                    <div class="blockico">
+                        <span></span>
+                        <img src="{% static 'flowy/assets/eye.svg' %}">
+                    </div>
+                    <div class="blocktext">
+                        <p class="blocktitle">End Block</p>
+                        <p class="blockdesc">Use this block to define an end for the tree</p>
                     </div>
                 </div>
             </div>
@@ -135,43 +167,48 @@
                 drag.innerHTML += "<div class='blockyleft'><img src='assets/actionblue.svg'><p class='blockyname'>Action is performed</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>When <span>Action 1</span> is performed</div>";
             } else if (blockTypeValue == 3) {
                 drag.innerHTML += "<div class='blockyleft'><img src='assets/timeblue.svg'><p class='blockyname'>Time has passed</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>When <span>10 seconds</span> have passed</div>";
-            } else if (blockTypeValue == 4) {
-                drag.innerHTML += "<div class='blockyleft'><img src='assets/errorblue.svg'><p class='blockyname'>Error prompt</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>When <span>Error 1</span> is triggered</div>";
-            } else if (blockTypeValue == 5) {
-                drag.innerHTML += "<div class='blockyleft'><img src='assets/databaseorange.svg'><p class='blockyname'>New database entry</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>Add <span>Data object</span> to <span>Database 1</span></div>";
-            } else if (blockTypeValue == 6) {
-                drag.innerHTML += "<div class='blockyleft'><img src='assets/databaseorange.svg'><p class='blockyname'>Update database</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>Update <span>Database 1</span></div>";
-            } else if (blockTypeValue == 7) {
-                drag.innerHTML += "<div class='blockyleft'><img src='assets/actionorange.svg'><p class='blockyname'>Perform an action</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>Perform <span>Action 1</span></div>";
-            } else if (blockTypeValue == 8) {
-                drag.innerHTML += "<div class='blockyleft'><img src='assets/twitterorange.svg'><p class='blockyname'>Make a tweet</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>Tweet <span>Query 1</span> with the account <span>@alyssaxuu</span></div>";
-            } else if (blockTypeValue == 9) {
-                drag.innerHTML += "<div class='blockyleft'><img src='assets/logred.svg'><p class='blockyname'>Add new log entry</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>Add new <span>success</span> log entry</div>";
-            } else if (blockTypeValue == 10) {
-                drag.innerHTML += "<div class='blockyleft'><img src='assets/logred.svg'><p class='blockyname'>Update logs</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>Edit <span>Log Entry 1</span></div>";
-            } else if (blockTypeValue == 11) {
-                drag.innerHTML += "<div class='blockyleft'><img src='assets/errorred.svg'><p class='blockyname'>Prompt an error</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>Trigger <span>Error 1</span></div>";
-            }
-            else if (blockTypeValue >= 20) {
-              //Get index of the deleted block
-              index = blockTypeValue - 20;
-              el = JSON.parse(permaDeletedBlocks[index]);
-              //Update saved blockId to new one to prevent bug
-              el.blockId = drag.querySelector(".blockid").value;
-              elStr = JSON.stringify(el);
-              //Build HTML
-              drag.innerHTML += `<div class='blockyleft'><img src='assets/errorred.svg'><p class='blockyname'>Former Deleted Node</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'><span>${el.inputValues[0]}</span></div><div style="display: none;" id="storage-div">${elStr}</div>`;
-              //Remove block from permaDeletedBlocks after it's grabbed to the canvas
-              permaDeletedBlocks.splice(index, 1);
-              //Rerender the menu with deleted blocks
-              document.getElementById('actions').click();
-
-              //Possible error -  the blockid needs to be updated
+            } else if (blockTypeValue >= 20) {
+                //Get index of the deleted block
+                index = blockTypeValue - 20;
+                el = JSON.parse(permaDeletedBlocks[index]);
+                //Update saved blockId to new one to prevent bug
+                el.blockId = drag.querySelector(".blockid").value;
+                elStr = JSON.stringify(el);
+                //Build HTML
+                drag.innerHTML += `<div class='blockyleft'><img src='assets/errorred.svg'><p class='blockyname'>Former Deleted Node</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'><span>${el.inputValues[0]}</span></div><div style="display: none;" id="storage-div">${elStr}</div>`;
+                //Remove block from permaDeletedBlocks after it's grabbed to the canvas
+                permaDeletedBlocks.splice(index, 1);
+                //Rerender the menu with deleted blocks
+                document.getElementById('actions').click();
                         }
-            console.log(drag);
-            console.log(parent);
+
+
+
+            //Catch drag/child and parent
+            //if parent undefined drag === first block
+            //child as html element
+            //parent data: { childwidth: 0, parent: 0, id: 1, x: 816, y: 361, width: 318, height: 84 }
+            //take parent node and create new logic element containing the childs id?
+            //if parent logic is modified delete child?
+            //if child is modified update parent (namechange, delete, moved, whatelse?)
+            //how to keep logic data on "delete"?
+            //
+            // console.log(drag);
+            // console.log(parent);
+            //
             return true;
         }
+
+
+
+
+
+
+
+
+
+
+
         function drag(block) {
             block.classList.add("blockdisabled");
             var selectedBlocks = document.getElementsByClassName("selectedblock");
@@ -200,7 +237,7 @@
 
 
         function deleted(draggedBlock, blockList) {
-          nodes = draggedBlock.innerHTML.match(/{.+}/gm);
+          nodes = draggedBlock.innerHTML.match(/{.+?}/gm);
           if (nodes !== null) {
             tempDeletedBlocks.push(nodes);
           }

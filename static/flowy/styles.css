@@ -166,7 +166,7 @@ body, html {
   color: #C9C9D5;
 }
 #search img {
-    position: absolute; 
+    position: absolute;
     margin-top: 10px;
     width: 18px;
     margin-left: 12px;
@@ -371,7 +371,7 @@ body, html {
     border-top: 1px solid #E8E8EF;
     width: 53px;
     height: 53px;
-    text-align: center; 
+    text-align: center;
     z-index: 10;
 }
 #closecard img {
@@ -582,7 +582,7 @@ transition: all .3s cubic-bezier(.05,.03,.35,1);
     width: 28px;
     height: 28px;
     border-radius: 5px;
-    text-align: center; 
+    text-align: center;
     background-color: #FFF;
     transition: all .3s cubic-bezier(.05,.03,.35,1);
     z-index: 10;
@@ -637,5 +637,5 @@ transition: all .3s cubic-bezier(.05,.03,.35,1);
 @media only screen and (max-width: 560px) {
     #names {
         display: none;
-    }   
+    }
 }
