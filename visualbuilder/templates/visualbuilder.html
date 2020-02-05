@@ -25,8 +25,8 @@
             <div id="details">
             <div id="back"><a href="/dashboard"><img src="{% static 'flowy/assets/arrow.svg' %}"></a></div>
             <div id="names">
-                <p id="title">{{decisiontree.name}} Empty</p>
-                <p id="subtitle">{% trans "Your automation pipeline" %}</p>
+                <p id="title">{{decisiontree.name}} Fill in the tree name</p>
+                <p id="subtitle">{% trans "Visual Builder" %}</p>
             </div>
         </div>
         </div>
@@ -97,7 +97,7 @@
             <div id="logicproplist"></div>
             </div>
             <div id="divisionthing"></div>
-            <div id="removeblock" class="pt-4">Delete blocks</div>
+            <!-- <div id="removeblock" class="pt-4">Delete blocks</div> -->
         </div>
 
     </div>
@@ -123,34 +123,53 @@
             }
         }
 // Flowy handler functions
-        function snapping(drag, first) {
+        function snapping(drag, first, parent) {
             var grab = drag.querySelector(".grabme");
             grab.parentNode.removeChild(grab);
             var blockin = drag.querySelector(".blockin");
             blockin.parentNode.removeChild(blockin);
-            if (drag.querySelector(".blockelemtype").value == "1") {
+            blockTypeValue = parseInt(drag.querySelector(".blockelemtype").value);
+            if (blockTypeValue == 1) {
                 drag.innerHTML += "<div class='blockyleft'><img src='assets/eyeblue.svg'><p class='blockyname'>Start Node</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'></div>";
-            } else if (drag.querySelector(".blockelemtype").value == "2") {
+            } else if (blockTypeValue == 2) {
                 drag.innerHTML += "<div class='blockyleft'><img src='assets/actionblue.svg'><p class='blockyname'>Action is performed</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>When <span>Action 1</span> is performed</div>";
-            } else if (drag.querySelector(".blockelemtype").value == "3") {
+            } else if (blockTypeValue == 3) {
                 drag.innerHTML += "<div class='blockyleft'><img src='assets/timeblue.svg'><p class='blockyname'>Time has passed</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>When <span>10 seconds</span> have passed</div>";
-            } else if (drag.querySelector(".blockelemtype").value == "4") {
+            } else if (blockTypeValue == 4) {
                 drag.innerHTML += "<div class='blockyleft'><img src='assets/errorblue.svg'><p class='blockyname'>Error prompt</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>When <span>Error 1</span> is triggered</div>";
-            } else if (drag.querySelector(".blockelemtype").value == "5") {
+            } else if (blockTypeValue == 5) {
                 drag.innerHTML += "<div class='blockyleft'><img src='assets/databaseorange.svg'><p class='blockyname'>New database entry</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>Add <span>Data object</span> to <span>Database 1</span></div>";
-            } else if (drag.querySelector(".blockelemtype").value == "6") {
+            } else if (blockTypeValue == 6) {
                 drag.innerHTML += "<div class='blockyleft'><img src='assets/databaseorange.svg'><p class='blockyname'>Update database</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>Update <span>Database 1</span></div>";
-            } else if (drag.querySelector(".blockelemtype").value == "7") {
+            } else if (blockTypeValue == 7) {
                 drag.innerHTML += "<div class='blockyleft'><img src='assets/actionorange.svg'><p class='blockyname'>Perform an action</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>Perform <span>Action 1</span></div>";
-            } else if (drag.querySelector(".blockelemtype").value == "8") {
+            } else if (blockTypeValue == 8) {
                 drag.innerHTML += "<div class='blockyleft'><img src='assets/twitterorange.svg'><p class='blockyname'>Make a tweet</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>Tweet <span>Query 1</span> with the account <span>@alyssaxuu</span></div>";
-            } else if (drag.querySelector(".blockelemtype").value == "9") {
+            } else if (blockTypeValue == 9) {
                 drag.innerHTML += "<div class='blockyleft'><img src='assets/logred.svg'><p class='blockyname'>Add new log entry</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>Add new <span>success</span> log entry</div>";
-            } else if (drag.querySelector(".blockelemtype").value == "10") {
+            } else if (blockTypeValue == 10) {
                 drag.innerHTML += "<div class='blockyleft'><img src='assets/logred.svg'><p class='blockyname'>Update logs</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>Edit <span>Log Entry 1</span></div>";
-            } else if (drag.querySelector(".blockelemtype").value == "11") {
+            } else if (blockTypeValue == 11) {
                 drag.innerHTML += "<div class='blockyleft'><img src='assets/errorred.svg'><p class='blockyname'>Prompt an error</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>Trigger <span>Error 1</span></div>";
             }
+            else if (blockTypeValue >= 20) {
+              //Get index of the deleted block
+              index = blockTypeValue - 20;
+              el = JSON.parse(permaDeletedBlocks[index]);
+              //Update saved blockId to new one to prevent bug
+              el.blockId = drag.querySelector(".blockid").value;
+              elStr = JSON.stringify(el);
+              //Build HTML
+              drag.innerHTML += `<div class='blockyleft'><img src='assets/errorred.svg'><p class='blockyname'>Former Deleted Node</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'><span>${el.inputValues[0]}</span></div><div style="display: none;" id="storage-div">${elStr}</div>`;
+              //Remove block from permaDeletedBlocks after it's grabbed to the canvas
+              permaDeletedBlocks.splice(index, 1);
+              //Rerender the menu with deleted blocks
+              document.getElementById('actions').click();
+
+              //Possible error -  the blockid needs to be updated
+                        }
+            console.log(drag);
+            console.log(parent);
             return true;
         }
         function drag(block) {
@@ -176,10 +195,6 @@
           if (tempDeletedBlocks.length !== 0){
             checkTempDeletedBlocks();
           };
-
-          //Trigger the check temp function
-
-
             tempblock2.classList.remove("blockdisabled");
         }
 
@@ -201,8 +216,8 @@
             if (this.getAttribute("id") == "triggers") {
                 document.getElementById("blocklist").innerHTML = '<div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value="1"><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin">                  <div class="blockico"><span></span><img src="{% static 'flowy/assets/eye.svg' %}"></div><div class="blocktext">                        <p class="blocktitle">New visitor</p><p class="blockdesc">Triggers when somebody visits a specified page</p>        </div></div></div><div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value="2"><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin">                    <div class="blockico"><span></span><img src="{% static 'flowy/assets/action.svg' %}"></div><div class="blocktext">                        <p class="blocktitle">Action is performed</p><p class="blockdesc">Triggers when somebody performs a specified action</p></div></div></div><div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value="3"><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin">                    <div class="blockico"><span></span><img src="{% static 'flowy/assets/time.svg' %}"></div><div class="blocktext">                        <p class="blocktitle">Time has passed</p><p class="blockdesc">Triggers after a specified amount of time</p>          </div></div></div><div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value="4"><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin">                    <div class="blockico"><span></span><img src="{% static 'flowy/assets/error.svg' %}"></div><div class="blocktext">                        <p class="blocktitle">Error prompt</p><p class="blockdesc">Triggers when a specified error happens</p>              </div></div></div>';
             } else if (this.getAttribute("id") == "actions") {
-              checkTempDeletedBlocks();
-                //document.getElementById("blocklist").innerHTML = ''
+              document.getElementById("blocklist").innerHTML = showDeletedBlocks();
+              addEventListenerMulti("click", deleteButtonForDeletedBlocks, false, ".finaldelete");
             } else if (this.getAttribute("id") == "loggers") {
                 document.getElementById("blocklist").innerHTML = '<div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value="9"><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin">                  <div class="blockico"><span></span><img src="{% static 'flowy/assets/log.svg' %}"></div><div class="blocktext">                        <p class="blocktitle">Add new log entry</p><p class="blockdesc">Adds a new log entry to this project</p>        </div></div></div><div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value="10"><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin">                  <div class="blockico"><span></span><img src="{% static 'flowy/assets/log.svg' %}"></div><div class="blocktext">                        <p class="blocktitle">Update logs</p><p class="blockdesc">Edits and deletes log entries in this project</p>        </div></div></div><div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value="11"><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin">                  <div class="blockico"><span></span><img src="{% static 'flowy/assets/error.svg' %}"></div><div class="blocktext">                        <p class="blocktitle">Prompt an error</p><p class="blockdesc">Triggers a specified error</p>        </div></div></div>';
             }
@@ -432,61 +447,66 @@ function attachFormHandlers(){
  //Store data of deleted nodes
     function checkTempDeletedBlocks(...args){
       releaseCounter += 1;
-      // var movedNodes = drag.innerHTML.match(/blockid" value="\d"/gm);
-      // movedNodes = movedNodes.map(node => parseInt(node.match(/\d/)[0]));
-      // var existingNodes = blocks.map(node => node.id)
-      //var exist=document.getElementById("canvas").getElementsByClassName("blockelem");
-      // tempDeletedBlocks.push(draggedBlockblock.innerHTML)
-      // console.log(blockList);
-      //  (drag.querySelector(".blockid").value !==  "0"
-
+      lenTemp = tempDeletedBlocks.length;
       //If  release is called directly after releasing the blocks,
       //the new blocks are not available in the  canvas, therefore wait until 2nd call
-      if ((tempDeletedBlocks.length !== 0 )&& (releaseCounter >= 2)) {
+      if ((lenTemp !== 0 )&& (releaseCounter == 2)) {
         //Get all existing nodes with a storage-div
         var existingBlocks = document.getElementById('canvas').querySelectorAll("#storage-div");
-        //Loop trough the last and second to last blocks in deletedBlocks
-        for (var j=1; j>0 ; j--){
-          var index = tempDeletedBlocks.length-1-j;
-          try {
-            var tempDelBlockId = ((tempDeletedBlocks[index][0])
-                                  ? JSON.parse(tempDeletedBlocks[index][0]).inputValues[0]
-                                  : JSON.parse(tempDeletedBlocks[index]).inputValues[0]);
-          } catch(TypeError){
-            var tempDelBlockId = false;
-          }
-          //Compare the id of existing and deleted blocks if they match, the blocks were not
-          //deleted but onyl moved -> then delete block from deletedBlocks
+        //We get the id and name of the older block
+            var tempDelBlockId = ((tempDeletedBlocks[0].constructor === Array)
+                                  ? JSON.parse(tempDeletedBlocks[0][0]).blockId
+                                  : JSON.parse(tempDeletedBlocks[0]).blockId);
+
+            var tempDelBlockName = ((tempDeletedBlocks[0].constructor === Array)
+                                  ? JSON.parse(tempDeletedBlocks[0][0]).inputValues[0]
+                                  : JSON.parse(tempDeletedBlocks[0]).inputValues[0]);
+
+          //Compare the id of existing blocks and the deleted block if they match, the blocks were not
+          //deleted but onyl moved -> then remove block from deletedBlocks
+          var blockWasDeleted = true;
         for (var i=0; i<existingBlocks.length; i++){
-          if (JSON.parse(existingBlocks[i].textContent).inputValues[0] == tempDelBlockId){
-            console.log('Discovered reattached');
-            console.log(existingBlocks);
-            console.log(tempDeletedBlocks[index]);
-            tempDeletedBlocks.splice(-1-j, 1);
-
-        }
-      }
-    }
-    console.log('Triggered');
-    console.log(tempDeletedBlocks);
-      if (tempDeletedBlocks.length !== 0) {
-
-        for (var i=tempDeletedBlocks.length-1; i >= 0; i--){
-          //If multidimensional array, push single blocks to permaDeletedBlocks
-          if (tempDeletedBlocks[i][0] !== undefined){
-            for (var j=tempDeletedBlocks[i].length-1; j >= 0; j--){
-              permaDeletedBlocks.push(tempDeletedBlocks[i].pop())
-            }
-          } else {
-            permaDeletedBlocks.push(tempDeletedBlocks.pop())
+          if ((JSON.parse(existingBlocks[i].textContent).inputValues[0] == tempDelBlockName) && (JSON.parse(existingBlocks[i].textContent).blockId == tempDelBlockId)){
+            //Remove block from deleted blocks
+            tempDeletedBlocks.splice(-2, 1);
+            blockWasDeleted = false;
           }
         }
-        console.log(permaDeletedBlocks);
-        tempDeletedBlocks = [];
-        releaseCounter = 0;
-      }
-    }
+        if (blockWasDeleted) {
+          //Check if several blocks were deleted at once (if we have a multidimensional array)
+          if (tempDeletedBlocks[0].constructor === Array){
+            //If multidimensional array, push single blocks to permaDeletedBlocks
+            for (var j=tempDeletedBlocks[0].length-1; j >= 0; j--){
+              permaDeletedBlocks.push(tempDeletedBlocks[0].pop());
+            }
+            //Then delete the empty array in tempDeletedBlocks that contained the blocks
+            tempDeletedBlocks.shift();
+          } else {
+            //If only one block was deleted push it to permaDeletedBlocks
+            permaDeletedBlocks.push(tempDeletedBlocks.shift())
+          }
+        }
+        //If tempDeletedBlocks.length was originally 2 one block is left. As we only
+        //want one or two blocks in the array for predictability, set releaseCounter to one
+        releaseCounter = (lenTemp == 2) ? 1 : 0;
   }
+}
+
+function showDeletedBlocks(){
+  if (tempDeletedBlocks.length !== 0 ){
+    checkTempDeletedBlocks();
+  }
+  blockList = '';
+  if (permaDeletedBlocks.length !== 0){
+  for (var i=0; i<permaDeletedBlocks.length; i++) {
+    el = JSON.parse(permaDeletedBlocks[i]);
+    blockList += `<div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value=${20+i}><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin"><div class="blockico"><span></span><img src="{% static 'flowy/assets/eye.svg' %}"></div><div class="blocktext"><p class="blocktitle">Deleted Block</p><p class="blockdesc">${el.inputValues[0]}</p></div></div></div><div class="finaldelete" data-id=${20+i}>Delete</div>`
+  }
+} else {
+  blockList += '<p>You have no deleted nodes.</p>'
+}
+  return blockList
+}
 
 
 //Helper functions
@@ -496,6 +516,15 @@ function attachFormHandlers(){
         }
         return element.parentNode && hasParentClass(element.parentNode, classname);
     }
+
+function deleteButtonForDeletedBlocks(event){
+  blockTypeValue = parseInt(event.target.getAttribute("data-id"));
+  index = blockTypeValue - 20;
+  //Remove block
+  permaDeletedBlocks.splice(index, 1);
+  //Rerender the menu with deleted blocks
+  document.getElementById('actions').click();
+}
 
 
 // Attach listeners
@@ -516,6 +545,8 @@ function attachFormHandlers(){
     addEventListenerMulti("touchstart", beginTouch, false, ".block");
     addEventListenerMulti("click", unHide, false, ".nodepropswitch");
 
+
+
     clickedCanvas();
 
     addEventListenerMulti("click", disabledClick, false, ".side");
@@ -529,6 +560,10 @@ function attachFormHandlers(){
            }, 300);
             tempblock.classList.remove("selectedblock");
        }
+    });
+
+    document.getElementById("publish").addEventListener("click", function(){
+      console.log(JSON.stringify(flowy.output()))
     });
 
 

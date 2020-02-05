@@ -273,3 +273,26 @@
     background-color: #217CE8;
     margin-top: -4px;
 }
+
+.finaldelete {
+    font-family: Roboto;
+    font-weight: 200;
+    font-size: 10px;
+    color: #A6A6B3;
+    width: 40px;
+    height: 17px;
+    border: 1px solid #E8E8EF;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 17px;
+    display: inline-block;
+    vertical-align: top;
+    transition: all .2s cubic-bezier(.05,.03,.35,1);
+    color: #FFF;
+    background-color: #217CE8;
+    padding-bottom: 4px;
+}
+.finaldelete:hover {
+    cursor: pointer;
+    opacity: .7;
+}
