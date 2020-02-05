@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from builder.forms import NodeFormVisualBuilder
 
 
-
+@login_required
 def visualbuilder_view(request):
     context = {}
     return render(request, 'visualbuilder.html', context)
