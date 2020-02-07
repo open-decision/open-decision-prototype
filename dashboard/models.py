@@ -44,12 +44,17 @@ class DecisionTree(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     name       = models.CharField(max_length=200)
     owner      = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    slug       = models.SlugField(unique=True, default="")
+    slug       = models.SlugField(default="")
+
+    class Meta:
+        constraints = [
+        models.UniqueConstraint(fields= ['owner','slug'], name='unique tree slug per user'),
+        ]
 
 class Node(models.Model):
     created_at      = models.DateTimeField(auto_now_add=True)
     name            = models.CharField(max_length=240)
-    slug            = models.SlugField(unique=True, default="")
+    slug            = models.SlugField(default="")
     decision_tree   = models.ForeignKey(DecisionTree, on_delete=models.CASCADE)
     question        = RichTextBleachField()
     input_type      = models.CharField(max_length=240)
@@ -58,3 +63,8 @@ class Node(models.Model):
     new_node        = models.BooleanField()
     start_node      = models.BooleanField()
     end_node        = models.BooleanField()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields= ['slug','decision_tree'], name='unique nodeslug per tree')
+            ]
