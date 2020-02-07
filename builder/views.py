@@ -25,7 +25,6 @@ def node_create_view(request, slug):
 
 @login_required
 def node_edit_view(request, slug, node_slug):
-
     if request.method == 'GET':
         data_node = Node.objects.get(slug=node_slug)
         input_type = data_node.input_type
@@ -115,7 +114,7 @@ def set_answer_form(input_type):
         answer_form = DateAnswerForm
         expandable = False
     elif input_type == 'end_node':
-        answer_form = EndNodeAnswerForm
+        answer_form = EndNodeAnswersForm
         expandable = False
     else:
         raise Exception('Invalid input type.')
@@ -155,6 +154,8 @@ def load_logic_field(request, *args):
         context = {
         'logic_formset': logic_formset
         }
+        if request.GET.get('visualbuilder'):
+            context['visualbuilder'] = True
         return render(request, 'logic_field.html', context)
 
 @login_required
@@ -240,6 +241,8 @@ def save_node(request, slug, *args):
         id = args[0]
     except:
         id = False
+    is_start_node = False if Node.objects.filter(decision_tree__slug=slug) else True
+    is_end_node = True if  node_form.cleaned_data['input_type'] == 'end_node' else False
     if id:
         Node.objects.filter(id=id).update(
         name= node_clean['name'],
@@ -249,7 +252,8 @@ def save_node(request, slug, *args):
             input_type= node_form.cleaned_data['input_type'],
             data_answer= json.dumps(data_answer),
             data_logic= json.dumps(data_logic),
-            new_node= False
+            new_node= False,
+            end_node= is_end_node,
         )
     else:
         n = Node(name= node_clean['name'],
@@ -260,7 +264,7 @@ def save_node(request, slug, *args):
         data_answer= json.dumps(data_answer),
         data_logic= json.dumps(data_logic),
         new_node= False,
-        start_node= False,
-        end_node= False,
+        start_node= is_start_node,
+        end_node= is_end_node,
         )
         n.save()

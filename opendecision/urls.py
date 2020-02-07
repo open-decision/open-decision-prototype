@@ -61,7 +61,7 @@ urlpatterns = [
     path('trees/<str:slug>/export', export_tree, name='export_tree_view'),
     path('trees/<str:slug>/export/output', export_file, name='export_file'),
 
-    path('visualbuilder', visualbuilder_view, name='visualbuilder'),
+    path('visualbuilder/', visualbuilder_view, name='visualbuilder'),
 ]
 
 if settings.DEBUG:

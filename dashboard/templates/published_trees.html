@@ -53,7 +53,7 @@
                       </button>
                     </td>
                     <td class="no-bubbling">
-                      <button id="copy-btn" type="button" data-url="publish/{{ decisiontree.url }}?embedded=true" class="btn btn-secondary btn-icon-split btn-sm no-bubbling" name="button">
+                      <button id="copy-btn" data-iframe="true" type="button" data-url="publish/{{ decisiontree.url }}?embedded=true" class="btn btn-secondary btn-icon-split btn-sm no-bubbling" name="button">
                         <span class="icon text-white-50 no-bubbling">
                           <i class="far fa-copy no-bubbling"></i>
                         </span>
@@ -161,7 +161,7 @@
 
     $(document).on('click', '#copy-btn', function(event) {
       var url = window.location.href.replace("published-trees/",'') + event.target.closest('#copy-btn').getAttribute('data-url');
-      if (true) {
+      if (event.target.closest('#copy-btn').hasAttribute('data-iframe')) {
         var iframe = '<iframe src="' + url + '"width="1000" height="600">Your browser does not support iFrames</iframe>';
         copyTextToClipboard(iframe);
       }

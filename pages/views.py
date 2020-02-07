@@ -47,7 +47,10 @@ def register_user(request):
 
 @xframe_options_exempt
 def show_published_tree(request, slug):
-    if not slug.startswith('new_'):
+    if request.GET.get('publish'):
+        random_url = publish(request, slug)
+        return redirect('/publish/' + random_url + '/?new=true')
+    else:
         tree = PublishedTree.objects.get(url=slug)
         context = {'tree_data' : tree.tree_data}
         if request.GET.get('new'):
@@ -55,13 +58,11 @@ def show_published_tree(request, slug):
         if request.GET.get('embedded'):
             return render(request, 'publish_embedded.html', context)
         return render(request, 'publish.html', context)
-    else:
-        random_url = publish(request, slug)
-        return redirect('/publish/' + random_url + '/?new=true')
+
+
 
 @login_required
 def publish(request, slug):
-    slug = slug[4:]
     random_url = ''.join(random.choice(string.ascii_lowercase) for i in range(10))
     tree_data = json.dumps(build_tree(slug), indent=4, default=str)
     t = PublishedTree(  url             = random_url,

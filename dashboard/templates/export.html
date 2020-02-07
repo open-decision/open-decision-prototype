@@ -3,7 +3,16 @@
 {% load i18n %}
 
 <h2 class="pageheader">{% trans "Export of the Tree " %}{{ selected_tree.name }}</h2>
+{% if production %}
+<div class="border-left-danger">
+  <h4 class="ml-2">{% trans "Warning" %}</h4>
+  <p class="ml-2">{% trans "Due to the ongoing development, the check tree system is currently disabled. Please consider the trees as experimental and don't use the software to provide services for end-users. " %}
+  <p class="ml-2">{% trans "However, if your tree is carefully build and without errors, you still will be able to export it using the buttons below." %}</p>
+  <p class="ml-2"> This is how a successful check will look like:</p>
+</div>
+{% else %}
 <p>{% trans "This is the result of the integrity check."  %}</p>
+{% endif %}
 
 {% if no_answers or no_logic or no_ref_to_start or no_var or no_ref_to_end %}
 <p>{% trans "Please correct the errors and click the 'Check again Button'." %}</p>
@@ -169,9 +178,9 @@
 <form class="" action="index.html" method="post">
 
 
-{% trans "Yes, I want to license the decision-tree under  CC 4.0 BY." %}
+<!-- {% trans "Yes, I want to license the decision-tree under  CC 4.0 BY." %}
 <input type="checkbox" value={% trans "Yes, publish under CC 4.0 BY." %} checked>
-<br><a href="https://creativecommons.org/choose/?lang=de" target="_blank">{% trans "Read more" %}</a>
+<br><a href="https://creativecommons.org/choose/?lang=de" target="_blank">{% trans "Read more" %}</a> -->
 
 {% if no_answers or no_logic or no_ref_to_start or no_var or no_ref_to_end %}
 <br><a class="btn btn-primary btn-danger" href="export/output" role="button" style="margin:20px;">{% trans "Export anyway" %}</a>
@@ -179,7 +188,7 @@
 {% else %}
 <span>
 <br><a class="btn btn-primary" href="export/output" role="button" style="margin:20px">{% trans "Download Tree" %}</a>
-<a class="btn btn-primary" href="/publish/new_{{selected_tree.slug}}" role="button" style="margin:20px">{% trans "Publish Tree" %}</a>
+<a class="btn btn-primary" href="/publish/{{selected_tree.slug}}/?publish=now" role="button" style="margin:20px">{% trans "Publish Tree" %}</a>
 </span>
 {% endif %}
 </form>

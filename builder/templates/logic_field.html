@@ -18,8 +18,10 @@
 
 <input type="hidden" id="input_hidden_field" value="" >
 <input type="hidden" id="create_new_node" value="" >
-
+<link rel="stylesheet" href="{% static '/jquery.datetimepicker.min.css' %}"/>
+<script src="{% static '/jquery.datetimepicker.full.min.js' %}"></script>
 <script src="{% static '/jquery.formset.js' %}"></script>
+
 <script>
 $('.logic-formset').formset({
     addText: '+',
@@ -28,49 +30,49 @@ $('.logic-formset').formset({
     deleteCssClass: "logic_delete",
     prefix: 'logic',
     formCssClass:'logic-formset',
-  //  added: ""   Build function to attach jQuery Handlers again for datepicker and load_nodes fct
+    added: attachEventHandlers,
 });
-  </script>
 
-  <link rel="stylesheet" href="{% static '/jquery.datetimepicker.min.css' %}"/>
-  <script src="{% static '/jquery.datetimepicker.full.min.js' %}"></script>
-
-  <script>
-  $(function () {
+  function attachEventHandlers(...args){
     $(".datepicker").datetimepicker({
       timepicker:false,
-      format:'d.m.Y'
-    });
-  });
-</script>
+      format:'d.m.Y',
+    })
 
-<script>
-//   $( function() {
-//     var loadNodesUrl="{% url 'ajax_load_nodes' %}";
-//     var selectedTree = $("#selected-tree").val();
-//     $.ajax({
-//       url: loadNodesUrl,
-//       data: {
-//         'selected_tree': selectedTree
-//       },
-//       success: function (data) {
-//         $('#input_hidden_field').val(JSON.stringify(data));
-//         var availableNodes = $('#input_hidden_field').val();
-//         availableNodes = JSON.parse(availableNodes);
-//         console.log(availableNodes);
-//         $( "input[id$='var_to_modify']").autocomplete({
-//           source: availableNodes,
-//           messages: {
-//             noResults: function(count) {
-//               $("input[id$='var_to_modify']").css("background-color","#4CAF50");
-//     },
-//             results: function(count) {
-//               $("input[id$='var_to_modify']").css("background-color","");
-//     }
-//   }
-//         });
-//
-//   }
-// });
-//   });
+    var availableNodes = $('#input_hidden_field').val();
+    if (availableNodes){
+      availableNodes = JSON.parse(availableNodes);
+    $( "input[id$='var_to_modify']").autocomplete({
+      source: availableNodes,
+      response: function(event, ui) {
+            if (ui.content.length === 0) {
+              $(event.target).css("background-color","#4CAF50");
+            } else {
+                $(event.target).css("background-color","");
+              }
+            }
+          })
+        }
+      }
+  $(function () {
+    attachEventHandlers()
+  });
+
+ {% if visualbuilder is not True %}
+
+  $(function() {
+    var loadNodesUrl="{% url 'ajax_load_nodes' %}";
+    var selectedTree = $("#selected-tree").val();
+    $.ajax({
+      url: loadNodesUrl,
+      data: {
+        'selected_tree': selectedTree
+      },
+      success: function (data) {
+        $('#input_hidden_field').val(JSON.stringify(data));
+        attachEventHandlers();
+      }
+    })
+  });
+  {% endif %}
 </script>

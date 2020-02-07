@@ -39,8 +39,8 @@
 
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
-        <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fab fa-osi"></i>
+        <div class="sidebar-brand-icon rotate-n-0">
+          <img src="{% static 'img/od_logo_white_circle.png' %}" height="50" width="50">
         </div>
         <div class="sidebar-brand-text mx-3">Open Decision</div>
       </a>
@@ -53,12 +53,16 @@
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>{% trans "Dashboard" %}</span></a>
       </li>
-
               <li class="nav-item">
           <a class="nav-link" href="/published-trees/">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>{% trans "Published Trees" %}</span></a>
           </li>
+          <li class="nav-item">
+      <a class="nav-link" href="/visualbuilder/">
+        <i class="fas fa-fw fa-chart-area"></i>
+        <span>{% trans "Visualbuilder - Alpha" %}</span></a>
+      </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'logout'%}?next=/">
               <i class="fas fa-sign-out-alt"></i>
@@ -305,7 +309,8 @@
       <footer class="footer">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span><a href="/">{% trans "Support" %}</a> <a href="/">{% trans "Imprint" %}</a> <a href="/">{% trans "Privacy policy" %}</a></span>
+            <footer class="footer">
+            <span><a href="http://open-decision.org" target="_blank">Made with <img src="{% static 'flowy/assets/heart.svg' %}"> by the Open Decision Project</a> <a href="https://github.com/fbennets/open-decision" target="_blank">| Github |</a> <a href="/">{% trans "Support" %}</a> <a href="/">{% trans "Imprint" %}</a> <a href="/">{% trans "Privacy policy" %}</a></span>
           </div>
         </div>
       </footer>

@@ -105,11 +105,9 @@
 
         </div>
         <div id="footer">
-            <a href="https://github.com/alyssaxuu/flowy/" target="_blank">GitHub</a>
-            <span>·</span>
-            <a href="https://twitter.com/alyssaxuu/status/1199724989353730048" target="_blank">Twitter</a>
-            <span>·</span>
-                <a href="https://alyssax.com" target="_blank"><p>Made with</p><img src="{% static 'flowy/assets/heart.svg' %}"><p>by</p> Alyssa X</a>
+          <a href="https://github.com/fbennets/open-decision" target="_blank"><p>Github |</p></a>
+          <span></span>
+                <a href="http://open-decision.org" target="_blank"><p>Made with</p><img src="{% static 'flowy/assets/heart.svg' %}"><p>by the</p> Open Decision Project</a>
         </div>
     </div>
     <div id="propwrap">
@@ -142,18 +140,13 @@
         var rightcard = false;
         var tempblock;
         var tempblock2;
-        var tempDeletedBlocks = [];
-        var permaDeletedBlocks = [];
+        var detachedBlocks = [];
+        var deletedBlocks = [];
         var releaseCounter = 0;
 
       // Init flowy
         flowy(document.getElementById("canvas"), drag, release, snapping, deleted);
-        function addEventListenerMulti(type, listener, capture, selector) {
-            var nodes = document.querySelectorAll(selector);
-            for (var i = 0; i < nodes.length; i++) {
-                nodes[i].addEventListener(type, listener, capture);
-            }
-        }
+
 // Flowy handler functions
         function snapping(drag, first, parent) {
             var grab = drag.querySelector(".grabme");
@@ -170,14 +163,14 @@
             } else if (blockTypeValue >= 20) {
                 //Get index of the deleted block
                 index = blockTypeValue - 20;
-                el = JSON.parse(permaDeletedBlocks[index]);
+                el = JSON.parse(deletedBlocks[index]);
                 //Update saved blockId to new one to prevent bug
                 el.blockId = drag.querySelector(".blockid").value;
                 elStr = JSON.stringify(el);
                 //Build HTML
                 drag.innerHTML += `<div class='blockyleft'><img src='assets/errorred.svg'><p class='blockyname'>Former Deleted Node</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'><span>${el.inputValues[0]}</span></div><div style="display: none;" id="storage-div">${elStr}</div>`;
-                //Remove block from permaDeletedBlocks after it's grabbed to the canvas
-                permaDeletedBlocks.splice(index, 1);
+                //Remove block from deletedBlocks after it's grabbed to the canvas
+                deletedBlocks.splice(index, 1);
                 //Rerender the menu with deleted blocks
                 document.getElementById('actions').click();
                         }
@@ -201,14 +194,6 @@
 
 
 
-
-
-
-
-
-
-
-
         function drag(block) {
             block.classList.add("blockdisabled");
             var selectedBlocks = document.getElementsByClassName("selectedblock");
@@ -229,8 +214,8 @@
         }
 
         function release() {
-          if (tempDeletedBlocks.length !== 0){
-            checkTempDeletedBlocks();
+          if (detachedBlocks.length !== 0){
+            checkDetachedBlocks();
           };
             tempblock2.classList.remove("blockdisabled");
         }
@@ -239,7 +224,7 @@
         function deleted(draggedBlock, blockList) {
           nodes = draggedBlock.innerHTML.match(/{.+?}/gm);
           if (nodes !== null) {
-            tempDeletedBlocks.push(nodes);
+            detachedBlocks.push(nodes);
           }
 
         }
@@ -328,7 +313,7 @@
 
   $.fn.loadForms = function(inputType){
     var nodeFormUrl = "{% url 'ajax_load_node_form' %}";
-    var logicFormUrl = "{% url 'ajax_load_logic_field' %}";
+    var logicFormUrl = "{% url 'ajax_load_logic_field' %}" + "?visualbuilder=true";
     var answerFormUrl = "{% url 'ajax_load_answer_field' %}";
 
     $.ajax({
@@ -420,7 +405,7 @@ function attachFormHandlers(){
     //Rebuild the node properties for a node that has been edited
     function rebuildNode(el){
       var nodeFormUrl = "{% url 'ajax_load_node_form' %}";
-      var logicFormUrl = "{% url 'ajax_load_logic_field' %}";
+      var logicFormUrl = "{% url 'ajax_load_logic_field' %}"  + "?visualbuilder=true";
       var answerFormUrl = "{% url 'ajax_load_answer_field' %}";
 
       $("#logicproplist").hide();
@@ -482,22 +467,22 @@ function attachFormHandlers(){
     };
 
  //Store data of deleted nodes
-    function checkTempDeletedBlocks(...args){
+    function checkDetachedBlocks(...args){
       releaseCounter += 1;
-      lenTemp = tempDeletedBlocks.length;
+      len = detachedBlocks.length;
       //If  release is called directly after releasing the blocks,
       //the new blocks are not available in the  canvas, therefore wait until 2nd call
-      if ((lenTemp !== 0 )&& (releaseCounter == 2)) {
+      if ((len !== 0 )&& (releaseCounter == 2)) {
         //Get all existing nodes with a storage-div
         var existingBlocks = document.getElementById('canvas').querySelectorAll("#storage-div");
         //We get the id and name of the older block
-            var tempDelBlockId = ((tempDeletedBlocks[0].constructor === Array)
-                                  ? JSON.parse(tempDeletedBlocks[0][0]).blockId
-                                  : JSON.parse(tempDeletedBlocks[0]).blockId);
+            var tempDelBlockId = ((detachedBlocks[0].constructor === Array)
+                                  ? JSON.parse(detachedBlocks[0][0]).blockId
+                                  : JSON.parse(detachedBlocks[0]).blockId);
 
-            var tempDelBlockName = ((tempDeletedBlocks[0].constructor === Array)
-                                  ? JSON.parse(tempDeletedBlocks[0][0]).inputValues[0]
-                                  : JSON.parse(tempDeletedBlocks[0]).inputValues[0]);
+            var tempDelBlockName = ((detachedBlocks[0].constructor === Array)
+                                  ? JSON.parse(detachedBlocks[0][0]).inputValues[0]
+                                  : JSON.parse(detachedBlocks[0]).inputValues[0]);
 
           //Compare the id of existing blocks and the deleted block if they match, the blocks were not
           //deleted but onyl moved -> then remove block from deletedBlocks
@@ -505,38 +490,38 @@ function attachFormHandlers(){
         for (var i=0; i<existingBlocks.length; i++){
           if ((JSON.parse(existingBlocks[i].textContent).inputValues[0] == tempDelBlockName) && (JSON.parse(existingBlocks[i].textContent).blockId == tempDelBlockId)){
             //Remove block from deleted blocks
-            tempDeletedBlocks.splice(-2, 1);
+            detachedBlocks.splice(-2, 1);
             blockWasDeleted = false;
           }
         }
         if (blockWasDeleted) {
           //Check if several blocks were deleted at once (if we have a multidimensional array)
-          if (tempDeletedBlocks[0].constructor === Array){
-            //If multidimensional array, push single blocks to permaDeletedBlocks
-            for (var j=tempDeletedBlocks[0].length-1; j >= 0; j--){
-              permaDeletedBlocks.push(tempDeletedBlocks[0].pop());
+          if (detachedBlocks[0].constructor === Array){
+            //If multidimensional array, push single blocks to deletedBlocks
+            for (var j=detachedBlocks[0].length-1; j >= 0; j--){
+              deletedBlocks.push(detachedBlocks[0].pop());
             }
-            //Then delete the empty array in tempDeletedBlocks that contained the blocks
-            tempDeletedBlocks.shift();
+            //Then delete the empty array in detachedBlocks that contained the blocks
+            detachedBlocks.shift();
           } else {
-            //If only one block was deleted push it to permaDeletedBlocks
-            permaDeletedBlocks.push(tempDeletedBlocks.shift())
+            //If only one block was deleted push it to deletedBlocks
+            deletedBlocks.push(detachedBlocks.shift())
           }
         }
-        //If tempDeletedBlocks.length was originally 2 one block is left. As we only
+        //If detachedBlocks.length was originally 2 one block is left. As we only
         //want one or two blocks in the array for predictability, set releaseCounter to one
-        releaseCounter = (lenTemp == 2) ? 1 : 0;
+        releaseCounter = (len == 2) ? 1 : 0;
   }
 }
 
 function showDeletedBlocks(){
-  if (tempDeletedBlocks.length !== 0 ){
-    checkTempDeletedBlocks();
+  if (detachedBlocks.length !== 0 ){
+    checkDetachedBlocks();
   }
   blockList = '';
-  if (permaDeletedBlocks.length !== 0){
-  for (var i=0; i<permaDeletedBlocks.length; i++) {
-    el = JSON.parse(permaDeletedBlocks[i]);
+  if (deletedBlocks.length !== 0){
+  for (var i=0; i<deletedBlocks.length; i++) {
+    el = JSON.parse(deletedBlocks[i]);
     blockList += `<div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value=${20+i}><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin"><div class="blockico"><span></span><img src="{% static 'flowy/assets/eye.svg' %}"></div><div class="blocktext"><p class="blocktitle">Deleted Block</p><p class="blockdesc">${el.inputValues[0]}</p></div></div></div><div class="finaldelete" data-id=${20+i}>Delete</div>`
   }
 } else {
@@ -554,11 +539,18 @@ function showDeletedBlocks(){
         return element.parentNode && hasParentClass(element.parentNode, classname);
     }
 
+    function addEventListenerMulti(type, listener, capture, selector) {
+        var nodes = document.querySelectorAll(selector);
+        for (var i = 0; i < nodes.length; i++) {
+            nodes[i].addEventListener(type, listener, capture);
+        }
+    }
+
 function deleteButtonForDeletedBlocks(event){
   blockTypeValue = parseInt(event.target.getAttribute("data-id"));
   index = blockTypeValue - 20;
   //Remove block
-  permaDeletedBlocks.splice(index, 1);
+  deletedBlocks.splice(index, 1);
   //Rerender the menu with deleted blocks
   document.getElementById('actions').click();
 }

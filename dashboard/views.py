@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render, redirect
 from django.views import generic
 from .models import DecisionTree, Node
@@ -73,6 +74,7 @@ def unpublish_tree (request):
 def tree_view(request, slug):
     existing_nodes = Node.objects.filter(decision_tree__slug=slug).filter(new_node=False)
     new_nodes = Node.objects.filter(decision_tree__slug=slug).filter(new_node=True)
+
     if request.method == 'GET':
         context = {
         'existing_nodes': existing_nodes,
@@ -83,18 +85,25 @@ def tree_view(request, slug):
 
 @login_required
 def export_tree(request, slug):
-    data = check_tree(slug)
-    errors = data[0]
-    all_nodes = data[1]
-    errors['no_answers'] = [all_nodes.get(id=element) for element in errors['no_answers']]
-    errors['no_logic'] = [all_nodes.get(id=element) for element in errors['no_logic']]
-    errors['no_ref_to_start'] = [all_nodes.get(id=element) for element in errors['no_ref_to_start']]
-    errors['no_var'] = {all_nodes.get(id=key):value for (key,value) in errors['no_var'].items()}
-    errors['no_ref_to_end'] = [[all_nodes.get(id=node) for node in path] for path in errors['no_ref_to_end']]
-    errors['not_end_nodes'] = list(set([path[-1] for path in errors['no_ref_to_end']]))
-    errors['selected_tree'] = DecisionTree.objects.get(slug=slug)
-    print(errors)
-    return render(request, 'export.html', errors)
+    if os.environ.get('DJANGO_PRODUCTION') is not None:
+        context = {
+        'production' : 'true',
+        'selected_tree' : DecisionTree.objects.get(slug=slug),
+        }
+        return render(request, 'export.html', context)
+    else:
+        data = check_tree(slug)
+        errors = data[0]
+        all_nodes = data[1]
+        errors['no_answers'] = [all_nodes.get(id=element) for element in errors['no_answers']]
+        errors['no_logic'] = [all_nodes.get(id=element) for element in errors['no_logic']]
+        errors['no_ref_to_start'] = [all_nodes.get(id=element) for element in errors['no_ref_to_start']]
+        errors['no_var'] = {all_nodes.get(id=key):value for (key,value) in errors['no_var'].items()}
+        errors['no_ref_to_end'] = [[all_nodes.get(id=node) for node in path] for path in errors['no_ref_to_end']]
+        errors['not_end_nodes'] = list(set([path[-1] for path in errors['no_ref_to_end']]))
+        errors['selected_tree'] = DecisionTree.objects.get(slug=slug)
+        print(errors)
+        return render(request, 'export.html', errors)
 
 
 def check_tree(slug):

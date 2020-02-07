@@ -37,7 +37,7 @@
                       </div>
                     </th>
                     <td>
-                      {{ node.name |truncatechars:40 }}<br>{% if node.start_node %}<span class="badge badge-pill badge-secondary">{% trans "Start-Node" %}</span>{% endif %}
+                      {{ node.name |truncatechars:40 }}<br>{% if node.start_node %}<span class="badge badge-pill badge-secondary">{% trans "Start-Node" %}</span>{% endif %}{% if node.end_node %}<span class="badge badge-pill badge-info">{% trans "End-Node" %}</span>{% endif %}
                     </td>
                     <td>
                       <span class="d-flex align-items-center">
@@ -78,7 +78,7 @@
                         </div>
                       </th>
                       <td>
-                        {{ node.name |truncatechars:40 }}<br><span class="badge badge-pill badge-success">{% trans "New Node" %}</span>
+                        {{ node.name |truncatechars:40 }}<br><span class="badge badge-pill badge-success">{% trans "New Node" %}</span>{% if node.end_node %}<span class="badge badge-pill badge-info">{% trans "End-Node" %}</span>{% endif %}
                       </td>
                       <td>
                         <span class="d-flex align-items-center">

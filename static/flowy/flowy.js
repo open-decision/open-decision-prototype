@@ -11,7 +11,7 @@ var flowy = function(canvas, grab, release, snapping, deleted, spacing_x, spacin
         };
     }
     if (!deleted) {
-        release = function() {};
+        deleted = function() {};
     }
     if (!spacing_x) {
         spacing_x = 20;
@@ -408,7 +408,7 @@ var flowy = function(canvas, grab, release, snapping, deleted, spacing_x, spacin
                             if (drag.querySelector(".blockid").value !==  "0"){
                               blockDeleted(drag, blocks);
                             }
-                            
+
                             if (blocks.length > 1) {
                                 rearrangeMe();
                             }
