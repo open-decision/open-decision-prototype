@@ -52,6 +52,7 @@
                         <span class="text">{% trans "Edit" %}</span>
                       </a>
                     </td>
+                    {% if not node.start_node %}
                     <td class="text-center">
                       <div class="dropdown">
                         <a class="btn btn-sm btn-icon-only text-dark no-bubbling" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -65,6 +66,7 @@
                         </div>
                       </div>
                     </td>
+                    {% endif %}
                   </tr>
                   {% endfor %}
                   {% if new_nodes%}

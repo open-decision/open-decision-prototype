@@ -46,10 +46,11 @@ def add_tree(request):
             tree = f.save(commit=False)
             tree.owner = request.user
             tree.save()
-    except IntegrityError as e:
-        return HttpResponse('<div class="border-left-danger pl-2">'+ _('<p>Please choose another name, this one is  already taken.</p>') + '</div>')
+    except IntegrityError:
+        return HttpResponse('<div class="border-left-danger pl-2">'+ _('<p>Please choose another name, you already have a tree with this name.</p>') + '</div>')
     context = {
-     'decisiontree_list': DecisionTree.objects.filter(id=tree.id)
+     'decisiontree_list': DecisionTree.objects.filter(id=tree.id),
+     'node_num': DecisionTree.objects.filter(owner=request.user).count(),
      }
     return render(request, 'dashboard_table_row.html', context)
 
@@ -288,7 +289,7 @@ def build_tree (slug):
         for l in json.loads(n.data_logic):
             # Loop through logic forms
 
-            if (n.input_type == 'number') or (n.input_type =='date') or (n.input_type == 'button'):
+            if (n.input_type == 'number') or (n.input_type =='date') or (n.input_type == 'button') or (n.input_type == 'end_node'):
                 # Build the rules first
                 # If dict already exists
                 try:
@@ -321,6 +322,9 @@ def build_tree (slug):
                 #     }
 
 
+            elif n.input_type == 'end_node':
+                export[n.slug]['results'] = {}
+                
             elif n.input_type == 'list':
                 try:
                     export[n.slug]['rules']['if'].extend(
