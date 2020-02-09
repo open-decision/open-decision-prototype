@@ -40,21 +40,21 @@
         </div>
     </div>
     <div id="leftcard">
-        <div id="closecard">
+        <!-- <div id="closecard">
             <img src="{% static 'flowy/assets/closeleft.svg' %}">
-        </div>
-        <p id="header">{% trans "Nodes" %}</p>
-        <div id="search">
+        </div> -->
+        <p id="header">{% trans "Blocks" %}</p>
+        <!-- <div id="search">
             <img src="{% static 'flowy/assets/search.svg' %}">
             <input type="text" placeholder="Search blocks">
-        </div>
+        </div> -->
         <div id="subnav">
             <div id="triggers" class="navactive side">{% trans "Content" %}</div>
             <div id="actions" class="navdisabled side">{% trans "Deleted Blocks" %}</div>
             <div id="loggers" class="navdisabled side">{% trans "Unused Blocks" %}</div>
         </div>
         <div id="blocklist">
-            <div class="blockelem create-flowy noselect">
+            <div id="start-block" class="blockelem create-flowy noselect">
                 <input type="hidden" name='blockelemtype' class="blockelemtype" value="1">
                 <div class="grabme">
                     <img src="{% static 'flowy/assets/grabme.svg' %}">
@@ -70,7 +70,7 @@
                     </div>
                 </div>
             </div>
-            <div class="blockelem create-flowy noselect">
+            <div class="blockelem noselect blockdisabled" >
                 <input type="hidden" name='blockelemtype' class="blockelemtype" value="2">
                 <div class="grabme">
                     <img src="{% static 'flowy/assets/grabme.svg' %}">
@@ -86,8 +86,8 @@
                     </div>
                 </div>
             </div>
-            <div class="blockelem create-flowy noselect">
-                <input type="hidden" name='blockelemtype' class="blockelemtype" value="1">
+            <div class="blockelem noselect blockdisabled">
+                <input type="hidden" name='blockelemtype' class="blockelemtype" value="3">
                 <div class="grabme">
                     <img src="{% static 'flowy/assets/grabme.svg' %}">
                 </div>
@@ -143,29 +143,36 @@
         var detachedBlocks = [];
         var deletedBlocks = [];
         var releaseCounter = 0;
+        var blocks = {'detached':{}};
 
       // Init flowy
         flowy(document.getElementById("canvas"), drag, release, snapping, deleted);
 
 // Flowy handler functions
         function snapping(drag, first, parent) {
-            var grab = drag.querySelector(".grabme");
+           var blockTypeValue = parseInt(drag.querySelector(".blockelemtype").value);
+           var blockId = parseInt(drag.querySelector(".blockid").value);
+           var grab = drag.querySelector(".grabme");
+
+           if (parent && blocks[parent.id].childs.includes()) {
+             return false;
+           }
             grab.parentNode.removeChild(grab);
             var blockin = drag.querySelector(".blockin");
             blockin.parentNode.removeChild(blockin);
-            blockTypeValue = parseInt(drag.querySelector(".blockelemtype").value);
             if (blockTypeValue == 1) {
-                drag.innerHTML += "<div class='blockyleft'><img src='assets/eyeblue.svg'><p class='blockyname'>Start Node</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'></div>";
+                drag.innerHTML += "<div class='blockyleft'><img src='{% static 'flowy/assets/eyeblue.svg' %}'><p class='blockyname'>Start Block</p></div><div class='blockyright'><img src='{% static 'flowy/assets/more.svg' %}'></div><div class='blockydiv'></div><div class='blockyinfo'>Click the block to edit it</div>";
+                document.getElementById("blocklist").innerHTML = "<div class='blockelem create-flowy noselect'><input type='hidden' name='blockelemtype' class='blockelemtype' value='2'><div class='grabme'><img src='{% static 'flowy/assets/grabme.svg' %}'></div><div class='blockin'><div class='blockico'><span></span><img src='{% static 'flowy/assets/eye.svg' %}'></div><div class='blocktext'><p class='blocktitle'>Question Block</p><p class='blockdesc'>Ask the user a question</p></div></div></div><div class='blockelem create-flowy noselect'><input type='hidden' name='blockelemtype' class='blockelemtype' value='3'><div class='grabme'><img src='{% static 'flowy/assets/grabme.svg' %}'></div><div class='blockin'><div class='blockico'><span></span><img src='{% static 'flowy/assets/eye.svg' %}'></div><div class='blocktext'><p class='blocktitle'>End Block</p><p class='blockdesc'>Use this block to define an end for the tree</p></div></div></div>";
             } else if (blockTypeValue == 2) {
-                drag.innerHTML += "<div class='blockyleft'><img src='assets/actionblue.svg'><p class='blockyname'>Action is performed</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>When <span>Action 1</span> is performed</div>";
+                drag.innerHTML += "<div class='blockyleft'><img src='{% static 'flowy/assets/actionblue.svg' %}'><p class='blockyname'>Ask Question</p></div><div class='blockyright'><img src='{% static 'flowy/assets/more.svg' %}'></div><div class='blockydiv'></div><div class='blockyinfo'>Click to configure the block</div>";
             } else if (blockTypeValue == 3) {
-                drag.innerHTML += "<div class='blockyleft'><img src='assets/timeblue.svg'><p class='blockyname'>Time has passed</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'>When <span>10 seconds</span> have passed</div>";
+                drag.innerHTML += "<div class='blockyleft'><img src='{% static 'flowy/assets/timeblue.svg' %}'><p class='blockyname'>End Block</p></div><div class='blockyright'><img src='{% static 'flowy/assets/more.svg' %}'></div><div class='blockydiv'></div><div class='blockyinfo'>Show the result to the user.</div>";
             } else if (blockTypeValue >= 20) {
                 //Get index of the deleted block
                 index = blockTypeValue - 20;
                 el = JSON.parse(deletedBlocks[index]);
                 //Update saved blockId to new one to prevent bug
-                el.blockId = drag.querySelector(".blockid").value;
+                el.blockId = blockId;
                 elStr = JSON.stringify(el);
                 //Build HTML
                 drag.innerHTML += `<div class='blockyleft'><img src='assets/errorred.svg'><p class='blockyname'>Former Deleted Node</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'><span>${el.inputValues[0]}</span></div><div style="display: none;" id="storage-div">${elStr}</div>`;
@@ -173,15 +180,15 @@
                 deletedBlocks.splice(index, 1);
                 //Rerender the menu with deleted blocks
                 document.getElementById('actions').click();
-                        }
-
-
+              }
 
             //Catch drag/child and parent
             //if parent undefined drag === first block
             //child as html element
             //parent data: { childwidth: 0, parent: 0, id: 1, x: 816, y: 361, width: 318, height: 84 }
             //take parent node and create new logic element containing the childs id?
+
+            //Todo
             //if parent logic is modified delete child?
             //if child is modified update parent (namechange, delete, moved, whatelse?)
             //how to keep logic data on "delete"?
@@ -189,9 +196,29 @@
             // console.log(drag);
             // console.log(parent);
             //
+
+            //Save data of the drag to the blocks obj
+            blocks[blockId] = {
+              'blockType': blockTypeValue,
+              'parent': (parent)? parent.id : false,
+              'duplicate': false,
+            };
+            blocks[blockId]['storageData'] = (drag.querySelector("#storage-div")) ? drag.querySelector("#storage-div").textContent : {};
+            (blocks[blockId]['childs']) ? {} : blocks[blockId]['childs'] = [];
+            //Save data of the parent
+            if (parent){
+              blocks[parent.id].childs.push(blockId);
+              //Copy the parents ancestors array and add parent
+              blocks[blockId]['ancestors'] = [...blocks[parent.id]['ancestors']]
+              blocks[blockId]['ancestors'].push(parent.id);
+            } else {
+              blocks[blockId]['ancestors'] = [];
+            }
+            console.log('Blocks is:');
+            console.log(blocks);
+            //What do to now?
             return true;
         }
-
 
 
         function drag(block) {
@@ -221,13 +248,83 @@
         }
 
 
-        function deleted(draggedBlock, blockList) {
-          nodes = draggedBlock.innerHTML.match(/{.+?}/gm);
-          if (nodes !== null) {
-            detachedBlocks.push(nodes);
-          }
+        function deleted(detachedBlock, ...args) {
+          console.log('Dettached Block is:')
+          console.log(detachedBlock);
+          //Get Id of the detachedBlock
+          var detachedId = parseInt(detachedBlock.querySelector(".blockid").value);
+          //Get Id of the parent of the detachedBlock
+          var idOfParent = blocks[detachedId].parent;
+          //Get the index of the detachedBlock within the childs arrray of its parent
+          var indexInParentsChilds = blocks[idOfParent].childs.indexOf(detachedId);
+          //Delete the detachedBlock from the parents child array
+          blocks[idOfParent].childs.slice(indexInParentsChilds, 1);
+          //Finally set parent to false and empty the ancestors list
+          blocks[detachedId].parent = false;
+          blocks[detachedId].ancestors = [];
 
-        }
+          //Now: delete childs with+out storage-div from blocks (and remove this functionality)
+          //Handle childs without storage-div that get reattached
+          // Move this childs (or all childs) to blocks.distached = {}
+          //If leading detachedBlock got deleted delete them completely
+          //If leading detachedBlock gets reattached, move them back to block
+
+          //Get all block ids and if existing saved block data
+          var re = /blockid..value=.(\d).+?|{.+?}/gm;
+          var match;
+          var descendants = [];
+          while ((match = re.exec(detachedBlock.innerHTML)) !== null) {
+            //If the first capture group (match[1]) is existing, we found an blockId
+            if (match[1]){
+              descendants.push(match[1]);
+              //Copy the block data in blocks to blocks.detached
+              blocks.detached[parseInt(match[1])] = blocks[parseInt(match[1])];
+              //And delete the data from the normal blocks
+              delete blocks[parseInt(match[1])];
+            } else {
+              //We found saved block data (a storage div's content)
+              blockId = JSON.parse(match[0]).blockId;
+              //If we find a storage div we always had the matching blockId in
+              //the iteration before. Replace this id with the storage div (it)
+              //contains the id as well
+              descendants.pop();
+              descendants.push(match[0]);
+
+              // if (descendants[descendants.length-1] == blockId){
+              //   descendants.pop();
+              //   descendants.push(match[0]);
+              //   } else {
+              //   descendants.push(match[0]);
+              // }
+              // if (blocks[parseInt(blockId)]) {
+              //   blocks.detached[parseInt(blockId)] = blocks[parseInt(blockId)];
+              //   delete  blocks[parseInt(blockId)];
+              // }
+            }
+            }
+            console.log('descendants are:');
+            console.log(descendants);
+            console.log('Blocks after detached is:');
+            console.log(blocks);
+          //Get the data of the detachedBlock and all its edited childs with storage-div
+          // var modifiedBlocks = detachedBlock.innerHTML.match(/{.+?}/gm);
+          // //If nothing was edited
+          //
+          // if (modifiedBlocks !== null){
+          //   //Else get all blocks with
+          // var modifiedBlockIds = modifiedBlocks.forEach(function(block){
+          // return JSON.parse(block).blockId;
+          // });
+          // var emptyBlocks = descendants.filter(function(id){
+          //   return !(modifiedBlockIds.contains(id));
+          //
+          //   });
+          //   debugger;
+          // console.log(emptyBlocks);
+
+            // detachedBlocks.push(modifiedBlocks);
+        //  }
+      }
 
 //UI functions for mouse events
         var disabledClick = function(){
@@ -236,7 +333,12 @@
             this.classList.add("navactive");
             this.classList.remove("navdisabled");
             if (this.getAttribute("id") == "triggers") {
-                document.getElementById("blocklist").innerHTML = '<div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value="1"><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin">                  <div class="blockico"><span></span><img src="{% static 'flowy/assets/eye.svg' %}"></div><div class="blocktext">                        <p class="blocktitle">New visitor</p><p class="blockdesc">Triggers when somebody visits a specified page</p>        </div></div></div><div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value="2"><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin">                    <div class="blockico"><span></span><img src="{% static 'flowy/assets/action.svg' %}"></div><div class="blocktext">                        <p class="blocktitle">Action is performed</p><p class="blockdesc">Triggers when somebody performs a specified action</p></div></div></div><div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value="3"><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin">                    <div class="blockico"><span></span><img src="{% static 'flowy/assets/time.svg' %}"></div><div class="blocktext">                        <p class="blocktitle">Time has passed</p><p class="blockdesc">Triggers after a specified amount of time</p>          </div></div></div><div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value="4"><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin">                    <div class="blockico"><span></span><img src="{% static 'flowy/assets/error.svg' %}"></div><div class="blocktext">                        <p class="blocktitle">Error prompt</p><p class="blockdesc">Triggers when a specified error happens</p>              </div></div></div>';
+              var blockList = '';
+              if (!document.getElementById('canvas').querySelector('#start-block')){
+                blockList += "<div id='start-block' class='blockelem create-flowy noselect'><input type='hidden' name='blockelemtype' class='blockelemtype' value='1'><div class='grabme'><img src='{% static 'flowy/assets/grabme.svg' %}'></div><div class='blockin'><div class='blockico'><span></span><img src='{% static 'flowy/assets/eye.svg' %}'></div><div class='blocktext'><p class='blocktitle'>Start Block</p><p class='blockdesc'>The beginning of your Decision tree</p></div></div></div>";
+                  }
+                  blockList += "<div class='blockelem create-flowy noselect'><input type='hidden' name='blockelemtype' class='blockelemtype' value='2'><div class='grabme'><img src='{% static 'flowy/assets/grabme.svg' %}'></div><div class='blockin'><div class='blockico'><span></span><img src='{% static 'flowy/assets/eye.svg' %}'></div><div class='blocktext'><p class='blocktitle'>Question Block</p><p class='blockdesc'>Ask the user a question</p></div></div></div><div class='blockelem create-flowy noselect'><input type='hidden' name='blockelemtype' class='blockelemtype' value='3'><div class='grabme'><img src='{% static 'flowy/assets/grabme.svg' %}'></div><div class='blockin'><div class='blockico'><span></span><img src='{% static 'flowy/assets/eye.svg' %}'></div><div class='blocktext'><p class='blocktitle'>End Block</p><p class='blockdesc'>Use this block to define an end for the tree</p></div></div></div>";
+              document.getElementById("blocklist").innerHTML = blockList;
             } else if (this.getAttribute("id") == "actions") {
               document.getElementById("blocklist").innerHTML = showDeletedBlocks();
               addEventListenerMulti("click", deleteButtonForDeletedBlocks, false, ".finaldelete");
@@ -373,27 +475,45 @@ function attachFormHandlers(){
 
     // Save the node properties after a node was edited
     function saveNodeProperties(){
+
+
+      //Build storage content obj
+      //Set the standard fields that are always present
       storageContent = {'inputValues': [], 'selectValues': []};
       storageContent['question'] = CKEDITOR.instances.id_question.getData();
       storageContent['inputType'] = document.getElementById("id_input_type").value;
       storageContent['num_answers'] = document.getElementById("id_answer-TOTAL_FORMS").value;
       storageContent['num_logic'] = document.getElementById("id_logic-TOTAL_FORMS").value;
       storageContent['blockId'] =  tempblock.querySelector(".blockid").value;
+
+      //Iterate over all input fields and attach the value
       inputFields = document.getElementById("nodedata").getElementsByTagName('input');
       for (var i = 0; i < inputFields.length; i++) {
         var tableChild = inputFields[i];
         storageContent.inputValues.push(tableChild.value);
       }
+      //Iterate over all select fields and attach the value
       selectFields = document.getElementById("nodedata").getElementsByTagName('select');
       for (var i = 0; i < selectFields.length; i++) {
-        var tableChild = selectFields[i];
-        storageContent.selectValues.push(tableChild.value);
+        var selectValues = selectFields[i];
+        storageContent.selectValues.push(selectValues.value);
       }
+      //Transform obj to string
+      blockId = storageContent.blockId;
       storageContent = JSON.stringify(storageContent);
       el = tempblock.querySelector("#storage-div");
+      //Update the block data stored in Blocks
+      blocks[blockId]['storageData'] = storageContent;
+
+      //Todo: Update childs acording to new logic modules?
+
+
+
       if  (el != null) {
+        //If there was data before, replace it with the new data
         el.textContent = storageContent;
       } else {
+        //Otherwise create a storage-div element and append it to the block
         var storageDiv = document.createElement("div");
         storageDiv.style.display ="none";
         storageDiv.id = "storage-div";
@@ -413,7 +533,6 @@ function attachFormHandlers(){
       $("#nodeproplist").show();
 
       nodeData = JSON.parse(el.textContent);
-      console.log(el.textContent);
       $.ajax({
         url: nodeFormUrl,
         data: {
@@ -500,12 +619,19 @@ function attachFormHandlers(){
             //If multidimensional array, push single blocks to deletedBlocks
             for (var j=detachedBlocks[0].length-1; j >= 0; j--){
               deletedBlocks.push(detachedBlocks[0].pop());
+              //And delete the single blocks from the blocks array
+
+              // delete blocks[detachedBlocks[0][j].blockId]; USE SPLICE INSTEAD
+
             }
             //Then delete the empty array in detachedBlocks that contained the blocks
             detachedBlocks.shift();
           } else {
             //If only one block was deleted push it to deletedBlocks
             deletedBlocks.push(detachedBlocks.shift())
+            // And delete the block from the block array
+            // delete blocks[detachedBlocks[0].blockId]; USE SPLICE INSTEAD
+
           }
         }
         //If detachedBlocks.length was originally 2 one block is left. As we only
@@ -539,8 +665,9 @@ function showDeletedBlocks(){
         return element.parentNode && hasParentClass(element.parentNode, classname);
     }
 
-    function addEventListenerMulti(type, listener, capture, selector) {
-        var nodes = document.querySelectorAll(selector);
+    function addEventListenerMulti(type, listener, capture, selector, parentElement) {
+      parent = (parentElement) ? parentElement : document;
+        var nodes = parent.querySelectorAll(selector);
         for (var i = 0; i < nodes.length; i++) {
             nodes[i].addEventListener(type, listener, capture);
         }
@@ -572,7 +699,7 @@ function deleteButtonForDeletedBlocks(event){
     addEventListener("mousemove", checkTouch, false);
     addEventListener("mouseup", doneTouch, false);
     addEventListenerMulti("touchstart", beginTouch, false, ".block");
-    addEventListenerMulti("click", unHide, false, ".nodepropswitch");
+    addEventListenerMulti("click", unHide, false, ".nodepropswitch", document.getElementById('canvas'));
 
 
 
