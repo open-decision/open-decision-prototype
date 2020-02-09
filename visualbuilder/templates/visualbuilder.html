@@ -126,7 +126,7 @@
             <div id="answerproplist"></div>
             <div id="logicproplist"></div>
             </div>
-            <div id="divisionthing"></div>
+            <!-- <div id="divisionthing"></div> -->
             <!-- <div id="removeblock" class="pt-4">Delete blocks</div> -->
         </div>
 
@@ -254,6 +254,9 @@
 
 
         function deleted(detachedBlock, ...args) {
+          if (detachedBlock.classList.contains('selectedblock')){
+            document.getElementById('close').click();
+          }
           console.log('Dettached Block is:')
           console.log(detachedBlock);
           //Get Id of the detachedBlock
@@ -267,12 +270,6 @@
           //Finally set parent to false and empty the ancestors list
           blocks[detachedId].parent = false;
           blocks[detachedId].ancestors = [];
-
-          //Now: delete childs with+out storage-div from blocks (and remove this functionality)
-          //Handle childs without storage-div that get reattached
-          // Move this childs (or all childs) to blocks.distached = {}
-          //If leading detachedBlock got deleted delete them completely
-          //If leading detachedBlock gets reattached, move them back to block
 
           //Get all block ids and if existing saved block data
           var re = /blockid..value=.(\d).+?|{.+?}/gm;
@@ -294,44 +291,9 @@
               //contains the id as well
               descendants.pop();
               descendants.push(match[0]);
-
-              // if (descendants[descendants.length-1] == blockId){
-              //   descendants.pop();
-              //   descendants.push(match[0]);
-              //   } else {
-              //   descendants.push(match[0]);
-              // }
-              // if (blocks[parseInt(blockId)]) {
-              //   blocks.detached[parseInt(blockId)] = blocks[parseInt(blockId)];
-              //   delete  blocks[parseInt(blockId)];
-              // }
             }
-            }
-            console.log('descendants are:');
-            console.log(descendants);
-            console.log('Blocks after detached is:');
-            console.log(blocks);
+          }
             detachedBlocks.push(descendants);
-            console.log(detachedBlocks);
-
-          //Get the data of the detachedBlock and all its edited childs with storage-div
-          // var modifiedBlocks = detachedBlock.innerHTML.match(/{.+?}/gm);
-          // //If nothing was edited
-          //
-          // if (modifiedBlocks !== null){
-          //   //Else get all blocks with
-          // var modifiedBlockIds = modifiedBlocks.forEach(function(block){
-          // return JSON.parse(block).blockId;
-          // });
-          // var emptyBlocks = descendants.filter(function(id){
-          //   return !(modifiedBlockIds.contains(id));
-          //
-          //   });
-          //   debugger;
-          // console.log(emptyBlocks);
-
-            // detachedBlocks.push(modifiedBlocks);
-        //  }
       }
 
 //UI functions for mouse events
@@ -433,6 +395,7 @@
       },
       success: function (data) {
         $("#logicproplist").html(data).hide();
+
       }
     });
 
@@ -725,11 +688,8 @@ var updatedBlocks = function(){
     addEventListener("mousemove", checkTouch, false);
     addEventListener("mouseup", doneTouch, false);
     addEventListenerMulti("touchstart", beginTouch, false, ".block");
-    addEventListenerMulti("click", unHide, false, ".nodepropswitch", document.getElementById('canvas'));
-
-
-
-    clickedCanvas();
+    addEventListenerMulti("click", unHide, false, ".nodepropswitch");
+    //clickedCanvas();
 
     addEventListenerMulti("click", disabledClick, false, ".side");
     document.getElementById("close").addEventListener("click", function(){
