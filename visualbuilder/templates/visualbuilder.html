@@ -145,18 +145,25 @@
         var releaseCounter = 0;
         var blocks = {'detached':{}};
 
+
       // Init flowy
         flowy(document.getElementById("canvas"), drag, release, snapping, deleted);
 
 // Flowy handler functions
         function snapping(drag, first, parent) {
+          //Block snap when parent is end-node
+          if(parent && (blocks[parent.id].blockType === 3)){
+            drag.parentNode.removeChild(drag);
+            return false;
+
+          }
            var blockTypeValue = parseInt(drag.querySelector(".blockelemtype").value);
            var blockId = parseInt(drag.querySelector(".blockid").value);
            var grab = drag.querySelector(".grabme");
 
-           if (parent && blocks[parent.id].childs.includes()) {
-             return false;
-           }
+           // if (parent && blocks[parent.id].childs.includes()) {
+           //   return false;
+           // }
             grab.parentNode.removeChild(grab);
             var blockin = drag.querySelector(".blockin");
             blockin.parentNode.removeChild(blockin);
@@ -214,14 +221,12 @@
             } else {
               blocks[blockId]['ancestors'] = [];
             }
-            console.log('Blocks is:');
-            console.log(blocks);
-            //What do to now?
             return true;
         }
 
 
         function drag(block) {
+          checkDetachedBlocks();
             block.classList.add("blockdisabled");
             var selectedBlocks = document.getElementsByClassName("selectedblock");
             if (selectedBlocks.length !==  0){
@@ -242,7 +247,7 @@
 
         function release() {
           if (detachedBlocks.length !== 0){
-            checkDetachedBlocks();
+            checkDetachedBlocks('onRelease');
           };
             tempblock2.classList.remove("blockdisabled");
         }
@@ -306,6 +311,9 @@
             console.log(descendants);
             console.log('Blocks after detached is:');
             console.log(blocks);
+            detachedBlocks.push(descendants);
+            console.log(detachedBlocks);
+
           //Get the data of the detachedBlock and all its edited childs with storage-div
           // var modifiedBlocks = detachedBlock.innerHTML.match(/{.+?}/gm);
           // //If nothing was edited
@@ -587,56 +595,70 @@ function attachFormHandlers(){
 
  //Store data of deleted nodes
     function checkDetachedBlocks(...args){
-      releaseCounter += 1;
-      len = detachedBlocks.length;
+      var condition;
       //If  release is called directly after releasing the blocks,
       //the new blocks are not available in the  canvas, therefore wait until 2nd call
-      if ((len !== 0 )&& (releaseCounter == 2)) {
+      if (args[0] === 'onRelease') {
+        releaseCounter +=1;
+        condition = (releaseCounter == 2) ? true : false;
+      } else {
+        condition = true;
+      }
+      len = detachedBlocks.length;
+      if ((len !== 0 )&& condition) {
         //Get all existing nodes with a storage-div
-        var existingBlocks = document.getElementById('canvas').querySelectorAll("#storage-div");
+        var existingBlocks = document.getElementById('canvas').querySelectorAll(".blockid");
         //We get the id and name of the older block
-            var tempDelBlockId = ((detachedBlocks[0].constructor === Array)
-                                  ? JSON.parse(detachedBlocks[0][0]).blockId
-                                  : JSON.parse(detachedBlocks[0]).blockId);
+        var tempDelBlockId = (JSON.parse(detachedBlocks[0][0]).blockId) ? JSON.parse(detachedBlocks[0][0]).blockId : detachedBlocks[0][0];
 
-            var tempDelBlockName = ((detachedBlocks[0].constructor === Array)
-                                  ? JSON.parse(detachedBlocks[0][0]).inputValues[0]
-                                  : JSON.parse(detachedBlocks[0]).inputValues[0]);
+            // var tempDelBlockName = ((detachedBlocks[0].constructor === Array)
+            //                       ? JSON.parse(detachedBlocks[0][0]).inputValues[0]
+            //                       : JSON.parse(detachedBlocks[0]).inputValues[0]);
 
           //Compare the id of existing blocks and the deleted block if they match, the blocks were not
           //deleted but onyl moved -> then remove block from deletedBlocks
           var blockWasDeleted = true;
         for (var i=0; i<existingBlocks.length; i++){
-          if ((JSON.parse(existingBlocks[i].textContent).inputValues[0] == tempDelBlockName) && (JSON.parse(existingBlocks[i].textContent).blockId == tempDelBlockId)){
+          // if ((JSON.parse(existingBlocks[i].textContent).inputValues[0] == tempDelBlockName) && (JSON.parse(existingBlocks[i].textContent).blockId == tempDelBlockId)){
+          var existingBlockId = existingBlocks[i].value;
+          if (existingBlockId == tempDelBlockId){
+            //Iterate over all blocks within the array of blocks that had been reattached
+            for (var j=detachedBlocks[0].length-1; j >= 0; j--){
+              // Get the id of the single block
+              var id = (JSON.parse(detachedBlocks[0][j]).blockId) ? JSON.parse(detachedBlocks[0][j]).blockId : id = detachedBlocks[0][j];
+              //Copy data in in blocks.detached back to blocks
+              blocks[parseInt(id)] = blocks.detached[parseInt(id)];
+              //And delete the data from the normal blocks
+              delete blocks.detached[parseInt(id)];
+            }
             //Remove block from deleted blocks
-            detachedBlocks.splice(-2, 1);
+            detachedBlocks.splice(0, 1);
             blockWasDeleted = false;
           }
         }
         if (blockWasDeleted) {
-          //Check if several blocks were deleted at once (if we have a multidimensional array)
-          if (detachedBlocks[0].constructor === Array){
-            //If multidimensional array, push single blocks to deletedBlocks
+          //Iterate over the array and
             for (var j=detachedBlocks[0].length-1; j >= 0; j--){
-              deletedBlocks.push(detachedBlocks[0].pop());
-              //And delete the single blocks from the blocks array
-
-              // delete blocks[detachedBlocks[0][j].blockId]; USE SPLICE INSTEAD
-
+              var id;
+              if (JSON.parse(detachedBlocks[0][j]).blockId){
+                id = JSON.parse(detachedBlocks[0][j]).blockId;
+                //Push it to deleted blocks and delete the single block from the array
+                deletedBlocks.push(detachedBlocks[0].pop());
+              } else {
+                //Get the id to delete it from blocks later
+                id = detachedBlocks[0][j];
+                detachedBlocks[0].pop();
+              }
+              delete blocks.detached[parseInt(id)];
             }
             //Then delete the empty array in detachedBlocks that contained the blocks
-            detachedBlocks.shift();
-          } else {
-            //If only one block was deleted push it to deletedBlocks
-            deletedBlocks.push(detachedBlocks.shift())
-            // And delete the block from the block array
-            // delete blocks[detachedBlocks[0].blockId]; USE SPLICE INSTEAD
-
-          }
+            detachedBlocks.splice(0, 1);
         }
         //If detachedBlocks.length was originally 2 one block is left. As we only
         //want one or two blocks in the array for predictability, set releaseCounter to one
+        if (args[0] === 'onRelease') {
         releaseCounter = (len == 2) ? 1 : 0;
+      }
   }
 }
 
@@ -682,6 +704,10 @@ function deleteButtonForDeletedBlocks(event){
   document.getElementById('actions').click();
 }
 
+var updatedBlocks = function(){
+  checkDetachedBlocks();
+  return blocks;
+}
 
 // Attach listeners
 
@@ -719,7 +745,8 @@ function deleteButtonForDeletedBlocks(event){
     });
 
     document.getElementById("publish").addEventListener("click", function(){
-      console.log(JSON.stringify(flowy.output()))
+      //console.log(JSON.stringify(flowy.output()))
+      console.log(updatedBlocks());
     });
 
 
