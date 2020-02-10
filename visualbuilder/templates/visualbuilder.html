@@ -678,7 +678,8 @@ var updatedBlocks = function(){
         //  flowy.deleteBlocks();
         // });
 
-{% if production %}
+{% if production is True %}
+
     //Warn user before reload to prevent data loss
     window.addEventListener('beforeunload', function (event) {
     event.preventDefault();
@@ -686,7 +687,7 @@ var updatedBlocks = function(){
   })
 
   //Prompt for tree name
-  var treeName = prompt("Please enter the name for your new decision tree.<br><div class='border-left-danger'</div>At the moment, the builder has no save funtionality but feel free to play around.</div>");
+  var treeName = prompt("Please enter the name for your new decision tree. At the moment, the builder has no save funtionality but feel free to play around.");
 
     if (treeName == null || treeName == "") {
    treeName = "Default Tree";
