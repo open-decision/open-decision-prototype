@@ -25,18 +25,18 @@
             <div id="details">
             <div id="back"><a href="/dashboard"><img src="{% static 'flowy/assets/arrow.svg' %}"></a></div>
             <div id="names">
-                <p id="title">{{decisiontree.name}} Fill in the tree name</p>
+                <p id="title">{{decisiontree.name}}New Tree</p>
                 <p id="subtitle">{% trans "Visual Builder" %}</p>
             </div>
         </div>
         </div>
         <div id="centerswitch">
             <div id="leftswitch">{% trans "Visual Builder" %}</div>
-            <div id="rightswitch">{% trans "Text Builder" %}</div>
+            <div id="rightswitch">{% trans "Deactivated" %}</div>
         </div>
         <div id="buttonsright">
-            <div id="discard">{% trans "Preview" %}</div>
-            <div id="publish">{% trans "Export Tree" %}</div>
+            <div id="discard">{% trans "Deactivated" %}</div>
+            <div id="publish">{% trans "Deactivated" %}</div>
         </div>
     </div>
     <div id="leftcard">
@@ -153,9 +153,9 @@
         function snapping(drag, first, parent) {
           //Block snap when parent is end-node
           if(parent && (blocks[parent.id].blockType === 3)){
+            alert("You can't attach a block to an end-block.");
             drag.parentNode.removeChild(drag);
             return false;
-
           }
            var blockTypeValue = parseInt(drag.querySelector(".blockelemtype").value);
            var blockId = parseInt(drag.querySelector(".blockid").value);
@@ -678,11 +678,22 @@ var updatedBlocks = function(){
         //  flowy.deleteBlocks();
         // });
 
+{% if production %}
     //Warn user before reload to prevent data loss
     window.addEventListener('beforeunload', function (event) {
     event.preventDefault();
     event.returnValue = '';
   })
+
+  //Prompt for tree name
+  var treeName = prompt("Please enter the name for your new decision tree.<br><div class='border-left-danger'</div>At the moment, the builder has no save funtionality but feel free to play around.</div>");
+
+    if (treeName == null || treeName == "") {
+   treeName = "Default Tree";
+} else {
+  document.getElementById('title').textContent = treeName;
+}
+{% endif %}
 
     addEventListener("mousedown", beginTouch, false);
     addEventListener("mousemove", checkTouch, false);

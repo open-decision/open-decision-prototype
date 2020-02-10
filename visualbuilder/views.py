@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import login, authenticate
-import json
+import os, json
 from dashboard.views import build_tree
 from dashboard.models import DecisionTree
 from django.contrib.auth.decorators import login_required
@@ -19,4 +19,6 @@ def load_node_form(request):
         context = {
         'form': node_form,
         }
+        if os.environ.get('DJANGO_PRODUCTION') is not None:
+            context['production'] = True
         return render(request, 'node_form.html', context)
