@@ -13,13 +13,13 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 
 
 # Create your views here.
-def home_view(request, *args, **kwargs):
+def home_view(request):
     if request.user.is_authenticated:
         return redirect('/dashboard')
     context = {}
     return render(request, 'home.html', context)
 
-def contact_view(request, *args, **kwargs):
+def contact_view(request):
     if request.user.is_authenticated:
         return redirect('/dashboard')
     context = {}

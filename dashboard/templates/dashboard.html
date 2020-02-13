@@ -107,8 +107,8 @@
             <div class="card-footer py-4">
               <nav aria-label="...">
                 <ul class="pagination justify-content-end mb-0">
-
-                  <li class="page-item mr-3">
+                  <div class="">
+                    <li class="page-item mr-3">
                     {{ form.name |addclass:'form-control form-control-user; _("Name of the new Tree")'}}
                   </li>
                   <li class="page-item mr-3">
@@ -119,6 +119,7 @@
                       <span class="text">{% trans "Create new Tree" %}</span>
                     </button>
                   </li>
+                </div>
                 </ul>
               </nav>
             </div>
@@ -147,6 +148,9 @@
     </div>
 
     <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
+  {% if new_user %}
+    <script type="text/javascript" src="{% static 'tours/dashboard-tour.js' %}"></script>
+    {% endif %}
     <script>
     $(document).ready(function(){
 

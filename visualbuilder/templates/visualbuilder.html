@@ -12,14 +12,11 @@
     <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" />
     <link href="{% static 'flowy/flowy.min.css' %}" rel='stylesheet' type='text/css'>
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <script src="{% static 'flowy/flowy.js' %}"></script>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-
-    <script type="text/javascript" src="{% static 'jquery.js' %}"></script>
-    <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"
 
 </head>
 <body>
+  <input type="hidden" name="static-path" id="static-path" value="{% static '' %}">
     <div id="navigation">
         <div id="leftside">
             <div id="details">
@@ -133,6 +130,12 @@
     </div>
     <div id="canvas">
     </div>
+    <script type="text/javascript" src="{% static 'jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+    <script src="{% static 'flowy/flowy.js' %}"></script>
+    {% if new_user %}
+      <script type="text/javascript" src="{% static 'tours/visualbuilder-tour.js' %}"></script>
+      {% endif %}
     <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function(){
 
@@ -246,9 +249,9 @@
         }
 
         function release() {
-          if (detachedBlocks.length !== 0){
-            checkDetachedBlocks('onRelease');
-          };
+          // if (detachedBlocks.length !== 0){
+          //   checkDetachedBlocks('onRelease');
+          // };
             tempblock2.classList.remove("blockdisabled");
         }
 
@@ -446,11 +449,11 @@ function attachFormHandlers(){
 
     // Save the node properties after a node was edited
     function saveNodeProperties(){
-
+//Todo: list has a textarea, catch this data too
 
       //Build storage content obj
       //Set the standard fields that are always present
-      storageContent = {'inputValues': [], 'selectValues': []};
+      storageContent = {'inputValues': [], 'selectValues': [] , 'textareaValues': []};
       storageContent['question'] = CKEDITOR.instances.id_question.getData();
       storageContent['inputType'] = document.getElementById("id_input_type").value;
       storageContent['num_answers'] = document.getElementById("id_answer-TOTAL_FORMS").value;
@@ -469,6 +472,12 @@ function attachFormHandlers(){
         var selectValues = selectFields[i];
         storageContent.selectValues.push(selectValues.value);
       }
+
+      textareaFields = document.getElementById("nodedata").getElementsByTagName('textarea');
+      for (var i = 0; i < textareaFields.length; i++) {
+        var textareaValues = textareaFields[i];
+        storageContent.textareaValues.push(textareaValues.value);
+      }
       //Transform obj to string
       blockId = storageContent.blockId;
       storageContent = JSON.stringify(storageContent);
@@ -477,7 +486,6 @@ function attachFormHandlers(){
       blocks[blockId]['storageData'] = storageContent;
 
       //Todo: Update childs acording to new logic modules?
-
 
 
       if  (el != null) {
@@ -511,7 +519,6 @@ function attachFormHandlers(){
         success: function (data) {
           $("#nodeproplist").html(data);
           attachFormHandlers();
-
         }
       });
 
@@ -542,7 +549,7 @@ function attachFormHandlers(){
           };
         }
       });
-    CKEDITOR.instances.id_question.setData(nodeData["question"]);
+
 
     inputFields = document.getElementById("nodedata").getElementsByTagName('input');
     for (var i = 0; i < inputFields.length; i++) {
@@ -554,6 +561,15 @@ function attachFormHandlers(){
       var tableChild = selectFields[i];
       tableChild.value = nodeData.selectValues[i];
     }
+
+    textareaFields = document.getElementById("nodedata").getElementsByTagName('textarea');
+    for (var i = 0; i < textareaFields.length; i++) {
+      var tableChild = textareaFields[i];
+      tableChild.value = nodeData.textareaValues[i];
+    }
+
+    CKEDITOR.instances.id_question.setData(nodeData["question"]);
+
     };
 
  //Store data of deleted nodes
@@ -582,7 +598,6 @@ function attachFormHandlers(){
           //deleted but onyl moved -> then remove block from deletedBlocks
           var blockWasDeleted = true;
         for (var i=0; i<existingBlocks.length; i++){
-          // if ((JSON.parse(existingBlocks[i].textContent).inputValues[0] == tempDelBlockName) && (JSON.parse(existingBlocks[i].textContent).blockId == tempDelBlockId)){
           var existingBlockId = existingBlocks[i].value;
           if (existingBlockId == tempDelBlockId){
             //Iterate over all blocks within the array of blocks that had been reattached
@@ -687,7 +702,7 @@ var updatedBlocks = function(){
   })
 
   //Prompt for tree name
-  var treeName = prompt("Please enter the name for your new decision tree. At the moment, the builder has no save funtionality but feel free to play around.");
+  var treeName = prompt("Please enter the name for your new decision tree. At the moment, the builder has no save functionality but feel free to play around.");
 
     if (treeName == null || treeName == "") {
    treeName = "Default Tree";
@@ -723,6 +738,7 @@ var updatedBlocks = function(){
 
 
     $("#id_input_type").change(function () {
+      console.log('Triggered input change')
       $.fn.loadForms(this.value);
         });
 

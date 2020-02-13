@@ -5,9 +5,6 @@
 <html lang="en">
 
 <head>
-
-
-
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -23,8 +20,7 @@
   <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.min.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-  <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" />
-
+  <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}"/>
 
 </head>
 
@@ -32,6 +28,7 @@
 
   <!-- Page Wrapper -->
   <div id="wrapper">
+  <input type="hidden" name="static-path" id="static-path" value="{% static '' %}">
 
     <!-- Sidebar -->
       {% if user.is_authenticated %}
@@ -48,17 +45,17 @@
       <!-- Divider -->
       <hr class="sidebar-divider my-0">
       <!-- Nav Item - Dashboard -->
-      <li class="nav-item">
+      <li id="dashboard-link" class="nav-item">
         <a class="nav-link" href="/dashboard/">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>{% trans "Dashboard" %}</span></a>
       </li>
-              <li class="nav-item">
+              <li id="published-link" class="nav-item">
           <a class="nav-link" href="/published-trees/">
             <i class="fas fa-globe-americas"></i>
             <span>{% trans "Published Trees" %}</span></a>
           </li>
-          <li class="nav-item">
+          <li id="visualbuilder-link" class="nav-item">
       <a class="nav-link" href="/visualbuilder/">
         <i class="fas fa-project-diagram"></i>
         <span>{% trans "Visualbuilder - Alpha" %}</span></a>
@@ -287,7 +284,8 @@
         <script type="text/javascript" src="{% static 'popper.min.js' %}"></script>
       <!-- <script type="text/javascript" src="{% static 'bootstrap.min.js' %}"></script>-->
         <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
-        <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
 
         <!-- Core plugin JavaScript-->
         <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
