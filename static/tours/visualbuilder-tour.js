@@ -20,9 +20,26 @@
                 const steps = [{
                   id: 'start-block-explaination',
                   text: 'Drag this block to the canvas to start building your tree.',
+                  advanceOn: { selector: '#back', event: 'click' },
                   attachTo: {
                     element: '#start-block',
-                    on: 'bottom'
+                    on: 'left'
+                  },
+                  classes: 'example-step-extra-class ml-5',
+                  buttons: [
+                    {
+                      text: 'Next',
+                      action: tour.next
+                    }
+                  ]
+                },
+                {
+                  id: 'normal-builder-switch',
+                  text: 'Click here to switch to the normal builder.',
+                  advanceOn: { selector: '#back', event: 'click' },
+                  attachTo: {
+                    element: '#rightswitch',
+                    on: 'left'
                   },
                   classes: 'example-step-extra-class ml-5',
                   buttons: [

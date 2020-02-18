@@ -171,12 +171,12 @@
             var blockin = drag.querySelector(".blockin");
             blockin.parentNode.removeChild(blockin);
             if (blockTypeValue == 1) {
-                drag.innerHTML += "<div class='blockyleft'><img src='{% static 'flowy/assets/eyeblue.svg' %}'><p class='blockyname'>Start Block</p></div><div class='blockyright'><img src='{% static 'flowy/assets/more.svg' %}'></div><div class='blockydiv'></div><div class='blockyinfo'>Click the block to edit it</div>";
+                drag.innerHTML += `<div class='blockyleft'><img src='{% static 'flowy/assets/eyeblue.svg' %}'><p class='blockyname'>Block ${blockId +1} - Start Block</p></div><div class='blockyright'><img src='{% static 'flowy/assets/more.svg' %}'></div><div class='blockydiv'></div><div class='blockyinfo'>Click the block to edit it</div>`;
                 document.getElementById("blocklist").innerHTML = "<div class='blockelem create-flowy noselect'><input type='hidden' name='blockelemtype' class='blockelemtype' value='2'><div class='grabme'><img src='{% static 'flowy/assets/grabme.svg' %}'></div><div class='blockin'><div class='blockico'><span></span><img src='{% static 'flowy/assets/eye.svg' %}'></div><div class='blocktext'><p class='blocktitle'>Question Block</p><p class='blockdesc'>Ask the user a question</p></div></div></div><div class='blockelem create-flowy noselect'><input type='hidden' name='blockelemtype' class='blockelemtype' value='3'><div class='grabme'><img src='{% static 'flowy/assets/grabme.svg' %}'></div><div class='blockin'><div class='blockico'><span></span><img src='{% static 'flowy/assets/eye.svg' %}'></div><div class='blocktext'><p class='blocktitle'>End Block</p><p class='blockdesc'>Use this block to define an end for the tree</p></div></div></div>";
             } else if (blockTypeValue == 2) {
-                drag.innerHTML += "<div class='blockyleft'><img src='{% static 'flowy/assets/actionblue.svg' %}'><p class='blockyname'>Ask Question</p></div><div class='blockyright'><img src='{% static 'flowy/assets/more.svg' %}'></div><div class='blockydiv'></div><div class='blockyinfo'>Click to configure the block</div>";
+                drag.innerHTML += `<div class='blockyleft'><img src='{% static 'flowy/assets/actionblue.svg' %}'><p class='blockyname'>Block ${blockId +1} - Question Block</p></div><div class='blockyright'><img src='{% static 'flowy/assets/more.svg' %}'></div><div class='blockydiv'></div><div class='blockyinfo'>Click to configure the block</div>`;
             } else if (blockTypeValue == 3) {
-                drag.innerHTML += "<div class='blockyleft'><img src='{% static 'flowy/assets/timeblue.svg' %}'><p class='blockyname'>End Block</p></div><div class='blockyright'><img src='{% static 'flowy/assets/more.svg' %}'></div><div class='blockydiv'></div><div class='blockyinfo'>Show the result to the user.</div>";
+                drag.innerHTML += `<div class='blockyleft'><img src='{% static 'flowy/assets/timeblue.svg' %}'><p class='blockyname'>Block ${blockId +1} - End Block</p></div><div class='blockyright'><img src='{% static 'flowy/assets/more.svg' %}'></div><div class='blockydiv'></div><div class='blockyinfo'>Show the result to the user.</div>`;
             } else if (blockTypeValue >= 20) {
                 //Get index of the deleted block
                 index = blockTypeValue - 20;
@@ -196,16 +196,6 @@
             //if parent undefined drag === first block
             //child as html element
             //parent data: { childwidth: 0, parent: 0, id: 1, x: 816, y: 361, width: 318, height: 84 }
-            //take parent node and create new logic element containing the childs id?
-
-            //Todo
-            //if parent logic is modified delete child?
-            //if child is modified update parent (namechange, delete, moved, whatelse?)
-            //how to keep logic data on "delete"?
-            //
-            // console.log(drag);
-            // console.log(parent);
-            //
 
             //Save data of the drag to the blocks obj
             blocks[blockId] = {
@@ -214,10 +204,12 @@
               'duplicate': false,
             };
             blocks[blockId]['storageData'] = (drag.querySelector("#storage-div")) ? drag.querySelector("#storage-div").textContent : {};
-            (blocks[blockId]['childs']) ? {} : blocks[blockId]['childs'] = [];
+            (blocks[blockId]['childs']) ?
+                                {} : //Do nothing if childs already exist
+                                blocks[blockId]['childs'] = []; //Else set it to an empty list
             //Save data of the parent
             if (parent){
-              blocks[parent.id].childs.push(blockId);
+              handleChildLogic('onAttachChild', blockId, parent);
               //Copy the parents ancestors array and add parent
               blocks[blockId]['ancestors'] = [...blocks[parent.id]['ancestors']]
               blocks[blockId]['ancestors'].push(parent.id);
@@ -264,12 +256,8 @@
           console.log(detachedBlock);
           //Get Id of the detachedBlock
           var detachedId = parseInt(detachedBlock.querySelector(".blockid").value);
-          //Get Id of the parent of the detachedBlock
-          var idOfParent = blocks[detachedId].parent;
-          //Get the index of the detachedBlock within the childs arrray of its parent
-          var indexInParentsChilds = blocks[idOfParent].childs.indexOf(detachedId);
-          //Delete the detachedBlock from the parents child array
-          blocks[idOfParent].childs.slice(indexInParentsChilds, 1);
+          handleChildLogic('onDetachChild', detachedId)
+
           //Finally set parent to false and empty the ancestors list
           blocks[detachedId].parent = false;
           blocks[detachedId].ancestors = [];
@@ -398,6 +386,7 @@
       },
       success: function (data) {
         $("#logicproplist").html(data).hide();
+        handleChildLogic();
 
       }
     });
@@ -416,13 +405,84 @@
 function attachFormHandlers(){
   el = document.getElementById("id_name");
   el.addEventListener("input", function(){
-    selectedBlock = document.getElementsByClassName("selectedblock");
-    selectedBlock[0].querySelector('.blockyinfo').textContent= el.value;
+    // Get the entered name
+    let nameString = el.value
+    // Get block that is currently edited
+    var selectedBlock = document.getElementsByClassName("selectedblock");
+    //Get type of block
+    let blockElemType = selectedBlock[0].querySelector('.blockelemtype').value;
+    if (nameString === '') {
+      let blockId = parseInt(selectedBlock[0].querySelector('.blockid').value) + 1
+      nameString = 'Block ' + blockId;
+    }
+    // Set the string, that will be appended to the name, according to the type
+    switch(blockElemType) {
+  case '1':
+    nameString += ' - Start-Block';
+    break;
+  case '2':
+    nameString += ' - Question-Block';
+    break;
+  case '3':
+    nameString += ' - End-Block';
+    break;
+}
+    //Append the name
+    selectedBlock[0].querySelector('.blockyname').textContent= nameString;
   });
   $("#id_input_type").change(function () {
     $.fn.loadForms(this.value);
       });
 };
+
+function handleChildLogic(trigger, ...args){
+
+  //If selection go to:
+    // - make var to modify to list containing all childs, value= childId, shown: name
+
+  //Todo
+  //if parent logic is modified delete child?
+  //if child is modified update parent (namechange, delete, moved, whatelse?)
+  //how to keep logic data on "delete"?
+  //
+  // console.log(drag);
+  // console.log(parent);
+  //
+  //if child is modified update parent (namechange, delete, moved, whatelse?)
+  //how to keep logic data on "delete"?
+
+  if (trigger === 'onAttachChild'){
+    let blockId = args[0];
+    let parent = args[1];
+    blocks[parent.id].childs.push(blockId);
+
+    //Now: build child into parents logic(list) or on show logicProps?
+
+  } else if (trigger === 'onDetachChild') {
+
+    let detachedId = args[0];
+    //Get Id of the parent of the detachedBlock
+    let idOfParent = blocks[detachedId].parent;
+    //Get the index of the detachedBlock within the childs arrray of its parent
+    let indexInParentsChilds = blocks[idOfParent].childs.indexOf(detachedId);
+    //Delete the detachedBlock from the parents child array
+    blocks[idOfParent].childs.slice(indexInParentsChilds, 1);
+
+    //Now: remove child from parents logic?
+
+  } else if (trigger === 'onShowLogicProps') {
+
+    for (var i = 0; i < blocks[blockId].childs.length; i++){
+      $('.logic_add').trigger("click" );
+      let logicFields = document.getElementById('logsprop').querySelector('#id_logic-' + i + '-answers_logic')
+    }
+    //Now: build child into parents logic(list) or on AttachChild?
+  } else if (trigger === 'onChildModified') {
+    //Child name changes
+  }
+
+};
+
 
 
   //Show the according div when the node property menu is clicked
@@ -449,8 +509,6 @@ function attachFormHandlers(){
 
     // Save the node properties after a node was edited
     function saveNodeProperties(){
-//Todo: list has a textarea, catch this data too
-
       //Build storage content obj
       //Set the standard fields that are always present
       storageContent = {'inputValues': [], 'selectValues': [] , 'textareaValues': []};
@@ -484,8 +542,6 @@ function attachFormHandlers(){
       el = tempblock.querySelector("#storage-div");
       //Update the block data stored in Blocks
       blocks[blockId]['storageData'] = storageContent;
-
-      //Todo: Update childs acording to new logic modules?
 
 
       if  (el != null) {
@@ -544,9 +600,10 @@ function attachFormHandlers(){
         },
         success: function (data) {
           $("#logicproplist").html(data).hide();
-          for (var i = 0; i < parseInt(nodeData['num_logic']-1); i++) {
-            $('.logic_add').trigger("click" );
-          };
+          // for (var i = 0; i < parseInt(nodeData['num_logic']-1); i++) {
+          //   $('.logic_add').trigger("click" );
+          // };
+          handleChildLogic('onShowLogicProps');
         }
       });
 
@@ -716,7 +773,7 @@ var updatedBlocks = function(){
     addEventListener("mouseup", doneTouch, false);
     addEventListenerMulti("touchstart", beginTouch, false, ".block");
     addEventListenerMulti("click", unHide, false, ".nodepropswitch");
-    //clickedCanvas();
+    clickedCanvas();
 
     addEventListenerMulti("click", disabledClick, false, ".side");
     document.getElementById("close").addEventListener("click", function(){
@@ -738,7 +795,6 @@ var updatedBlocks = function(){
 
 
     $("#id_input_type").change(function () {
-      console.log('Triggered input change')
       $.fn.loadForms(this.value);
         });
 

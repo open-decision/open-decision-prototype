@@ -18,6 +18,26 @@
                 });
 
                 const steps = [{
+                  id: 'introduction',
+                  text: 'Welcome to Open Decision! Do you want us to give you a quick introduction?',
+                  classes: 'example-step-extra-class',
+                  buttons: [
+                    {
+                      action: function() {
+                        return this.show('end-of-tour');
+                      },
+                      secondary: true,
+                      text: 'No, I am fine'
+                    },
+                    {
+                      action: function() {
+                        return this.next();
+                      },
+                      text: 'Yes, sure!'
+                    }
+                  ],
+                },
+                  {
                   id: 'dashboard-link',
                   text: 'This is where you find all your decision trees.',
                   attachTo: {
@@ -73,6 +93,21 @@
                   buttons: [
                     {
                       text: 'Next',
+                      action: tour.next
+                    }
+                  ]
+                },
+                {
+                  id: 'end-of-tour',
+                  text: 'Click here to see our user guides or restart the tour.',
+                  classes: 'example-step-extra-class',
+                  attachTo: {
+                    element: '#help-link',
+                    on: 'bottom'
+                  },
+                  buttons: [
+                    {
+                      text: 'Close',
                       action: tour.next
                     }
                   ]

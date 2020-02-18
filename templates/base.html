@@ -61,9 +61,16 @@
         <span>{% trans "Visualbuilder - Alpha" %}</span></a>
       </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'logout'%}?next=/">
+            <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
               <i class="fas fa-sign-out-alt"></i>
               <span>{% trans "Logout" %}</span></a>
+          </li>
+          <hr class="sidebar-divider">
+            <li id="help-link" class="nav-item">
+              <a class="nav-link" href="#" data-toggle="modal" data-target="#helpModal">
+                <i class="far fa-question-circle"></i>
+                <span>{% trans "Help" %}</span></a>
+            </li>
           </li>
       {% endif %}
 
@@ -344,6 +351,27 @@
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">{% trans "Cancel" %}</button>
           <a class="btn btn-primary" href="{% url 'logout'%}?next=/">{% trans "Logout" %}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Help Modal-->
+  <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="helpModalLabel">{% trans "Help" %}</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">{% trans "How can we help you?" %}
+          <img src="{% static 'img/help.svg '%}" alt="">
+          <img class="img-fluid mt-3 p-5" src="{% static 'img/login.svg' %}" alt="Login Illustration">
+      </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" onclick="tour.start()">{% trans "Restart Tour" %}</button>
+          <a class="btn btn-primary" href="https://fbennet.uber.space/shelves/open-decision" target="_blank">{% trans "User Guides" %}</a>
         </div>
       </div>
     </div>
