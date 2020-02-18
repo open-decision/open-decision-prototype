@@ -289,7 +289,7 @@ def build_tree (slug):
         for l in json.loads(n.data_logic):
             # Loop through logic forms
 
-            if (n.input_type == 'number') or (n.input_type =='date') or (n.input_type == 'button') or (n.input_type == 'end_node'):
+            if (n.input_type == 'number') or (n.input_type =='date') or (n.input_type == 'button'):
                 # Build the rules first
                 # If dict already exists
                 try:
@@ -324,7 +324,7 @@ def build_tree (slug):
 
             elif n.input_type == 'end_node':
                 export[n.slug]['results'] = {}
-                
+
             elif n.input_type == 'list':
                 try:
                     export[n.slug]['rules']['if'].extend(
