@@ -67,7 +67,7 @@ def publish(request, slug):
     tree_data = json.dumps(build_tree(slug, request), indent=4, default=str)
     t = PublishedTree(  url             = random_url,
                         tree_data       = tree_data,
-                        decision_tree   = DecisionTree.objects.filter(decision_tree__owner=request.user).get(slug=slug),
+                        decision_tree   = DecisionTree.objects.filter(owner=request.user).get(slug=slug),
                         owner           = request.user,
                         created_at      = datetime.now(),
                         )

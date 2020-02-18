@@ -102,7 +102,7 @@ def export_tree(request, slug):
         errors['no_var'] = {all_nodes.get(id=key):value for (key,value) in errors['no_var'].items()}
         errors['no_ref_to_end'] = [[all_nodes.get(id=node) for node in path] for path in errors['no_ref_to_end']]
         errors['not_end_nodes'] = list(set([path[-1] for path in errors['no_ref_to_end']]))
-        errors['selected_tree'] = DecisionTree.objects.filter(decision_tree__owner=request.user).get(slug=slug)
+        errors['selected_tree'] = DecisionTree.objects.filter(owner=request.user).get(slug=slug)
         print(errors)
         return render(request, 'export.html', errors)
 
