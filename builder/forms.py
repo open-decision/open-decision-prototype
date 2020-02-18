@@ -130,5 +130,11 @@ class LogicForm(forms.Form):
             ('>', 'größer als'),
             ('>=', 'größer gleich')
             )
+
+        # elif self.input_type == 'end_node':
+        #     self.fields['operator'].choices = forms.HiddenInput()
+        #     self.fields['answers_logic'] = forms.HiddenInput()
+        #     self.fields['action'].choices = forms.HiddenInput()
+        #     self.fields['var_to_modify'].choices = forms.HiddenInput()
         else:
             pass

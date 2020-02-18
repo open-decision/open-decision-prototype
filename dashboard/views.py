@@ -305,7 +305,7 @@ def build_tree (slug):
                         {l['operator']: [{"var":"answer"}, l['answers_logic']]}, "0",
                     ]}
 
-                # Then build the  results block
+                # Then build the results block
                 if l['action'] == 'go_to':
                     data = {'destination': all_nodes.get(id = l['var_to_modify']).slug}
 
@@ -323,7 +323,7 @@ def build_tree (slug):
 
 
             elif n.input_type == 'end_node':
-                export[n.slug]['results'] = {}
+                data = {}
 
             elif n.input_type == 'list':
                 try:
@@ -339,7 +339,7 @@ def build_tree (slug):
                         {'in': [{"var":"answer"}, l['answers_logic'].splitlines()]}, "0",
                     ]}
 
-                # Then build the  results block
+                # Then build the results block
                 if l['action'] == 'go_to':
                     data = {'destination': all_nodes.get(id = l['var_to_modify']).slug}
 

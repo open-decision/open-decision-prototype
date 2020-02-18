@@ -122,6 +122,11 @@ var selectedTree = $('#selected-tree').val();
      var answerFormUrl = $("#nodeForm").attr("answer-form-url");
      var inputType = $("#id_input_type").val();
 
+     if (inputType === "end_node") {
+       $(".logic-formset").hide();
+     } else {
+       $(".logic-formset").show();
+
      $.ajax({
        url: logicFormUrl,
        data: {
@@ -131,7 +136,7 @@ var selectedTree = $('#selected-tree').val();
          $("#logic-formset").html(data);
        }
      });
-
+}
      $.ajax({
        url: answerFormUrl,
        data: {
