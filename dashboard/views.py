@@ -73,14 +73,14 @@ def unpublish_tree (request):
 
 @login_required
 def tree_view(request, slug):
-    existing_nodes = Node.objects.filter(decision_tree__slug=slug).filter(new_node=False)
-    new_nodes = Node.objects.filter(decision_tree__slug=slug).filter(new_node=True)
+    existing_nodes = Node.objects.filter(decision_tree__owner=request.user).filter(decision_tree__slug=slug).filter(new_node=False)
+    new_nodes = Node.objects.filter(decision_tree__owner=request.user).filter(decision_tree__slug=slug).filter(new_node=True)
 
     if request.method == 'GET':
         context = {
         'existing_nodes': existing_nodes,
          'new_nodes': new_nodes,
-         'selected_tree': DecisionTree.objects.filter(slug=slug).values()[0]
+         'selected_tree': DecisionTree.objects.filter(owner=request.user).filter(slug=slug).values()[0]
          }
     return render(request, 'tree_view.html', context)
 
@@ -89,7 +89,7 @@ def export_tree(request, slug):
     if os.environ.get('DJANGO_PRODUCTION') is not None:
         context = {
         'production' : 'true',
-        'selected_tree' : DecisionTree.objects.get(slug=slug),
+        'selected_tree' : DecisionTree.objects.filter(owner=request.user).get(slug=slug),
         }
         return render(request, 'export.html', context)
     else:
@@ -102,7 +102,7 @@ def export_tree(request, slug):
         errors['no_var'] = {all_nodes.get(id=key):value for (key,value) in errors['no_var'].items()}
         errors['no_ref_to_end'] = [[all_nodes.get(id=node) for node in path] for path in errors['no_ref_to_end']]
         errors['not_end_nodes'] = list(set([path[-1] for path in errors['no_ref_to_end']]))
-        errors['selected_tree'] = DecisionTree.objects.get(slug=slug)
+        errors['selected_tree'] = DecisionTree.objects.filter(decision_tree__owner=request.user).get(slug=slug)
         print(errors)
         return render(request, 'export.html', errors)
 
@@ -110,7 +110,7 @@ def export_tree(request, slug):
 def check_tree(slug):
     # Build dic with tree structure to check tree integrity
     # todo: are answers matching to logic? button -> make field not editable; how to check others?
-    all = Node.objects.filter(decision_tree__slug=slug)
+    all = Node.objects.filter(decision_tree__owner=request.user).filter(decision_tree__slug=slug)
     end_nodes = all.filter(end_node=True)
     no_end_nodes = all.filter(end_node=False)
 
@@ -225,7 +225,7 @@ def iterator(paths, num_of_childs_left, single_paths, last_fork):
 @login_required
 def set_as_endnode (request):
     slug = request.POST.get('node_slug')
-    Node.objects.filter(slug=slug).update(end_node= True)
+    Node.objects.filter(decision_tree__owner=request.user).filter(slug=slug).update(end_node= True)
     return HttpResponse()
 
 @login_required
@@ -236,16 +236,16 @@ def delete_node (request):
 
 @login_required
 def export_file (request, slug):
-    export = build_tree(slug)
+    export = build_tree(slug, request)
     response = JsonResponse(export, safe=False, content_type='application/json', json_dumps_params={'indent': 2})
     response['Content-Disposition'] = 'attachment; filename="{}.json"'.format(slug)
     return response
 
 
-def build_tree (slug):
+def build_tree (slug, request):
     # Build localization input
     # pass all_nodes
-    all_nodes = Node.objects.filter(decision_tree__slug=slug)
+    all_nodes = Node.objects.filter(decision_tree__owner=request.user).filter(decision_tree__slug=slug)
     export = {}
 # Set some header data to ensure proper processing of the created tree
     export['header'] = {
@@ -253,9 +253,9 @@ def build_tree (slug):
         #'localization': request.POST.get('localization', 'de-de'),
         'build_date': date.today(),
         'logic_type': LOGIC_TYPE,
-        'owner': DecisionTree.objects.get(slug=slug).owner.username,
+        'owner': DecisionTree.objects.filter(owner=request.user).get(slug=slug).owner.username,
 
-        'tree_name' : DecisionTree.objects.get(slug=slug).name,
+        'tree_name' : DecisionTree.objects.filter(owner=request.user).get(slug=slug).name,
         'tree_slug' : slug,
         'start_node': all_nodes.get(start_node = True).slug,
         'vars': {},
@@ -353,5 +353,5 @@ def build_tree (slug):
 @login_required
 def load_tree(request):
     selected_tree = request.GET.get('selected_tree')
-    data = build_tree(selected_tree)
+    data = build_tree(selected_tree, request)
     return JsonResponse(data, safe=False)

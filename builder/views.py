@@ -16,7 +16,7 @@ def node_create_view(request, slug):
         NodeButtonFormSet = formset_factory(ButtonAnswersForm)
         context = {
         'form': node_form,
-        'selected_tree': DecisionTree.objects.filter(slug=slug).values()[0],
+        'selected_tree': DecisionTree.objects.filter(owner=request.user).filter(slug=slug).values()[0],
         }
         return render(request, 'node_create.html', context)
     elif request.method == 'POST' and request.POST.get('save'):
@@ -26,7 +26,7 @@ def node_create_view(request, slug):
 @login_required
 def node_edit_view(request, slug, node_slug):
     if request.method == 'GET':
-        data_node = Node.objects.get(slug=node_slug)
+        data_node = Node.objects.filter(decision_tree__owner=request.user).get(slug=node_slug)
         input_type = data_node.input_type
         if input_type == '':
             input_type = 'button'
@@ -35,7 +35,7 @@ def node_edit_view(request, slug, node_slug):
         logic_formset_init = load_logic_field(request, input_type, data_node)
         context = {
             'form': node_form,
-            'selected_tree': DecisionTree.objects.filter(slug=slug).values()[0],
+            'selected_tree': DecisionTree.objects.filter(owner=request.user).filter(slug=slug).values()[0],
             'answer_formset_init': answer_formset_init,
             'logic_formset_init': logic_formset_init,
             'edit': 'true',
@@ -43,14 +43,14 @@ def node_edit_view(request, slug, node_slug):
         return render(request, 'node_create.html', context)
 
     elif request.method == 'POST' and request.POST.get('save'):
-            id = Node.objects.get(slug=node_slug).id
+            id = Node.objects.filter(decision_tree__owner=request.user).get(slug=node_slug).id
             save_node(request, slug, id)
             return redirect('/trees/'+str(slug)+'/')
 
 @login_required
 def load_token(request):
     selected_tree = request.GET.get('selected_tree')
-    data = [[n.name, n.slug] for n in Node.objects.filter(decision_tree__slug=selected_tree)]
+    data = [[n.name, n.slug] for n in Node.objects.filter(decision_tree__owner=request.user).filter(decision_tree__slug=selected_tree)]
     return JsonResponse(data, safe=False)
 
 
@@ -134,7 +134,7 @@ def load_logic_field(request, *args):
         for logic_form in data:
             if logic_form['var_to_modify'] != '':
                 try:
-                    node_slug= Node.objects.get(id=logic_form['var_to_modify']).slug
+                    node_slug= Node.objects.filter(decision_tree__owner=request.user).get(id=logic_form['var_to_modify']).slug
                 except:
                     node_slug = ''
                 logic_form['var_to_modify']= node_slug
@@ -161,7 +161,7 @@ def load_logic_field(request, *args):
 @login_required
 def load_nodes(request):
     selected_tree = request.GET['selected_tree']
-    data_all = Node.objects.filter(decision_tree__slug=selected_tree).values()
+    data_all = Node.objects.filter(decision_tree__owner=request.user).filter(decision_tree__slug=selected_tree).values()
     data = []
     for item in data_all:
         data.append({'label' : item['name'], 'value' : item['slug']})
@@ -216,17 +216,18 @@ def save_node(request, slug, *args):
     if logic_form_instance.is_valid():
         data_logic= logic_form_instance.cleaned_data
 #Check if connected nodes already exist
+    is_start_node = False if Node.objects.filter(decision_tree__owner=request.user).filter(decision_tree__slug=slug) else True
     for i in range(len(data_logic)):
         if data_logic[i]['var_to_modify'] != '':
             try:
                 #If yes, get ID to avoid issues if connected node is renamed
-                id= Node.objects.get(slug=slugify(data_logic[i]['var_to_modify'])).id
+                id= Node.objects.filter(decision_tree__owner=request.user).get(slug=slugify(data_logic[i]['var_to_modify'])).id
                 data_logic[i]['var_to_modify'] = id
             except:
                 #If not, create new node
                 new = Node(name= data_logic[i]['var_to_modify'],
                 slug= slugify(data_logic[i]['var_to_modify']),
-                decision_tree= DecisionTree.objects.get(slug=slug),
+                decision_tree= DecisionTree.objects.filter(owner=request.user).get(slug=slug),
                 input_type= 'button',
                 data_answer= json.dumps([]),
                 data_logic= json.dumps([]),
@@ -241,13 +242,12 @@ def save_node(request, slug, *args):
         id = args[0]
     except:
         id = False
-    is_start_node = False if Node.objects.filter(decision_tree__slug=slug) else True
     is_end_node = True if  node_form.cleaned_data['input_type'] == 'end_node' else False
     if id:
         Node.objects.filter(id=id).update(
         name= node_clean['name'],
             slug= slugify(node_clean['name']),
-            decision_tree= DecisionTree.objects.get(slug=slug),
+            decision_tree= DecisionTree.objects.filter(owner=request.user).get(slug=slug),
             question= node_form.cleaned_data['question'],
             input_type= node_form.cleaned_data['input_type'],
             data_answer= json.dumps(data_answer),
@@ -258,7 +258,7 @@ def save_node(request, slug, *args):
     else:
         n = Node(name= node_clean['name'],
         slug= slugify(node_clean['name']),
-        decision_tree= DecisionTree.objects.get(slug=slug),
+        decision_tree= DecisionTree.objects.filter(owner=request.user).get(slug=slug),
         question= node_form.cleaned_data['question'],
         input_type= node_form.cleaned_data['input_type'],
         data_answer= json.dumps(data_answer),

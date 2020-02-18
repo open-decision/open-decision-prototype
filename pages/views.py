@@ -64,10 +64,10 @@ def show_published_tree(request, slug):
 @login_required
 def publish(request, slug):
     random_url = ''.join(random.choice(string.ascii_lowercase) for i in range(10))
-    tree_data = json.dumps(build_tree(slug), indent=4, default=str)
+    tree_data = json.dumps(build_tree(slug, request), indent=4, default=str)
     t = PublishedTree(  url             = random_url,
                         tree_data       = tree_data,
-                        decision_tree   = DecisionTree.objects.get(slug=slug),
+                        decision_tree   = DecisionTree.objects.filter(decision_tree__owner=request.user).get(slug=slug),
                         owner           = request.user,
                         created_at      = datetime.now(),
                         )
