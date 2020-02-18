@@ -1,4 +1,5 @@
 //Shepherd tour boilerplate
+window.StartTour =  function(){
       var staticPath = document.getElementById('static-path').value;
       var link = document.createElement('link');
       link.rel = 'stylesheet';
@@ -115,8 +116,11 @@
 
           tour.addSteps(steps);
           tour.start();
+  //Edit until here, don't change the code below.
       };
   //Closing of boilerplate
   script.src = staticPath + 'tours/src/shepherd.min.js';
   script.type = 'text/javascript';
   document.head.appendChild(script);
+  }
+window.StartTour();

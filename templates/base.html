@@ -361,7 +361,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="helpModalLabel">{% trans "Help" %}</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <button id="close-button" class="close" type="button" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
         </div>
@@ -369,11 +369,18 @@
           <img class="img-fluid mt-3 p-5" src="{% static 'img/help.svg' %}" alt="Help Illustration">
       </div>
         <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" onclick="tour.start()">{% trans "Restart Tour" %}</button>
+          <button id="restart-tour" class="btn btn-secondary" type="button">{% trans "Restart Tour" %}</button>
           <a class="btn btn-primary" href="https://fbennet.uber.space/shelves/open-decision" target="_blank">{% trans "User Guides" %}</a>
         </div>
       </div>
     </div>
+    <script type="text/javascript">
+      document.getElementById("restart-tour").addEventListener("click", function (){
+        document.getElementById("close-button").click();
+        window.StartTour();
+      }
+    );
+    </script>
   </div>
 </body>
 </html>

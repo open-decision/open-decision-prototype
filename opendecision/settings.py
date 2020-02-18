@@ -26,7 +26,7 @@ DATABASES = {
 
 if os.environ.get('DJANGO_PRODUCTION') is not None:
     # SECURITY WARNING: don't run with debug turned on in production!
-    DEBUG = True
+    DEBUG = False
 
     ALLOWED_HOSTS = ['.herokuapp.com']
 
