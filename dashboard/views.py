@@ -276,10 +276,12 @@ def build_tree (slug, request):
         if (n.input_type == 'number') or (n.input_type == 'date') or (n.input_type == 'end_node'):
             export[n.slug]['answers'] = []
         elif n.input_type == 'button':
-            export[n.slug]['answers'] = [single_answer['answer'] for single_answer in json.loads(n.data_answer)]
+            export[n.slug]['answers'] = [single_answer['answer'].strip() for single_answer in json.loads(n.data_answer)]
 # For lists answers separated by line breaks are split into a list of single answers
         elif n.input_type == 'list':
-            export[n.slug]['answers'] = json.loads(n.data_answer)[0]['answer'].splitlines()
+            temp_answers = json.loads(n.data_answer)[0]['answer'].splitlines()
+            export[n.slug]['answers'] = [single_answer.strip() for single_answer in temp_answers]
+
 
 # Build the logic dict
 
@@ -295,14 +297,14 @@ def build_tree (slug, request):
                 try:
                     export[n.slug]['rules']['if'].extend(
                     [
-                        {l['operator']: [{"var":"answer"}, l['answers_logic']]},
+                        {l['operator']: [{"var":"answer"}, l['answers_logic'].strip()]},
                         str(int(len(export[n.slug]['rules']['if'])/2)),
                         ])
                 # If dict does not exist
                 except KeyError:
                     export[n.slug]['rules'] = {
                     'if' : [
-                        {l['operator']: [{"var":"answer"}, l['answers_logic']]}, "0",
+                        {l['operator']: [{"var":"answer"}, l['answers_logic'].strip()]}, "0",
                     ]}
 
                 # Then build the results block
@@ -327,9 +329,11 @@ def build_tree (slug, request):
 
             elif n.input_type == 'list':
                 try:
+                    temp_answers_logic = l['answers_logic'].splitlines()
+                    temp_answers_logic = [single_answer.strip() for single_answer in temp_answers_logic]
                     export[n.slug]['rules']['if'].extend(
                     [
-                        {'in': [{"var":"answer"}, l['answers_logic'].splitlines()]},
+                        {'in': [{"var":"answer"},temp_answers_logic]},
                         str(int(len(export[n.slug]['rules']['if'])/2)),
                         ])
                 # If dict does not exist
