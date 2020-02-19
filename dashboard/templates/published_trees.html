@@ -21,7 +21,8 @@
                     <th scope="col">{% trans "Exported Tree" %}</th>
                     <th scope="col">{% trans "Export Date" %}</th>
                     <th scope="col">{% trans "Link" %}</th>
-                    <th scope="col"></th>
+                    <th scope="col">{% trans "Copy Link" %}</th>
+                    <th scope="col">{% trans "iFrame Code" %}</th>
                     <th scope="col"></th>
                   </tr>
                 </thead>
@@ -49,6 +50,14 @@
                           <i class="far fa-copy no-bubbling"></i>
                         </span>
                         <span class="text no-bubbling">{% trans "Copy Link" %}</span>
+                      </button>
+                    </td>
+                    <td class="no-bubbling">
+                      <button id="copy-btn" data-iframe="true" type="button" data-url="publish/{{ decisiontree.url }}?embedded=true" class="btn btn-secondary btn-icon-split btn-sm no-bubbling" name="button">
+                        <span class="icon text-white-50 no-bubbling">
+                          <i class="far fa-copy no-bubbling"></i>
+                        </span>
+                        <span class="text no-bubbling">{% trans "Embed Tree" %}</span>
                       </button>
                     </td>
                     <td class="text-center">
@@ -152,7 +161,14 @@
 
     $(document).on('click', '#copy-btn', function(event) {
       var url = window.location.href.replace("published-trees/",'') + event.target.closest('#copy-btn').getAttribute('data-url');
-      copyTextToClipboard(url);
+      if (event.target.closest('#copy-btn').hasAttribute('data-iframe')) {
+        var iframe = '<iframe src="' + url + '"width="1000" height="600">Your browser does not support iFrames</iframe>';
+        copyTextToClipboard(iframe);
+      }
+      else {
+        copyTextToClipboard(url);
+      }
+
     });
 
 

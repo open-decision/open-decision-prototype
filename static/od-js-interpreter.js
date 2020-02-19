@@ -19,6 +19,10 @@ expose.init = function (path, divId) {
   displayTree();
 };
 
+expose.getTreeName = function () {
+  return tree.header.tree_name
+};
+
 // Listener for hashchange in the URL if the user clicks the browser's back-button
 // The hash tells us the node name, that is currently displayed
 window.onhashchange = function() {

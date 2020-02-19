@@ -9,51 +9,96 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
-
 import os
+from .ckeditor_settings import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '678&exk6aus^#z8j+#tco4%_bgv6mvd6!kcf!gokhza$)3sjql'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
 
-# Application definition
+if os.environ.get('DJANGO_PRODUCTION') is not None:
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = False
 
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'interpreter',
-    'pages',
-    'builder',
-    'dashboard',
-    'ckeditor',
+    ALLOWED_HOSTS = ['.herokuapp.com']
 
-]
+    # SECURITY WARNING: keep the secret key used in production secret!
+    SECRET_KEY = os.environ.get('SECRET_KEY')
 
-MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+    # Heroku: Update database configuration from $DATABASE_URL.
+    import dj_database_url
+    db_from_env = dj_database_url.config(conn_max_age=500)
+    DATABASES['default'].update(db_from_env)
+
+    MIDDLEWARE = [
+        'django.middleware.security.SecurityMiddleware',
+         'whitenoise.middleware.WhiteNoiseMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    ]
+
+    INSTALLED_APPS = [
+        'django.contrib.admin',
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+
+        'ckeditor',
+
+        'interpreter',
+        'pages',
+        'builder',
+        'dashboard',
+        'visualbuilder',
+    ]
+
+else:
+    DEBUG = True
+    SECRET_KEY = '678&exk6aus^#z8j+#tco4%_bgv6mvd6!kcf!gokhza$)3sjql'
+    ALLOWED_HOSTS = []
+    INSTALLED_APPS = [
+        'django.contrib.admin',
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+
+        'ckeditor',
+        'debug_toolbar',
+
+        'interpreter',
+        'pages',
+        'builder',
+        'dashboard',
+        'visualbuilder',
+    ]
+
+    MIDDLEWARE = [
+        'django.middleware.security.SecurityMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    ]
+
 
 ROOT_URLCONF = 'opendecision.urls'
 
@@ -79,12 +124,6 @@ WSGI_APPLICATION = 'opendecision.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
 
 # Password validation
@@ -127,63 +166,10 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = ( os.path.join('static'), )
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
-CKEDITOR_BASEPATH = "static/ckeditor/ckeditor"
-CKEDITOR_CONFIGS = {
 
-    'default': {
-        'skin': 'bootstrapck',
-        'toolbar_Basic': [
-            ['Source', '-', 'Bold', 'Italic']
-        ],
-        'toolbar_NodeCreateToolbar': [
-
-            {'name': 'document', 'items': ['Source', 'Templates']},
-            {'name': 'clipboard', 'items': ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo', 'Maximize']},
-            {'name': 'basicstyles',
-             'items': ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
-            {'name': 'paragraph',
-             'items': ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', '-',
-                       'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']},
-            {'name': 'links', 'items': ['Link', 'Unlink']},
-            {'name': 'insert',
-             'items': ['Table', 'HorizontalRule', 'Smiley', 'SpecialChar']},
-            {'name': 'styles', 'items': ['Styles', 'Format', 'Font', 'FontSize']},
-            {'name': 'colors', 'items': ['TextColor', 'BGColor']},
-            {'name': 'view', 'items': [
-                'Preview',
-                'Maximize',
-                ]},
-                '/',
-            {'name': 'opendecision', 'items': ['CreateToken', 'Abbr', 'CreatePlaceholder']},
-        ],
-        'toolbar': 'NodeCreateToolbar',
-        # 'toolbarGroups': [{ 'name': 'document', 'groups': [ 'mode', 'document', 'doctools' ] }],
-        # 'height': 291,
-        # 'width': '100%',
-        # 'filebrowserWindowHeight': 725,
-        # 'filebrowserWindowWidth': 940,
-        'toolbarCanCollapse': True,
-        'tabSpaces': 4,
-        'tokenStart': '[[',
-        'tokenEnd': ']]',
-        'extraPlugins': ','.join([
-            'autolink',
-            'autoembed',
-            'embedsemantic',
-            'autogrow',
-            #'devtools',
-            'widget',
-            'lineutils',
-            'clipboard',
-            'dialog',
-            'dialogui',
-            'placeholder',
-            'abbr',
-            'token',
-        ]),
-    }
-}
-
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/dashboard'

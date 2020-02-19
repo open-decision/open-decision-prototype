@@ -1,0 +1,12 @@
+{% load static %}
+{{ form.media }}
+<h2 class="pageheader">{{ form.name }}{{ form.name.errors }}</h2>
+<input type="hidden" id="selected-tree" value="{{ selected_tree.slug }}" >
+<div id='question-field'>
+      {{ form.question }}
+      {{ form.question.errors }}
+</div>
+<div id='inputtype-field'>
+      {{ form.input_type }}
+      {{ form.input_type.errors }}
+</div>

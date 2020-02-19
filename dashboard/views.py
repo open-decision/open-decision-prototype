@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render, redirect
 from django.views import generic
 from .models import DecisionTree, Node
@@ -45,10 +46,11 @@ def add_tree(request):
             tree = f.save(commit=False)
             tree.owner = request.user
             tree.save()
-    except IntegrityError as e:
-        return HttpResponse('<div class="border-left-danger pl-2">'+ _('<p>Please choose another name, this one is  already taken.</p>') + '</div>')
+    except IntegrityError:
+        return HttpResponse('<div class="border-left-danger pl-2">'+ _('<p>Please choose another name, you already have a tree with this name.</p>') + '</div>')
     context = {
-     'decisiontree_list': DecisionTree.objects.filter(id=tree.id)
+     'decisiontree_list': DecisionTree.objects.filter(id=tree.id),
+     'node_num': DecisionTree.objects.filter(owner=request.user).count(),
      }
     return render(request, 'dashboard_table_row.html', context)
 
@@ -71,36 +73,44 @@ def unpublish_tree (request):
 
 @login_required
 def tree_view(request, slug):
-    existing_nodes = Node.objects.filter(decision_tree__slug=slug).filter(new_node=False)
-    new_nodes = Node.objects.filter(decision_tree__slug=slug).filter(new_node=True)
+    existing_nodes = Node.objects.filter(decision_tree__owner=request.user).filter(decision_tree__slug=slug).filter(new_node=False)
+    new_nodes = Node.objects.filter(decision_tree__owner=request.user).filter(decision_tree__slug=slug).filter(new_node=True)
+
     if request.method == 'GET':
         context = {
         'existing_nodes': existing_nodes,
          'new_nodes': new_nodes,
-         'selected_tree': DecisionTree.objects.filter(slug=slug).values()[0]
+         'selected_tree': DecisionTree.objects.filter(owner=request.user).filter(slug=slug).values()[0]
          }
     return render(request, 'tree_view.html', context)
 
 @login_required
 def export_tree(request, slug):
-    data = check_tree(slug)
-    errors = data[0]
-    all_nodes = data[1]
-    errors['no_answers'] = [all_nodes.get(id=element) for element in errors['no_answers']]
-    errors['no_logic'] = [all_nodes.get(id=element) for element in errors['no_logic']]
-    errors['no_ref_to_start'] = [all_nodes.get(id=element) for element in errors['no_ref_to_start']]
-    errors['no_var'] = {all_nodes.get(id=key):value for (key,value) in errors['no_var'].items()}
-    errors['no_ref_to_end'] = [[all_nodes.get(id=node) for node in path] for path in errors['no_ref_to_end']]
-    errors['not_end_nodes'] = list(set([path[-1] for path in errors['no_ref_to_end']]))
-    errors['selected_tree'] = DecisionTree.objects.get(slug=slug)
-    print(errors)
-    return render(request, 'export.html', errors)
+    if os.environ.get('DJANGO_PRODUCTION') is not None:
+        context = {
+        'production' : 'true',
+        'selected_tree' : DecisionTree.objects.filter(owner=request.user).get(slug=slug),
+        }
+        return render(request, 'export.html', context)
+    else:
+        data = check_tree(slug)
+        errors = data[0]
+        all_nodes = data[1]
+        errors['no_answers'] = [all_nodes.get(id=element) for element in errors['no_answers']]
+        errors['no_logic'] = [all_nodes.get(id=element) for element in errors['no_logic']]
+        errors['no_ref_to_start'] = [all_nodes.get(id=element) for element in errors['no_ref_to_start']]
+        errors['no_var'] = {all_nodes.get(id=key):value for (key,value) in errors['no_var'].items()}
+        errors['no_ref_to_end'] = [[all_nodes.get(id=node) for node in path] for path in errors['no_ref_to_end']]
+        errors['not_end_nodes'] = list(set([path[-1] for path in errors['no_ref_to_end']]))
+        errors['selected_tree'] = DecisionTree.objects.filter(owner=request.user).get(slug=slug)
+        print(errors)
+        return render(request, 'export.html', errors)
 
 
 def check_tree(slug):
     # Build dic with tree structure to check tree integrity
     # todo: are answers matching to logic? button -> make field not editable; how to check others?
-    all = Node.objects.filter(decision_tree__slug=slug)
+    all = Node.objects.filter(decision_tree__owner=request.user).filter(decision_tree__slug=slug)
     end_nodes = all.filter(end_node=True)
     no_end_nodes = all.filter(end_node=False)
 
@@ -175,13 +185,14 @@ def iterator(paths, num_of_childs_left, single_paths, last_fork):
             except IndexError:
                 num_of_childs_left[-1] -= 1
             node = paths['nodes'][node]['childs'][num_childs-left]
+            print('Called first time')
     # If node is called the first time
         except IndexError:
             temp_path.append(paths['nodes'][node]['childs'][0])
             paths['accessed_nodes'].append(paths['nodes'][node]['childs'][0])
             num_of_childs_left.append(len(paths['nodes'][node]['childs'])-1)
             node = paths['nodes'][node]['childs'][0]
-
+            print('Called second time')
     #If while loop ends, we reached an end node
     else:
         single_paths.append(temp_path)
@@ -214,7 +225,7 @@ def iterator(paths, num_of_childs_left, single_paths, last_fork):
 @login_required
 def set_as_endnode (request):
     slug = request.POST.get('node_slug')
-    Node.objects.filter(slug=slug).update(end_node= True)
+    Node.objects.filter(decision_tree__owner=request.user).filter(slug=slug).update(end_node= True)
     return HttpResponse()
 
 @login_required
@@ -225,16 +236,16 @@ def delete_node (request):
 
 @login_required
 def export_file (request, slug):
-    export = build_tree(slug)
+    export = build_tree(slug, request)
     response = JsonResponse(export, safe=False, content_type='application/json', json_dumps_params={'indent': 2})
     response['Content-Disposition'] = 'attachment; filename="{}.json"'.format(slug)
     return response
 
 
-def build_tree (slug):
+def build_tree (slug, request):
     # Build localization input
     # pass all_nodes
-    all_nodes = Node.objects.filter(decision_tree__slug=slug)
+    all_nodes = Node.objects.filter(decision_tree__owner=request.user).filter(decision_tree__slug=slug)
     export = {}
 # Set some header data to ensure proper processing of the created tree
     export['header'] = {
@@ -242,9 +253,9 @@ def build_tree (slug):
         #'localization': request.POST.get('localization', 'de-de'),
         'build_date': date.today(),
         'logic_type': LOGIC_TYPE,
-        'owner': DecisionTree.objects.get(slug=slug).owner.username,
+        'owner': DecisionTree.objects.filter(owner=request.user).get(slug=slug).owner.username,
 
-        'tree_name' : DecisionTree.objects.get(slug=slug).name,
+        'tree_name' : DecisionTree.objects.filter(owner=request.user).get(slug=slug).name,
         'tree_slug' : slug,
         'start_node': all_nodes.get(start_node = True).slug,
         'vars': {},
@@ -294,7 +305,7 @@ def build_tree (slug):
                         {l['operator']: [{"var":"answer"}, l['answers_logic']]}, "0",
                     ]}
 
-                # Then build the  results block
+                # Then build the results block
                 if l['action'] == 'go_to':
                     data = {'destination': all_nodes.get(id = l['var_to_modify']).slug}
 
@@ -311,6 +322,9 @@ def build_tree (slug):
                 #     }
 
 
+            elif n.input_type == 'end_node':
+                data = {}
+
             elif n.input_type == 'list':
                 try:
                     export[n.slug]['rules']['if'].extend(
@@ -325,7 +339,7 @@ def build_tree (slug):
                         {'in': [{"var":"answer"}, l['answers_logic'].splitlines()]}, "0",
                     ]}
 
-                # Then build the  results block
+                # Then build the results block
                 if l['action'] == 'go_to':
                     data = {'destination': all_nodes.get(id = l['var_to_modify']).slug}
 
@@ -339,5 +353,5 @@ def build_tree (slug):
 @login_required
 def load_tree(request):
     selected_tree = request.GET.get('selected_tree')
-    data = build_tree(selected_tree)
+    data = build_tree(selected_tree, request)
     return JsonResponse(data, safe=False)

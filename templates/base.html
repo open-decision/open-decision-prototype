@@ -5,9 +5,6 @@
 <html lang="en">
 
 <head>
-
-
-
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -22,10 +19,8 @@
   <link href="{% static 'css/sb-admin-2.css' %}" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.min.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
-  <link rel="stylesheet" type="text/css"href="{% static 'vendor/fontawesome-free/css/all.min.css' %}">
-  <link href="{% static 'css/open-decision.css" rel="stylesheet' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-
+  <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}"/>
 
 </head>
 
@@ -33,6 +28,7 @@
 
   <!-- Page Wrapper -->
   <div id="wrapper">
+  <input type="hidden" name="static-path" id="static-path" value="{% static '' %}">
 
     <!-- Sidebar -->
       {% if user.is_authenticated %}
@@ -40,8 +36,8 @@
 
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
-        <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fab fa-osi"></i>
+        <div class="sidebar-brand-icon rotate-n-0">
+          <img src="{% static 'img/od_logo_white_circle.png' %}" height="50" width="50">
         </div>
         <div class="sidebar-brand-text mx-3">open decision</div>
       </a>
@@ -49,21 +45,32 @@
       <!-- Divider -->
       <hr class="sidebar-divider my-0">
       <!-- Nav Item - Dashboard -->
-      <li class="nav-item active">
-        <a class="nav-link" href="/dashboard">
+      <li id="dashboard-link" class="nav-item">
+        <a class="nav-link" href="/dashboard/">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>{% trans "Dashboard" %}</span></a>
       </li>
-
-              <li class="nav-item">
-          <a class="nav-link" href="/published-trees">
-            <i class="fas fa-fw fa-chart-area"></i>
+              <li id="published-link" class="nav-item">
+          <a class="nav-link" href="/published-trees/">
+            <i class="fas fa-globe-americas"></i>
             <span>{% trans "Published Trees" %}</span></a>
           </li>
+          <li id="visualbuilder-link" class="nav-item">
+      <a class="nav-link" href="/visualbuilder/">
+        <i class="fas fa-project-diagram"></i>
+        <span>{% trans "Visualbuilder - Alpha" %}</span></a>
+      </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'logout'%}?next=/">
+            <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
               <i class="fas fa-sign-out-alt"></i>
               <span>{% trans "Logout" %}</span></a>
+          </li>
+          <hr class="sidebar-divider">
+            <li id="help-link" class="nav-item">
+              <a class="nav-link" href="#" data-toggle="modal" data-target="#helpModal">
+                <i class="far fa-question-circle"></i>
+                <span>{% trans "Help" %}</span></a>
+            </li>
           </li>
       {% endif %}
 
@@ -239,7 +246,8 @@
         <script type="text/javascript" src="{% static 'popper.min.js' %}"></script>
       <!-- <script type="text/javascript" src="{% static 'bootstrap.min.js' %}"></script>-->
         <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
-        <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
 
         <!-- Core plugin JavaScript-->
         <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
@@ -255,18 +263,22 @@
         <!-- /.container-fluid -->
 
       </div>
-
       <!-- End of Main Content -->
 
       <!-- Footer -->
       <footer class="footer">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span><a href="/">{% trans "Support" %}</a> <a href="/">{% trans "Imprint" %}</a> <a href="/">{% trans "Privacy policy" %}</a></span>
+            <footer class="footer">
+            <span><a href="http://open-decision.org" target="_blank">Made with <img src="{% static 'flowy/assets/heart.svg' %}"> by the Open Decision Project</a> <a href="https://github.com/fbennets/open-decision" target="_blank">| Github |</a> <a href="/">{% trans "Support" %}</a> <a href="/">{% trans "Imprint" %}</a> <a href="/">{% trans "Privacy policy" %}</a></span>
           </div>
         </div>
       </footer>
-
+      <script type="text/javascript">
+      $(document).ready(function(){
+      $('a[href="' + this.location.pathname + '"]').closest('.nav-item').addClass('active');
+});
+</script>
       <!-- End of Footer -->
 
     </div>
@@ -297,6 +309,33 @@
         </div>
       </div>
     </div>
+  </div>
+  <!-- Help Modal-->
+  <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="helpModalLabel">{% trans "Help" %}</h5>
+          <button id="close-button" class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">{% trans "How can we help you?" %}
+          <img class="img-fluid mt-3 p-5" src="{% static 'img/help.svg' %}" alt="Help Illustration">
+      </div>
+        <div class="modal-footer">
+          <button id="restart-tour" class="btn btn-secondary" type="button">{% trans "Restart Tour" %}</button>
+          <a class="btn btn-primary" href="https://fbennet.uber.space/shelves/open-decision" target="_blank">{% trans "User Guides" %}</a>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+      document.getElementById("restart-tour").addEventListener("click", function (){
+        document.getElementById("close-button").click();
+        window.StartTour();
+      }
+    );
+    </script>
   </div>
 </body>
 </html>

@@ -18,6 +18,11 @@ class NodeForm(forms.Form):
     question = forms.CharField(widget=CKEditorWidget())
     input_type = forms.ChoiceField(label='Eingabeart', choices = INPUT_CHOICES)
 
+class NodeFormVisualBuilder(NodeForm):
+    question = forms.CharField(widget=CKEditorWidget(config_name='visualbuilder'))
+
+
+
 class ButtonAnswersForm(forms.Form):
     answer = forms.CharField(label='Antwort')
 
@@ -125,5 +130,11 @@ class LogicForm(forms.Form):
             ('>', 'größer als'),
             ('>=', 'größer gleich')
             )
+
+        # elif self.input_type == 'end_node':
+        #     self.fields['operator'].choices = forms.HiddenInput()
+        #     self.fields['answers_logic'] = forms.HiddenInput()
+        #     self.fields['action'].choices = forms.HiddenInput()
+        #     self.fields['var_to_modify'].choices = forms.HiddenInput()
         else:
             pass

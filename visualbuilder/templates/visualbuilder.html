@@ -1,0 +1,805 @@
+{% load static %}
+{% load i18n %}
+
+<html>
+<head>
+    <!-- Primary Meta Tags -->
+<title>Open Decision - Visual Builder</title>
+<meta name="title" content="Open Decision">
+<meta name="description" content="">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
+    <link href="{% static 'flowy/styles.css'%}" rel='stylesheet' type='text/css'>
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" />
+    <link href="{% static 'flowy/flowy.min.css' %}" rel='stylesheet' type='text/css'>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"
+
+</head>
+<body>
+  <input type="hidden" name="static-path" id="static-path" value="{% static '' %}">
+    <div id="navigation">
+        <div id="leftside">
+            <div id="details">
+            <div id="back"><a href="/dashboard"><img src="{% static 'flowy/assets/arrow.svg' %}"></a></div>
+            <div id="names">
+                <p id="title">{{decisiontree.name}}New Tree</p>
+                <p id="subtitle">{% trans "Visual Builder" %}</p>
+            </div>
+        </div>
+        </div>
+        <div id="centerswitch">
+            <div id="leftswitch">{% trans "Visual Builder" %}</div>
+            <div id="rightswitch">{% trans "Deactivated" %}</div>
+        </div>
+        <div id="buttonsright">
+            <div id="discard">{% trans "Deactivated" %}</div>
+            <div id="publish">{% trans "Deactivated" %}</div>
+        </div>
+    </div>
+    <div id="leftcard">
+        <!-- <div id="closecard">
+            <img src="{% static 'flowy/assets/closeleft.svg' %}">
+        </div> -->
+        <p id="header">{% trans "Blocks" %}</p>
+        <!-- <div id="search">
+            <img src="{% static 'flowy/assets/search.svg' %}">
+            <input type="text" placeholder="Search blocks">
+        </div> -->
+        <div id="subnav">
+            <div id="triggers" class="navactive side">{% trans "Content" %}</div>
+            <div id="actions" class="navdisabled side">{% trans "Deleted Blocks" %}</div>
+            <div id="loggers" class="navdisabled side">{% trans "Unused Blocks" %}</div>
+        </div>
+        <div id="blocklist">
+            <div id="start-block" class="blockelem create-flowy noselect">
+                <input type="hidden" name='blockelemtype' class="blockelemtype" value="1">
+                <div class="grabme">
+                    <img src="{% static 'flowy/assets/grabme.svg' %}">
+                </div>
+                <div class="blockin">
+                    <div class="blockico">
+                        <span></span>
+                        <img src="{% static 'flowy/assets/eye.svg' %}">
+                    </div>
+                    <div class="blocktext">
+                        <p class="blocktitle">Start Block</p>
+                        <p class="blockdesc">The beginning of your Decision tree</p>
+                    </div>
+                </div>
+            </div>
+            <div class="blockelem noselect blockdisabled" >
+                <input type="hidden" name='blockelemtype' class="blockelemtype" value="2">
+                <div class="grabme">
+                    <img src="{% static 'flowy/assets/grabme.svg' %}">
+                </div>
+                <div class="blockin">
+                    <div class="blockico">
+                        <span></span>
+                        <img src="{% static 'flowy/assets/eye.svg' %}">
+                    </div>
+                    <div class="blocktext">
+                        <p class="blocktitle">Question Block</p>
+                        <p class="blockdesc">Ask the user a question</p>
+                    </div>
+                </div>
+            </div>
+            <div class="blockelem noselect blockdisabled">
+                <input type="hidden" name='blockelemtype' class="blockelemtype" value="3">
+                <div class="grabme">
+                    <img src="{% static 'flowy/assets/grabme.svg' %}">
+                </div>
+                <div class="blockin">
+                    <div class="blockico">
+                        <span></span>
+                        <img src="{% static 'flowy/assets/eye.svg' %}">
+                    </div>
+                    <div class="blocktext">
+                        <p class="blocktitle">End Block</p>
+                        <p class="blockdesc">Use this block to define an end for the tree</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id="footer">
+          <a href="https://github.com/fbennets/open-decision" target="_blank"><p>Github |</p></a>
+          <span></span>
+                <a href="http://open-decision.org" target="_blank"><p>Made with</p><img src="{% static 'flowy/assets/heart.svg' %}"><p>by the</p> Open Decision Project</a>
+        </div>
+    </div>
+    <div id="propwrap">
+        <div id="properties">
+            <div id="close">
+                <img src="{% static 'flowy/assets/close.svg' %}">
+            </div>
+            <p id="header2">{% trans "Properties" %}</p>
+            <div id="propswitch">
+                <div id="dataprop" class="nodepropswitch nodeprop propnavactive">{% trans "Node" %}</div>
+                <div id="alertprop" class="nodepropswitch answerprop propnavdisabled">{% trans "Anwers" %}</div>
+                <div id="logsprop" class="nodepropswitch logicprop propnavdisabled">{% trans "Logic" %}</div>
+            </div>
+            <div id="nodedata">
+            <div id="nodeproplist" class="mt-5"></div>
+            <div id="answerproplist"></div>
+            <div id="logicproplist"></div>
+            </div>
+            <!-- <div id="divisionthing"></div> -->
+            <!-- <div id="removeblock" class="pt-4">Delete blocks</div> -->
+        </div>
+
+    </div>
+    <div id="canvas">
+    </div>
+    <script type="text/javascript" src="{% static 'jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+    <script src="{% static 'flowy/flowy.js' %}"></script>
+    {% if new_user %}
+      <script type="text/javascript" src="{% static 'tours/visualbuilder-tour.js' %}"></script>
+      {% endif %}
+    <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function(){
+
+//Init
+        var rightcard = false;
+        var tempblock;
+        var tempblock2;
+        var detachedBlocks = [];
+        var deletedBlocks = [];
+        var releaseCounter = 0;
+        var blocks = {'detached':{}};
+
+
+      // Init flowy
+        flowy(document.getElementById("canvas"), drag, release, snapping, deleted);
+
+// Flowy handler functions
+        function snapping(drag, first, parent) {
+          //Block snap when parent is end-node
+          if(parent && (blocks[parent.id].blockType === 3)){
+            alert("You can't attach a block to an end-block.");
+            drag.parentNode.removeChild(drag);
+            return false;
+          }
+           var blockTypeValue = parseInt(drag.querySelector(".blockelemtype").value);
+           var blockId = parseInt(drag.querySelector(".blockid").value);
+           var grab = drag.querySelector(".grabme");
+
+           // if (parent && blocks[parent.id].childs.includes()) {
+           //   return false;
+           // }
+            grab.parentNode.removeChild(grab);
+            var blockin = drag.querySelector(".blockin");
+            blockin.parentNode.removeChild(blockin);
+            if (blockTypeValue == 1) {
+                drag.innerHTML += `<div class='blockyleft'><img src='{% static 'flowy/assets/eyeblue.svg' %}'><p class='blockyname'>Block ${blockId +1} - Start Block</p></div><div class='blockyright'><img src='{% static 'flowy/assets/more.svg' %}'></div><div class='blockydiv'></div><div class='blockyinfo'>Click the block to edit it</div>`;
+                document.getElementById("blocklist").innerHTML = "<div class='blockelem create-flowy noselect'><input type='hidden' name='blockelemtype' class='blockelemtype' value='2'><div class='grabme'><img src='{% static 'flowy/assets/grabme.svg' %}'></div><div class='blockin'><div class='blockico'><span></span><img src='{% static 'flowy/assets/eye.svg' %}'></div><div class='blocktext'><p class='blocktitle'>Question Block</p><p class='blockdesc'>Ask the user a question</p></div></div></div><div class='blockelem create-flowy noselect'><input type='hidden' name='blockelemtype' class='blockelemtype' value='3'><div class='grabme'><img src='{% static 'flowy/assets/grabme.svg' %}'></div><div class='blockin'><div class='blockico'><span></span><img src='{% static 'flowy/assets/eye.svg' %}'></div><div class='blocktext'><p class='blocktitle'>End Block</p><p class='blockdesc'>Use this block to define an end for the tree</p></div></div></div>";
+            } else if (blockTypeValue == 2) {
+                drag.innerHTML += `<div class='blockyleft'><img src='{% static 'flowy/assets/actionblue.svg' %}'><p class='blockyname'>Block ${blockId +1} - Question Block</p></div><div class='blockyright'><img src='{% static 'flowy/assets/more.svg' %}'></div><div class='blockydiv'></div><div class='blockyinfo'>Click to configure the block</div>`;
+            } else if (blockTypeValue == 3) {
+                drag.innerHTML += `<div class='blockyleft'><img src='{% static 'flowy/assets/timeblue.svg' %}'><p class='blockyname'>Block ${blockId +1} - End Block</p></div><div class='blockyright'><img src='{% static 'flowy/assets/more.svg' %}'></div><div class='blockydiv'></div><div class='blockyinfo'>Show the result to the user.</div>`;
+            } else if (blockTypeValue >= 20) {
+                //Get index of the deleted block
+                index = blockTypeValue - 20;
+                el = JSON.parse(deletedBlocks[index]);
+                //Update saved blockId to new one to prevent bug
+                el.blockId = blockId;
+                elStr = JSON.stringify(el);
+                //Build HTML
+                drag.innerHTML += `<div class='blockyleft'><img src='assets/errorred.svg'><p class='blockyname'>Former Deleted Node</p></div><div class='blockyright'><img src='assets/more.svg'></div><div class='blockydiv'></div><div class='blockyinfo'><span>${el.inputValues[0]}</span></div><div style="display: none;" id="storage-div">${elStr}</div>`;
+                //Remove block from deletedBlocks after it's grabbed to the canvas
+                deletedBlocks.splice(index, 1);
+                //Rerender the menu with deleted blocks
+                document.getElementById('actions').click();
+              }
+
+            //Catch drag/child and parent
+            //if parent undefined drag === first block
+            //child as html element
+            //parent data: { childwidth: 0, parent: 0, id: 1, x: 816, y: 361, width: 318, height: 84 }
+
+            //Save data of the drag to the blocks obj
+            blocks[blockId] = {
+              'blockType': blockTypeValue,
+              'parent': (parent)? parent.id : false,
+              'duplicate': false,
+            };
+            blocks[blockId]['storageData'] = (drag.querySelector("#storage-div")) ? drag.querySelector("#storage-div").textContent : {};
+            (blocks[blockId]['childs']) ?
+                                {} : //Do nothing if childs already exist
+                                blocks[blockId]['childs'] = []; //Else set it to an empty list
+            //Save data of the parent
+            if (parent){
+              handleChildLogic('onAttachChild', blockId, parent);
+              //Copy the parents ancestors array and add parent
+              blocks[blockId]['ancestors'] = [...blocks[parent.id]['ancestors']]
+              blocks[blockId]['ancestors'].push(parent.id);
+            } else {
+              blocks[blockId]['ancestors'] = [];
+            }
+            return true;
+        }
+
+
+        function drag(block) {
+          checkDetachedBlocks();
+            block.classList.add("blockdisabled");
+            var selectedBlocks = document.getElementsByClassName("selectedblock");
+            if (selectedBlocks.length !==  0){
+              for (var i = 0; i < selectedBlocks.length; i++) {
+                selectedBlocks[i].classList.remove("selectedblock");
+              }
+            }
+            if (rightcard) {
+              saveNodeProperties();
+                rightcard = false;
+                document.getElementById("properties").classList.remove("expanded");
+                setTimeout(function(){
+                     document.getElementById("propwrap").classList.remove("itson");
+                }, 300);
+              }
+            tempblock2 = block;
+        }
+
+        function release() {
+          // if (detachedBlocks.length !== 0){
+          //   checkDetachedBlocks('onRelease');
+          // };
+            tempblock2.classList.remove("blockdisabled");
+        }
+
+
+        function deleted(detachedBlock, ...args) {
+          if (detachedBlock.classList.contains('selectedblock')){
+            document.getElementById('close').click();
+          }
+          console.log('Dettached Block is:')
+          console.log(detachedBlock);
+          //Get Id of the detachedBlock
+          var detachedId = parseInt(detachedBlock.querySelector(".blockid").value);
+          handleChildLogic('onDetachChild', detachedId)
+
+          //Finally set parent to false and empty the ancestors list
+          blocks[detachedId].parent = false;
+          blocks[detachedId].ancestors = [];
+
+          //Get all block ids and if existing saved block data
+          var re = /blockid..value=.(\d).+?|{.+?}/gm;
+          var match;
+          var descendants = [];
+          while ((match = re.exec(detachedBlock.innerHTML)) !== null) {
+            //If the first capture group (match[1]) is existing, we found an blockId
+            if (match[1]){
+              descendants.push(match[1]);
+              //Copy the block data in blocks to blocks.detached
+              blocks.detached[parseInt(match[1])] = blocks[parseInt(match[1])];
+              //And delete the data from the normal blocks
+              delete blocks[parseInt(match[1])];
+            } else {
+              //We found saved block data (a storage div's content)
+              blockId = JSON.parse(match[0]).blockId;
+              //If we find a storage div we always had the matching blockId in
+              //the iteration before. Replace this id with the storage div (it)
+              //contains the id as well
+              descendants.pop();
+              descendants.push(match[0]);
+            }
+          }
+            detachedBlocks.push(descendants);
+      }
+
+//UI functions for mouse events
+        var disabledClick = function(){
+            document.querySelector(".navactive").classList.add("navdisabled");
+            document.querySelector(".navactive").classList.remove("navactive");
+            this.classList.add("navactive");
+            this.classList.remove("navdisabled");
+            if (this.getAttribute("id") == "triggers") {
+              var blockList = '';
+              if (!document.getElementById('canvas').querySelector('#start-block')){
+                blockList += "<div id='start-block' class='blockelem create-flowy noselect'><input type='hidden' name='blockelemtype' class='blockelemtype' value='1'><div class='grabme'><img src='{% static 'flowy/assets/grabme.svg' %}'></div><div class='blockin'><div class='blockico'><span></span><img src='{% static 'flowy/assets/eye.svg' %}'></div><div class='blocktext'><p class='blocktitle'>Start Block</p><p class='blockdesc'>The beginning of your Decision tree</p></div></div></div>";
+                  }
+                  blockList += "<div class='blockelem create-flowy noselect'><input type='hidden' name='blockelemtype' class='blockelemtype' value='2'><div class='grabme'><img src='{% static 'flowy/assets/grabme.svg' %}'></div><div class='blockin'><div class='blockico'><span></span><img src='{% static 'flowy/assets/eye.svg' %}'></div><div class='blocktext'><p class='blocktitle'>Question Block</p><p class='blockdesc'>Ask the user a question</p></div></div></div><div class='blockelem create-flowy noselect'><input type='hidden' name='blockelemtype' class='blockelemtype' value='3'><div class='grabme'><img src='{% static 'flowy/assets/grabme.svg' %}'></div><div class='blockin'><div class='blockico'><span></span><img src='{% static 'flowy/assets/eye.svg' %}'></div><div class='blocktext'><p class='blocktitle'>End Block</p><p class='blockdesc'>Use this block to define an end for the tree</p></div></div></div>";
+              document.getElementById("blocklist").innerHTML = blockList;
+            } else if (this.getAttribute("id") == "actions") {
+              document.getElementById("blocklist").innerHTML = showDeletedBlocks();
+              addEventListenerMulti("click", deleteButtonForDeletedBlocks, false, ".finaldelete");
+            } else if (this.getAttribute("id") == "loggers") {
+                document.getElementById("blocklist").innerHTML = '<div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value="9"><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin">                  <div class="blockico"><span></span><img src="{% static 'flowy/assets/log.svg' %}"></div><div class="blocktext">                        <p class="blocktitle">Add new log entry</p><p class="blockdesc">Adds a new log entry to this project</p>        </div></div></div><div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value="10"><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin">                  <div class="blockico"><span></span><img src="{% static 'flowy/assets/log.svg' %}"></div><div class="blocktext">                        <p class="blocktitle">Update logs</p><p class="blockdesc">Edits and deletes log entries in this project</p>        </div></div></div><div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value="11"><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin">                  <div class="blockico"><span></span><img src="{% static 'flowy/assets/error.svg' %}"></div><div class="blocktext">                        <p class="blocktitle">Prompt an error</p><p class="blockdesc">Triggers a specified error</p>        </div></div></div>';
+            }
+        }
+
+    var aclick = false;
+    var beginTouch = function (event) {
+        aclick = true;
+    }
+    var checkTouch = function (event) {
+        aclick = false;
+    }
+
+    var doneTouch = function (event) {
+        if (event.type === "mouseup" && aclick) {
+          if (!rightcard && event.target.closest(".block")) {
+                tempblock = event.target.closest(".block");
+                el = tempblock.querySelector("#storage-div");
+              if  (el != null) {
+                rebuildNode(el);
+              } else {
+                $.fn.loadNodeForm();
+                $.fn.loadForms("button");
+              }
+                rightcard = true;
+                document.getElementById("properties").classList.add("expanded");
+                document.getElementById("propwrap").classList.add("itson");
+                tempblock.classList.add("selectedblock");
+           }
+        }
+    }
+
+    function clickedCanvas(){
+      el = document.getElementById("canvas");
+      el.addEventListener("mousedown", function(){
+      if (!hasParentClass(event.target, "block")){
+        var selectedBlocks = document.getElementsByClassName("selectedblock");
+        if (selectedBlocks.length !==  0){
+          for (var i = 0; i < selectedBlocks.length; i++) {
+            selectedBlocks[i].classList.remove("selectedblock");
+          }
+        }
+        if (rightcard) {
+          saveNodeProperties();
+            rightcard = false;
+            document.getElementById("properties").classList.remove("expanded");
+            setTimeout(function(){
+                 document.getElementById("propwrap").classList.remove("itson");
+            }, 300);
+          }
+      }
+    })
+    }
+
+//Functions to show, save and rebuild node properties
+  //Populate node properties
+  $.fn.loadNodeForm = function(){
+    var nodeFormUrl = "{% url 'ajax_load_node_form' %}";
+    $.ajax({
+      url: nodeFormUrl,
+      data: {
+      },
+      success: function (data) {
+        $("#nodeproplist").html(data);
+        //Attach Handlers to listen for changes of input type and name
+        attachFormHandlers();
+
+      }
+    });
+  };
+
+  $.fn.loadForms = function(inputType){
+    var nodeFormUrl = "{% url 'ajax_load_node_form' %}";
+    var logicFormUrl = "{% url 'ajax_load_logic_field' %}" + "?visualbuilder=true";
+    var answerFormUrl = "{% url 'ajax_load_answer_field' %}";
+
+    $.ajax({
+      url: logicFormUrl,
+      data: {
+        'input_type': inputType
+      },
+      success: function (data) {
+        $("#logicproplist").html(data).hide();
+        handleChildLogic();
+
+      }
+    });
+
+    $.ajax({
+      url: answerFormUrl,
+      data: {
+        'input_type': inputType
+      },
+      success: function (data) {
+        $("#answerproplist").html(data).hide();
+      }
+    })
+  }
+
+function attachFormHandlers(){
+  el = document.getElementById("id_name");
+  el.addEventListener("input", function(){
+    // Get the entered name
+    let nameString = el.value
+    // Get block that is currently edited
+    var selectedBlock = document.getElementsByClassName("selectedblock");
+    //Get type of block
+    let blockElemType = selectedBlock[0].querySelector('.blockelemtype').value;
+    if (nameString === '') {
+      let blockId = parseInt(selectedBlock[0].querySelector('.blockid').value) + 1
+      nameString = 'Block ' + blockId;
+    }
+    // Set the string, that will be appended to the name, according to the type
+    switch(blockElemType) {
+  case '1':
+    nameString += ' - Start-Block';
+    break;
+  case '2':
+    nameString += ' - Question-Block';
+    break;
+  case '3':
+    nameString += ' - End-Block';
+    break;
+}
+    //Append the name
+    selectedBlock[0].querySelector('.blockyname').textContent= nameString;
+  });
+  $("#id_input_type").change(function () {
+    $.fn.loadForms(this.value);
+      });
+};
+
+function handleChildLogic(trigger, ...args){
+
+  //If selection go to:
+    // - make var to modify to list containing all childs, value= childId, shown: name
+
+  //Todo
+  //if parent logic is modified delete child?
+  //if child is modified update parent (namechange, delete, moved, whatelse?)
+  //how to keep logic data on "delete"?
+  //
+  // console.log(drag);
+  // console.log(parent);
+  //
+  //if child is modified update parent (namechange, delete, moved, whatelse?)
+  //how to keep logic data on "delete"?
+
+  if (trigger === 'onAttachChild'){
+    let blockId = args[0];
+    let parent = args[1];
+    blocks[parent.id].childs.push(blockId);
+
+    //Now: build child into parents logic(list) or on show logicProps?
+
+  } else if (trigger === 'onDetachChild') {
+
+    let detachedId = args[0];
+    //Get Id of the parent of the detachedBlock
+    let idOfParent = blocks[detachedId].parent;
+    //Get the index of the detachedBlock within the childs arrray of its parent
+    let indexInParentsChilds = blocks[idOfParent].childs.indexOf(detachedId);
+    //Delete the detachedBlock from the parents child array
+    blocks[idOfParent].childs.slice(indexInParentsChilds, 1);
+
+    //Now: remove child from parents logic?
+
+  } else if (trigger === 'onShowLogicProps') {
+
+    for (var i = 0; i < blocks[blockId].childs.length; i++){
+      $('.logic_add').trigger("click" );
+      let logicFields = document.getElementById('logsprop').querySelector('#id_logic-' + i + '-answers_logic')
+    }
+    //Now: build child into parents logic(list) or on AttachChild?
+  } else if (trigger === 'onChildModified') {
+    //Child name changes
+  }
+
+};
+
+
+
+  //Show the according div when the node property menu is clicked
+    function unHide(e) {
+      document.querySelector(".propnavactive").classList.add("propnavdisabled");
+      document.querySelector(".propnavactive").classList.remove("propnavactive");
+      this.classList.add("propnavactive");
+      this.classList.remove("propnavdisabled");
+      if (e.target.classList.contains("nodeprop")) {
+        $("#logicproplist").hide();
+        $("#answerproplist").hide();
+        $("#nodeproplist").show();
+      } else if (e.target.classList.contains("answerprop")) {
+        $("#logicproplist").hide();
+        $("#answerproplist").show();
+        $("#nodeproplist").hide();
+      } else if (e.target.classList.contains("logicprop")) {
+        $("#logicproplist").show();
+        $("#answerproplist").hide();
+        $("#nodeproplist").hide();
+    }
+  };
+
+
+    // Save the node properties after a node was edited
+    function saveNodeProperties(){
+      //Build storage content obj
+      //Set the standard fields that are always present
+      storageContent = {'inputValues': [], 'selectValues': [] , 'textareaValues': []};
+      storageContent['question'] = CKEDITOR.instances.id_question.getData();
+      storageContent['inputType'] = document.getElementById("id_input_type").value;
+      storageContent['num_answers'] = document.getElementById("id_answer-TOTAL_FORMS").value;
+      storageContent['num_logic'] = document.getElementById("id_logic-TOTAL_FORMS").value;
+      storageContent['blockId'] =  tempblock.querySelector(".blockid").value;
+
+      //Iterate over all input fields and attach the value
+      inputFields = document.getElementById("nodedata").getElementsByTagName('input');
+      for (var i = 0; i < inputFields.length; i++) {
+        var tableChild = inputFields[i];
+        storageContent.inputValues.push(tableChild.value);
+      }
+      //Iterate over all select fields and attach the value
+      selectFields = document.getElementById("nodedata").getElementsByTagName('select');
+      for (var i = 0; i < selectFields.length; i++) {
+        var selectValues = selectFields[i];
+        storageContent.selectValues.push(selectValues.value);
+      }
+
+      textareaFields = document.getElementById("nodedata").getElementsByTagName('textarea');
+      for (var i = 0; i < textareaFields.length; i++) {
+        var textareaValues = textareaFields[i];
+        storageContent.textareaValues.push(textareaValues.value);
+      }
+      //Transform obj to string
+      blockId = storageContent.blockId;
+      storageContent = JSON.stringify(storageContent);
+      el = tempblock.querySelector("#storage-div");
+      //Update the block data stored in Blocks
+      blocks[blockId]['storageData'] = storageContent;
+
+
+      if  (el != null) {
+        //If there was data before, replace it with the new data
+        el.textContent = storageContent;
+      } else {
+        //Otherwise create a storage-div element and append it to the block
+        var storageDiv = document.createElement("div");
+        storageDiv.style.display ="none";
+        storageDiv.id = "storage-div";
+        storageDiv.appendChild(document.createTextNode(storageContent));
+        tempblock.appendChild(storageDiv);
+      }
+    }
+
+    //Rebuild the node properties for a node that has been edited
+    function rebuildNode(el){
+      var nodeFormUrl = "{% url 'ajax_load_node_form' %}";
+      var logicFormUrl = "{% url 'ajax_load_logic_field' %}"  + "?visualbuilder=true";
+      var answerFormUrl = "{% url 'ajax_load_answer_field' %}";
+
+      $("#logicproplist").hide();
+      $("#answerproplist").hide();
+      $("#nodeproplist").show();
+
+      nodeData = JSON.parse(el.textContent);
+      $.ajax({
+        url: nodeFormUrl,
+        data: {
+        },
+        success: function (data) {
+          $("#nodeproplist").html(data);
+          attachFormHandlers();
+        }
+      });
+
+      $.ajax({
+        url: answerFormUrl,
+        async: false,
+        data: {
+          'input_type': nodeData['inputType']
+        },
+        success: function (data) {
+          $("#answerproplist").html(data).hide();
+          for (var i = 0; i < parseInt(nodeData['num_answers']-1); i++) {
+            $('.answer_add').trigger("click" );
+          };
+        }
+      });
+
+      $.ajax({
+        url: logicFormUrl,
+        async: false,
+        data: {
+          'input_type': nodeData['inputType']
+        },
+        success: function (data) {
+          $("#logicproplist").html(data).hide();
+          // for (var i = 0; i < parseInt(nodeData['num_logic']-1); i++) {
+          //   $('.logic_add').trigger("click" );
+          // };
+          handleChildLogic('onShowLogicProps');
+        }
+      });
+
+
+    inputFields = document.getElementById("nodedata").getElementsByTagName('input');
+    for (var i = 0; i < inputFields.length; i++) {
+      var tableChild = inputFields[i];
+      tableChild.value = nodeData.inputValues[i];
+    };
+    selectFields = document.getElementById("nodedata").getElementsByTagName('select');
+    for (var i = 0; i < selectFields.length; i++) {
+      var tableChild = selectFields[i];
+      tableChild.value = nodeData.selectValues[i];
+    }
+
+    textareaFields = document.getElementById("nodedata").getElementsByTagName('textarea');
+    for (var i = 0; i < textareaFields.length; i++) {
+      var tableChild = textareaFields[i];
+      tableChild.value = nodeData.textareaValues[i];
+    }
+
+    CKEDITOR.instances.id_question.setData(nodeData["question"]);
+
+    };
+
+ //Store data of deleted nodes
+    function checkDetachedBlocks(...args){
+      var condition;
+      //If  release is called directly after releasing the blocks,
+      //the new blocks are not available in the  canvas, therefore wait until 2nd call
+      if (args[0] === 'onRelease') {
+        releaseCounter +=1;
+        condition = (releaseCounter == 2) ? true : false;
+      } else {
+        condition = true;
+      }
+      len = detachedBlocks.length;
+      if ((len !== 0 )&& condition) {
+        //Get all existing nodes with a storage-div
+        var existingBlocks = document.getElementById('canvas').querySelectorAll(".blockid");
+        //We get the id and name of the older block
+        var tempDelBlockId = (JSON.parse(detachedBlocks[0][0]).blockId) ? JSON.parse(detachedBlocks[0][0]).blockId : detachedBlocks[0][0];
+
+            // var tempDelBlockName = ((detachedBlocks[0].constructor === Array)
+            //                       ? JSON.parse(detachedBlocks[0][0]).inputValues[0]
+            //                       : JSON.parse(detachedBlocks[0]).inputValues[0]);
+
+          //Compare the id of existing blocks and the deleted block if they match, the blocks were not
+          //deleted but onyl moved -> then remove block from deletedBlocks
+          var blockWasDeleted = true;
+        for (var i=0; i<existingBlocks.length; i++){
+          var existingBlockId = existingBlocks[i].value;
+          if (existingBlockId == tempDelBlockId){
+            //Iterate over all blocks within the array of blocks that had been reattached
+            for (var j=detachedBlocks[0].length-1; j >= 0; j--){
+              // Get the id of the single block
+              var id = (JSON.parse(detachedBlocks[0][j]).blockId) ? JSON.parse(detachedBlocks[0][j]).blockId : id = detachedBlocks[0][j];
+              //Copy data in in blocks.detached back to blocks
+              blocks[parseInt(id)] = blocks.detached[parseInt(id)];
+              //And delete the data from the normal blocks
+              delete blocks.detached[parseInt(id)];
+            }
+            //Remove block from deleted blocks
+            detachedBlocks.splice(0, 1);
+            blockWasDeleted = false;
+          }
+        }
+        if (blockWasDeleted) {
+          //Iterate over the array and
+            for (var j=detachedBlocks[0].length-1; j >= 0; j--){
+              var id;
+              if (JSON.parse(detachedBlocks[0][j]).blockId){
+                id = JSON.parse(detachedBlocks[0][j]).blockId;
+                //Push it to deleted blocks and delete the single block from the array
+                deletedBlocks.push(detachedBlocks[0].pop());
+              } else {
+                //Get the id to delete it from blocks later
+                id = detachedBlocks[0][j];
+                detachedBlocks[0].pop();
+              }
+              delete blocks.detached[parseInt(id)];
+            }
+            //Then delete the empty array in detachedBlocks that contained the blocks
+            detachedBlocks.splice(0, 1);
+        }
+        //If detachedBlocks.length was originally 2 one block is left. As we only
+        //want one or two blocks in the array for predictability, set releaseCounter to one
+        if (args[0] === 'onRelease') {
+        releaseCounter = (len == 2) ? 1 : 0;
+      }
+  }
+}
+
+function showDeletedBlocks(){
+  if (detachedBlocks.length !== 0 ){
+    checkDetachedBlocks();
+  }
+  blockList = '';
+  if (deletedBlocks.length !== 0){
+  for (var i=0; i<deletedBlocks.length; i++) {
+    el = JSON.parse(deletedBlocks[i]);
+    blockList += `<div class="blockelem create-flowy noselect"><input type="hidden" name="blockelemtype" class="blockelemtype" value=${20+i}><div class="grabme"><img src="{% static 'flowy/assets/grabme.svg' %}"></div><div class="blockin"><div class="blockico"><span></span><img src="{% static 'flowy/assets/eye.svg' %}"></div><div class="blocktext"><p class="blocktitle">Deleted Block</p><p class="blockdesc">${el.inputValues[0]}</p></div></div></div><div class="finaldelete" data-id=${20+i}>Delete</div>`
+  }
+} else {
+  blockList += '<p>You have no deleted nodes.</p>'
+}
+  return blockList
+}
+
+
+//Helper functions
+    function hasParentClass(element, classname) {
+        if (element.className) {
+            if (element.className.split(' ').indexOf(classname)>=0) return true;
+        }
+        return element.parentNode && hasParentClass(element.parentNode, classname);
+    }
+
+    function addEventListenerMulti(type, listener, capture, selector, parentElement) {
+      parent = (parentElement) ? parentElement : document;
+        var nodes = parent.querySelectorAll(selector);
+        for (var i = 0; i < nodes.length; i++) {
+            nodes[i].addEventListener(type, listener, capture);
+        }
+    }
+
+function deleteButtonForDeletedBlocks(event){
+  blockTypeValue = parseInt(event.target.getAttribute("data-id"));
+  index = blockTypeValue - 20;
+  //Remove block
+  deletedBlocks.splice(index, 1);
+  //Rerender the menu with deleted blocks
+  document.getElementById('actions').click();
+}
+
+var updatedBlocks = function(){
+  checkDetachedBlocks();
+  return blocks;
+}
+
+// Attach listeners
+
+        // document.getElementById("removeblock").addEventListener("click", function(){
+        //  flowy.deleteBlocks();
+        // });
+
+{% if production is True %}
+
+    //Warn user before reload to prevent data loss
+    window.addEventListener('beforeunload', function (event) {
+    event.preventDefault();
+    event.returnValue = '';
+  })
+
+  //Prompt for tree name
+  var treeName = prompt("Please enter the name for your new decision tree. At the moment, the builder has no save functionality but feel free to play around.");
+
+    if (treeName == null || treeName == "") {
+   treeName = "Default Tree";
+} else {
+  document.getElementById('title').textContent = treeName;
+}
+{% endif %}
+
+    addEventListener("mousedown", beginTouch, false);
+    addEventListener("mousemove", checkTouch, false);
+    addEventListener("mouseup", doneTouch, false);
+    addEventListenerMulti("touchstart", beginTouch, false, ".block");
+    addEventListenerMulti("click", unHide, false, ".nodepropswitch");
+    clickedCanvas();
+
+    addEventListenerMulti("click", disabledClick, false, ".side");
+    document.getElementById("close").addEventListener("click", function(){
+       if (rightcard) {
+         saveNodeProperties();
+           rightcard = false;
+           document.getElementById("properties").classList.remove("expanded");
+           setTimeout(function(){
+                document.getElementById("propwrap").classList.remove("itson");
+           }, 300);
+            tempblock.classList.remove("selectedblock");
+       }
+    });
+
+    document.getElementById("publish").addEventListener("click", function(){
+      //console.log(JSON.stringify(flowy.output()))
+      console.log(updatedBlocks());
+    });
+
+
+    $("#id_input_type").change(function () {
+      $.fn.loadForms(this.value);
+        });
+
+    });
+
+    </script>
+</body>
+</html>

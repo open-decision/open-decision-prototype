@@ -107,7 +107,6 @@
             <div class="card-footer py-4">
               <nav aria-label="...">
                 <ul class="pagination justify-content-end mb-0">
-
                   <li class="page-item mr-3">
                     {{ form.name |addclass:'form-control form-control-user; _("Name of the new Tree")'}}
                   </li>
@@ -147,19 +146,26 @@
     </div>
 
     <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
+  {% if not new_user %}
+    <script type="text/javascript" src="{% static 'tours/dashboard-tour.js' %}"></script>
+    {% endif %}
     <script>
     $(document).ready(function(){
 
+      makeTrClickable();
       // Make the table rows clickable
-    $('.tr-clickable').click(function(e){
-      // Do not react to clicks on elements with no-bubbling class (the dropdown menu)
-      if (!$(e.target).hasClass("no-bubbling")){
-         window.location = $(this).attr('data-href');
-      };
-    });
+      function makeTrClickable() {
+        $('.tr-clickable').click(function(e){
+          // Do not react to clicks on elements with no-bubbling class (the dropdown menu)
+          if (!$(e.target).hasClass("no-bubbling")){
+             window.location = $(this).attr('data-href');
+          };
+        });
+      }
 
       $("#addTree").click(function () {
         var name = $("#id_name").val();
+          $("#id_name").val('').removeAttr('required');
             $.post({
               url: "{% url 'add_tree' %}",
               headers: {'X-CSRFToken': '{{ csrf_token }}'},
@@ -168,23 +174,8 @@
               },
               success: function (data) {
                 $(".tree-table tbody").append(data);
-                var rowCount = $("#tree-counter").first().html();
                 $("#empty-table-help").hide();
-
-                // console.log(data);
-                // if (data.match(/^<tr/)) {
-                //   $(".tree-table tbody").append(data);
-                //   var rowCount = $("#tree-counter").first().html();
-                //   $("#empty-table-help").hide();
-                //   console.log(rowCount)
-                // } else {
-                //   console.log("Error")
-                // }
-
-                 //$('<div class="item">Item 3</div>').insertAfter('.item:last');
-                // $("#id_name").empty();
-                // $("#trees").empty();
-                // $("#trees").html(data);
+                makeTrClickable();
               }
             });
           });
@@ -215,8 +206,6 @@
           $('#tr_' + treeId).remove();
           var rowCount = $("#tree-counter").first().html();
           $("#empty-table-help").hide();
-          console.log(rowCount);
-
                 }
               });
             });
