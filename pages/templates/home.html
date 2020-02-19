@@ -7,7 +7,7 @@
 
 <header class="masthead text-center text-white">
   <div class="masthead-content">
-    <h2 class="masthead-heading mb-0">Open Decision</h2>
+    <h2 id="heading" class="masthead-heading mb-0"></h2>
       <div class="container">
         <div class="row align-items-center">
           <div class="col-lg-6 order-lg-1">
@@ -80,4 +80,18 @@
     </div>
   </div>
 </section>
+<script type="text/javascript">
+var i = 0;
+var txt = 'Open Decision';
+var speed = 75; 
+
+function typeWriter() {
+if (i < txt.length) {
+  document.getElementById("heading").innerHTML += txt.charAt(i);
+  i++;
+  setTimeout(typeWriter, speed);
+}
+}
+typeWriter();
+</script>
 {%endblock%}
