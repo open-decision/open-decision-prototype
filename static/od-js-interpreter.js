@@ -81,8 +81,12 @@ function listener (event) {
   // Support IE6-8
  let target = event.target || event.srcElement;
 
- //Haptic Feedback on mobile devices
+//Haptic Feedback on mobile devices
+ if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
   window.navigator.vibrate(50);
+ }
+
+
 
   if (target.id == 'answer-button') {
     let answerId = parseInt(target.value);
