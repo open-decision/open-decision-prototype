@@ -338,9 +338,11 @@ def build_tree (slug, request):
                         ])
                 # If dict does not exist
                 except KeyError:
+                    temp_answers_logic = l['answers_logic'].splitlines()
+                    temp_answers_logic = [single_answer.strip() for single_answer in temp_answers_logic]
                     export[n.slug]['rules'] = {
                     'if' : [
-                        {'in': [{"var":"answer"}, l['answers_logic'].splitlines()]}, "0",
+                        {'in': [{"var":"answer"}, temp_answers_logic]}, "0",
                     ]}
 
                 # Then build the results block
