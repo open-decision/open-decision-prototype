@@ -10,12 +10,19 @@ preString,
 log,
 // The div-container in which the tree is rendered in (where the question, buttons etc. is shown)
 selectedDiv,
-
+// Boolean to determine if the device can vibrate
+supportsVibration,
+// Object  to expose the internal functions
  expose = {};
 
 expose.init = function (path, divId) {
   tree = path;
   selectedDiv = divId;
+  try{
+    window.navigator.vibrate(1);
+    supportsVibration = true;
+  }catch(e){supportsVibration = false;
+  }
   displayTree();
 };
 
@@ -82,11 +89,9 @@ function listener (event) {
  let target = event.target || event.srcElement;
 
 //Haptic Feedback on mobile devices
- if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+if (supportsVibration){
   window.navigator.vibrate(50);
- }
-
-
+}
 
   if (target.id == 'answer-button') {
     let answerId = parseInt(target.value);
