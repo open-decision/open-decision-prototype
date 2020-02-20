@@ -81,6 +81,9 @@ function listener (event) {
   // Support IE6-8
  let target = event.target || event.srcElement;
 
+ //Haptic Feedback on mobile devices
+  window.navigator.vibrate(50);
+
   if (target.id == 'answer-button') {
     let answerId = parseInt(target.value);
     let answer = tree[currentNode].answers[answerId];
