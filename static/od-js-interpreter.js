@@ -19,10 +19,6 @@ expose.init = function (path, divId) {
   displayTree();
 };
 
-expose.getTreeName = function () {
-  return tree.header.tree_name
-};
-
 // Listener for hashchange in the URL if the user clicks the browser's back-button
 // The hash tells us the node name, that is currently displayed
 window.onhashchange = function() {
@@ -56,13 +52,13 @@ function displayNode () {
 
   if (tree[currentNode].input_type == 'button') {
     for (let i = 0; i < tree[currentNode].answers.length; i++) {
-        string += '<button type="button" class="btn btn-primary ml-2" id="answer-button">' + tree[currentNode].answers[i] + '</button>'
+        string += '<button type="button" class="btn btn-primary ml-2" id="answer-button" value=' + i + '>' + tree[currentNode].answers[i] + '</button>'
       }
     }
   else if (tree[currentNode].input_type == 'list') {
     string += '<select id="list-select">'
     for (let i = 0; i < tree[currentNode].answers.length; i++) {
-      string += '<option value=' + tree[currentNode].answers[i] + '>' + tree[currentNode].answers[i] + '</option>'
+      string += '<option value=' + i + '>' + tree[currentNode].answers[i] + '</option>'
       }
       string += '</select><br><button type="button" class="btn btn-primary ml-2 mt-3" id="submit-list-button">Submit</button>'
     }
@@ -86,11 +82,13 @@ function listener (event) {
  let target = event.target || event.srcElement;
 
   if (target.id == 'answer-button') {
-    let answer = target.textContent;
+    let answerId = parseInt(target.value);
+    let answer = tree[currentNode].answers[answerId];
     checkAnswer(answer, 'button');
 
   } else if (target.id == 'submit-list-button') {
-    let answer = document.getElementById("list-select").value;
+    let answerId = parseInt(document.getElementById("list-select").value);
+    let answer = tree[currentNode].answers[answerId];
     checkAnswer(answer, 'list');
 
   } else if (target.id == 'submit-number-button') {
