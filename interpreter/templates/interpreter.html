@@ -1,22 +1,23 @@
 {% extends 'base.html' %}
 {%block content%}
-<h2 class="pageheader">Interpreter (Demo)</h2>
-<p>{{question}}</p>
-<div class="flex-container">
-{% for item in answers %}
-<form method="POST">{%csrf_token%}
-    {% if item == 'Nein' %}
-        <div><button class="button" type="submit" name="action" id="submit" value={{item}}>{{item}}</button></div>
-    {% else %}
-        <div><button class="button" type="submit" name="action" id="submit" value={{item}}>{{item}}</button></div>
-    {% endif %}
-</form>
-{% endfor %}
-</div>
-<br>
-<form method="POST">{%csrf_token%}
-<button class="button" type="submit" name="restart" value=True>Neustart</button>
-</form>
-<br>
+{% load static %}
+{% load i18n %}
 
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<div id="publish-div">
+</div>
+</body>
+</html>
+
+<script type="text/javascript" src="{% static 'logic.js' %}"></script>
+<script type="text/javascript" src="{% static 'od-js-interpreter.js' %}"></script>
+<script type="text/javascript">
+var  publishedTree = {{tree_data|safe}};
+openDecision.init (publishedTree, "publish-div");
+
+</script>
 {%endblock%}
