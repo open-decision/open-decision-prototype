@@ -93,7 +93,7 @@ def export_tree(request, slug):
         }
         return render(request, 'export.html', context)
     else:
-        data = check_tree(slug)
+        data = check_tree(slug, request)
         errors = data[0]
         all_nodes = data[1]
         errors['no_answers'] = [all_nodes.get(id=element) for element in errors['no_answers']]
@@ -107,7 +107,7 @@ def export_tree(request, slug):
         return render(request, 'export.html', errors)
 
 
-def check_tree(slug):
+def check_tree(slug, request):
     # Build dic with tree structure to check tree integrity
     # todo: are answers matching to logic? button -> make field not editable; how to check others?
     all = Node.objects.filter(decision_tree__owner=request.user).filter(decision_tree__slug=slug)

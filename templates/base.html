@@ -1,10 +1,13 @@
 {% load static %}
-<!DOCTYPE html>
+{% load analytical %}
 {% load i18n %}
+
+<!DOCTYPE html>
 
 <html lang="en">
 
 <head>
+  {% analytical_head_top %}
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -21,11 +24,11 @@
   <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
   <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}"/>
-
+  {% analytical_head_bottom %}
 </head>
 
 <body id="page-top">
-
+{% analytical_body_top %}
   <!-- Page Wrapper -->
   <div id="wrapper">
   <input type="hidden" name="static-path" id="static-path" value="{% static '' %}">
@@ -337,5 +340,6 @@
     );
     </script>
   </div>
+  {% analytical_body_bottom %}
 </body>
 </html>

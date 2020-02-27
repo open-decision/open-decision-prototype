@@ -23,6 +23,8 @@ DATABASES = {
     }
 }
 
+PIWIK_DOMAIN_PATH = 'https://odmatomo.uber.space/matomo'
+PIWIK_SITE_ID = '1'
 
 if os.environ.get('DJANGO_PRODUCTION') is not None:
     # SECURITY WARNING: don't run with debug turned on in production!
@@ -58,6 +60,7 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
         'django.contrib.staticfiles',
 
         'ckeditor',
+        'analytical',
 
         'interpreter',
         'pages',
@@ -80,6 +83,7 @@ else:
 
         'ckeditor',
         'debug_toolbar',
+        'analytical',
 
         'interpreter',
         'pages',
