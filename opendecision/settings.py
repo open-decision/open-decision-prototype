@@ -23,7 +23,7 @@ DATABASES = {
     }
 }
 
-PIWIK_DOMAIN_PATH = 'https://odmatomo.uber.space/matomo'
+PIWIK_DOMAIN_PATH = 'https://odmatomo.uber.space/matomo/'
 PIWIK_SITE_ID = '1'
 
 if os.environ.get('DJANGO_PRODUCTION') is not None:
