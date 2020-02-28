@@ -38,7 +38,7 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
     DATABASES['default'].update(db_from_env)
 
     # E-Mail configuration
-    EMAIL_HOST = 'smtp-relay.sendinblue.com'
+    EMAIL_HOST = os.environ.get('SMTP_SERVER')
     EMAIL_PORT = 587
     EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
     EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
