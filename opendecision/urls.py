@@ -71,5 +71,6 @@ if settings.DEBUG:
     ] + urlpatterns
 
 # Error pages
+handler403 = 'pages.views.handler403'
 handler404 = 'pages.views.handler404'
 handler500 = 'pages.views.handler500'
