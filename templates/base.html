@@ -25,10 +25,11 @@
   <!-- Matomo -->
 <script type="text/javascript">
   var _paq = window._paq || [];
+  var userName = '{{ user.username }}';
   /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-  {% if user.is_authenticated %}
-  _paq.push(['setUserId', '{{ user.username }}']);
-  {% endif %}
+  if (userName !== '') {
+    _paq.push(['setUserId', userName]);
+  }
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function() {
@@ -40,12 +41,6 @@
   })();
 </script>
 <!-- End Matomo Code -->
-<!-- Matomo Image Tracker-->
-<noscript>
-<img src="https://odmatomo.uber.space/matomo/matomo.php?idsite=1&amp;rec=1" style="border:0" alt="" />
-</noscript>
-<!-- End Matomo -->
-
 </head>
 
 <body id="page-top">
