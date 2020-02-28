@@ -37,6 +37,16 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
     db_from_env = dj_database_url.config(conn_max_age=500)
     DATABASES['default'].update(db_from_env)
 
+    # E-Mail configuration
+    EMAIL_HOST = 'smtp-relay.sendinblue.com'
+    EMAIL_PORT = 587
+    EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
+    EMAIL_USE_TLS = True
+
+    # Admin  configuration
+    ADMINS = [('Finn', os.environ.get('ADMIN_EMAIL'))]
+
     MIDDLEWARE = [
         'django.middleware.security.SecurityMiddleware',
          'whitenoise.middleware.WhiteNoiseMiddleware',
