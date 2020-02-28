@@ -83,7 +83,6 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
 else:
     DEBUG = True
     SECRET_KEY = '678&exk6aus^#z8j+#tco4%_bgv6mvd6!kcf!gokhza$)3sjql'
-    ALLOWED_HOSTS = []
     INSTALLED_APPS = [
         'django.contrib.admin',
         'django.contrib.auth',
