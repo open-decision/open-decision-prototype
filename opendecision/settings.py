@@ -23,9 +23,6 @@ DATABASES = {
     }
 }
 
-PIWIK_DOMAIN_PATH = 'https://odmatomo.uber.space/matomo/'
-PIWIK_SITE_ID = '1'
-
 if os.environ.get('DJANGO_PRODUCTION') is not None:
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = False
@@ -60,7 +57,6 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
         'django.contrib.staticfiles',
 
         'ckeditor',
-        'analytical',
 
         'interpreter',
         'pages',
@@ -83,7 +79,6 @@ else:
 
         'ckeditor',
         'debug_toolbar',
-        'analytical',
 
         'interpreter',
         'pages',
@@ -123,12 +118,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'opendecision.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -176,4 +165,4 @@ INTERNAL_IPS = [
 ]
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
-LOGIN_REDIRECT_URL = '/dashboard'
+LOGIN_REDIRECT_URL = '/dashboard/'

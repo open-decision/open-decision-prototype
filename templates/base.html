@@ -1,5 +1,4 @@
 {% load static %}
-{% load analytical %}
 {% load i18n %}
 
 <!DOCTYPE html>
@@ -7,7 +6,6 @@
 <html lang="en">
 
 <head>
-  {% analytical_head_top %}
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -24,11 +22,13 @@
   <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
   <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}"/>
-  {% analytical_head_bottom %}
   <!-- Matomo -->
 <script type="text/javascript">
   var _paq = window._paq || [];
   /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  {% if user.is_authenticated %}
+  _paq.push(['setUserId', '{{ user.username }}']);
+  {% endif %}
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function() {
@@ -41,12 +41,14 @@
 </script>
 <!-- End Matomo Code -->
 <!-- Matomo Image Tracker-->
+<noscript>
 <img src="https://odmatomo.uber.space/matomo/matomo.php?idsite=1&amp;rec=1" style="border:0" alt="" />
+</noscript>
 <!-- End Matomo -->
+
 </head>
 
 <body id="page-top">
-{% analytical_body_top %}
   <!-- Page Wrapper -->
   <div id="wrapper">
   <input type="hidden" name="static-path" id="static-path" value="{% static '' %}">
@@ -358,6 +360,5 @@
     );
     </script>
   </div>
-  {% analytical_body_bottom %}
 </body>
 </html>

@@ -5,7 +5,6 @@ cffi==1.13.2
 cryptography==2.8
 dj-database-url==0.5.0
 Django==3.0.3
-django-analytical==2.5.0
 django-ckeditor==5.8.0
 django-debug-toolbar==2.1
 django-js-asset==1.2.2
