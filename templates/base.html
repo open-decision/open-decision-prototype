@@ -25,11 +25,16 @@
   <!-- Matomo -->
 <script type="text/javascript">
   var _paq = window._paq || [];
-  var userName = '{{ user.username }}';
-  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-  if (userName !== '') {
-    _paq.push(['setUserId', userName]);
-  }
+  //Deactivated for GDPR compliance
+  // var userName = '{{ user.username }}';
+  // /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  // if (userName !== '') {
+  //   _paq.push(['setUserId', userName]);
+  // } else {
+  //   _paq.push(['resetUserId']);
+  // }
+  // Disable cookies for the moment
+  _paq.push(['disableCookies']);
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function() {
