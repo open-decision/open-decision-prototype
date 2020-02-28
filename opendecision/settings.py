@@ -44,6 +44,11 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
     EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
     EMAIL_USE_TLS = True
 
+    # Sender mails
+    SERVER_EMAIL = os.environ.get('SERVER_EMAIL')
+    DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
+
+
     # Admin  configuration
     ADMINS = [('Finn', os.environ.get('ADMIN_EMAIL'))]
 
