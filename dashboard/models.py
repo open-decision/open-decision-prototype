@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 from ckeditor.fields import RichTextField
 import bleach
 
@@ -43,7 +43,7 @@ class RichTextBleachField(RichTextField):
 class DecisionTree(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     name       = models.CharField(max_length=200)
-    owner      = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    owner      = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     slug       = models.SlugField(default="")
 
     class Meta:

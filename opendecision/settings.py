@@ -15,6 +15,7 @@ from .ckeditor_settings import *
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+AUTH_USER_MODEL = 'users.CustomUser'
 
 DATABASES = {
     'default': {
@@ -73,6 +74,7 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
 
         'ckeditor',
 
+        'users',
         'interpreter',
         'pages',
         'builder',
@@ -94,6 +96,7 @@ else:
         'ckeditor',
         'debug_toolbar',
 
+        'users',
         'interpreter',
         'pages',
         'builder',
