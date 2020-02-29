@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.contrib.auth import login, authenticate
-from .forms import SignUpForm
+from users.forms import CustomUserCreationForm
 from .models import PublishedTree
 import random, string, json
 from dashboard.views import build_tree
@@ -33,19 +33,19 @@ def register_user(request):
     if request.user.is_authenticated:
         return redirect('/dashboard')
     if request.method == 'POST':
-        form = SignUpForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            username = form.cleaned_data.get('username')
+            email = form.cleaned_data.get('email')
             raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
+            user = authenticate(username=email, password=raw_password)
             login(request, user)
             return redirect('/dashboard')
     else:
-        form = SignUpForm()
+        form = CustomUserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
 
-def handler403(request):
+def handler403(request, exception):
     return render(request, '403.html', status=403)
 
 def handler404(request, exception):

@@ -26,7 +26,7 @@
 
                   {% if form.errors %}
                   <div class="border-left-danger pl-2">
-                    <p>{% trans "Your username and password didn't match. Please try again." %}</p>
+                    <p>{% trans "Your e-mail and password didn't match. Please try again." %}</p>
                   </div>
                   {% endif %}
 
@@ -40,7 +40,7 @@
                       {% csrf_token %}
                     <div class="form-group">
                       <!-- addclass takes to arguments, first the css class, second the placeholder -->
-                      {{ form.username |addclass:'form-control form-control-user; _("Enter Username")' }}
+                      {{ form.username |addclass:'form-control form-control-user; _("Enter Email")' }}
                     </div>
                     <div class="form-group">
                       {{ form.password |addclass:'form-control form-control-user; _("Password")' }}

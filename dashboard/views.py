@@ -3,7 +3,6 @@ from django.shortcuts import render, redirect
 from django.views import generic
 from .models import DecisionTree, Node
 from .forms import DecisionTreeForm
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.text import slugify
 from django.db.models import Count
