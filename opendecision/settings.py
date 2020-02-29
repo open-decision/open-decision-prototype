@@ -23,7 +23,6 @@ DATABASES = {
     }
 }
 
-
 if os.environ.get('DJANGO_PRODUCTION') is not None:
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = False
@@ -37,6 +36,21 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
     import dj_database_url
     db_from_env = dj_database_url.config(conn_max_age=500)
     DATABASES['default'].update(db_from_env)
+
+    # E-Mail configuration
+    EMAIL_HOST = os.environ.get('SMTP_SERVER')
+    EMAIL_PORT = 587
+    EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
+    EMAIL_USE_TLS = True
+
+    # Sender mails
+    SERVER_EMAIL = os.environ.get('SERVER_EMAIL')
+    DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
+
+
+    # Admin  configuration
+    ADMINS = [('Finn', os.environ.get('ADMIN_EMAIL'))]
 
     MIDDLEWARE = [
         'django.middleware.security.SecurityMiddleware',
@@ -69,7 +83,6 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
 else:
     DEBUG = True
     SECRET_KEY = '678&exk6aus^#z8j+#tco4%_bgv6mvd6!kcf!gokhza$)3sjql'
-    ALLOWED_HOSTS = []
     INSTALLED_APPS = [
         'django.contrib.admin',
         'django.contrib.auth',
@@ -120,12 +133,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'opendecision.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-
-
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
@@ -172,4 +179,4 @@ INTERNAL_IPS = [
 ]
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
-LOGIN_REDIRECT_URL = '/dashboard'
+LOGIN_REDIRECT_URL = '/dashboard/'

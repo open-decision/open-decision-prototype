@@ -1,6 +1,7 @@
 {% load static %}
-<!DOCTYPE html>
 {% load i18n %}
+
+<!DOCTYPE html>
 
 <html lang="en">
 
@@ -21,11 +22,33 @@
   <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
   <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}"/>
-
+  <!-- Matomo -->
+<script type="text/javascript">
+  var _paq = window._paq || [];
+  //Deactivated for GDPR compliance
+  // var userName = '{{ user.username }}';
+  // /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  // if (userName !== '') {
+  //   _paq.push(['setUserId', userName]);
+  // } else {
+  //   _paq.push(['resetUserId']);
+  // }
+  // Disable cookies for the moment
+  _paq.push(['disableCookies']);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//odmatomo.uber.space/matomo/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- End Matomo Code -->
 </head>
 
 <body id="page-top">
-
   <!-- Page Wrapper -->
   <div id="wrapper">
   <input type="hidden" name="static-path" id="static-path" value="{% static '' %}">
