@@ -1,9 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import ugettext_lazy as _
-from django.db.models.signals import post_save
 from django.dispatch import receiver
-
+from allauth.account.signals import user_signed_up
 from .managers import CustomUserManager
 
 
@@ -32,11 +31,6 @@ class Profile(models.Model):
     saw_visualbuilder = models.BooleanField(default=False)
 
 
-@receiver(post_save, sender=CustomUser)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-
-@receiver(post_save, sender=CustomUser)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+@receiver(user_signed_up, sender=CustomUser)
+def create_user_profile(sender, user, **kwargs):
+    Profile.objects.create(user=user)
