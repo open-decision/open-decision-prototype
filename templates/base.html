@@ -251,7 +251,8 @@
                     </a>
                   </li> -->
                   <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login'%}?next=/dashboard"  role="button" >
+                    <a class="nav-link" href="?next=/dashboard"  role="button" >
+
                       <span class="mr-2 d-none d-lg-inline text-gray-800 medium">{% trans "Login" %}</span>
                       <i class="fas fa-sign-in-alt"></i>
                     </a>
@@ -328,7 +329,7 @@
         <div class="modal-body">{% trans "Select 'Logout' below if you are ready to end your current session." %}</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">{% trans "Cancel" %}</button>
-          <a class="btn btn-primary" href="{% url 'logout'%}?next=/">{% trans "Logout" %}</a>
+          <a class="btn btn-primary" href="?next=/">{% trans "Logout" %}</a>
         </div>
       </div>
     </div>

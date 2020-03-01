@@ -71,8 +71,12 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
         'django.contrib.sessions',
         'django.contrib.messages',
         'django.contrib.staticfiles',
+        'django.contrib.sites',
 
         'ckeditor',
+        'allauth',
+        'allauth.account',
+        'allauth.socialaccount',
 
         'users',
         'interpreter',
@@ -92,9 +96,13 @@ else:
         'django.contrib.sessions',
         'django.contrib.messages',
         'django.contrib.staticfiles',
+        'django.contrib.sites',
 
         'ckeditor',
         'debug_toolbar',
+        'allauth',
+        'allauth.account',
+        'allauth.socialaccount',
 
         'users',
         'interpreter',
@@ -154,7 +162,21 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = (
 
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+
+)
+SITE_ID = 1
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
