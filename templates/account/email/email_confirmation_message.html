@@ -13,8 +13,7 @@
 <title>Please confirm your E-Mail</title>
 </head>
 
-<body itemscope itemtype="http://schema.org/EmailMessage" bgcolor="#375ece">
-	<img src="https://open-decision.herokuapp.com{% static 'img/od_logo_white.png' %}" width="50" height= "50" alt="Open Decision Logo" style="display: block; margin-left: auto; margin-right: auto;" />
+<body itemscope itemtype="http://schema.org/EmailMessage">
 <table class="body-wrap">
 	<tr>
 		<td></td>
@@ -25,6 +24,11 @@
 						<td class="content-wrap">
 							<meta itemprop="name" content="Confirm Email"/>
 							<table width="100%" cellpadding="0" cellspacing="0">
+								<tr>
+									<td align="center" bgcolor="#375ece" style="padding: 15px 0 10px 0;">
+										<img src="https://open-decision.herokuapp.com{% static 'img/od_logo_white.png' %}" width="50" height= "50" alt="Open Decision Logo" style="display: block;" />
+									</td>
+								</tr>
 								<tr>
 									<td>
 										<h1>Thanks for joining Open Decision!</h1>
