@@ -104,6 +104,7 @@ else:
         'allauth',
         'allauth.account',
         'allauth.socialaccount',
+        'django_inlinecss',
 
         'users',
         'interpreter',
