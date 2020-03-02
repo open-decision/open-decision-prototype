@@ -100,8 +100,10 @@
 }
 /*badges END */
 
-/*node_create form*/
+/*User forms*/
+/*user forms END */
 
+/*node_create form*/
 .errorlist, .errorlist nonfield {
   color:red;
   list-style-type:none;
