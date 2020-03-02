@@ -1,12 +1,5 @@
 {% load account %}
-{% user_display user as user_display %}
 {% load i18n %}
 {% autoescape off %}
-{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
-Thanks for joining Open Decision!
-Please confirm your email address you are using for Open Decision by clicking the link below.
-To confirm this is correct, go to {% endblocktrans %}{{ activate_url }}
-
-{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
-{% endblocktrans %}
+{% trans "Thanks for joining Open Decision! Please confirm your email address you are using for Open Decision by clicking the link below. To confirm this is correct, go to" %}{{ activate_url }}
 {% endautoescape %}
