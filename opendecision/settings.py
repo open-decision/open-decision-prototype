@@ -77,6 +77,7 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
         'allauth',
         'allauth.account',
         'allauth.socialaccount',
+        'django_inlinecss'
 
         'users',
         'interpreter',
