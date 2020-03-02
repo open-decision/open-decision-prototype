@@ -84,8 +84,8 @@ Access the server at [http://localhost:8000](http://localhost:8000) or [http://1
 Now you can create an account and start playing around or use the demo-account to get a first impression:
 
 ```
-User: Testperson
-Password: Mustermann1
+User: test@test.com
+Password: Testuser1
 ```
 
 ## Built With

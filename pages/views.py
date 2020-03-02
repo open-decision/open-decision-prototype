@@ -29,22 +29,6 @@ def test_view(request, *args, **kwargs):
     context = {}
     return render(request, 'test.html', context)
 
-def register_user(request):
-    if request.user.is_authenticated:
-        return redirect('/dashboard')
-    if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            email = form.cleaned_data.get('email')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=email, password=raw_password)
-            login(request, user)
-            return redirect('/dashboard')
-    else:
-        form = CustomUserCreationForm()
-    return render(request, 'registration/register.html', {'form': form})
-
 def handler403(request, exception):
     return render(request, '403.html', status=403)
 

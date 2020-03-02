@@ -1,0 +1,78 @@
+{% extends "account/base.html" %}
+{% block account_content %}
+{% load custom_filters %}
+{% load static %}
+{% load i18n %}
+<div class="container bg-gradient-primary">
+  {% block messages %}
+  {% if messages %}
+  <div>
+    <ul>
+      {% for message in messages %}
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>{{message}}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+  {% endblock %}
+  <div class="row justify-content-center">
+
+    <div class="col-xl-10 col-lg-12 col-md-9">
+
+      <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+          <!-- Nested Row within Card Body -->
+          <div class="row">
+            <div class="col-lg-6 d-none d-lg-block">
+              <img class="img-fluid mt-3 p-5" src="{% static 'img/login.svg' %}" alt="Login Illustration">
+            </div>
+            <div class="col-lg-6">
+              <div class="p-5">
+                <div class="text-center">
+                  <h1 class="h4 text-gray-900 mb-4">{% trans "Welcome Back!" %}</h1>
+                </div>
+                <form class="container-fluid text-center" id="login_form" method="POST" action="{% url 'account_login' %}">
+                  {% csrf_token %}
+                  {% if form.errors %}
+                  <div class="border-left-danger pl-2">
+                    <p>{% trans "Your e-mail and password didn't match. Please try again." %}</p>
+                  </div>
+                  {% endif %}
+                  <p>{{ form.login |addclass:'form-control form-control-user; _("Email")' }}</p>
+                  <p>{{ form.password |addclass:'form-control form-control-user; _("Password")' }}</p>
+
+
+                  {% if redirect_field_value %}
+
+                  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+
+                  {% endif %}
+
+                  <button class="btn btn-outline-primary " type="submit">{% trans "Sign In" %}</button>
+                  <a class="btn btn-outline-dark" href="{% url 'account_reset_password' %}">{% trans "Forgot Password ?" %}</a>
+                </form>
+                {% load account socialaccount %}
+
+                {% get_providers as socialaccount_providers %}
+                <ul class="social_providers_list">
+                  {% for provider in socialaccount_providers %}
+                  <a title="{{provider.name}}" class="btn btn-outline-dark" href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}"><i class="fa fa-{{provider.name}}" id="social_icon"></i>{{provider.name}}</a>
+                  {% endfor %}
+                </ul>
+                <div class="text-center">
+                  <a class="medium" href="{% url 'account_signup' %}">{% trans "Create an Account!" %}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

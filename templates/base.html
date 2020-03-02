@@ -15,46 +15,52 @@
   <title>open decision</title>
 
   <!-- Custom fonts for this template-->
-  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}"  rel="stylesheet" type="text/css">
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
   <!-- Custom styles for this template-->
   <link href="{% static 'css/sb-admin-2.css' %}" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.min.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-  <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}"/>
+  <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" />
   <!-- Matomo -->
-<script type="text/javascript">
-  var _paq = window._paq || [];
-  //Deactivated for GDPR compliance
-  // var userName = '{{ user.username }}';
-  // /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-  // if (userName !== '') {
-  //   _paq.push(['setUserId', userName]);
-  // } else {
-  //   _paq.push(['resetUserId']);
-  // }
-  // Disable cookies for the moment
-  _paq.push(['disableCookies']);
-  _paq.push(['trackPageView']);
-  _paq.push(['enableLinkTracking']);
-  (function() {
-    var u="//odmatomo.uber.space/matomo/";
-    _paq.push(['setTrackerUrl', u+'matomo.php']);
-    _paq.push(['setSiteId', '1']);
-    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
-  })();
-</script>
-<!-- End Matomo Code -->
+  <script type="text/javascript">
+    var _paq = window._paq || [];
+    //Deactivated for GDPR compliance
+    // var userName = '{{ user.username }}';
+    // /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    // if (userName !== '') {
+    //   _paq.push(['setUserId', userName]);
+    // } else {
+    //   _paq.push(['resetUserId']);
+    // }
+    // Disable cookies for the moment
+    _paq.push(['disableCookies']);
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u = "//odmatomo.uber.space/matomo/";
+      _paq.push(['setTrackerUrl', u + 'matomo.php']);
+      _paq.push(['setSiteId', '1']);
+      var d = document,
+        g = d.createElement('script'),
+        s = d.getElementsByTagName('script')[0];
+      g.type = 'text/javascript';
+      g.async = true;
+      g.defer = true;
+      g.src = u + 'matomo.js';
+      s.parentNode.insertBefore(g, s);
+    })();
+  </script>
+  <!-- End Matomo Code -->
 </head>
 
 <body id="page-top">
   <!-- Page Wrapper -->
   <div id="wrapper">
-  <input type="hidden" name="static-path" id="static-path" value="{% static '' %}">
+    <input type="hidden" name="static-path" id="static-path" value="{% static '' %}">
 
     <!-- Sidebar -->
-      {% if user.is_authenticated %}
+    {% if user.is_authenticated %}
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
@@ -73,30 +79,28 @@
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>{% trans "Dashboard" %}</span></a>
       </li>
-              <li id="published-link" class="nav-item">
-          <a class="nav-link" href="/published-trees/">
-            <i class="fas fa-globe-americas"></i>
-            <span>{% trans "Published Trees" %}</span></a>
-          </li>
-          <li id="visualbuilder-link" class="nav-item">
-      <a class="nav-link" href="/visualbuilder/">
-        <i class="fas fa-project-diagram"></i>
-        <span>{% trans "Visualbuilder - Alpha" %}</span></a>
+      <li id="published-link" class="nav-item">
+        <a class="nav-link" href="/published-trees/">
+          <i class="fas fa-globe-americas"></i>
+          <span>{% trans "Published Trees" %}</span></a>
       </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
-              <i class="fas fa-sign-out-alt"></i>
-              <span>{% trans "Logout" %}</span></a>
-          </li>
-          <hr class="sidebar-divider">
-            <li id="help-link" class="nav-item">
-              <a class="nav-link" href="#" data-toggle="modal" data-target="#helpModal">
-                <i class="far fa-question-circle"></i>
-                <span>{% trans "Help" %}</span></a>
-            </li>
-          </li>
+      <li id="visualbuilder-link" class="nav-item">
+        <a class="nav-link" href="/visualbuilder/">
+          <i class="fas fa-project-diagram"></i>
+          <span>{% trans "Visualbuilder - Alpha" %}</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>{% trans "Logout" %}</span></a>
+      </li>
+      <hr class="sidebar-divider">
+      <li id="help-link" class="nav-item">
+        <a class="nav-link" href="#" data-toggle="modal" data-target="#helpModal">
+          <i class="far fa-question-circle"></i>
+          <span>{% trans "Help" %}</span></a>
+      </li>
       {% endif %}
-
     </ul>
     <!-- End of Sidebar -->
 
@@ -110,7 +114,7 @@
 
 
         <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-{% if user.is_authenticated %}
+          {% if user.is_authenticated %}
           <!-- Sidebar Toggle (Topbar) -->
           <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
             <i class="fa fa-bars"></i>
@@ -234,30 +238,31 @@
             <!-- Sidebar Toggle (Topbar) -->
             <a class="navbar-brand" href="/"><img src="{% static 'img/favicon.ico' %}" width="50" height="50" alt="opendecision"></a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                  <li class="nav-item active">
-                    <a class="nav-link" href="/"><span class="mr-2 d-none d-lg-inline text-gray-800 medium">{% trans "Home" %}</span>
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="/"><span class="mr-2 d-none d-lg-inline text-gray-800 medium">{% trans "Home" %}</span>
                     <i class="fas fa-home"></i>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/contact"><span class="mr-2 d-none d-lg-inline text-gray-800 medium">{% trans "Get in touch" %}</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/contact"><span class="mr-2 d-none d-lg-inline text-gray-800 medium">{% trans "Get in touch" %}</span>
                     <i class="fas fa-sms"></i>
-                    </a>
-                  </li>
-                  <!-- <li class="nav-item">
+                  </a>
+                </li>
+                <!-- <li class="nav-item">
                     <a class="nav-link" href="/interpreter"><span class="mr-2 d-none d-lg-inline text-gray-800 medium">{% trans "Interpreter (Demo)" %}</span>
                     <i class="fas fa-suitcase"></i>
                     </a>
                   </li> -->
-                  <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login'%}?next=/dashboard"  role="button" >
-                      <span class="mr-2 d-none d-lg-inline text-gray-800 medium">{% trans "Login" %}</span>
-                      <i class="fas fa-sign-in-alt"></i>
-                    </a>
-                  </li>
-                </ul>
-              </div>
+                <li class="nav-item">
+                  <a class="nav-link" href="/accounts/login/" role="button">
+
+                    <span class="mr-2 d-none d-lg-inline text-gray-800 medium">{% trans "Login" %}</span>
+                    <i class="fas fa-sign-in-alt"></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
             {% endif %}
           </ul>
         </nav>
@@ -267,7 +272,7 @@
         <script type="text/javascript" src="{% static 'jquery.js' %}"></script>
         <script type="text/javascript" src="{% static 'jquery-ui.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'popper.min.js' %}"></script>
-      <!-- <script type="text/javascript" src="{% static 'bootstrap.min.js' %}"></script>-->
+        <!-- <script type="text/javascript" src="{% static 'bootstrap.min.js' %}"></script>-->
         <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
         <script type="text/javascript" src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
@@ -293,15 +298,16 @@
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
             <footer class="footer">
-            <span><a href="http://open-decision.org" target="_blank">Made with <img src="{% static 'flowy/assets/heart.svg' %}"> by the Open Decision Project</a> <a href="https://github.com/fbennets/open-decision" target="_blank">| Github |</a> <a href="/">{% trans "Support" %}</a> <a href="/">{% trans "Imprint" %}</a> <a href="/">{% trans "Privacy policy" %}</a></span>
+              <span><a href="http://open-decision.org" target="_blank">Made with <img src="{% static 'flowy/assets/heart.svg' %}"> by the Open Decision Project</a> <a href="https://github.com/fbennets/open-decision" target="_blank">| Github |</a> <a
+                  href="/">{% trans "Support" %}</a> <a href="/">{% trans "Imprint" %}</a> <a href="/">{% trans "Privacy policy" %}</a></span>
           </div>
         </div>
       </footer>
       <script type="text/javascript">
-      $(document).ready(function(){
-      $('a[href="' + this.location.pathname + '"]').closest('.nav-item').addClass('active');
-});
-</script>
+        $(document).ready(function() {
+          $('a[href="' + this.location.pathname + '"]').closest('.nav-item').addClass('active');
+        });
+      </script>
       <!-- End of Footer -->
 
     </div>
@@ -325,10 +331,16 @@
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <div class="modal-body">{% trans "Select 'Logout' below if you are ready to end your current session." %}</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">{% trans "Cancel" %}</button>
-          <a class="btn btn-primary" href="{% url 'logout'%}?next=/">{% trans "Logout" %}</a>
+        <div class="modal-body">
+          {% trans "Select 'Logout' below if you are ready to end your current session." %}
+          <form class="container-fluid text-center" id="logout_form" method="post" action="{% url 'account_logout' %}">
+            {% csrf_token %}
+            {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+            <button class="btn btn-outline-success" type="submit">{% trans 'Logout' %}</button>
+            <a class="btn btn-outline-danger" id="custom_logout_no" href="/accounts/profile/">{% trans 'Cancel' %}</a>
+          </form>
         </div>
       </div>
     </div>
@@ -345,7 +357,7 @@
         </div>
         <div class="modal-body">{% trans "How can we help you?" %}
           <img class="img-fluid mt-3 p-5" src="{% static 'img/help.svg' %}" alt="Help Illustration">
-      </div>
+        </div>
         <div class="modal-footer">
           <button id="restart-tour" class="btn btn-secondary" type="button">{% trans "Restart Tour" %}</button>
           <a class="btn btn-primary" href="https://fbennet.uber.space/shelves/open-decision" target="_blank">{% trans "User Guides" %}</a>
@@ -353,12 +365,12 @@
       </div>
     </div>
     <script type="text/javascript">
-      document.getElementById("restart-tour").addEventListener("click", function (){
+      document.getElementById("restart-tour").addEventListener("click", function() {
         document.getElementById("close-button").click();
         window.StartTour();
-      }
-    );
+      });
     </script>
   </div>
 </body>
+
 </html>

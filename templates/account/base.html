@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'account/css/Custom-Account-Styles.css' %}" type = "text/css"/>
+{% block content %}
+    {% block account_content %}
+	    {% block messages %}
+      {% endblock %}
+    {% endblock %}
+    {% block content_extra %}
+    {% endblock %}
+    {% block extra_body %}
+    {% endblock %}
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends "account/base.html" %}
+{% block account_content %}
+{% load custom_filters %}
+{% load static %}
+{% load i18n %}
+
+<div class="container">
+  <div class="card o-hidden border-0 shadow-lg my-5">
+    <div class="card-body p-0">
+      <!-- Nested Row within Card Body -->
+      {% block messages %}
+      {% if messages %}
+      <div>
+        <ul>
+          {% for message in messages %}
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>{{message}}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+      {% endblock %}
+      <div class="row">
+        <div class="col-lg-5 d-none d-lg-block">
+          <img class="img-fluid ml-3 mt-5 p-1" src="{% static 'img/celebration.svg' %}" alt="Celebration Illustration">
+        </div>
+        <div class="col-lg-7">
+          <div class="p-5">
+            <div class="text-center">
+              <h1 class="h4 text-gray-900 mb-4">{% trans "Yeah, create an Account!" %}</h1>
+            </div>
+
+            <form class="container-fluid text-center" id="signup_form" method="post" action="{% url 'account_signup' %}">
+              {% csrf_token %}
+              <div class="form-group row">
+                <div class="col-sm-6">
+                  <div class="border-left-danger">
+                    {% for error in form.first_name.errors %}
+                    {{ error }}
+                    {% endfor %}
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="border-left-danger pl-2">
+                    {% for error in form.username.errors %}
+                    {{ error }}<br>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                  {{ form.first_name}}
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="border-left-danger ml-6 pl-2">
+                  {% for error in form.email.errors %}
+                  {{ error }}
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="form-group">
+                {{ form.email |addclass:'form-control form-control-user; _("Enter Email")' }}
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-6">
+                  <div class="border-left-danger">
+                    {% for error in form.password1.errors %}
+                    {{ error }}
+                    {% endfor %}
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="border-left-danger pl-2">
+                    {% for error in form.password2.errors %}
+                    {{ error }}<br>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                  {{ form.password1 |addclass:'form-control form-control-user; _("Password")' }}
+                </div>
+                <div class="col-sm-6">
+                  {{ form.password2 |addclass:'form-control form-control-user; _("Repeat Password")' }}
+                </div>
+              </div>
+              {% if redirect_field_value %}
+              <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+              {% endif %}
+              <button class="btn btn-outline-primary btn-lg mb-3" type="submit">{% trans "Sign Up" %}</button>
+            </form>
+            <div class="text-center">
+              <a class="medium" href="{% url 'account_login' %}">{% trans "Already got an Account?" %}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div </div>
+  {% endblock %}
