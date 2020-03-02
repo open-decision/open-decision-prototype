@@ -15,6 +15,7 @@ from django.core import serializers
 from django.http import JsonResponse
 from django.utils.translation import gettext as _
 from pages.models import PublishedTree
+from users.models import CustomUser, Profile
 
 VERSION = 0.1
 LOGIC_TYPE = 'jsonLogic version X'
@@ -27,6 +28,13 @@ def dashboard_view(request):
          'decisiontree_list': DecisionTree.objects.filter(owner=request.user).annotate(node_number=Count("node")),
          'form':form,
          }
+        if request.user.profile.saw_dashboard:
+             context['start_tour'] = False
+        else:
+            context['start_tour'] = True
+            user_profile = Profile.objects.get(user=request.user)
+            user_profile.saw_dashboard = True
+            user_profile.save(update_fields=['saw_dashboard'])
     return render(request, 'dashboard.html', context)
 
 @login_required
@@ -72,8 +80,8 @@ def unpublish_tree (request):
 
 @login_required
 def tree_view(request, slug):
-    existing_nodes = Node.objects.filter(decision_tree__owner=request.user).filter(decision_tree__slug=slug).filter(new_node=False)
-    new_nodes = Node.objects.filter(decision_tree__owner=request.user).filter(decision_tree__slug=slug).filter(new_node=True)
+    existing_nodes = Node.objects.filter(decision_tree__owner=request.user).filter(decision_tree__slug=slug).filter(new_node=False).order_by('-created_at')
+    new_nodes = Node.objects.filter(decision_tree__owner=request.user).filter(decision_tree__slug=slug).filter(new_node=True).order_by('-created_at')
 
     if request.method == 'GET':
         context = {

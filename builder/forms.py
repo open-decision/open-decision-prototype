@@ -14,8 +14,8 @@ class NodeForm(forms.Form):
     ('date', 'Datum'),
     ('end_node', 'Endknoten - keine Eingabe')
     )
-    name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Knotenname', 'class' : 'node_create_name'}), max_length="15")
-    question = forms.CharField(widget=CKEditorWidget())
+    name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Knotenname', 'class' : 'node_create_name'}), max_length="25")
+    question = forms.CharField(required=False, widget=CKEditorWidget())
     input_type = forms.ChoiceField(label='Eingabeart', choices = INPUT_CHOICES)
 
 class NodeFormVisualBuilder(NodeForm):
@@ -59,7 +59,7 @@ class LogicForm(forms.Form):
     action = forms.ChoiceField(label='dann', required=False, choices = (
     ('go_to', 'gehe zu'),
     ('set', 'setze')))
-    var_to_modify = forms.CharField(label='', required=False)
+    var_to_modify = forms.CharField(label='', required=False, max_length="25")
 
     def __init__(self, *args, **kwargs):
         self.input_type = kwargs.pop('input_type', None)
