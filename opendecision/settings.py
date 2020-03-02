@@ -181,6 +181,7 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 LOGIN_REDIRECT_URL = 'dashboard'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_EMAIL_SUBJECT_PREFIX = 'Open Decision - '
 #ACCOUNT_FORMS = {'signup': 'users.forms.CustomUserCreationForm'}
 
 # Internationalization
