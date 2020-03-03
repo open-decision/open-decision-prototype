@@ -17,26 +17,59 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
-if os.environ.get('DJANGO_PRODUCTION') is not None:
-    # SECURITY WARNING: don't run with debug turned on in production!
-    DEBUG = False
-
+if os.environ.get('HEROKU') is not None:
     ALLOWED_HOSTS = ['.herokuapp.com']
-
-    # SECURITY WARNING: keep the secret key used in production secret!
-    SECRET_KEY = os.environ.get('SECRET_KEY')
 
     # Heroku: Update database configuration from $DATABASE_URL.
     import dj_database_url
     db_from_env = dj_database_url.config(conn_max_age=500)
     DATABASES['default'].update(db_from_env)
+
+    MIDDLEWARE = [
+        'django.middleware.security.SecurityMiddleware',
+        'whitenoise.middleware.WhiteNoiseMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    ]
+
+elif os.environ.get('AZURE') is not None:
+    ALLOWED_HOSTS = ['*']
+
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ.get('DATABASE_NAME', ''),
+        'USER': os.environ.get('DATABASE_USER', ''),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD', ''),
+        'HOST': os.environ.get('DATABASE_HOST', ''),
+        'PORT': os.environ.get('DATABASE_PORT', ''),
+        'OPTIONS': {
+            'sslmode': 'require',
+        }
+    }
+}
+
+    MIDDLEWARE = [
+        'django.middleware.security.SecurityMiddleware',
+        'whitenoise.middleware.WhiteNoiseMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    ]
+
+if os.environ.get('DJANGO_PRODUCTION') is not None:
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = False
+
+    # SECURITY WARNING: keep the secret key used in production secret!
+    SECRET_KEY = os.environ.get('SECRET_KEY')
 
     # E-Mail configuration
     EMAIL_HOST = os.environ.get('SMTP_SERVER')
@@ -49,20 +82,8 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
     SERVER_EMAIL = os.environ.get('SERVER_EMAIL')
     DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
 
-
     # Admin  configuration
-    ADMINS = [('Finn', os.environ.get('ADMIN_EMAIL'))]
-
-    MIDDLEWARE = [
-        'django.middleware.security.SecurityMiddleware',
-         'whitenoise.middleware.WhiteNoiseMiddleware',
-        'django.contrib.sessions.middleware.SessionMiddleware',
-        'django.middleware.common.CommonMiddleware',
-        'django.middleware.csrf.CsrfViewMiddleware',
-        'django.contrib.auth.middleware.AuthenticationMiddleware',
-        'django.contrib.messages.middleware.MessageMiddleware',
-        'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    ]
+    ADMINS = [(os.environ.get('ADMIN1_NAME'), os.environ.get('ADMIN1_EMAIL'))]
 
     INSTALLED_APPS = [
         'django.contrib.admin',
@@ -124,6 +145,14 @@ else:
         'django.contrib.messages.middleware.MessageMiddleware',
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
     ]
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
+
     ACCOUNT_EMAIL_VERIFICATION = "none"
 
 
