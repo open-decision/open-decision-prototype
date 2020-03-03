@@ -13,6 +13,7 @@ future==0.18.2
 gunicorn==20.0.4
 json-logic-qubit==0.9.1
 Pillow==7.0.0
+psycopg2==2.8.4
 pycparser==2.19
 pytz==2018.9
 six==1.13.0
