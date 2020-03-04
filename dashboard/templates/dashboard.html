@@ -145,7 +145,7 @@
     </div>
 
     <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
-  {% if not user.profile.saw_dashboard %}
+  {% if start_tour %}
     <script type="text/javascript" src="{% static 'tours/dashboard-tour.js' %}"></script>
     {% endif %}
     <script>
