@@ -56,6 +56,7 @@ class Node(models.Model):
     name            = models.CharField(max_length=240)
     slug            = models.SlugField(default="")
     decision_tree   = models.ForeignKey(DecisionTree, on_delete=models.CASCADE)
+    path            = models.TextField(null=True, blank=True)
     text            = RichTextBleachField()
     inputs          = models.TextField(null=True, blank=True)
     new_node        = models.BooleanField()

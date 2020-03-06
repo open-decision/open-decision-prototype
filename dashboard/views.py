@@ -137,10 +137,10 @@ def check_tree(slug, request):
         l = []
         for d in json.loads(n.data_logic):
             if d['action'] == 'go_to':
-                if d['var_to_modify'] == '':
+                if d['target'] == '':
                     errors['no_var'][n.id] = d['answers_logic']
                 else:
-                    l.append(d['var_to_modify'])
+                    l.append(d['target'])
         paths['nodes'][n.id]['childs'] = l
     paths['end_nodes'] = [e.id for e in end_nodes]
     build_paths(paths)
@@ -316,16 +316,16 @@ def build_tree (slug, request):
 
                 # Then build the results block
                 if l['action'] == 'go_to':
-                    data = {'destination': all_nodes.get(id = l['var_to_modify']).slug}
+                    data = {'destination': all_nodes.get(id = l['target']).slug}
 
                 # Commented out as the value for the var cannot be set yet
                 # elif l['action'] == 'set'::
                 #     data = {'set': {
-                #         'name': l['var_to_modify'],
+                #         'name': l['target'],
                 #         'value': # cannot be set by user yet
                 #         }}
                 #
-                #     export['header']['vars'][l['var_to_modify']] = {
+                #     export['header']['vars'][l['target']] = {
                 #     'type': '',
                 #     'set_in_node': n.slug,
                 #     }
@@ -354,7 +354,7 @@ def build_tree (slug, request):
 
                 # Then build the results block
                 if l['action'] == 'go_to':
-                    data = {'destination': all_nodes.get(id = l['var_to_modify']).slug}
+                    data = {'destination': all_nodes.get(id = l['target']).slug}
 
             try:
                 export[n.slug]['results'][str(int(len(export[n.slug]['results'])))] = data

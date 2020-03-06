@@ -13,7 +13,6 @@ from django.template.loader import render_to_string
 def node_create_view(request, slug):
     if request.method == 'GET':
         node_form = NodeForm
-        NodeButtonFormSet = formset_factory(ButtonAnswersForm)
         context = {
         'form': node_form,
         'selected_tree': DecisionTree.objects.filter(owner=request.user).filter(slug=slug).values()[0],
@@ -27,11 +26,8 @@ def node_create_view(request, slug):
 def node_edit_view(request, slug, node_slug):
     if request.method == 'GET':
         data_node = Node.objects.filter(decision_tree__owner=request.user).get(slug=node_slug)
-        input_type = data_node.input_type
-        if input_type == '':
-            input_type = 'button'
-        node_form = NodeForm({'name': data_node.name, 'question': data_node.question, 'input_type': data_node.input_type})
-        answer_formset_init = load_answer_field(request, input_type, data_node)
+        node_form = NodeForm({'name': data_node.name, 'question': data_node.question})
+
         logic_formset_init = load_logic_field(request, input_type, data_node)
         context = {
             'form': node_form,
@@ -55,7 +51,7 @@ def load_token(request):
 
 
 @login_required
-def load_answer_field(request, *args):
+def load_input_form(request, *args):
     try:
 # This will fail, if the fct is not called by the edit view
             input_type = args[0]
@@ -64,61 +60,27 @@ def load_answer_field(request, *args):
         input_type = False
 # If called by edit view
     if input_type:
-        returned = set_answer_form(input_type)
-        answer_form = returned[0]
-        expandable = returned[1]
+        inputForm
         data = json.loads(data_node.data_answer)
-        AnswerFormSet = formset_factory(answer_form, extra=0)
+        AnswerFormSet = formset_factory(InputForm, extra=0)
         answer_formset_init = AnswerFormSet(initial=data, prefix='answer')
         context = {
             'answer_formset_init': answer_formset_init,
-            'expandable': expandable,
+            'expandable': True if input_type=='button' else False,
             'edit': 'true',
             }
         rendered = render_to_string('answer_field.html', context)
         return rendered
 # If called by ajax when creating new node
     else:
-        input_type = request.GET['input_type']
-        returned = set_answer_form(input_type)
-        answer_form = returned[0]
-        expandable = returned[1]
-        AnswerFormSet = formset_factory(answer_form)
-        answer_formset = AnswerFormSet(prefix='answer')
+        input_type = request.GET.get('input_type', 'button')
+        InputFormSet = formset_factory(InputForm)
         context = {
-        'answer_formset': answer_formset,
-        'expandable': expandable,
+        'input_formset': InputFormSet(form_kwargs={'input_type': input_type}, prefix='input'),
+        'expandable': True if input_type=='button' else False,
         }
-        return render(request, 'answer_field.html', context)
+        return render(request, 'input_form.html', context)
 
-def set_answer_form(input_type):
-    if input_type == 'button':
-        answer_form = ButtonAnswersForm
-        expandable = True
-    elif input_type == 'list':
-        answer_form = ListAnswersForms
-        expandable = False
-    elif input_type == 'multiple_select':
-        answer_form = MultipleSelectAnswersForm
-        expandable = True
-    elif input_type == 'short_text':
-        answer_form = ShortTextAnswersForm
-        expandable = True
-    elif input_type == 'long_text':
-        answer_form = LongTextAnswersForm
-        expandable = True
-    elif input_type == 'number':
-        answer_form = NumberAnswersForm
-        expandable = False
-    elif input_type == 'date':
-        answer_form = DateAnswerForm
-        expandable = False
-    elif input_type == 'end_node':
-        answer_form = EndNodeAnswersForm
-        expandable = False
-    else:
-        raise Exception('Invalid input type.')
-    return [answer_form, expandable]
 
 @login_required
 def load_logic_field(request, *args):
@@ -132,12 +94,12 @@ def load_logic_field(request, *args):
     if input_type:
         data = json.loads(data_node.data_logic)
         for logic_form in data:
-            if logic_form['var_to_modify'] != '':
+            if logic_form['target'] != '':
                 try:
-                    node_slug= Node.objects.filter(decision_tree__owner=request.user).get(id=logic_form['var_to_modify']).slug
+                    node_slug= Node.objects.filter(decision_tree__owner=request.user).get(id=logic_form['target']).slug
                 except:
                     node_slug = ''
-                logic_form['var_to_modify']= node_slug
+                logic_form['target']= node_slug
         LogicFormSet = formset_factory(LogicForm, extra=0)
         logic_formset_init = LogicFormSet(initial=data, form_kwargs={'input_type': input_type}, prefix='logic')
         context = {
@@ -209,7 +171,7 @@ def save_node(request, slug, *args):
         data_logic_dirty['logic-'+ str(i) +'-operator'] = request.POST.get('logic-'+ str(i) +'-operator')
         data_logic_dirty['logic-'+ str(i) +'-answers_logic'] = request.POST.get('logic-'+ str(i) +'-answers_logic')
         data_logic_dirty['logic-'+ str(i) +'-action'] = request.POST.get('logic-'+ str(i) +'-action')
-        data_logic_dirty['logic-'+ str(i) +'-var_to_modify'] = request.POST.get('logic-'+ str(i) +'-var_to_modify')
+        data_logic_dirty['logic-'+ str(i) +'-target'] = request.POST.get('logic-'+ str(i) +'-target')
 #Perform Logic Formset Validation
     LogicFormSet = formset_factory(LogicForm)
     logic_form_instance = LogicFormSet(data_logic_dirty, form_kwargs={'input_type': node_clean['input_type']}, prefix='logic')
@@ -218,15 +180,15 @@ def save_node(request, slug, *args):
 #Check if connected nodes already exist
     is_start_node = False if Node.objects.filter(decision_tree__owner=request.user).filter(decision_tree__slug=slug) else True
     for i in range(len(data_logic)):
-        if data_logic[i]['var_to_modify'] != '':
+        if data_logic[i]['target'] != '':
             try:
                 #If yes, get ID to avoid issues if connected node is renamed
-                id= Node.objects.filter(decision_tree__owner=request.user).get(slug=slugify(data_logic[i]['var_to_modify'])).id
-                data_logic[i]['var_to_modify'] = id
+                id= Node.objects.filter(decision_tree__owner=request.user).get(slug=slugify(data_logic[i]['target'])).id
+                data_logic[i]['target'] = id
             except:
                 #If not, create new node
-                new = Node(name= data_logic[i]['var_to_modify'],
-                slug= slugify(data_logic[i]['var_to_modify']),
+                new = Node(name= data_logic[i]['target'],
+                slug= slugify(data_logic[i]['target']),
                 decision_tree= DecisionTree.objects.filter(owner=request.user).get(slug=slug),
                 input_type= 'button',
                 data_answer= json.dumps([]),
@@ -236,7 +198,7 @@ def save_node(request, slug, *args):
                 end_node= False,
                         )
                 new.save()
-                data_logic[i]['var_to_modify'] = new.id
+                data_logic[i]['target'] = new.id
 #Save the node, todo: change to JSON field for saving answer and logic
     try:
         id = args[0]

@@ -4,7 +4,7 @@
 {% load custom_filters %}
 {% load i18n %}
 
-<form method="POST" id='nodeForm' answer-form-url="{% url 'ajax_load_answer_field' %}" logic-form-url="{% url 'ajax_load_logic_field' %}" load-nodes-url="{% url 'ajax_load_nodes' %}">{%csrf_token%}
+<form method="POST" id='nodeForm' input-form-url="{% url 'ajax_load_input_form' %}" logic-form-url="{% url 'ajax_load_logic_field' %}" load-nodes-url="{% url 'ajax_load_nodes' %}">{%csrf_token%}
 {{ form.media }}
 <h2 class="pageheader"><a href="/trees/{{ selected_tree.slug }}" class="back_button">&#x2190;</a> {% trans "Editing" %} {{ form.name }}{{ form.name.errors }}</h2>
 <input type="hidden" id="selected-tree" value="{{ selected_tree.slug }}" >
@@ -15,17 +15,12 @@
       {{ form.question.errors }}<!--creates ul (class="errorlist") with errors-->
 </div>
 
-<div id='inputtype-field'>
-      {{ form.input_type }}
-      {{ form.input_type.errors }}
-</div>
-
-<div id="answer-field">
+<div id="input-form">
   <div class="node_create_topbar" style="border-right:1px solid grey; border-bottom:1px solid grey;">
-    <p style="float:left;margin:0;">Antworten</p>
+    <p style="float:left;margin:0;">{% trans "Inputs" %}</p>
     <a href="javascript:void(0)" class="answer_add2" id="add_a_2" style="float:right; padding:0;">+</a>
   </div>
-    <div class='formset' id='answer-formset'>
+    <div class='formset' id='input-formset'>
 {% if edit == 'true' %}
   {{ answer_formset_init }}
 {% endif %}
@@ -118,8 +113,8 @@ var selectedTree = $('#selected-tree').val();
 });
    });
    $.fn.loadForms = function(){
+     var inputFormUrl = $("#nodeForm").attr("input-form-url");
      var logicFormUrl = $("#nodeForm").attr("logic-form-url");
-     var answerFormUrl = $("#nodeForm").attr("answer-form-url");
      var inputType = $("#id_input_type").val();
 
      if (inputType === "end_node") {
@@ -130,7 +125,7 @@ var selectedTree = $('#selected-tree').val();
      $.ajax({
        url: logicFormUrl,
        data: {
-         'input_type': inputType
+         'input_type': 'button'
        },
        success: function (data) {
          $("#logic-formset").html(data);
@@ -138,12 +133,13 @@ var selectedTree = $('#selected-tree').val();
      });
 }
      $.ajax({
-       url: answerFormUrl,
+       url: inputFormUrl,
        data: {
-         'input_type': inputType
+         'input_type': 'button'
        },
        success: function (data) {
-         $("#answer-formset").html(data);
+         console.log(data);
+         $("#input-formset").html(data);
        }
      });
    };

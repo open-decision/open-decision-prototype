@@ -42,7 +42,7 @@ $('.logic-formset').formset({
     var availableNodes = $('#input_hidden_field').val();
     if (availableNodes){
       availableNodes = JSON.parse(availableNodes);
-    $( "input[id$='var_to_modify']").autocomplete({
+    $( "input[id$='target']").autocomplete({
       source: availableNodes,
       response: function(event, ui) {
             if (ui.content.length === 0) {
