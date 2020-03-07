@@ -40,7 +40,7 @@ class InputForm (forms.Form):
 class LogicForm(forms.Form):
     compare_to = forms.CharField()
     operator = forms.ChoiceField(label=_('If the  answer'), choices = [], required=False)
-    target = forms.CharField(label=_(''), required=False, max_length="25")
+    target = forms.CharField(required=False, max_length="25")
     action = forms.ChoiceField(label=_('then'), required=False, choices = (
     ('go_to', _('go to')),
     ('set', _('set'))

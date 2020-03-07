@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-04 22:02+0000\n"
+"POT-Creation-Date: 2020-03-06 21:25+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,86 +18,433 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: templates/base.html:58
-msgid "Dashboard"
+#: templates/account/account_inactive.html:5
+#: templates/account/account_inactive.html:8
+msgid "Account Inactive"
 msgstr ""
 
-#: templates/base.html:64 templates/base.html:339 templates/navbar.html:22
-msgid "Logout"
+#: templates/account/account_inactive.html:10
+msgid "This account is inactive."
 msgstr ""
 
-#: templates/base.html:258 templates/navbar.html:11
-msgid "Home"
+#: templates/account/email.html:5
+msgid "Account"
 msgstr ""
 
-#: templates/base.html:264 templates/navbar.html:14
-msgid "Get in touch"
+#: templates/account/email.html:23
+msgid "E-mail Addresses"
 msgstr ""
 
-#: templates/base.html:270 templates/navbar.html:27
-msgid "Login"
+#: templates/account/email.html:27
+msgid "The following e-mail addresses are associated with your account:"
 msgstr ""
 
-#: templates/base.html:308
-msgid "Support"
+#: templates/account/email.html:58
+msgid "Make Primary"
 msgstr ""
 
-#: templates/base.html:308
-msgid "Imprint"
+#: templates/account/email.html:59
+msgid "Re-send Verification"
 msgstr ""
 
-#: templates/base.html:308
-msgid "Privacy policy"
+#: templates/account/email.html:60
+msgid "Remove"
 msgstr ""
 
-#: templates/base.html:331
-msgid "Ready to Leave?"
+#: templates/account/email.html:68
+msgid "Warning:"
 msgstr ""
 
-#: templates/base.html:336
-msgid "Select 'Logout' below if you are ready to end your current session."
+#: templates/account/email.html:68
+msgid ""
+"You currently do not have any e-mail address set up. You should really add "
+"an e-mail address so you can receive notifications, reset your password, etc."
 msgstr ""
 
-#: templates/base.html:338
-msgid "Cancel"
+#: templates/account/email.html:73
+msgid "Add E-mail Address"
 msgstr ""
 
-#: templates/navbar.html:19
-msgid "Dashboard of "
+#: templates/account/email.html:78
+msgid "Add E-mail"
 msgstr ""
 
-#: templates/registration/logged_out.html:4
-msgid "Logged out!"
+#: templates/account/email.html:88
+msgid "Do you really want to remove the selected e-mail address?"
 msgstr ""
 
-#: templates/registration/logged_out.html:5
-msgid "Click here to login again."
+#: templates/account/email/email_confirmation_message.txt:4
+msgid ""
+"Thanks for joining Open Decision! Please confirm your email address you are "
+"using for Open Decision by clicking the link below. To confirm this is "
+"correct, go to"
 msgstr ""
 
-#: templates/registration/login.html:24
+#: templates/account/email/email_confirmation_signup_subject.html:3
+msgid "Confirm Your Registration - Talkative"
+msgstr ""
+
+#: templates/account/email/password_reset_key_message.txt:3
+msgid ""
+"\n"
+"Forgot your Password for open-decision.org?\n"
+"You're receiving this e-mail because you or someone else has requested a "
+"password for your user account.\n"
+"It can be safely ignored if you did not request a password reset. Click the "
+"link below to reset your password.\n"
+msgstr ""
+
+#: templates/account/email/password_reset_key_subject.html:3
+msgid "Reset Password talkative"
+msgstr ""
+
+#: templates/account/email_confirm.html:5
+#: templates/account/email_confirm.html:10
+msgid "Confirm E-mail Address"
+msgstr ""
+
+#: templates/account/email_confirm.html:16
+#, python-format
+msgid ""
+" Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
+"address for user %(user_display)s."
+msgstr ""
+
+#: templates/account/email_confirm.html:20
+msgid "Confirm"
+msgstr ""
+
+#: templates/account/email_confirm.html:27
+#, python-format
+msgid ""
+"This e-mail confirmation link expired or is invalid. Please <a href="
+"\"%(email_url)s\">issue a new e-mail confirmation request</a>. You will be "
+"redirected to login page in 5 seconds."
+msgstr ""
+
+#: templates/account/login.html:37
 msgid "Welcome Back!"
 msgstr ""
 
-#: templates/registration/login.html:29
-msgid "Your username and password didn't match. Please try again."
+#: templates/account/login.html:43
+msgid "Your e-mail and password didn't match. Please try again."
 msgstr ""
 
-#: templates/registration/login.html:55 templates/registration/register.html:85
-msgid "Forgot Password?"
+#: templates/account/login.html:56
+msgid "Sign In"
 msgstr ""
 
-#: templates/registration/login.html:59
+#: templates/account/login.html:57
+msgid "Forgot Password ?"
+msgstr ""
+
+#: templates/account/login.html:68
 msgid "Create an Account!"
 msgstr ""
 
-#: templates/registration/register.html:18
+#: templates/account/messages/cannot_delete_primary_email.txt:2
+#, python-format
+msgid "You cannot remove your primary e-mail address (%(email)s)."
+msgstr ""
+
+#: templates/account/messages/email_confirmation_sent.txt:2
+#, python-format
+msgid "Confirmation e-mail sent to %(email)s."
+msgstr ""
+
+#: templates/account/messages/email_confirmed.txt:2
+#, python-format
+msgid "You have confirmed %(email)s."
+msgstr ""
+
+#: templates/account/messages/email_deleted.txt:2
+#, python-format
+msgid "Removed e-mail address %(email)s."
+msgstr ""
+
+#: templates/account/messages/logged_in.txt:4
+#, python-format
+msgid "Successfully signed in as %(name)s."
+msgstr ""
+
+#: templates/account/messages/logged_out.txt:2
+msgid "You have signed out."
+msgstr ""
+
+#: templates/account/messages/password_changed.txt:2
+msgid "Password successfully changed."
+msgstr ""
+
+#: templates/account/messages/password_set.txt:2
+msgid "Password successfully set."
+msgstr ""
+
+#: templates/account/messages/primary_email_set.txt:2
+msgid "Primary e-mail address set."
+msgstr ""
+
+#: templates/account/messages/unverified_primary_email.txt:2
+msgid "Your primary e-mail address must be verified."
+msgstr ""
+
+#: templates/account/password_change.html:5
+#: templates/account/password_change.html:27
+#: templates/account/password_change.html:32
+#: templates/account/password_reset_from_key.html:4
+#: templates/account/password_reset_from_key.html:7
+#: templates/account/password_reset_from_key_done.html:4
+#: templates/account/password_reset_from_key_done.html:7
+msgid "Change Password"
+msgstr ""
+
+#: templates/account/password_reset.html:8
+#: templates/account/password_reset_done.html:6
+msgid "Password Reset"
+msgstr ""
+
+#: templates/account/password_reset.html:34
+msgid "Forgot Your Password?"
+msgstr ""
+
+#: templates/account/password_reset.html:35
+msgid ""
+"We get it, stuff happens. Just enter your email address below and we'll send "
+"you a link to reset your password!"
+msgstr ""
+
+#: templates/account/password_reset.html:45
+msgid "Reset My Password"
+msgstr ""
+
+#: templates/account/password_reset.html:48
+msgid "Please contact us if you have any trouble resetting your password."
+msgstr ""
+
+#: templates/account/password_reset_done.html:11
+msgid "Password Reset Email Sent."
+msgstr ""
+
+#: templates/account/password_reset_from_key.html:7
+msgid "Bad Token"
+msgstr ""
+
+#: templates/account/password_reset_from_key.html:11
+#, python-format
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
+"a>."
+msgstr ""
+
+#: templates/account/password_reset_from_key.html:17
+msgid "change password"
+msgstr ""
+
+#: templates/account/password_reset_from_key.html:20
+#: templates/account/password_reset_from_key_done.html:8
+msgid "Your password is now changed."
+msgstr ""
+
+#: templates/account/password_set.html:5 templates/account/password_set.html:27
+#: templates/account/password_set.html:32
+msgid "Set Password"
+msgstr ""
+
+#: templates/account/signup.html:34
 msgid "Yeah, create an Account!"
 msgstr ""
 
-#: templates/registration/register.html:80
-msgid "Register Account"
+#: templates/account/signup.html:97
+msgid "Sign Up"
 msgstr ""
 
-#: templates/registration/register.html:89
-msgid "Already have an account?"
+#: templates/account/signup.html:100
+msgid "Already got an Account?"
+msgstr ""
+
+#: templates/account/signup_closed.html:5
+#: templates/account/signup_closed.html:8
+msgid "Sign Up Closed"
+msgstr ""
+
+#: templates/account/signup_closed.html:10
+msgid "We are sorry, but the sign up is currently closed."
+msgstr ""
+
+#: templates/account/snippets/already_logged_in.html:7
+msgid "Already Logged in!"
+msgstr ""
+
+#: templates/account/snippets/already_logged_in.html:8
+msgid "You are already logged in as "
+msgstr ""
+
+#: templates/account/snippets/already_logged_in.html:9
+msgid "Back to Dashboard"
+msgstr ""
+
+#: templates/account/verification_sent.html:5
+#: templates/account/verification_sent.html:8
+#: templates/account/verified_email_required.html:5
+#: templates/account/verified_email_required.html:8
+msgid "Verify Your E-mail Address"
+msgstr ""
+
+#: templates/account/verification_sent.html:10
+msgid ""
+"We have sent an e-mail to you for verification. Follow the link provided to "
+"finalize the signup process. Please contact us if you do not receive it "
+"within a few minutes."
+msgstr ""
+
+#: templates/account/verified_email_required.html:12
+msgid ""
+"This part of the site requires us to verify that\n"
+"you are who you claim to be. For this purpose, we require that you\n"
+"verify ownership of your e-mail address. "
+msgstr ""
+
+#: templates/account/verified_email_required.html:16
+msgid ""
+"We have sent an e-mail to you for\n"
+"verification. Please click on the link inside this e-mail. Please\n"
+"contact us if you do not receive it within a few minutes."
+msgstr ""
+
+#: templates/account/verified_email_required.html:20
+#, python-format
+msgid ""
+"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
+"mail address</a>."
+msgstr ""
+
+#: templates/base.html:80
+msgid "Dashboard"
+msgstr ""
+
+#: templates/base.html:85
+msgid "Published Trees"
+msgstr ""
+
+#: templates/base.html:90
+msgid "Visualbuilder - Alpha"
+msgstr ""
+
+#: templates/base.html:95 templates/base.html:341
+msgid "Logout"
+msgstr ""
+
+#: templates/base.html:101 templates/base.html:353
+msgid "Help"
+msgstr ""
+
+#: templates/base.html:243
+msgid "Home"
+msgstr ""
+
+#: templates/base.html:248
+msgid "Get in touch"
+msgstr ""
+
+#: templates/base.html:253
+msgid "Interpreter (Demo)"
+msgstr ""
+
+#: templates/base.html:260
+msgid "Login"
+msgstr ""
+
+#: templates/base.html:302
+msgid "Support"
+msgstr ""
+
+#: templates/base.html:302
+msgid "Imprint"
+msgstr ""
+
+#: templates/base.html:302
+msgid "Privacy policy"
+msgstr ""
+
+#: templates/base.html:329
+msgid "Ready to Leave?"
+msgstr ""
+
+#: templates/base.html:335
+msgid "Select 'Logout' below if you are ready to end your current session."
+msgstr ""
+
+#: templates/base.html:342
+msgid "Cancel"
+msgstr ""
+
+#: templates/base.html:358
+msgid "How can we help you?"
+msgstr ""
+
+#: templates/base.html:362
+msgid "Restart Tour"
+msgstr ""
+
+#: templates/base.html:363
+msgid "User Guides"
+msgstr ""
+
+#: users/managers.py:15
+msgid "The Email must be set"
+msgstr ""
+
+#: users/managers.py:31
+msgid "Superuser must have is_staff=True."
+msgstr ""
+
+#: users/managers.py:33
+msgid "Superuser must have is_superuser=True."
+msgstr ""
+
+#: users/models.py:11
+msgid "email address"
+msgstr ""
+
+#: visualbuilder/templates/visualbuilder.html:26
+#: visualbuilder/templates/visualbuilder.html:31
+msgid "Visual Builder"
+msgstr ""
+
+#: visualbuilder/templates/visualbuilder.html:32
+#: visualbuilder/templates/visualbuilder.html:35
+#: visualbuilder/templates/visualbuilder.html:36
+msgid "Deactivated"
+msgstr ""
+
+#: visualbuilder/templates/visualbuilder.html:43
+msgid "Blocks"
+msgstr ""
+
+#: visualbuilder/templates/visualbuilder.html:49
+msgid "Content"
+msgstr ""
+
+#: visualbuilder/templates/visualbuilder.html:50
+msgid "Deleted Blocks"
+msgstr ""
+
+#: visualbuilder/templates/visualbuilder.html:51
+msgid "Unused Blocks"
+msgstr ""
+
+#: visualbuilder/templates/visualbuilder.html:115
+msgid "Properties"
+msgstr ""
+
+#: visualbuilder/templates/visualbuilder.html:117
+msgid "Node"
+msgstr ""
+
+#: visualbuilder/templates/visualbuilder.html:118
+msgid "Anwers"
+msgstr ""
+
+#: visualbuilder/templates/visualbuilder.html:119
+msgid "Logic"
 msgstr ""

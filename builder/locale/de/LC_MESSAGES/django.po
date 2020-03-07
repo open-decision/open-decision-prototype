@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-04 22:02+0000\n"
+"POT-Creation-Date: 2020-03-06 21:25+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,14 +18,110 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: builder/forms.py:8
+msgid "Node name"
+msgstr "Knotenname"
+
+#: builder/forms.py:16
+msgid "Button"
+msgstr "Button"
+
+#: builder/forms.py:17
+msgid "Selectlist"
+msgstr "Auswahlliste"
+
+#: builder/forms.py:21
+msgid "Numberfield"
+msgstr "Zahleneingabe"
+
+#: builder/forms.py:22
+msgid "Datefield"
+msgstr "Datumseingabe"
+
+#: builder/forms.py:23
+msgid "End-node - no input"
+msgstr "Endknoten - keine Eingabe"
+
+#: builder/forms.py:24
+msgid "Input Type"
+msgstr "Eingabetyp"
+
+#: builder/forms.py:31
+msgid "Button Text"
+msgstr "Beschriftung des Buttons"
+
+#: builder/forms.py:34
+msgid "List of all choices"
+msgstr "List aller Auswahlmöglichkeiten"
+
+#: builder/forms.py:42
+msgid "If the  answer"
+msgstr "Wenn die Antwort"
+
+#: builder/forms.py:44
+msgid "then"
+msgstr "dann"
+
+#: builder/forms.py:45
+msgid "go to"
+msgstr "gehe zu"
+
+#: builder/forms.py:46
+msgid "set"
+msgstr "setze"
+
+#: builder/forms.py:71
+msgid "If clicked, go to:"
+msgstr "Wenn geklickt, gehe zu:"
+
+#: builder/forms.py:75
+msgid "if"
+msgstr "wenn"
+
+#: builder/forms.py:77
+msgid "is  in"
+msgstr "ist enthalten"
+
+#: builder/forms.py:78
+msgid "is not in"
+msgstr "ist nicht enthalten"
+
+#: builder/forms.py:111 builder/forms.py:126
+msgid "equal"
+msgstr "gleich"
+
+#: builder/forms.py:112 builder/forms.py:127
+msgid "not"
+msgstr "nicht"
+
+#: builder/forms.py:113 builder/forms.py:128
+msgid "less than"
+msgstr "kleiner als"
+
+#: builder/forms.py:114 builder/forms.py:129
+msgid "less than or equal"
+msgstr "kleiner gleich"
+
+#: builder/forms.py:115 builder/forms.py:130
+msgid "greater"
+msgstr "größer"
+
+#: builder/forms.py:116 builder/forms.py:131
+msgid "greater or equal"
+msgstr "größer gliech"
+
 #: builder/templates/node_create.html:9
 msgid "Editing"
 msgstr "Bearbeitung von"
 
-#: builder/templates/node_create.html:48
+#: builder/templates/node_create.html:20
+msgid "Inputs"
+msgstr "Eingaben"
+
+#: builder/templates/node_create.html:43
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: builder/templates/node_create.html:50
+#: builder/templates/node_create.html:45
 msgid "Save Node"
 msgstr "Knoten speichern"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-04 22:02+0000\n"
+"POT-Creation-Date: 2020-03-06 21:25+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,27 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: pages/templates/403.html:5
+msgid "I'm afraid I can't let you in today."
+msgstr "Heute kommst Du leider nicht rein."
+
+#: pages/templates/403.html:6
+msgid "You're not allowed to see this page. Did you forget to sign in?"
+msgstr "Du hast leider nicht die Berechtigung, dise Seite anzusehen. Hast Du vergessen, dich anzumelden?"
+
+#: pages/templates/404.html:5
+msgid "Oops, we couldn't find what you were looking for..."
+msgstr ""
+
+#: pages/templates/500.html:5
+msgid "Something went wrong on our side..."
+msgstr ""
+
+#: pages/templates/500.html:6
+msgid ""
+"Our developers are already informed. We are giving our best to fix the issue!"
+msgstr ""
 
 #: pages/templates/contact.html:5
 msgid "Get in touch"
@@ -34,10 +55,6 @@ msgstr ""
 msgid "Further information at"
 msgstr ""
 
-#: pages/templates/home.html:20
-msgid "Civil Legal Tech"
-msgstr ""
-
 #: pages/templates/home.html:21
 msgid ""
 "The open decision project aims to create an open source platform for "
@@ -53,27 +70,65 @@ msgstr ""
 "exportiert und Nutzern online oder per App in Form einer Abfrage präsentiert "
 "werden."
 
-#: pages/templates/home.html:26
+#: pages/templates/home.html:27
 msgid "Try now"
 msgstr ""
 
-#: pages/templates/home.html:40
-msgid "Easy solution for legal issues"
+#: pages/templates/home.html:41
+msgid "Concept"
 msgstr ""
 
-#: pages/templates/home.html:41 pages/templates/home.html:59
-#: pages/templates/home.html:77
+#: pages/templates/home.html:43
 msgid ""
-"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, "
-"mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea "
-"animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae "
-"obcaecati."
+"The platform is divided into two modules. The Builder offers a simple web "
+"interface for the creation of decision trees. The counterpart is the "
+"interpreter, which represents the decision trees for the end user. The "
+"presentation can be done on different channels, online, via app or in chat "
+"bots. The communication between the Builder and the Interpreter runs via a "
+"standardized data format."
 msgstr ""
 
-#: pages/templates/home.html:58
-msgid "Modern technologies!"
+#: pages/templates/home.html:61
+msgid "Builder"
 msgstr ""
 
-#: pages/templates/home.html:76
-msgid "Justice for everyone"
+#: pages/templates/home.html:62
+msgid ""
+"The Builder acts as a translator of legal ideas into a uniform, machine-"
+"readable data format. It is therefore essential that this process takes "
+"place without friction. A simple and intuitive usability is therefore the "
+"main focus during development in order to enable non-IT-savvy lawyers to "
+"create content. With a simple interface, decision trees can be created "
+"visually by drag & drop. After an automated quality control, the finished "
+"decision trees are prepared for manual review by experts (qualified lawyers) "
+"if required, in order to guarantee the highest quality standards."
+msgstr ""
+
+#: pages/templates/home.html:80
+msgid "Interpreter"
+msgstr ""
+
+#: pages/templates/home.html:81
+msgid ""
+"To ensure low-threshold access, we offer a simple user interface on a "
+"variety of channels. Internally, we have already successfully launched a "
+"website and a chat bot for the Telegram messenger service. Various chat bots "
+"and our own mobile app are planned. The structure is to be cross-platform in "
+"a uniform and clear scheme: The consumer first selects the appropriate "
+"problem from a catalogue. The program then begins to query the facts, which "
+"corresponds to the decision tree behind it. After asking as few questions as "
+"possible, the user receives a compilation of information, forwarding and, if "
+"necessary, sample letters on his concretely determined case."
+msgstr ""
+
+#: pages/templates/publish.html:14 pages/templates/publish_embedded.html:15
+msgid "Publishing successful!"
+msgstr ""
+
+#: pages/templates/publish.html:15
+msgid "The tree was published successfully and can be publicly accessed at "
+msgstr ""
+
+#: pages/templates/publish_embedded.html:16
+msgid "The tree was published successfully and can be accessed at "
 msgstr ""
