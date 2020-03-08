@@ -28,32 +28,33 @@ msgstr "Du hast leider nicht die Berechtigung, dise Seite anzusehen. Hast Du ver
 
 #: pages/templates/404.html:5
 msgid "Oops, we couldn't find what you were looking for..."
-msgstr ""
+msgstr "Ups, leider konnten wir das nicht finden..."
 
 #: pages/templates/500.html:5
 msgid "Something went wrong on our side..."
-msgstr ""
+msgstr "Da ist uns ein Fehler unterlaufen..."
 
 #: pages/templates/500.html:6
 msgid ""
 "Our developers are already informed. We are giving our best to fix the issue!"
 msgstr ""
+"Unsere Entwickler sind bereits informiert, wir geben unser bestes, um den Fehler zu beheben!"
 
 #: pages/templates/contact.html:5
 msgid "Get in touch"
-msgstr ""
+msgstr "Kontakt"
 
 #: pages/templates/contact.html:6
 msgid "Feel free to send your ideas, questions or critique to  "
-msgstr ""
+msgstr "Sende uns gerne Deine Ideen, Fragen oder Kritik an "
 
 #: pages/templates/contact.html:6
 msgid " or get in touch at "
-msgstr ""
+msgstr " oder kontaktiere uns auf"
 
 #: pages/templates/contact.html:7
 msgid "Further information at"
-msgstr ""
+msgstr "Weitere Informationen auf"
 
 #: pages/templates/home.html:21
 msgid ""
@@ -72,11 +73,11 @@ msgstr ""
 
 #: pages/templates/home.html:27
 msgid "Try now"
-msgstr ""
+msgstr "Los geht's!"
 
 #: pages/templates/home.html:41
 msgid "Concept"
-msgstr ""
+msgstr "Konzept"
 
 #: pages/templates/home.html:43
 msgid ""
@@ -87,10 +88,16 @@ msgid ""
 "bots. The communication between the Builder and the Interpreter runs via a "
 "standardized data format."
 msgstr ""
+"Die Plattform ist in zwei Module aufgeteilt. Der Builder bietet eine einfache "
+"Weboberfläche zur Erstellung von Entscheidungsbäumen. Das Gegenstück dazu ist "
+"der Interpreter, der die Entscheidungsbäume für den Endnutzer darstellt. Die "
+"Darstellung kann auf verschiedenen Kanälen, online, per App oder in Chat-Bots "
+"erfolgen. Die Kommunikation zwischen Builder und Interpreter läuft über ein "
+"standardisiertes Datenformat ab."
 
 #: pages/templates/home.html:61
 msgid "Builder"
-msgstr ""
+msgstr "Builder"
 
 #: pages/templates/home.html:62
 msgid ""
@@ -103,10 +110,20 @@ msgid ""
 "decision trees are prepared for manual review by experts (qualified lawyers) "
 "if required, in order to guarantee the highest quality standards."
 msgstr ""
+"Der Builder agiert als Übersetzer des juristischen Gedankenguts in ein"
+" einheitliches, maschinell lesbares Datenformat. Es ist also essentiell, dass "
+"dieser Prozess möglichst ohne Reibungen abläuft. Eine simple und intuitive "
+"Bedienbarkeit steht daher bei der Entwicklung im Vordergrund, um auch nicht "
+"IT-affinen Juristen die Erstellung von Inhalten zu ermöglichen. Mit einem "
+"einfachen Interface können Entscheidungsbäume visuell durch Drag & Drop "
+"erstellt werden. Die fertigen Entscheidungsbäume werden nach einer "
+"automatisierten Qualitätskontrolle bei Bedarf für eine manuelle Überprüfung "
+"durch Experten (Volljuristen) aufbereitet, um höchste Qualitätsstandards zu "
+"gewährleisten."
 
 #: pages/templates/home.html:80
 msgid "Interpreter"
-msgstr ""
+msgstr "Interpreter"
 
 #: pages/templates/home.html:81
 msgid ""
@@ -120,15 +137,27 @@ msgid ""
 "possible, the user receives a compilation of information, forwarding and, if "
 "necessary, sample letters on his concretely determined case."
 msgstr ""
+"Um einen niedrigschwelligen Zugang zu gewährleisten, bieten wir eine simple "
+"Benutzeroberfläche auf einer Vielzahl von Kanälen an. Intern haben wir bereits "
+"eine Website und einen Chat-Bot für den Messenger-Dienst Telegram erfolgreich "
+"in Betrieb. Geplant sind verschiedene Chat-Bots und eine eigene mobile App. "
+"Der Aufbau soll dabei plattformübergreifend in einem einheitlichen und "
+"übersichtlichen Schema erfolgen: Aus einem Katalog wählt der Verbraucher "
+"zunächst das passende Problem aus. Das Programm beginnt daraufhin mit der "
+"Abfrage des Sachverhalts, welche dem jeweils dahinterstehenden "
+Entscheidungsbaum entspricht. Nach einer möglichst geringen Anzahl an Fragen "
+erhält der Nutzer eine Zusammenstellung von Informationen, Weiterleitungen und "
+ggf. Musterschreiben zu seinem konkret ermittelten Fall."
+
 
 #: pages/templates/publish.html:14 pages/templates/publish_embedded.html:15
 msgid "Publishing successful!"
-msgstr ""
+msgstr "Veröffentlichung erfolgreich!"
 
 #: pages/templates/publish.html:15
 msgid "The tree was published successfully and can be publicly accessed at "
-msgstr ""
+msgstr "Der Entscheidungsbaum wurde erfolgreich veröffentlicht und kann hier aufgerufen werden: "
 
 #: pages/templates/publish_embedded.html:16
 msgid "The tree was published successfully and can be accessed at "
-msgstr ""
+msgstr "Der Entscheidungsbaum wurde erfolgreich veröffentlicht und kann hier aufgerufen werden: "

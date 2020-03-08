@@ -215,7 +215,7 @@ msgid ""
 "nodes."
 msgstr ""
 "Die Verbindung zum nächsten Knoten fehlt in den Logikbausteinen "
-"diesesKnotens."
+"dieses Knotens."
 
 #: dashboard/templates/export.html:155
 msgid "Faulty answer"
@@ -336,4 +336,5 @@ msgstr "Vorschau anzeigen"
 #: dashboard/views.py:57
 msgid ""
 "<p>Please choose another name, you already have a tree with this name.</p>"
-msgstr "<p>Bitte wähle einen anderen Namen, du hast bereits einen Baum mit diesem Namen.</p>"
+msgstr ""
+"<p>Bitte wähle einen anderen Namen, du hast bereits einen Baum mit diesem Namen.</p>"
