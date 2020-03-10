@@ -10,8 +10,6 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from django.views.decorators.clickjacking import xframe_options_exempt
 
-
-
 # Create your views here.
 def home_view(request):
     if request.user.is_authenticated:

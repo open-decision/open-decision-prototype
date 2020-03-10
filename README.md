@@ -71,7 +71,7 @@ Next install the requirements.
 ```
 # Install dependencies
 cd src
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 ```
 Now start the Django development server and enjoy!
 

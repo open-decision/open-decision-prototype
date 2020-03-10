@@ -27,10 +27,7 @@
   </div>
 </div>
 <div id="logic-field">
-  <div class="node_create_topbar" style="border-bottom:1px solid grey;">
-    <p style="float:left;margin:0;">Logik</p>
-    <a href="javascript:void(0)" class="logic_add2" id="add_l_2" style="float:right; padding:0;">+</a>
-  </div>  <div class='formset' id='logic-formset'>
+   <div class='formset' id='logic-formset'>
   {% if edit == 'true' %}
     {{ logic_formset_init }}
   {% endif %}
@@ -125,7 +122,7 @@ var selectedTree = $('#selected-tree').val();
      $.ajax({
        url: logicFormUrl,
        data: {
-         'input_type': 'button'
+         'input_type': 'short_text'
        },
        success: function (data) {
          $("#logic-formset").html(data);
@@ -135,7 +132,7 @@ var selectedTree = $('#selected-tree').val();
      $.ajax({
        url: inputFormUrl,
        data: {
-         'input_type': 'button'
+         'input_type': 'short_text'
        },
        success: function (data) {
          console.log(data);

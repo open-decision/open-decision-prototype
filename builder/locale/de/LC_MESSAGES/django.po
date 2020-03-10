@@ -108,7 +108,7 @@ msgstr "größer"
 
 #: builder/forms.py:116 builder/forms.py:131
 msgid "greater or equal"
-msgstr "größer gliech"
+msgstr "größer gleich"
 
 #: builder/templates/node_create.html:9
 msgid "Editing"

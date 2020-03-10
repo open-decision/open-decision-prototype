@@ -16,10 +16,10 @@ class InputForm (forms.Form):
         ('button', _('Button')),
         ('list', _('Selectlist')),
     #    ('multiple_select', 'Mehrfachauswahl'),
-    #    ('short_text', 'Textfeld'),
+        ('short_text', _('Short free text')),
     #    ('long_text', 'Großes Textfeld'),
         ('number', _('Numberfield')),
-        ('date', _('Datefield')),
+    #    ('date', _('Datefield')),
         ('end_node', _('End-node - no input')))
     input_type = forms.ChoiceField(choices = INPUT_CHOICES, label= _('Input Type'))
     text = forms.CharField()
@@ -29,12 +29,23 @@ class InputForm (forms.Form):
 
         if self.input_type == 'button':
             self.fields['text'].widget.attrs['placeholder'] = _('Button Text')
+            self.fields['destination'] = forms.CharField(attrs={'placeholder': _('Destination')})
 
         if self.input_type == 'list':
-            self.fields['text'] = forms.CharField(widget=forms.Textarea, attrs={'placeholder': _('List of all choices')})
+            self.fields['text'] = forms.CharField(widget=forms.Textarea(attrs={'placeholder': _('List of all choices')}))
 
         if (self.input_type == 'number') or (self.input_type == 'date') or (self.input_type == 'end_node'):
             self.fields['text'].widget = forms.HiddenInput()
+
+        if self.input_type == 'short_text':
+            self.fields['text'].widget.attrs['placeholder'] = _('Label')
+            #Deactivated until we send data from interpreter to someone
+            # self.fields['required'] = forms.BooleanField()
+            # self.fields['validation'] = forms.ChoiceField(label=_('then'), required=False, choices = (
+            # ('mail', _('E-Mail')),
+            # ('phone', _('Phone Number'))
+            # )
+            # )
 
 
 class LogicForm(forms.Form):
@@ -68,29 +79,22 @@ class LogicForm(forms.Form):
             self.fields['compare_to'].widget=forms.HiddenInput()
             self.fields['operator'].widget = forms.HiddenInput()
             self.fields['action'].widget = forms.HiddenInput()
-            self.fields['target'].widget.label = _('If clicked, go to:')
+            self.fields['target'].widget = forms.HiddenInput()
 
         elif self.input_type == 'list':
             self.fields['action'].widget = forms.HiddenInput()
-            self.fields['compare to'] = forms.CharField(widget=forms.Textarea, label=_('if'))
+            self.fields['compare_to'].widget = forms.Textarea()
             self.fields['operator'].choices = (
             ('==', _('is  in')),
             ('!=', _('is not in'))
             )
 
-        # elif self.input_type == 'short_text':
-        #     self.fields['operator'] = forms.CharField(widget=forms.HiddenInput())
-        #     self.fields['answers_logic'] = forms.CharField(label=_('Take the answer from'))
-        #     self.fields['action'].choices = (
-        #     ('set', _('save value as')),
-        #     ('set', _('save value as'))
-        #     )
-        #     self.fields['action'].label = _('and then')
-        #     self.fields['operator'].choices = (
-        #     ('==', _('equal')),
-        #     ('==', _('equal'))
-        #     )
-        #
+        elif self.input_type == 'short_text':
+            self.fields['compare_to'].widget=forms.HiddenInput()
+            self.fields['operator'].widget = forms.HiddenInput()
+            self.fields['action'].widget = forms.HiddenInput()
+            self.fields['target'].widget = forms.HiddenInput()
+
         # elif self.input_type == 'long_text':
         #     self.fields['operator'] = forms.CharField(widget=forms.HiddenInput())
         #     self.fields['answers_logic'] = forms.CharField(label=_('Take the  answer from'))

@@ -19,13 +19,13 @@
 {% if expandable %}
 <script src="{% static '/jquery.formset.js' %}"></script>
   <script>
-  $('.input-formset').formset({
+  $('.answer-formset').formset({
       addText: '+',
       deleteText: '-',
       addCssClass: "answer_add",
       deleteCssClass: "answer_delete",
-      prefix: 'answer',
-      formCssClass:'input-formset',
+      prefix: 'input',
+      formCssClass:'answer-formset',
   });
   </script>
 {% endif %}

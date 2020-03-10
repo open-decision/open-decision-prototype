@@ -342,7 +342,7 @@ msgstr ""
 "Wir haben dir eine Verifizierungs-Mail gesendet.\n"
 "Bitte klicke auf den Link in .Folge dem enthaltenen Link, "
 "um den Registrierungsprozess abzuschließen. Bitte melde dich bei uns, wenn du in "
-"der nächsten halben Stunde keine E-Mail erhälst.
+"der nächsten halben Stunde keine E-Mail erhälst."
 
 #: templates/account/verified_email_required.html:20
 #, python-format

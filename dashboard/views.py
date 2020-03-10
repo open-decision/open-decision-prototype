@@ -1,4 +1,4 @@
-import os
+import os, json
 from django.shortcuts import render, redirect
 from django.views import generic
 from .models import DecisionTree, Node
@@ -6,7 +6,6 @@ from .forms import DecisionTreeForm
 from django.contrib.auth.decorators import login_required
 from django.utils.text import slugify
 from django.db.models import Count
-import json
 from django.http import HttpResponse
 from .models import bleach_clean
 from django.db import IntegrityError

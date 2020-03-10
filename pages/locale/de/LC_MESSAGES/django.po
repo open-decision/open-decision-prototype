@@ -145,9 +145,9 @@ msgstr ""
 "übersichtlichen Schema erfolgen: Aus einem Katalog wählt der Verbraucher "
 "zunächst das passende Problem aus. Das Programm beginnt daraufhin mit der "
 "Abfrage des Sachverhalts, welche dem jeweils dahinterstehenden "
-Entscheidungsbaum entspricht. Nach einer möglichst geringen Anzahl an Fragen "
-erhält der Nutzer eine Zusammenstellung von Informationen, Weiterleitungen und "
-ggf. Musterschreiben zu seinem konkret ermittelten Fall."
+"Entscheidungsbaum entspricht. Nach einer möglichst geringen Anzahl an Fragen "
+"erhält der Nutzer eine Zusammenstellung von Informationen, Weiterleitungen und "
+"ggf. Musterschreiben zu seinem konkret ermittelten Fall."
 
 
 #: pages/templates/publish.html:14 pages/templates/publish_embedded.html:15

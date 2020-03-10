@@ -10,25 +10,19 @@ CKEDITOR_CONFIGS = {
 
 
         'toolbar_NodeCreateToolbar': [
-
-            {'name': 'document', 'items': ['Source', 'Templates']},
-            {'name': 'clipboard', 'items': ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo', 'Maximize']},
+            {'name': 'document', 'items': ['Maximize','Undo', 'Redo']},
             {'name': 'basicstyles',
-             'items': ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
+             'items': ['Bold', 'Italic', 'Underline']},
             {'name': 'paragraph',
-             'items': ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', '-',
-                       'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']},
-            {'name': 'links', 'items': ['Link', 'Unlink']},
-            {'name': 'insert',
-             'items': ['Table', 'HorizontalRule', 'Smiley', 'SpecialChar']},
-            {'name': 'styles', 'items': ['Styles', 'Format', 'Font', 'FontSize']},
+             'items': ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-',
+                       'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']},
+            {'name': 'links', 'items': ['Link']},
+            {'name': 'insert', 'items': ['HorizontalRule', 'Source']},
+                        '/',
+
+            {'name': 'styles', 'items': ['Format', 'Font', 'FontSize']},
             {'name': 'colors', 'items': ['TextColor', 'BGColor']},
-            {'name': 'view', 'items': [
-                'Preview',
-                'Maximize',
-                ]},
-                '/',
-            {'name': 'opendecision', 'items': ['CreateToken', 'Abbr', 'CreatePlaceholder']},
+            {'name': 'opendecision', 'items': ['CreateToken', 'Abbr']},
         ],
 
 
