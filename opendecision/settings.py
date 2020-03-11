@@ -111,7 +111,7 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
         'dashboard',
         'visualbuilder',
     ]
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 else:
     DEBUG = True
