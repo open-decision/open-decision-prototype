@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.urls import path, re_path, include
 from builder.views import node_create_view, node_edit_view, load_input_form, load_logic_field, load_nodes, load_token
-from pages.views import home_view, contact_view, test_view,show_published_tree, get_published_tree
+from pages.views import home_view, contact_view, test_view,show_published_tree, get_published_tree, lang_view
 from interpreter.views import show_interpreter
 from dashboard.views import (dashboard_view, published_tree_view, add_tree, tree_view, export_tree,
                             set_as_endnode, delete_node, delete_tree, export_file,
@@ -29,14 +29,15 @@ from visualbuilder.views import visualbuilder_view, load_node_form
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
-    # path('accounts/', register_user, name='register_user'),
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
+    path('i18n/', include('django.conf.urls.i18n')),
 
     path('', home_view, name='home'),
     path('contact/', contact_view),
     path('interpreter/', show_interpreter),
     path('trees/', dashboard_view),
     path('test/', test_view),
+    path('lang/', lang_view),
     path('publish/<str:slug>/', show_published_tree , name='publish'),
 
     path('ajax/load_input_form/', load_input_form, name='ajax_load_input_form'),

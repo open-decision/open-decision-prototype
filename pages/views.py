@@ -27,6 +27,10 @@ def test_view(request, *args, **kwargs):
     context = {}
     return render(request, 'test.html', context)
 
+def lang_view(request, *args, **kwargs):
+    context = {}
+    return render(request, 'set_language.html', context)
+
 def handler403(request, exception):
     return render(request, '403.html', status=403)
 

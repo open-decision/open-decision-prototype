@@ -62,7 +62,7 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
     SECRET_KEY = os.environ.get('SECRET_KEY')
 
     STATIC_URL = os.path.join(
-        os.path.dirname(BASE_DIR), "deployment", "collected_static")
+        os.path.dirname(BASE_DIR), "production", "collected_static")
 
     # E-Mail configuration
     EMAIL_HOST = os.environ.get('SMTP_SERVER')
@@ -239,9 +239,9 @@ USE_TZ = True
 STATICFILES_DIRS = (os.path.join(
     BASE_DIR, "opendecision", "static"),)
 STATIC_ROOT = os.path.join(
-    os.path.dirname(BASE_DIR), "deployment", "collected_static")
+    BASE_DIR, "production", "collected_static")
 MEDIA_ROOT = os.path.join(
-    os.path.dirname(BASE_DIR), "deployment", "media")
+    BASE_DIR, "production", "media")
 
 INTERNAL_IPS = [
     '127.0.0.1',
