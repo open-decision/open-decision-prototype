@@ -93,21 +93,10 @@ elif os.environ.get('AZURE') is not None:
     STATIC_LOCATION = "static"
     MEDIA_LOCATION = "media"
 
-    AZURE_ACCOUNT_NAME = 'opendecision'
-
-    AZURE_CUSTOM_DOMAIN = 'https://opendecision.blob.core.windows.net'
-    STATIC_URL = 'https://opendecision.blob.core.windows.net/static/'
-    MEDIA_URL = 'https://opendecision.blob.core.windows.net/media/'
-    #
-    # STATIC_LOCATION = "static"
-    # MEDIA_LOCATION = "media"
-    #
-    # AZURE_ACCOUNT_NAME = os.environ.get('STORAGE_ACCOUNT_NAME')
-    # AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
-    # STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
-    # MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
-
-    #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    AZURE_ACCOUNT_NAME = os.environ.get('STORAGE_ACCOUNT_NAME')
+    AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
+    STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
+    MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
 
 if os.environ.get('DJANGO_PRODUCTION') is not None:
     # SECURITY WARNING: don't run with debug turned on in production!
