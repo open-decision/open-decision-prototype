@@ -61,6 +61,9 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
     # SECURITY WARNING: keep the secret key used in production secret!
     SECRET_KEY = os.environ.get('SECRET_KEY')
 
+    STATIC_URL = os.path.join(
+        os.path.dirname(BASE_DIR), "deployment", "collected_static")
+
     # E-Mail configuration
     EMAIL_HOST = os.environ.get('SMTP_SERVER')
     EMAIL_PORT = 587
@@ -111,6 +114,7 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
 
 else:
     DEBUG = True
+    STATIC_URL = '/opendecision/static/'
     SECRET_KEY = '678&exk6aus^#z8j+#tco4%_bgv6mvd6!kcf!gokhza$)3sjql'
     INSTALLED_APPS = [
         'django.contrib.admin',
