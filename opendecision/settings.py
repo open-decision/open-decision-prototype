@@ -21,13 +21,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 STATICFILES_DIRS = (os.path.join(
     BASE_DIR, "opendecision", "static"),)
-STATIC_ROOT = os.path.join(
-    BASE_DIR, "production", "collected_static")
-MEDIA_ROOT = os.path.join(
-    BASE_DIR, "production", "media")
+# STATIC_ROOT = os.path.join(
+#     BASE_DIR, "production", "collected_static")
+# MEDIA_ROOT = os.path.join(
+#     BASE_DIR, "production", "media")
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
+# Heroku Settings
 if os.environ.get('HEROKU') is not None:
     ALLOWED_HOSTS = ['.herokuapp.com']
 
@@ -58,6 +59,7 @@ if os.environ.get('HEROKU') is not None:
     ]
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
+#Azure Settings
 elif os.environ.get('AZURE') is not None:
     ALLOWED_HOSTS = ['*']
 
@@ -91,10 +93,19 @@ elif os.environ.get('AZURE') is not None:
     STATIC_LOCATION = "static"
     MEDIA_LOCATION = "media"
 
-    AZURE_ACCOUNT_NAME = os.environ.get('STORAGE_ACCOUNT_NAME')
-    AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
-    STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
-    MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
+    AZURE_ACCOUNT_NAME = 'opendecision'
+
+    AZURE_CUSTOM_DOMAIN = 'https://opendecision.blob.core.windows.net'
+    STATIC_URL = 'https://opendecision.blob.core.windows.net/static/'
+    MEDIA_URL = 'https://opendecision.blob.core.windows.net/media/'
+    #
+    # STATIC_LOCATION = "static"
+    # MEDIA_LOCATION = "media"
+    #
+    # AZURE_ACCOUNT_NAME = os.environ.get('STORAGE_ACCOUNT_NAME')
+    # AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
+    # STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
+    # MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
 
     #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
