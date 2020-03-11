@@ -111,6 +111,7 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
         'dashboard',
         'visualbuilder',
     ]
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 else:
     DEBUG = True
@@ -245,4 +246,9 @@ MEDIA_ROOT = os.path.join(
 
 INTERNAL_IPS = [
     '127.0.0.1',
+]
+
+LOCALE_PATHS = [
+os.path.join(
+    BASE_DIR, "locale"),
 ]
