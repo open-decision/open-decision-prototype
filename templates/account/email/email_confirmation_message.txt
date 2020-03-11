@@ -1,5 +1,5 @@
 {% load account %}
 {% load i18n %}
 {% autoescape off %}
-{% trans "Thanks for joining Open Decision! Please confirm your email address you are using for Open Decision by clicking the link below. To confirm this is correct, go to" %}{{ activate_url }}
+{% trans "Thanks for joining Open Decision! Please confirm your email address you are using for Open Decision by clicking the link below. To confirm this is correct, go to " %} {{ activate_url }}
 {% endautoescape %}
