@@ -60,8 +60,8 @@ elif os.environ.get('AZURE') is not None:
         }
     }
 }
-    DEFAULT_FILE_STORAGE = 'backend.custom_azure.AzureMediaStorage'
-    STATICFILES_STORAGE = 'backend.custom_azure.AzureStaticStorage'
+    DEFAULT_FILE_STORAGE = 'opendecision.custom_azure.AzureMediaStorage'
+    STATICFILES_STORAGE = 'opendecision.custom_azure.AzureStaticStorage'
 
     STATIC_LOCATION = "static"
     MEDIA_LOCATION = "media"
