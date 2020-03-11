@@ -16,6 +16,16 @@ from .ckeditor_settings import *
 #BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/2.2/howto/static-files/
+
+STATICFILES_DIRS = (os.path.join(
+    BASE_DIR, "opendecision", "static"),)
+STATIC_ROOT = os.path.join(
+    BASE_DIR, "production", "collected_static")
+MEDIA_ROOT = os.path.join(
+    BASE_DIR, "production", "media")
+
 AUTH_USER_MODEL = 'users.CustomUser'
 
 if os.environ.get('HEROKU') is not None:
@@ -50,7 +60,16 @@ elif os.environ.get('AZURE') is not None:
         }
     }
 }
+    DEFAULT_FILE_STORAGE = 'backend.custom_azure.AzureMediaStorage'
+    STATICFILES_STORAGE = 'backend.custom_azure.AzureStaticStorage'
 
+    STATIC_LOCATION = "static"
+    MEDIA_LOCATION = "media"
+
+    AZURE_ACCOUNT_NAME = "opendecision"
+    AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
+    STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
+    MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
 
     #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
@@ -103,6 +122,7 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
         'allauth.account',
         'allauth.socialaccount',
         'django_inlinecss',
+        'storages',
 
         'users',
         'interpreter',
@@ -234,15 +254,7 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATICFILES_DIRS = (os.path.join(
-    BASE_DIR, "opendecision", "static"),)
-STATIC_ROOT = os.path.join(
-    BASE_DIR, "production", "collected_static")
-MEDIA_ROOT = os.path.join(
-    BASE_DIR, "production", "media")
 
 INTERNAL_IPS = [
     '127.0.0.1',
