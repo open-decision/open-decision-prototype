@@ -42,7 +42,21 @@ if os.environ.get('HEROKU') is not None:
     db_from_env = dj_database_url.config(conn_max_age=500)
     DATABASES['default'].update(db_from_env)
 
+    STATIC_URL = os.path.join(
+        os.path.dirname(BASE_DIR), "production", "collected_static")
 
+    MIDDLEWARE = [
+        'django.middleware.security.SecurityMiddleware',
+        'whitenoise.middleware.WhiteNoiseMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.locale.LocaleMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    ]
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 elif os.environ.get('AZURE') is not None:
     ALLOWED_HOSTS = ['*']
@@ -60,13 +74,24 @@ elif os.environ.get('AZURE') is not None:
         }
     }
 }
+    MIDDLEWARE = [
+        'django.middleware.security.SecurityMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.locale.LocaleMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    ]
+
     DEFAULT_FILE_STORAGE = 'opendecision.custom_azure.AzureMediaStorage'
     STATICFILES_STORAGE = 'opendecision.custom_azure.AzureStaticStorage'
 
     STATIC_LOCATION = "static"
     MEDIA_LOCATION = "media"
 
-    AZURE_ACCOUNT_NAME = "opendecision"
+    AZURE_ACCOUNT_NAME = os.environ.get('STORAGE_ACCOUNT_NAME')
     AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
     STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
     MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
@@ -79,9 +104,6 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
 
     # SECURITY WARNING: keep the secret key used in production secret!
     SECRET_KEY = os.environ.get('SECRET_KEY')
-
-    STATIC_URL = os.path.join(
-        os.path.dirname(BASE_DIR), "production", "collected_static")
 
     # E-Mail configuration
     EMAIL_HOST = os.environ.get('SMTP_SERVER')
@@ -96,17 +118,6 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
 
     # Admin  configuration
     ADMINS = [(os.environ.get('ADMIN1_NAME'), os.environ.get('ADMIN1_EMAIL'))]
-    MIDDLEWARE = [
-        'django.middleware.security.SecurityMiddleware',
-        'whitenoise.middleware.WhiteNoiseMiddleware',
-        'django.contrib.sessions.middleware.SessionMiddleware',
-        'django.middleware.locale.LocaleMiddleware',
-        'django.middleware.common.CommonMiddleware',
-        'django.middleware.csrf.CsrfViewMiddleware',
-        'django.contrib.auth.middleware.AuthenticationMiddleware',
-        'django.contrib.messages.middleware.MessageMiddleware',
-        'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    ]
 
     INSTALLED_APPS = [
         'django.contrib.admin',
@@ -131,7 +142,7 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
         'dashboard',
         'visualbuilder',
     ]
-    # STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+
 
 else:
     DEBUG = True
