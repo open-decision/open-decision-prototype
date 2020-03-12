@@ -61,7 +61,13 @@ if os.environ.get('HEROKU') is not None:
 
 #Azure Settings
 elif os.environ.get('AZURE') is not None:
-    ALLOWED_HOSTS = ['od-prod.azurewebsites.net', 'opendecision.azureedge.net']
+    ALLOWED_HOSTS = [
+        'od-prod.azurewebsites.net',
+        'opendecision.azureedge.net',
+        'open-decision.azureedge.net',
+        'od-static.azureedge.net',
+        '127.0.0.1',
+    ]
 
     DATABASES = {
     'default': {
@@ -94,7 +100,7 @@ elif os.environ.get('AZURE') is not None:
     MEDIA_LOCATION = "media"
 
     AZURE_ACCOUNT_NAME = os.environ.get('STORAGE_ACCOUNT_NAME')
-    AZURE_CUSTOM_DOMAIN = 'https://opendecision.azureedge.net'
+    AZURE_CUSTOM_DOMAIN = 'https://od-static.azureedge.net'
     STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
     MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
 
