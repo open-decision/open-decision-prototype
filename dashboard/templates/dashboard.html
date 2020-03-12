@@ -144,12 +144,12 @@
       </div>
     </div>
 
-    <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
+    <!-- <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script> -->
   {% if start_tour %}
-    <script type="text/javascript" src="{% static 'tours/dashboard-tour.js' %}"></script>
+    <script async type="text/javascript" src="{% static 'tours/dashboard-tour.js' %}"></script>
     {% endif %}
     <script>
-    $(document).ready(function(){
+    window.addEventListener('DOMContentLoaded', function() {
 
       makeTrClickable();
       // Make the table rows clickable

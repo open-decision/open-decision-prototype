@@ -193,10 +193,10 @@
 {% endif %}
 </form>
 
-<script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
+<!-- <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script> -->
 
 <script>
-$(document).ready(function(){
+window.addEventListener('DOMContentLoaded', function() {
 $("a.btn-sm").click(function(){
   $(this).css("background-color", "green");
   });

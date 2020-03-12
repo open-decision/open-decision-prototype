@@ -61,7 +61,7 @@ if os.environ.get('HEROKU') is not None:
 
 #Azure Settings
 elif os.environ.get('AZURE') is not None:
-    ALLOWED_HOSTS = ['*']
+    ALLOWED_HOSTS = ['od-prod.azurewebsites.net', 'opendecision.azureedge.net']
 
     DATABASES = {
     'default': {

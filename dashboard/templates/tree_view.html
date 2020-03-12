@@ -210,12 +210,12 @@
       </div>
     </div>
 
-    <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
-    <script type="text/javascript" src="{% static 'logic.js' %}"></script>
-    <script type="text/javascript" src="{% static 'od-js-interpreter.js' %}"></script>
+    <!-- <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script> -->
+    <script defer type="text/javascript" src="{% static 'logic.js' %}"></script>
+    <script defer type="text/javascript" src="{% static 'od-js-interpreter.js' %}"></script>
 
     <script>
-    $(document).ready(function(){
+    window.addEventListener('DOMContentLoaded', function() {
 
       $(document).on('click', '#preview-btn', function(event) {
         var url =  $('#preview-btn').attr("data-url");
