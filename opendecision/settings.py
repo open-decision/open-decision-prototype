@@ -61,6 +61,7 @@ if os.environ.get('HEROKU') is not None:
 
 #Azure Settings
 elif os.environ.get('AZURE') is not None:
+    DEBUG = True
     ALLOWED_HOSTS = [
         'od-prod.azurewebsites.net',
         'opendecision.azureedge.net',
@@ -108,7 +109,7 @@ elif os.environ.get('AZURE') is not None:
 
 if os.environ.get('DJANGO_PRODUCTION') is not None:
     # SECURITY WARNING: don't run with debug turned on in production!
-    DEBUG = False
+    #DEBUG = False
 
     # SECURITY WARNING: keep the secret key used in production secret!
     SECRET_KEY = os.environ.get('SECRET_KEY')
