@@ -86,6 +86,8 @@ elif os.environ.get('AZURE') is not None:
         'django.middleware.security.SecurityMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.locale.LocaleMiddleware',
+                'debug_toolbar.middleware.DebugToolbarMiddleware',
+
         'django.middleware.common.CommonMiddleware',
         'django.middleware.csrf.CsrfViewMiddleware',
         'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -140,6 +142,8 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
         'allauth.socialaccount',
         'django_inlinecss',
         'storages',
+
+        'debug_toolbar',
 
         'users',
         'interpreter',
@@ -275,6 +279,8 @@ USE_TZ = True
 
 INTERNAL_IPS = [
     '127.0.0.1',
+    '193.61.207.221',
+    '*'
 ]
 
 LOCALE_PATHS = [

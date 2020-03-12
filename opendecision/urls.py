@@ -65,7 +65,7 @@ urlpatterns = [
     path('visualbuilder/', visualbuilder_view, name='visualbuilder'),
 ]
 
-if settings.DEBUG:
+if True: #settings.DEBUG:
     import debug_toolbar
     urlpatterns = [
         path('__debug__/', include(debug_toolbar.urls)),
