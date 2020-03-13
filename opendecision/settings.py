@@ -46,8 +46,8 @@ if os.environ.get('HEROKU') is not None:
 
     STATIC_URL = os.path.join(
         os.path.dirname(BASE_DIR), "production", "collected_static")
-    CKEDITOR_BASEPATH = os.path.join(
-            os.path.dirname(BASE_DIR), "production", "collected_static", "ckeditor","ckeditor")
+    CKEDITOR_BASEPATH = f'{STATIC_URL}/ckeditor/ckeditor/'
+
     MIDDLEWARE = [
         'django.middleware.security.SecurityMiddleware',
         'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -105,7 +105,7 @@ elif os.environ.get('AZURE') is not None:
     AZURE_CUSTOM_DOMAIN = 'https://od-static.azureedge.net'
     STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
     MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
-    CKEDITOR_BASEPATH = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/ckeditor/ckeditor'
+    CKEDITOR_BASEPATH = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/ckeditor/ckeditor/'
 if os.environ.get('DJANGO_PRODUCTION') is not None:
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = False
