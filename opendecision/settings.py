@@ -26,6 +26,7 @@ STATIC_ROOT = os.path.join(
 MEDIA_ROOT = os.path.join(
     BASE_DIR, "production", "media")
 
+
 AUTH_USER_MODEL = 'users.CustomUser'
 
 # Heroku Settings
@@ -45,7 +46,8 @@ if os.environ.get('HEROKU') is not None:
 
     STATIC_URL = os.path.join(
         os.path.dirname(BASE_DIR), "production", "collected_static")
-
+    CKEDITOR_BASEPATH = os.path.join(
+            os.path.dirname(BASE_DIR), "production", "collected_static", "ckeditor","ckeditor")
     MIDDLEWARE = [
         'django.middleware.security.SecurityMiddleware',
         'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -103,7 +105,7 @@ elif os.environ.get('AZURE') is not None:
     AZURE_CUSTOM_DOMAIN = 'https://od-static.azureedge.net'
     STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
     MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
-
+    CKEDITOR_BASEPATH = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/ckeditor/ckeditor'
 if os.environ.get('DJANGO_PRODUCTION') is not None:
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = False
@@ -152,6 +154,7 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
 
 else:
     DEBUG = True
+    CKEDITOR_BASEPATH = "/opendecision/static/ckeditor/ckeditor/"
     STATIC_URL = '/opendecision/static/'
     SECRET_KEY = '678&exk6aus^#z8j+#tco4%_bgv6mvd6!kcf!gokhza$)3sjql'
     INSTALLED_APPS = [
@@ -269,9 +272,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-
-
 
 INTERNAL_IPS = [
     '127.0.0.1',
