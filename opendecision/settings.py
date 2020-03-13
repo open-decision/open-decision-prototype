@@ -23,11 +23,7 @@ STATICFILES_DIRS = (os.path.join(
     BASE_DIR, "opendecision", "static"),)
 STATIC_ROOT = os.path.join(
     BASE_DIR, "production", "collected_static")
-MEDIA_ROOT = os.path.join(
-    BASE_DIR, "production", "media")
-
-
-AUTH_USER_MODEL = 'users.CustomUser'
+MEDIA_ROOT = os.path.join(BASE_DIR, "production", "media")
 
 # Heroku Settings
 if os.environ.get('HEROKU') is not None:
@@ -106,12 +102,21 @@ elif os.environ.get('AZURE') is not None:
     STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
     MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
     CKEDITOR_BASEPATH = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/ckeditor/ckeditor/'
-if os.environ.get('DJANGO_PRODUCTION') is not None:
-    # SECURITY WARNING: don't run with debug turned on in production!
-    DEBUG = False
 
-    # SECURITY WARNING: keep the secret key used in production secret!
+if os.environ.get('DJANGO_PRODUCTION') is not None:
+
+    # SECURITY
+    DEBUG = False
     SECRET_KEY = os.environ.get('SECRET_KEY')
+
+    SECURE_SSL_REDIRECT = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_HSTS_SECONDS = 30
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    #SECURE_HSTS_PRELOAD = True
+    SECURE_REFERRER_POLICY = True
+    CSRF_COOKIE_SECURE = True
+
 
     # E-Mail configuration
     EMAIL_HOST = os.environ.get('SMTP_SERVER')
@@ -241,6 +246,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'users.CustomUser'
 AUTHENTICATION_BACKENDS = (
 
     'django.contrib.auth.backends.ModelBackend',
