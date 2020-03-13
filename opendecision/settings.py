@@ -21,10 +21,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 STATICFILES_DIRS = (os.path.join(
     BASE_DIR, "opendecision", "static"),)
-# STATIC_ROOT = os.path.join(
-#     BASE_DIR, "production", "collected_static")
-# MEDIA_ROOT = os.path.join(
-#     BASE_DIR, "production", "media")
+STATIC_ROOT = os.path.join(
+    BASE_DIR, "production", "collected_static")
+MEDIA_ROOT = os.path.join(
+    BASE_DIR, "production", "media")
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
