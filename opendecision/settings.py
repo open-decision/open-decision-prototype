@@ -114,8 +114,10 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
     SECURE_HSTS_SECONDS = 30
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     #SECURE_HSTS_PRELOAD = True
-    SECURE_REFERRER_POLICY = True
+    #SECURE_REFERRER_POLICY = True
     CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+
 
 
     # E-Mail configuration
