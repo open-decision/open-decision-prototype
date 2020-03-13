@@ -114,7 +114,7 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
     SECURE_HSTS_SECONDS = 30
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     #SECURE_HSTS_PRELOAD = True
-    SECURE_REFERRER_POLICY = 'same-origin'
+    #SECURE_REFERRER_POLICY = 'same-origin'
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
 
