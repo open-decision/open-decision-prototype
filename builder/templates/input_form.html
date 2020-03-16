@@ -2,30 +2,97 @@
 {% if edit %}
   {{ input_formset_init.management_form }}
   {% for input_form in input_formset_init %}
-    <div class="answer-formset">
-    {{ input_form.as_p }}
+    <div class="input-formset">
+      <div class="input-fields">
+      {% for hidden_field in input_form.hidden_fields %}
+          {{ hidden_field }}
+        {% endfor %}
+        {% for field in input_form.visible_fields %}
+          <div class="form-group">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.help_text %}
+              <small class="form-text text-muted">{{ field.help_text }}</small>
+            {% endif %}
+          </div>
+        {% endfor %}
+    </div>
+    <div class="logic-modules">
+
+    </div>
     </div>
   {% endfor %}
-
 {% else %}
   {{ input_formset.management_form }}
-    <div class="answer-formset">
-    {% for input_form in input_formset %}
-      {{ input_form.as_p }}
-    {% endfor %}
+  {% for input_form in input_formset %}
+    <div class="input-formset">
+      <div class="input-fields">
+    {% for hidden_field in input_form.hidden_fields %}
+        {{ hidden_field }}
+      {% endfor %}
+      {% for field in input_form.visible_fields %}
+        <div class="form-group">
+          {{ field.label_tag }}
+          {{ field }}
+          {% if field.help_text %}
+            <small class="form-text text-muted">{{ field.help_text }}</small>
+          {% endif %}
+        </div>
+      {% endfor %}
     </div>
+    <div class="logic-modules">
+      <div id="logic_module">
+         <div class='formset' id='logic-formset'>
+        {% if edit == 'true' %}
+          {{ logic_formset_init }}
+        {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+    {% endfor %}
 {% endif %}
 
 {% if expandable %}
-<script defer src="{% static '/jquery.formset.js' %}"></script>
+<script src="{% static '/jquery.formset.js' %}"></script>
   <script>
-  $('.answer-formset').formset({
-      addText: 'Add Input Element',
-      deleteText: '-',
-      // addCssClass: "answer_add",
-      deleteCssClass: "answer_delete",
+  $('.input-formset').formset({
+      addText: 'Add Input Option',
+      deleteText: 'Remove Input Option',
+      addCssClass: "btn btn-primary btn-sm formset-button mt-5 mb-5",
+      deleteCssClass: "btn btn-secondary btn-sm formset-button mt-0 mb-5",
       prefix: 'input',
-      formCssClass:'answer-formset',
+      formCssClass:'input-formset',
+      added: afterAdd,
+      removed: afterRemoved,
   });
+function afterAdd(row){
+  try {
+    let inputType = document.getElementById('id_input-0-input_type').value;
+    if (inputType === 'button' || inputType === 'short_text'){
+      let inputSelector = document.querySelectorAll("[id$=input_type]");
+      inputSelector[inputSelector.length-1].style.display = "none";
+      document.querySelector('label[for=' + inputSelector[inputSelector.length-1].id+']').style.display = "none";
+      if (inputType === 'short_text'){
+        document.querySelector('.input-formset').querySelector('a').style.display = "none";
+      }
+    }
+  } catch{
+  }
+};
+function afterRemoved(row){
+  try {
+  let inputType = document.getElementById('id_input-0-input_type').value;
+  if (inputType === 'button'){
+    elem=document.getElementById('id_input-0-input_type');
+    if (elem.style.display === "none"){
+      elem.style.display = "";
+      document.querySelector('label[for=' + elem.id +']').style.display = "";
+    }
+  }
+} catch{
+  }
+};
+
   </script>
 {% endif %}

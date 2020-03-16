@@ -29,7 +29,7 @@ class InputForm (forms.Form):
 
         if self.input_type == 'button':
             self.fields['text'].widget.attrs['placeholder'] = _('Button Text')
-            self.fields['destination'] = forms.CharField(attrs={'placeholder': _('Destination')})
+            self.fields['destination'] = forms.CharField(widget=forms.TextInput(attrs={'placeholder': _('Destination')}))
 
         if self.input_type == 'list':
             self.fields['text'] = forms.CharField(widget=forms.Textarea(attrs={'placeholder': _('List of all choices')}))

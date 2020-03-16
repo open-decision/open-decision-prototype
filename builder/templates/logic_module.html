@@ -1,3 +1,4 @@
+
 {% load static %}
 {% if edit %}
   {{ logic_formset_init.management_form }}
@@ -24,10 +25,10 @@
 
 <script>
 $('.logic-formset').formset({
-    addText: '+',
-    deleteText: '-',
-    addCssClass: "logic_add",
-    deleteCssClass: "logic_delete",
+    addText: 'Add Logic Module',
+    deleteText: 'Remove Logic Module',
+    addCssClass: "btn btn-primary btn-sm formset-button mt-5 mb-5",
+    deleteCssClass: "btn btn-secondary btn-sm formset-button mt-0 mb-5",
     prefix: 'logic',
     formCssClass:'logic-formset',
     added: attachEventHandlers,

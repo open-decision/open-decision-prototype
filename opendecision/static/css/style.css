@@ -143,13 +143,15 @@
   margin:0;
 }
 
-#logic-field {
+/* #logic_module {
   float: right;
   width: 50%;
   padding:1em 0;
   margin:0;
+} */
+.formset-button {
+  float:right;
 }
-
 .node_create_topbar {
   background-color:#eee;
   padding:1em;
@@ -157,12 +159,12 @@
   overflow:hidden;
 }
 
-#answer-formset p {
+#input-formset p {
   width: 100%;
   float:left;
 }
 
-#answer-formset input {
+#input-formset input {
   width: 100%;
   margin:0;
   border:none;
@@ -171,23 +173,34 @@
   transition: 0.5s;
   outline: none;
 }
-#answer-formset input:focus {
+#input-formset input:focus {
   background-color:#fff;
 }
 
-#answer-formset label {
+#input-formset label {
   display:none;
 }
 
-.answer_delete {
+.input_delete {
   float: right;
 }
 
-.answer-formset {
+.input-formset {
   padding:0.2em;
   border-right:1px solid grey;
-  height: 70px;
+  display:inline-block;
 }
+
+.input-fields {
+float:left;
+width:60%;
+}
+
+.logic-modules {
+float:right;
+width:40%;
+}
+
 
 #logic-formset input, select {
   width: 40%;
@@ -210,34 +223,35 @@
 
 
 .logic-formset {
-  padding:1em;
-  height: 120px;
-  border-bottom:1px solid grey;
+  padding:0.2em;
+  height: 80px;
+  display:inline-block;
 }
 
-.logic_add, .logic_add2, .answer_add2, .answer_add {
+.logic_add, .logic_add2, .input_add2, .input_add {
   padding: 0 49% 0;
+  margin-top: : 10px;
 }
-.logic_add, .logic_add2, .answer_add2, .answer_add, .logic_delete, .answer_delete {
+.logic_add, .logic_add2, .input_add2, .input_add, .logic_delete, .input_delete {
   font-weight: bold;
   font-size: 1.2em;
 }
 
-.logic_add:hover, .logic_add2:hover, .answer_add2:hover, .answer_add:hover, .logic_delete:hover, .answer_delete:hover{
+.logic_add:hover, .logic_add2:hover, .input_add2:hover, .input_add:hover, .logic_delete:hover, .input_delete:hover{
   text-decoration:none;
 }
 
-.answer_delete {
+.input_delete {
   float: right;
 }
 
 .logic_delete {}
 
-.answer_add {}
+.input_add {}
 
-.answer_delete {}
+.input_delete {}
 
-#answer-formset textarea {
+#input-formset textarea {
   margin:0;
   padding:2%;
   width: 96%;

@@ -4,7 +4,7 @@
 {% load custom_filters %}
 {% load i18n %}
 
-<form method="POST" id='nodeForm' input-form-url="{% url 'ajax_load_input_form' %}" logic-form-url="{% url 'ajax_load_logic_field' %}" load-nodes-url="{% url 'ajax_load_nodes' %}">{%csrf_token%}
+<form method="POST" id='nodeForm' input-form-url="{% url 'ajax_load_input_form' %}" logic-form-url="{% url 'ajax_load_logic_module' %}" load-nodes-url="{% url 'ajax_load_nodes' %}">{%csrf_token%}
 {{ form.media }}
 <h2 class="pageheader"><a href="/trees/{{ selected_tree.slug }}" class="back_button">&#x2190;</a> {% trans "Editing" %} {{ form.name }}{{ form.name.errors }}</h2>
 <input type="hidden" id="selected-tree" value="{{ selected_tree.slug }}" >
@@ -25,13 +25,6 @@
 {% endif %}
   </div>
 </div>
-<div id="logic-field">
-   <div class='formset' id='logic-formset'>
-  {% if edit == 'true' %}
-    {{ logic_formset_init }}
-  {% endif %}
-  </div>
-</div>
 
 {{ form.non_field_errors }}<!--creates ul (class="errorlist nonfield") with nonfield errors-->
 
@@ -47,7 +40,7 @@
 window.addEventListener('DOMContentLoaded', function() {
 
 {% if edit != 'true' %}
-$.fn.loadForms();
+loadForms();
 {% endif %}
 
 CKEDITOR.on('dialogDefinition', function(event) {
@@ -74,8 +67,8 @@ var selectedTree = $('#selected-tree').val();
   }
 });
 
-  $("#id_input_type").change(function () {
-    $.fn.loadForms();
+  $("#id_input-0-input_type").change(function () {
+    loadForms();
       });
 
       $("#add_a_2").click(function() {
@@ -86,33 +79,63 @@ var selectedTree = $('#selected-tree').val();
         $('.logic_add').trigger("click" );
       });
 
-  $("#answer-formset").on('blur',"input[name^='answer']",
-      function(){
-        let answer_given = $(this).val(),
-            input_type = $('#id_input_type').val();
+//   $("#answer-formset").on('blur',"input[name^='answer']",
+//       function(){
+//         let answer_given = $(this).val(),
+//             input_type = $('#id_input_type').val();
+//
+//       if (input_type == 'button' || input_type == 'short_text' || input_type == 'long_text' && answer_given !== '') {
+//             let answers = $("#id_answer-TOTAL_FORMS").val(),
+//                 logics = $("#id_logic-TOTAL_FORMS").val(),
+//                 diff = answers - logics,
+//                 num = $(this).attr('id').match(/\d+/);
+//                 console.log(diff);
+//           if (diff > 0) {
+//             let i;
+//             for (i = 0; i < diff; i++) {
+//             $('.logic_add').trigger("click" );
+//           };
+//         };
+//           $("#id_logic-"+ num +"-answers_logic").val(answer_given);
+//         };
+// });
 
-      if (input_type == 'button' || input_type == 'short_text' || input_type == 'long_text' && answer_given !== '') {
-            let answers = $("#id_answer-TOTAL_FORMS").val(),
-                logics = $("#id_logic-TOTAL_FORMS").val(),
-                diff = answers - logics,
-                num = $(this).attr('id').match(/\d+/);
-                console.log(diff);
-          if (diff > 0) {
-            let i;
-            for (i = 0; i < diff; i++) {
-            $('.logic_add').trigger("click" );
-          };
-        };
-          $("#id_logic-"+ num +"-answers_logic").val(answer_given);
-        };
-});
-
-   $.fn.loadForms = function(){
+   function loadForms (){
      var inputFormUrl = $("#nodeForm").attr("input-form-url");
      var logicFormUrl = $("#nodeForm").attr("logic-form-url");
-     var inputType = $("#id_input_type").val();
+     var inputType;
+     inputType = $("#id_input-0-input_type").val();
+     if (inputType === undefined) {
+       inputType = 'button'
+     }
+     console.log(inputType);
 
-     if (inputType === "end_node") {
+     $.ajax({
+       url: inputFormUrl,
+       async:false,
+       data: {
+         'input_type': inputType
+       },
+       success: function (data) {
+         $("#input-formset").html(data);
+         $("#id_input-0-input_type").val(inputType);
+         $("#id_input-0-input_type").change(function () {
+           loadForms();
+             });
+        if (inputType === 'short_text'){
+          let el = document.querySelector('.input-formset');
+          let x = document.createElement('INPUT');
+              x.setAttribute('type', 'text');
+              x.setAttribute('id', 'short-text-destination');
+              x.setAttribute('placeholder', 'Destination');
+              x.setAttribute('name', 'short-text-destination');
+              el.querySelector('.input-fields').appendChild(x);
+              el.querySelector('a').style.display = "none";
+        }
+       }
+     });
+
+     if ((inputType === "end_node") || (inputType === "button") || (inputType === "short_text")){
        $(".logic-formset").hide();
      } else {
        $(".logic-formset").show();
@@ -120,23 +143,14 @@ var selectedTree = $('#selected-tree').val();
      $.ajax({
        url: logicFormUrl,
        data: {
-         'input_type': 'short_text'
+         'input_type': inputType
        },
        success: function (data) {
          $("#logic-formset").html(data);
        }
      });
 }
-     $.ajax({
-       url: inputFormUrl,
-       data: {
-         'input_type': 'short_text'
-       },
-       success: function (data) {
-         console.log(data);
-         $("#input-formset").html(data);
-       }
-     });
+
    };
 });
 </script>

@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.conf import settings
 from django.urls import path, re_path, include
-from builder.views import node_create_view, node_edit_view, load_input_form, load_logic_field, load_nodes, load_token
+from builder.views import node_create_view, node_edit_view, load_input_form, load_logic_module, load_nodes, load_token
 from pages.views import home_view, contact_view, test_view,show_published_tree, get_published_tree, lang_view
 from interpreter.views import show_interpreter
 from dashboard.views import (dashboard_view, published_tree_view, add_tree, tree_view, export_tree,
@@ -41,7 +41,7 @@ urlpatterns = [
     path('publish/<str:slug>/', show_published_tree , name='publish'),
 
     path('ajax/load_input_form/', load_input_form, name='ajax_load_input_form'),
-    path('ajax/load_logic_field/', load_logic_field, name='ajax_load_logic_field'),
+    path('ajax/load_logic_module/', load_logic_module, name='ajax_load_logic_module'),
     path('ajax/load_node_form/', load_node_form, name='ajax_load_node_form'),
     path('ajax/add_tree/', add_tree, name='add_tree'),
     path('ajax/load_nodes/', load_nodes, name='ajax_load_nodes'),
