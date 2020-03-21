@@ -43,7 +43,7 @@
     <div class="logic-modules">
       <div id="logic_module">
          <div class='formset' id='logic-formset'>
-        {% if edit == 'true' %}
+        {% if edit %}
           {{ logic_formset_init }}
         {% endif %}
         </div>
@@ -54,6 +54,7 @@
 {% endif %}
 
 {% if expandable %}
+
 <script src="{% static '/jquery.formset.js' %}"></script>
   <script>
   $('.input-formset').formset({

@@ -57,11 +57,12 @@ class Node(models.Model):
     slug            = models.SlugField(default="")
     decision_tree   = models.ForeignKey(DecisionTree, on_delete=models.CASCADE)
     path            = models.TextField(null=True, blank=True)
-    text            = RichTextBleachField()
+    question        = RichTextBleachField()
     inputs          = models.TextField(null=True, blank=True)
     new_node        = models.BooleanField()
     start_node      = models.BooleanField()
     end_node        = models.BooleanField()
+    extra_data      = models.TextField(null=True, blank=True)
 
     class Meta:
         constraints = [

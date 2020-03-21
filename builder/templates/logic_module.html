@@ -4,7 +4,7 @@
   {{ logic_formset_init.management_form }}
   {% for logic_form in logic_formset_init %}
     <div class="logic-formset">
-      {{ logic_form }}
+      {{ logic_form.as_p }}
     </div>
       {% endfor %}
 
