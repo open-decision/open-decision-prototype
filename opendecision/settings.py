@@ -98,7 +98,7 @@ elif os.environ.get('AZURE') is not None:
     MEDIA_LOCATION = "media"
 
     AZURE_ACCOUNT_NAME = os.environ.get('STORAGE_ACCOUNT_NAME')
-    AZURE_CUSTOM_DOMAIN = 'https://od-static.azureedge.net'
+    AZURE_CUSTOM_DOMAIN = 'od-static.azureedge.net'
     STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
     MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
     CKEDITOR_BASEPATH = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/ckeditor/ckeditor/'
