@@ -1,5 +1,6 @@
 {% load static %}
 {% if edit %}
+
   {{ input_formset_init.management_form }}
   {% for input_form in input_formset_init %}
     <div class="input-formset">
@@ -18,7 +19,13 @@
         {% endfor %}
     </div>
     <div class="logic-modules">
-
+      <div id="logic_module">
+         <div class='formset' id='logic-formset'>
+        {% if edit %}
+          {{ logic_formset_init }}
+        {% endif %}
+        </div>
+      </div>
     </div>
     </div>
   {% endfor %}
@@ -43,9 +50,6 @@
     <div class="logic-modules">
       <div id="logic_module">
          <div class='formset' id='logic-formset'>
-        {% if edit %}
-          {{ logic_formset_init }}
-        {% endif %}
         </div>
       </div>
     </div>

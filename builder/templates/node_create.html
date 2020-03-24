@@ -43,7 +43,20 @@
 window.addEventListener('DOMContentLoaded', function() {
 
 {% if not edit %}
-loadForms();
+  loadForms();
+{% else %}
+  shortTextDestination('{{input_type}}');
+  let inputType = document.getElementById('id_input-0-input_type').value;
+  if (inputType === 'button' || inputType === 'short_text'){
+    let inputSelector = document.querySelectorAll("[id$=input_type]");
+    for (var i=1;i<inputSelector.length;i++){
+      inputSelector[i].style.display = "none";
+      document.querySelector('label[for=' + inputSelector[i].id+']').style.display = "none";
+      if (inputType === 'short_text'){
+        document.querySelector('.input-formset').querySelector('a').style.display = "none";
+      }
+    }
+  }
 {% endif %}
 
 CKEDITOR.on('dialogDefinition', function(event) {
@@ -82,27 +95,6 @@ var selectedTree = $('#selected-tree').val();
         $('.logic_add').trigger("click" );
       });
 
-//   $("#answer-formset").on('blur',"input[name^='answer']",
-//       function(){
-//         let answer_given = $(this).val(),
-//             input_type = $('#id_input_type').val();
-//
-//       if (input_type == 'button' || input_type == 'short_text' || input_type == 'long_text' && answer_given !== '') {
-//             let answers = $("#id_answer-TOTAL_FORMS").val(),
-//                 logics = $("#id_logic-TOTAL_FORMS").val(),
-//                 diff = answers - logics,
-//                 num = $(this).attr('id').match(/\d+/);
-//                 console.log(diff);
-//           if (diff > 0) {
-//             let i;
-//             for (i = 0; i < diff; i++) {
-//             $('.logic_add').trigger("click" );
-//           };
-//         };
-//           $("#id_logic-"+ num +"-answers_logic").val(answer_given);
-//         };
-// });
-
    function loadForms (){
      var inputFormUrl = $("#nodeForm").attr("input-form-url");
      var logicFormUrl = $("#nodeForm").attr("logic-form-url");
@@ -124,23 +116,7 @@ var selectedTree = $('#selected-tree').val();
          $("#id_input-0-input_type").change(function () {
            loadForms();
              });
-        if (inputType === 'short_text'){
-          let el = document.querySelector('.input-formset');
-          let x = document.createElement('INPUT');
-              x.setAttribute('type', 'text');
-              x.setAttribute('id', 'short-text-destination');
-              x.setAttribute('placeholder', 'Destination');
-              x.setAttribute('name', 'short-text-destination');
-              x.setAttribute('maxlength', '25');
-              try {
-                let initDest = document.getElementById('init-short-text-destination').value();
-                x.setAttribute('value', initDest);
-              } catch{
-                {}
-              }
-              el.querySelector('.input-fields').appendChild(x);
-              el.querySelector('a').style.display = "none";
-        }
+             shortTextDestination(inputType);
        }
      });
 
@@ -161,6 +137,27 @@ var selectedTree = $('#selected-tree').val();
 }
 
    };
+function shortTextDestination(inputType){
+   if (inputType === 'short_text'){
+     let el = document.querySelector('.input-formset');
+     let x = document.createElement('INPUT');
+         x.setAttribute('type', 'text');
+         x.setAttribute('id', 'short-text-destination');
+         x.setAttribute('placeholder', 'Destination');
+         x.setAttribute('name', 'short-text-destination');
+         x.setAttribute('maxlength', '25');
+         try {
+           let initDest = document.getElementById('init-short-text-destination').value;
+           x.setAttribute('value', initDest);
+         } catch {
+           {}
+         }
+         el.querySelector('.input-fields').appendChild(x);
+         el.querySelector('a').style.display = "none";
+   }
+   }
+
+
 });
 </script>
 {% endblock %}

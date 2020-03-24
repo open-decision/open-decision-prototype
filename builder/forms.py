@@ -13,7 +13,6 @@ INPUT_CHOICES = (
     #    ('date', _('Datefield')),
         ('end_node', _('End-node - no input')))
 
-print(INPUT_CHOICES[1])
 class NodeForm(forms.Form):
     name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': _('Node name'), 'class' : 'node_create_name'}), max_length="25")
     question = forms.CharField(required=False, widget=CKEditorWidget())
@@ -87,7 +86,7 @@ class LogicForm(forms.Form):
 
         elif self.input_type == 'list':
             self.fields['action'].widget = forms.HiddenInput()
-            self.fields['compare_to'].widget = forms.Textarea(required=False)
+            self.fields['compare_to'].widget = forms.Textarea()
             self.fields['operator'].choices = (
             ('==', _('is  in')),
             ('!=', _('is not in'))

@@ -48,15 +48,14 @@ def node_edit_view(request, slug, node_slug):
             logic_formset_init = None
 
         short_text_destination = json.loads(data_node.inputs)[0].pop('destination', '') if input_type == 'short_text' else None
-        print(input_type)
-        print(data_input)
         input_formset_init = load_input_form(request, input_type, data_input, logic_formset_init)
         context = {
             'form': node_form,
             'selected_tree': DecisionTree.objects.filter(owner=request.user).filter(slug=slug).values()[0],
             'input_formset_init': input_formset_init,
             'edit': True,
-            'short_text_destination': 'short_text_destination',
+            'short_text_destination': short_text_destination,
+            'input_type': input_type,
             }
         return render(request, 'node_create.html', context)
 
@@ -97,13 +96,14 @@ def load_input_form(request, *args):
                     node_slug = ''
                 form[dest_key]= node_slug
         InputFormSet = formset_factory(InputForm, extra=0)
-        input_formset_init = InputFormSet(initial=data_input, prefix='input')
+        input_formset_init = InputFormSet(initial=data_input, form_kwargs={'input_type': input_type}, prefix='input')
         context = {
             'input_formset_init': input_formset_init,
-            'logic_formset_init': logic_formset_init,
             'expandable': True if (input_type=='button' or input_type == 'short_text') else False,
             'edit': True,
             }
+        if logic_formset_init:
+            context['logic_formset_init'] = logic_formset_init
         rendered = render_to_string('input_form.html', context)
         return rendered
 # If called by ajax when creating new node
