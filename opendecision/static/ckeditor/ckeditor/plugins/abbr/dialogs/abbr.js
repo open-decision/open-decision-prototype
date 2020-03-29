@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014-2018, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (c) 2014-2020, CKSource - Frederico Knabben. All rights reserved.
  * Licensed under the terms of the MIT License (see LICENSE.md).
  *
  * The abbr plugin dialog window definition.
@@ -13,7 +13,7 @@ CKEDITOR.dialog.add( 'abbrDialog', function( editor ) {
 	return {
 
 		// Basic properties of the dialog window: title, minimum size.
-		title: 'Abbreviation Properties',
+		title: 'Insert Explanation',
 		minWidth: 400,
 		minHeight: 200,
 
@@ -26,14 +26,18 @@ CKEDITOR.dialog.add( 'abbrDialog', function( editor ) {
 
 				// The tab content.
 				elements: [
+          {
+      		type : 'html',
+      		html : '<p>This functions allows you to use short help text for technical terms you use.<br>If the user does not understand the word, he can display the explanation by clicking a small question mark.<br>You should be able to see your explanation in the editor by hovering over the word for some seconds.</p>'
+        },
 					{
 						// Text input field for the abbreviation text.
 						type: 'text',
 						id: 'abbr',
-						label: 'Abbreviation',
+						label: 'Technical Term',
 
 						// Validation checking whether the field is not empty.
-						validate: CKEDITOR.dialog.validate.notEmpty( "Abbreviation field cannot be empty." ),
+						validate: CKEDITOR.dialog.validate.notEmpty( "Technical term field cannot be empty." ),
 
 						// Called by the main setupContent method call on dialog initialization.
 						setup: function( element ) {
@@ -50,6 +54,9 @@ CKEDITOR.dialog.add( 'abbrDialog', function( editor ) {
 						type: 'text',
 						id: 'title',
 						label: 'Explanation',
+
+						// Require the title attribute to be enabled.
+						requiredContent: 'abbr[title]',
 						validate: CKEDITOR.dialog.validate.notEmpty( "Explanation field cannot be empty." ),
 
 						// Called by the main setupContent method call on dialog initialization.
@@ -69,6 +76,9 @@ CKEDITOR.dialog.add( 'abbrDialog', function( editor ) {
 			{
 				id: 'tab-adv',
 				label: 'Advanced Settings',
+
+				// Require the id attribute to be enabled.
+				requiredContent: 'abbr[id]',
 				elements: [
 					{
 						// Another text field for the abbr element id.
@@ -127,6 +137,10 @@ CKEDITOR.dialog.add( 'abbrDialog', function( editor ) {
 
 		// This method is invoked once a user clicks the OK button, confirming the dialog.
 		onOk: function() {
+
+			// The context of this function is the dialog object itself.
+			// http://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.dialog
+			var dialog = this;
 
 			// Create a new <abbr> element.
 			var abbr = this.element;

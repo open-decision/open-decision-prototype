@@ -2,7 +2,7 @@ CKEDITOR_BASEPATH = "static/ckeditor/ckeditor"
 CKEDITOR_CONFIGS = {
 
     'default': {
-        'skin': 'bootstrapck',
+        #'skin': 'bootstrapck',
         'toolbar_Basic': [
             ['Source', '-', 'Bold', 'Italic']
         ],
@@ -37,6 +37,7 @@ CKEDITOR_CONFIGS = {
         'tabSpaces': 4,
         'tokenStart': '[[',
         'tokenEnd': ']]',
+        'extraAllowedContent': 'abbr',
         'extraPlugins': ','.join([
             'autolink',
             'autoembed',

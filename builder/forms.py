@@ -7,7 +7,7 @@ INPUT_CHOICES = (
         ('button', _('Button')),
         ('list', _('Selectlist')),
     #    ('multiple_select', 'Mehrfachauswahl'),
-        ('short_text', _('Short free text')),
+        ('free_text', _('Free text')),
     #    ('long_text', 'Großes Textfeld'),
         ('number', _('Numberfield')),
     #    ('date', _('Datefield')),
@@ -38,7 +38,7 @@ class InputForm (forms.Form):
         if (self.input_type == 'number') or (self.input_type == 'date'):
             self.fields['text'].widget = forms.HiddenInput()
 
-        if self.input_type == 'short_text':
+        if self.input_type == 'free_text':
             self.fields['text'].widget.attrs['placeholder'] = _('Label')
             #Deactivated until we send data from interpreter to someone
             # self.fields['required'] = forms.BooleanField()
@@ -92,7 +92,7 @@ class LogicForm(forms.Form):
             ('!=', _('is not in'))
             )
 
-        elif self.input_type == 'short_text':
+        elif self.input_type == 'free_text':
             self.fields['compare_to'].widget=forms.HiddenInput()
             self.fields['operator'].widget = forms.HiddenInput()
             self.fields['action'].widget = forms.HiddenInput()

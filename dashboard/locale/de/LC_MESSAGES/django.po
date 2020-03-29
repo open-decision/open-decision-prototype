@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-06 21:25+0100\n"
+"POT-Creation-Date: 2020-03-29 13:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -96,18 +96,18 @@ msgid ""
 "Please consider the trees as experimental and don't use the software to "
 "provide services for end-users. "
 msgstr ""
-"Da sich der Logikcheck noch in der Entwicklung befindet, ist diese Funktion momentan deaktiviert."
-"Bitte betrachte die Entscheidungsbäume als experimentell und benutze die Software noch nicht,"
-"um Services für Endnutzer anzubieten."
-
+"Da sich der Logikcheck noch in der Entwicklung befindet, ist diese Funktion "
+"momentan deaktiviert.Bitte betrachte die Entscheidungsbäume als "
+"experimentell und benutze die Software noch nicht,um Services für Endnutzer "
+"anzubieten."
 
 #: dashboard/templates/export.html:10
 msgid ""
 "However, if your tree is carefully build and without errors, you still will "
 "be able to export it using the buttons below."
 msgstr ""
-"Wenn der Baum ohne Fehler erstellt worden ist, kann dieser trotzdem"
-"mit den Button unten exportiert werden."
+"Wenn der Baum ohne Fehler erstellt worden ist, kann dieser trotzdemmit den "
+"Button unten exportiert werden."
 
 #: dashboard/templates/export.html:14
 msgid "This is the result of the integrity check."
@@ -189,7 +189,8 @@ msgstr "Dieser Pfand endet nicht mit einem Endknoten."
 
 #: dashboard/templates/export.html:119
 msgid "This nodes are at the end of an path, are they end-nodes?"
-msgstr "Diese Knoten sind am Ende eines Pfades, handelt es sich dabei um Endknoten?"
+msgstr ""
+"Diese Knoten sind am Ende eines Pfades, handelt es sich dabei um Endknoten?"
 
 #: dashboard/templates/export.html:130
 msgid "Set as end-node"
@@ -214,8 +215,8 @@ msgid ""
 "The connection to the next node is missing in the logic modules of this "
 "nodes."
 msgstr ""
-"Die Verbindung zum nächsten Knoten fehlt in den Logikbausteinen "
-"dieses Knotens."
+"Die Verbindung zum nächsten Knoten fehlt in den Logikbausteinen dieses "
+"Knotens."
 
 #: dashboard/templates/export.html:155
 msgid "Faulty answer"
@@ -295,7 +296,9 @@ msgstr "Veröffentlichung rückgängig machen"
 
 #: dashboard/templates/published_trees.html:92
 msgid "Build your first tree and publish it in the export-section."
-msgstr "Baue deinen ersten Entscheidungsbaum und veröffentliche diesen im Export-Bereich."
+msgstr ""
+"Baue deinen ersten Entscheidungsbaum und veröffentliche diesen im Export-"
+"Bereich."
 
 #: dashboard/templates/tree_view.html:15
 msgid "Nodes of: "
@@ -333,8 +336,9 @@ msgstr "Baum exportieren"
 msgid "Preview tree"
 msgstr "Vorschau anzeigen"
 
-#: dashboard/views.py:57
+#: dashboard/views.py:54
 msgid ""
 "<p>Please choose another name, you already have a tree with this name.</p>"
 msgstr ""
-"<p>Bitte wähle einen anderen Namen, du hast bereits einen Baum mit diesem Namen.</p>"
+"<p>Bitte wähle einen anderen Namen, du hast bereits einen Baum mit diesem "
+"Namen.</p>"

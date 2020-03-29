@@ -289,3 +289,7 @@ LOCALE_PATHS = [
 os.path.join(
     BASE_DIR, "locale"),
 ]
+
+# Custom Data for Open Decision
+DATAFORMAT_VERSION = 0.1
+LOGIC_TYPE = 'jsonLogic'

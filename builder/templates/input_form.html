@@ -74,11 +74,11 @@
 function afterAdd(row){
   try {
     let inputType = document.getElementById('id_input-0-input_type').value;
-    if (inputType === 'button' || inputType === 'short_text'){
+    if (inputType === 'button' || inputType === 'free_text'){
       let inputSelector = document.querySelectorAll("[id$=input_type]");
       inputSelector[inputSelector.length-1].style.display = "none";
       document.querySelector('label[for=' + inputSelector[inputSelector.length-1].id+']').style.display = "none";
-      if (inputType === 'short_text'){
+      if (inputType === 'free_text'){
         document.querySelector('.input-formset').querySelector('a').style.display = "none";
       }
     }

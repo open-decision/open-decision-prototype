@@ -4,9 +4,9 @@ from ckeditor.fields import RichTextField
 import bleach
 
 ALLOWED_TAGS = set(bleach.ALLOWED_TAGS + [
-    'a', 'blockquote', 'code', 'del', 'dd', 'dl', 'dt',
+    'a',  'abbr', 'blockquote', 'code', 'del', 'dd', 'dl', 'dt',
     'h1', 'h2', 'h3', 'h3', 'h4', 'h5', 'i', 'img', 'kbd',
-    'li', 'ol', 'ul', 'p', 'pre', 's', 'sup', 'sub', 'em',
+    'li', 'ol', 'ul', 'p', 'pre', 's', 'span', 'sup', 'sub', 'em',
     'strong', 'strike', 'ul', 'br', 'hr' ])
 
 ALLOWED_STYLES = set(bleach.ALLOWED_STYLES + [
@@ -17,7 +17,7 @@ ALLOWED_STYLES = set(bleach.ALLOWED_STYLES + [
 ALLOWED_ATTRIBUTES = {}
 ALLOWED_ATTRIBUTES.update(bleach.ALLOWED_ATTRIBUTES)
 ALLOWED_ATTRIBUTES.update({
-    '*': ['class', 'title'],
+    '*': ['id', 'class', 'title'],
     'a': ['href', 'rel'],
     'img': ['alt', 'src', 'width', 'height', 'align', 'style'],
 })

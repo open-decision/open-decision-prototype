@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-06 21:25+0100\n"
+"POT-Creation-Date: 2020-03-29 13:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,7 +24,9 @@ msgstr "Heute kommst Du leider nicht rein."
 
 #: pages/templates/403.html:6
 msgid "You're not allowed to see this page. Did you forget to sign in?"
-msgstr "Du hast leider nicht die Berechtigung, dise Seite anzusehen. Hast Du vergessen, dich anzumelden?"
+msgstr ""
+"Du hast leider nicht die Berechtigung, dise Seite anzusehen. Hast Du "
+"vergessen, dich anzumelden?"
 
 #: pages/templates/404.html:5
 msgid "Oops, we couldn't find what you were looking for..."
@@ -38,7 +40,8 @@ msgstr "Da ist uns ein Fehler unterlaufen..."
 msgid ""
 "Our developers are already informed. We are giving our best to fix the issue!"
 msgstr ""
-"Unsere Entwickler sind bereits informiert, wir geben unser bestes, um den Fehler zu beheben!"
+"Unsere Entwickler sind bereits informiert, wir geben unser bestes, um den "
+"Fehler zu beheben!"
 
 #: pages/templates/contact.html:5
 msgid "Get in touch"
@@ -79,7 +82,7 @@ msgstr "Los geht's!"
 msgid "Concept"
 msgstr "Konzept"
 
-#: pages/templates/home.html:43
+#: pages/templates/home.html:42
 msgid ""
 "The platform is divided into two modules. The Builder offers a simple web "
 "interface for the creation of decision trees. The counterpart is the "
@@ -88,18 +91,18 @@ msgid ""
 "bots. The communication between the Builder and the Interpreter runs via a "
 "standardized data format."
 msgstr ""
-"Die Plattform ist in zwei Module aufgeteilt. Der Builder bietet eine einfache "
-"Weboberfläche zur Erstellung von Entscheidungsbäumen. Das Gegenstück dazu ist "
-"der Interpreter, der die Entscheidungsbäume für den Endnutzer darstellt. Die "
-"Darstellung kann auf verschiedenen Kanälen, online, per App oder in Chat-Bots "
-"erfolgen. Die Kommunikation zwischen Builder und Interpreter läuft über ein "
-"standardisiertes Datenformat ab."
+"Die Plattform ist in zwei Module aufgeteilt. Der Builder bietet eine "
+"einfache Weboberfläche zur Erstellung von Entscheidungsbäumen. Das "
+"Gegenstück dazu ist der Interpreter, der die Entscheidungsbäume für den "
+"Endnutzer darstellt. Die Darstellung kann auf verschiedenen Kanälen, online, "
+"per App oder in Chat-Bots erfolgen. Die Kommunikation zwischen Builder und "
+"Interpreter läuft über ein standardisiertes Datenformat ab."
 
-#: pages/templates/home.html:61
+#: pages/templates/home.html:59
 msgid "Builder"
 msgstr "Builder"
 
-#: pages/templates/home.html:62
+#: pages/templates/home.html:60
 msgid ""
 "The Builder acts as a translator of legal ideas into a uniform, machine-"
 "readable data format. It is therefore essential that this process takes "
@@ -110,8 +113,8 @@ msgid ""
 "decision trees are prepared for manual review by experts (qualified lawyers) "
 "if required, in order to guarantee the highest quality standards."
 msgstr ""
-"Der Builder agiert als Übersetzer des juristischen Gedankenguts in ein"
-" einheitliches, maschinell lesbares Datenformat. Es ist also essentiell, dass "
+"Der Builder agiert als Übersetzer des juristischen Gedankenguts in ein "
+"einheitliches, maschinell lesbares Datenformat. Es ist also essentiell, dass "
 "dieser Prozess möglichst ohne Reibungen abläuft. Eine simple und intuitive "
 "Bedienbarkeit steht daher bei der Entwicklung im Vordergrund, um auch nicht "
 "IT-affinen Juristen die Erstellung von Inhalten zu ermöglichen. Mit einem "
@@ -121,11 +124,11 @@ msgstr ""
 "durch Experten (Volljuristen) aufbereitet, um höchste Qualitätsstandards zu "
 "gewährleisten."
 
-#: pages/templates/home.html:80
+#: pages/templates/home.html:77
 msgid "Interpreter"
 msgstr "Interpreter"
 
-#: pages/templates/home.html:81
+#: pages/templates/home.html:78
 msgid ""
 "To ensure low-threshold access, we offer a simple user interface on a "
 "variety of channels. Internally, we have already successfully launched a "
@@ -138,17 +141,17 @@ msgid ""
 "necessary, sample letters on his concretely determined case."
 msgstr ""
 "Um einen niedrigschwelligen Zugang zu gewährleisten, bieten wir eine simple "
-"Benutzeroberfläche auf einer Vielzahl von Kanälen an. Intern haben wir bereits "
-"eine Website und einen Chat-Bot für den Messenger-Dienst Telegram erfolgreich "
-"in Betrieb. Geplant sind verschiedene Chat-Bots und eine eigene mobile App. "
-"Der Aufbau soll dabei plattformübergreifend in einem einheitlichen und "
-"übersichtlichen Schema erfolgen: Aus einem Katalog wählt der Verbraucher "
-"zunächst das passende Problem aus. Das Programm beginnt daraufhin mit der "
-"Abfrage des Sachverhalts, welche dem jeweils dahinterstehenden "
-"Entscheidungsbaum entspricht. Nach einer möglichst geringen Anzahl an Fragen "
-"erhält der Nutzer eine Zusammenstellung von Informationen, Weiterleitungen und "
-"ggf. Musterschreiben zu seinem konkret ermittelten Fall."
-
+"Benutzeroberfläche auf einer Vielzahl von Kanälen an. Intern haben wir "
+"bereits eine Website und einen Chat-Bot für den Messenger-Dienst Telegram "
+"erfolgreich in Betrieb. Geplant sind verschiedene Chat-Bots und eine eigene "
+"mobile App. Der Aufbau soll dabei plattformübergreifend in einem "
+"einheitlichen und übersichtlichen Schema erfolgen: Aus einem Katalog wählt "
+"der Verbraucher zunächst das passende Problem aus. Das Programm beginnt "
+"daraufhin mit der Abfrage des Sachverhalts, welche dem jeweils "
+"dahinterstehenden Entscheidungsbaum entspricht. Nach einer möglichst "
+"geringen Anzahl an Fragen erhält der Nutzer eine Zusammenstellung von "
+"Informationen, Weiterleitungen und ggf. Musterschreiben zu seinem konkret "
+"ermittelten Fall."
 
 #: pages/templates/publish.html:14 pages/templates/publish_embedded.html:15
 msgid "Publishing successful!"
@@ -156,8 +159,12 @@ msgstr "Veröffentlichung erfolgreich!"
 
 #: pages/templates/publish.html:15
 msgid "The tree was published successfully and can be publicly accessed at "
-msgstr "Der Entscheidungsbaum wurde erfolgreich veröffentlicht und kann hier aufgerufen werden: "
+msgstr ""
+"Der Entscheidungsbaum wurde erfolgreich veröffentlicht und kann hier "
+"aufgerufen werden: "
 
 #: pages/templates/publish_embedded.html:16
 msgid "The tree was published successfully and can be accessed at "
-msgstr "Der Entscheidungsbaum wurde erfolgreich veröffentlicht und kann hier aufgerufen werden: "
+msgstr ""
+"Der Entscheidungsbaum wurde erfolgreich veröffentlicht und kann hier "
+"aufgerufen werden: "

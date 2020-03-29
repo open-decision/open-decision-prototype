@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014-2018, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (c) 2014-2020, CKSource - Frederico Knabben. All rights reserved.
  * Licensed under the terms of the MIT License (see LICENSE.md).
  *
  * Basic sample plugin inserting abbreviation elements into the CKEditor editing area.
@@ -18,7 +18,20 @@ CKEDITOR.plugins.add( 'abbr', {
 	init: function( editor ) {
 
 		// Define an editor command that opens our dialog window.
-		editor.addCommand( 'abbr', new CKEDITOR.dialogCommand( 'abbrDialog' ) );
+		editor.addCommand( 'abbr', new CKEDITOR.dialogCommand( 'abbrDialog', {
+
+			// Allow the abbr tag with an optional title attribute.
+			allowedContent: 'abbr[title,id]',
+
+			// Require the abbr tag to be allowed for the feature to work.
+			requiredContent: 'abbr',
+
+			// Prefer abbr over acronym. Transform acronym elements into abbr elements.
+			contentForms: [
+				'abbr',
+				'acronym'
+			]
+		} ) );
 
 		// Create a toolbar button that executes the above command.
 		editor.ui.addButton( 'Abbr', {

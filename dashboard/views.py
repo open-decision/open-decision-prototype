@@ -15,9 +15,7 @@ from django.http import JsonResponse
 from django.utils.translation import gettext as _
 from pages.models import PublishedTree
 from users.models import CustomUser, Profile
-
-VERSION = 0.1
-LOGIC_TYPE = 'jsonLogic version X'
+from django.conf import settings
 
 @login_required
 def dashboard_view(request):
@@ -255,10 +253,10 @@ def build_tree (slug, request):
     export = {}
 # Set some header data to ensure proper processing of the created tree
     export['header'] = {
-        'version' : VERSION,
+        'version' : settings.DATAFORMAT_VERSION,
         #'localization': request.POST.get('localization', 'de-de'),
         'build_date': date.today(),
-        'logic_type': LOGIC_TYPE,
+        #'logic_type': settings.LOGIC_TYPE,
         'owner': DecisionTree.objects.filter(owner=request.user).get(slug=slug).owner.username,
 
         'tree_name' : DecisionTree.objects.filter(owner=request.user).get(slug=slug).name,
@@ -271,23 +269,31 @@ def build_tree (slug, request):
     for n in all_nodes:
         export[n.slug] = {
         'name': n.name,
-        'question': n.question,
-        'input_type': n.input_type,
-        'end_node': n.end_node,
-        'rules': {},
+        'text': n.question,
+        'inputs': [],
+        'actions': [],
+        'destination': {},
         }
+
+        inputs = n.inputs
+
+        logic = inputs.pop()
+
+        for i in inputs:
+            pass
 # Build the answer value according to the selected input_type
 # When the user needs to enter a number, date or if the node is an end-node, no
 # answers need to be displayed
-        if (n.input_type == 'number') or (n.input_type == 'date') or (n.input_type == 'end_node'):
-            export[n.slug]['answers'] = []
-        elif n.input_type == 'button':
-            export[n.slug]['answers'] = [single_answer['answer'].strip() for single_answer in json.loads(n.data_answer)]
-# For lists answers separated by line breaks are split into a list of single answers
-        elif n.input_type == 'list':
-            temp_answers = json.loads(n.data_answer)[0]['answer'].splitlines()
-            export[n.slug]['answers'] = [single_answer.strip() for single_answer in temp_answers]
 
+#         if (n.input_type == 'number') or (n.input_type == 'date') or (n.input_type == 'end_node'):
+#             export[n.slug]['answers'] = []
+#         elif n.input_type == 'button':
+#             export[n.slug]['answers'] = [single_answer['answer'].strip() for single_answer in json.loads(n.data_answer)]
+# # For lists answers separated by line breaks are split into a list of single answers
+#         elif n.input_type == 'list':
+#             temp_answers = json.loads(n.data_answer)[0]['answer'].splitlines()
+#             export[n.slug]['answers'] = [single_answer.strip() for single_answer in temp_answers]
+#
 
 # Build the logic dict
 

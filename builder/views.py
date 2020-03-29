@@ -39,7 +39,7 @@ def node_edit_view(request, slug, node_slug):
             input_type = json.loads(data_node.inputs)[0]['input_type']
         except (KeyError, IndexError):
             input_type = 'button'
-        if input_type not in ['button','short_text', 'end_node']:
+        if input_type not in ['button','free_text', 'end_node']:
             data_input = json.loads(data_node.inputs)
             data_logic = data_input.pop()
             logic_formset_init = load_logic_module(request, input_type, data_logic)
@@ -47,14 +47,14 @@ def node_edit_view(request, slug, node_slug):
             data_input = json.loads(data_node.inputs)
             logic_formset_init = None
 
-        short_text_destination = json.loads(data_node.inputs)[0].pop('destination', '') if input_type == 'short_text' else None
+        free_text_destination = json.loads(data_node.inputs)[0].pop('destination', '') if input_type == 'free_text' else None
         input_formset_init = load_input_form(request, input_type, data_input, logic_formset_init)
         context = {
             'form': node_form,
             'selected_tree': DecisionTree.objects.filter(owner=request.user).filter(slug=slug).values()[0],
             'input_formset_init': input_formset_init,
             'edit': True,
-            'short_text_destination': short_text_destination,
+            'free_text_destination': free_text_destination,
             'input_type': input_type,
             }
         return render(request, 'node_create.html', context)
@@ -99,7 +99,7 @@ def load_input_form(request, *args):
         input_formset_init = InputFormSet(initial=data_input, form_kwargs={'input_type': input_type}, prefix='input')
         context = {
             'input_formset_init': input_formset_init,
-            'expandable': True if (input_type=='button' or input_type == 'short_text') else False,
+            'expandable': True if (input_type=='button' or input_type == 'free_text') else False,
             'edit': True,
             }
         if logic_formset_init:
@@ -112,7 +112,7 @@ def load_input_form(request, *args):
         InputFormSet = formset_factory(InputForm)
         context = {
         'input_formset': InputFormSet(form_kwargs={'input_type': input_type}, prefix='input'),
-        'expandable': True if (input_type=='button' or input_type == 'short_text') else False,
+        'expandable': True if (input_type=='button' or input_type == 'free_text') else False,
         }
         return render(request, 'input_form.html', context)
 
@@ -201,7 +201,7 @@ def save_node(request, slug, *args):
     else:
         print(Input_form_instance.errors)
 
-    if data_input and (data_input[0]['input_type'] == 'short_text'):
+    if data_input and (data_input[0]['input_type'] == 'free_text'):
         data_input[0]['destination'] = bleach_clean(request.POST.get('short-text-destination'))
     print(data_input)
 #Clean Logic data

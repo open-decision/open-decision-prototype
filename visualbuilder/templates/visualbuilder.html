@@ -377,7 +377,7 @@
   $.fn.loadForms = function(inputType){
     var nodeFormUrl = "{% url 'ajax_load_node_form' %}";
     var logicFormUrl = "{% url 'ajax_load_logic_module' %}" + "?visualbuilder=true";
-    var answerFormUrl = "{% url 'ajax_load_answer_field' %}";
+    var answerFormUrl = "{% url 'ajax_load_input_form' %}";
 
     $.ajax({
       url: logicFormUrl,
@@ -561,7 +561,7 @@ function handleChildLogic(trigger, ...args){
     function rebuildNode(el){
       var nodeFormUrl = "{% url 'ajax_load_node_form' %}";
       var logicFormUrl = "{% url 'ajax_load_logic_module' %}"  + "?visualbuilder=true";
-      var answerFormUrl = "{% url 'ajax_load_answer_field' %}";
+      var answerFormUrl = "{% url 'ajax_load_input_form' %}";
 
       $("#logicproplist").hide();
       $("#answerproplist").hide();

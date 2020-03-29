@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-06 21:25+0100\n"
+"POT-Creation-Date: 2020-03-29 13:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,29 +18,29 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: builder/forms.py:8
-msgid "Node name"
-msgstr "Knotenname"
-
-#: builder/forms.py:16
+#: builder/forms.py:7
 msgid "Button"
 msgstr "Button"
 
-#: builder/forms.py:17
+#: builder/forms.py:8
 msgid "Selectlist"
 msgstr "Auswahlliste"
 
-#: builder/forms.py:21
+#: builder/forms.py:10
+msgid "Free text"
+msgstr "Freitext"
+
+#: builder/forms.py:12
 msgid "Numberfield"
 msgstr "Zahleneingabe"
 
-#: builder/forms.py:22
-msgid "Datefield"
-msgstr "Datumseingabe"
-
-#: builder/forms.py:23
+#: builder/forms.py:14
 msgid "End-node - no input"
 msgstr "Endknoten - keine Eingabe"
+
+#: builder/forms.py:17
+msgid "Node name"
+msgstr "Knotenname"
 
 #: builder/forms.py:24
 msgid "Input Type"
@@ -50,63 +50,63 @@ msgstr "Eingabetyp"
 msgid "Button Text"
 msgstr "Beschriftung des Buttons"
 
-#: builder/forms.py:34
+#: builder/forms.py:32
+msgid "Destination"
+msgstr "Nächster Knoten"
+
+#: builder/forms.py:36
 msgid "List of all choices"
 msgstr "List aller Auswahlmöglichkeiten"
 
 #: builder/forms.py:42
+msgid "Label"
+msgstr "Beschriftung des Feldes"
+
+#: builder/forms.py:56
 msgid "If the  answer"
 msgstr "Wenn die Antwort"
 
-#: builder/forms.py:44
+#: builder/forms.py:58
 msgid "then"
 msgstr "dann"
 
-#: builder/forms.py:45
+#: builder/forms.py:59
 msgid "go to"
 msgstr "gehe zu"
 
-#: builder/forms.py:46
+#: builder/forms.py:60
 msgid "set"
 msgstr "setze"
 
-#: builder/forms.py:71
-msgid "If clicked, go to:"
-msgstr "Wenn geklickt, gehe zu:"
-
-#: builder/forms.py:75
-msgid "if"
-msgstr "wenn"
-
-#: builder/forms.py:77
+#: builder/forms.py:91
 msgid "is  in"
 msgstr "ist enthalten"
 
-#: builder/forms.py:78
+#: builder/forms.py:92
 msgid "is not in"
 msgstr "ist nicht enthalten"
 
-#: builder/forms.py:111 builder/forms.py:126
+#: builder/forms.py:118 builder/forms.py:133
 msgid "equal"
 msgstr "gleich"
 
-#: builder/forms.py:112 builder/forms.py:127
+#: builder/forms.py:119 builder/forms.py:134
 msgid "not"
 msgstr "nicht"
 
-#: builder/forms.py:113 builder/forms.py:128
+#: builder/forms.py:120 builder/forms.py:135
 msgid "less than"
 msgstr "kleiner als"
 
-#: builder/forms.py:114 builder/forms.py:129
+#: builder/forms.py:121 builder/forms.py:136
 msgid "less than or equal"
 msgstr "kleiner gleich"
 
-#: builder/forms.py:115 builder/forms.py:130
+#: builder/forms.py:122 builder/forms.py:137
 msgid "greater"
 msgstr "größer"
 
-#: builder/forms.py:116 builder/forms.py:131
+#: builder/forms.py:123 builder/forms.py:138
 msgid "greater or equal"
 msgstr "größer gleich"
 
@@ -114,14 +114,29 @@ msgstr "größer gleich"
 msgid "Editing"
 msgstr "Bearbeitung von"
 
-#: builder/templates/node_create.html:20
+#: builder/templates/node_create.html:23
 msgid "Inputs"
 msgstr "Eingaben"
 
-#: builder/templates/node_create.html:43
+#: builder/templates/node_create.html:35
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: builder/templates/node_create.html:45
+#: builder/templates/node_create.html:37
 msgid "Save Node"
 msgstr "Knoten speichern"
+
+#: builder/views.py:286
+msgid ""
+"<p>Please choose another name, you already have a node with this name.</p>"
+msgstr ""
+"<p>Bitte wähle einen anderen Namen, du  hast bereits einen Knoten mit diesem Namen.</p>"
+
+#~ msgid "Datefield"
+#~ msgstr "Datumseingabe"
+
+#~ msgid "If clicked, go to:"
+#~ msgstr "Wenn geklickt, gehe zu:"
+
+#~ msgid "if"
+#~ msgstr "wenn"

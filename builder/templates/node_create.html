@@ -8,7 +8,7 @@
 {{ form.media }}
 <h2 class="pageheader"><a href="/trees/{{ selected_tree.slug }}" class="back_button">&#x2190;</a> {% trans "Editing" %} {{ form.name }}{{ form.name.errors }}</h2>
 <input type="hidden" id="selected-tree" value="{{ selected_tree.slug }}" >
-<input type="hidden" id="init-short-text-destination" value="{{ short_text_destination }}" >
+<input type="hidden" id="init-short-text-destination" value="{{ free_text_destination }}" >
 <input type="hidden" id="available_token" data-token-url="{% url 'ajax_load_token' %}" value="" >
 {% if error %}
 {{ error }}
@@ -47,12 +47,12 @@ window.addEventListener('DOMContentLoaded', function() {
 {% else %}
   shortTextDestination('{{input_type}}');
   let inputType = document.getElementById('id_input-0-input_type').value;
-  if (inputType === 'button' || inputType === 'short_text'){
+  if (inputType === 'button' || inputType === 'free_text'){
     let inputSelector = document.querySelectorAll("[id$=input_type]");
     for (var i=1;i<inputSelector.length;i++){
       inputSelector[i].style.display = "none";
       document.querySelector('label[for=' + inputSelector[i].id+']').style.display = "none";
-      if (inputType === 'short_text'){
+      if (inputType === 'free_text'){
         document.querySelector('.input-formset').querySelector('a').style.display = "none";
       }
     }
@@ -120,7 +120,7 @@ var selectedTree = $('#selected-tree').val();
        }
      });
 
-     if ((inputType === "end_node") || (inputType === "button") || (inputType === "short_text")){
+     if ((inputType === "end_node") || (inputType === "button") || (inputType === "free_text")){
        $(".logic-formset").hide();
      } else {
        $(".logic-formset").show();
@@ -138,7 +138,7 @@ var selectedTree = $('#selected-tree').val();
 
    };
 function shortTextDestination(inputType){
-   if (inputType === 'short_text'){
+   if (inputType === 'free_text'){
      let el = document.querySelector('.input-formset');
      let x = document.createElement('INPUT');
          x.setAttribute('type', 'text');
