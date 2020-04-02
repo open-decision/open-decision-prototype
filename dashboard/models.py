@@ -37,6 +37,8 @@ class RichTextBleachField(RichTextField):
     def __init__(self, *args, **kwargs):
         super(RichTextBleachField, self).__init__(*args, **kwargs)
     def to_python(self, value):
+        if not value:
+            return ''
         return bleach_clean(value)
 
 
