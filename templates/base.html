@@ -57,7 +57,7 @@
 <body id="page-top">
   <!-- Page Wrapper -->
   <div id="wrapper">
-    <input type="hidden" name="static-path" id="static-path" value="https://opendecision.azureedge.net/static/">
+    <input type="hidden" name="static-path" id="static-path" value="https://od-static.azureedge.net/static/">
 
     <!-- Sidebar -->
     {% if user.is_authenticated %}
@@ -84,11 +84,11 @@
           <i class="fas fa-globe-americas"></i>
           <span>{% trans "Published Trees" %}</span></a>
       </li>
-      <li id="visualbuilder-link" class="nav-item">
+      <!-- <li id="visualbuilder-link" class="nav-item">
         <a class="nav-link" href="/visualbuilder/">
           <i class="fas fa-project-diagram"></i>
           <span>{% trans "Visualbuilder - Deprecated" %}</span></a>
-      </li>
+      </li> -->
       <li class="nav-item">
         <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
           <i class="fas fa-sign-out-alt"></i>
@@ -234,6 +234,13 @@
                 </a>
               </div>
             </li>
+            <li class="nav-item mx-1 mt-3">
+              <div id="lang-flag" class="">
+                <div class="lang-img-div">
+                  <img class="rounded-circle lang-img" src="{% static 'img/flags/'|add:request.LANGUAGE_CODE|add:'.svg' %}" width="30" alt="'{{ request.LANGUAGE_CODE }} flag'">
+                </div>
+              </div>
+            </li>
             {% else %}
             <!-- Sidebar Toggle (Topbar) -->
             <a class="navbar-brand" href="/"><img src="{% static 'img/favicon.ico' %}" width="50" height="50" alt="opendecision"></a>
@@ -256,10 +263,19 @@
                   </li> -->
                 <li class="nav-item">
                   <a class="nav-link" href="/accounts/login/" role="button">
-
                     <span class="mr-2 d-none d-lg-inline text-gray-800 medium">{% trans "Login" %}</span>
                     <i class="fas fa-sign-in-alt"></i>
                   </a>
+                </li>
+                <li class="nav-item dropdown" >
+                  <a class="nav-link" href="/accounts/login/" role="button">
+                    <span class="mr-2 d-none d-lg-inline text-gray-800 medium">{% trans "Login" %}</span>
+                  </a>
+                </li>
+                <li id="lang-flag" class="nav-item mx-1 mt-3">
+                  <div class="lang-img-div">
+                    <img class="rounded-circle lang-img" src="{% static 'img/flags/'|add:request.LANGUAGE_CODE|add:'.svg' %}" width="30" alt="'{{ request.LANGUAGE_CODE }} flag'">
+                  </div>
                 </li>
               </ul>
             </div>
@@ -303,6 +319,29 @@
       <script type="text/javascript">
         window.addEventListener('DOMContentLoaded', function() {
           $('a[href="' + this.location.pathname + '"]').closest('.nav-item').addClass('active');
+          document.getElementById("lang-flag").addEventListener("click", function() {
+            var lang;
+            switch('{{ request.LANGUAGE_CODE }}') {
+                case 'de':
+                  lang = 'en';
+                  break;
+                case 'en':
+                  lang = 'de';
+                  break;
+              }
+            $.ajax({
+              url: "{% url 'set_language' %}",
+              type: "POST",
+              data: {
+                'language': lang,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+              },
+              success: function (data) {
+                 location.reload();
+                  }
+                });
+
+          });
         });
       </script>
       <!-- End of Footer -->

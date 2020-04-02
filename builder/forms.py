@@ -13,6 +13,14 @@ INPUT_CHOICES = (
     #    ('date', _('Datefield')),
         ('end_node', _('End-node - no input')))
 
+VALIDATION_CHOICES = (
+        ('short_text', _('Short Text')),
+        ('long_text', _('Long Text')),
+        ('number', _('Number')),
+        #('e-mail', _('E-Mail')),
+        #('phone', _('Phone Number')),
+        )
+
 class NodeForm(forms.Form):
     name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': _('Node name'), 'class' : 'node_create_name'}), max_length="25")
     question = forms.CharField(required=False, widget=CKEditorWidget())
@@ -42,11 +50,8 @@ class InputForm (forms.Form):
             self.fields['text'].widget.attrs['placeholder'] = _('Label')
             #Deactivated until we send data from interpreter to someone
             # self.fields['required'] = forms.BooleanField()
-            # self.fields['validation'] = forms.ChoiceField(label=_('then'), required=False, choices = (
-            # ('mail', _('E-Mail')),
-            # ('phone', _('Phone Number'))
-            # )
-            #
+            self.fields['validation'] = forms.ChoiceField(label=_('then'), required=False, choices = VALIDATION_CHOICES)
+
         if self.input_type == 'end_node':
             self.fields['input_type'].default = INPUT_CHOICES[4][1]
             self.fields['text'].widget = forms.HiddenInput()
@@ -89,7 +94,7 @@ class LogicForm(forms.Form):
             self.fields['compare_to'].widget = forms.Textarea()
             self.fields['operator'].choices = (
             ('==', _('is  in')),
-            ('!=', _('is not in'))
+#            ('!=', _('is not in'))
             )
 
         elif self.input_type == 'free_text':

@@ -47,7 +47,8 @@ def node_edit_view(request, slug, node_slug):
             data_input = json.loads(data_node.inputs)
             logic_formset_init = None
 
-        free_text_destination = json.loads(data_node.inputs)[0].pop('destination', '') if input_type == 'free_text' else None
+        free_text_destination_id = json.loads(data_node.inputs)[0].pop('destination', '') if input_type == 'free_text' else ''
+        free_text_destination = Node.objects.filter(decision_tree__owner=request.user).get(id=free_text_destination_id).slug if input_type == 'free_text' else ''
         input_formset_init = load_input_form(request, input_type, data_input, logic_formset_init)
         context = {
             'form': node_form,
@@ -126,6 +127,7 @@ def load_logic_module(request, *args):
     except:
         data_logic = False
 # If called by edit view
+    print(data_logic)
     if data_logic:
         for form in data_logic:
             if 'target' in form and form['target'] != '':
@@ -134,6 +136,7 @@ def load_logic_module(request, *args):
                 dest_key = 'destination'
             else:
                 dest_key = False
+            print (dest_key)
             if dest_key:
                 try:
                     node_slug= Node.objects.filter(decision_tree__owner=request.user).get(id=form[dest_key]).slug
@@ -214,10 +217,6 @@ def save_node(request, slug, *args):
 
     is_end_node = True if (data_input and (data_input[0]['input_type'])) == 'end_node' else False
 
-#Perform input and logic matching, currently not necessary
-# atm not necessary, only append logic to input data
-    if len(data_logic) != 0:
-        data_input.append(data_logic)
 #Check if connected nodes already exist
     is_start_node = False if Node.objects.filter(decision_tree__owner=request.user).filter(decision_tree__slug=slug) else True
     print(data_input)
@@ -250,7 +249,45 @@ def save_node(request, slug, *args):
                 new.save()
                 data_input[i][dest_key] = new.id
                 dest_key = False
+        dest_key= False
+
+        if data_logic:
+
+            for i in range(len(data_logic)):
+                if 'target' in data_logic[i]:
+                    if data_logic[i]['target'] != '':
+                        dest_key = 'target'
+                elif 'destination' in data_logic[i]:
+                    if data_logic[i]['destination'] != '':
+                        dest_key = 'destination'
+                if dest_key:
+                    try:
+                        #If yes, get ID to avoid issues if connected node is renamed
+                        id= Node.objects.filter(decision_tree__owner=request.user).get(slug=slugify(data_logic[i][dest_key])).id
+                        data_logic[i][dest_key] = id
+                        dest_key = False
+                    except:
+                        #If not, create new node
+                        print(data_logic[i][dest_key])
+                        new = Node(
+                        name= data_logic[i][dest_key],
+                        slug= slugify(data_logic[i][dest_key]),
+                        decision_tree= DecisionTree.objects.filter(owner=request.user).get(slug=slug),
+                        #path= json.dumps([]),
+                        inputs= json.dumps([{}]),
+                        new_node= True,
+                        start_node= False,
+                        end_node= False,
+                                )
+                        new.save()
+                        data_logic[i][dest_key] = new.id
+                        dest_key = False
 #Save the node, todo: change to postgres JSON field
+
+#Perform input and logic matching, currently not necessary
+# atm not necessary, only append logic to input data
+    if len(data_logic) != 0:
+        data_input.append(data_logic)
     try:
         id = args[0]
     except:

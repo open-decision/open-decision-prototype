@@ -22,6 +22,26 @@
     border-bottom:solid lightgrey 1px;
   }
 
+  .lang-flag {
+    float: right;
+
+  }
+
+  .lang-img {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid #f8f8f8;
+    box-shadow: 0 0 0 1px #ddd;
+    margin-top: 5px;
+  }
+
+  .lang-img:hover {
+    box-shadow: 0 0 0 1px #007bff;
+    cursor: pointer;
+  }
+
 	.footer{
 		overflow-x: hidden;
 		background-color:grey;
