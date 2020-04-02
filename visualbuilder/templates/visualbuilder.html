@@ -16,7 +16,7 @@
 
 </head>
 <body>
-  <input type="hidden" name="static-path" id="static-path" value="{% static '' %}">
+  <input type="hidden" name="static-path" id="static-path" value="https://opendecision.azureedge.net/static/">
     <div id="navigation">
         <div id="leftside">
             <div id="details">
@@ -376,8 +376,8 @@
 
   $.fn.loadForms = function(inputType){
     var nodeFormUrl = "{% url 'ajax_load_node_form' %}";
-    var logicFormUrl = "{% url 'ajax_load_logic_field' %}" + "?visualbuilder=true";
-    var answerFormUrl = "{% url 'ajax_load_answer_field' %}";
+    var logicFormUrl = "{% url 'ajax_load_logic_module' %}" + "?visualbuilder=true";
+    var answerFormUrl = "{% url 'ajax_load_input_form' %}";
 
     $.ajax({
       url: logicFormUrl,
@@ -560,8 +560,8 @@ function handleChildLogic(trigger, ...args){
     //Rebuild the node properties for a node that has been edited
     function rebuildNode(el){
       var nodeFormUrl = "{% url 'ajax_load_node_form' %}";
-      var logicFormUrl = "{% url 'ajax_load_logic_field' %}"  + "?visualbuilder=true";
-      var answerFormUrl = "{% url 'ajax_load_answer_field' %}";
+      var logicFormUrl = "{% url 'ajax_load_logic_module' %}"  + "?visualbuilder=true";
+      var answerFormUrl = "{% url 'ajax_load_input_form' %}";
 
       $("#logicproplist").hide();
       $("#answerproplist").hide();

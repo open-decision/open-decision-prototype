@@ -1,4 +1,4 @@
-import os
+import os, json
 from django.shortcuts import render, redirect
 from django.views import generic
 from .models import DecisionTree, Node
@@ -6,7 +6,6 @@ from .forms import DecisionTreeForm
 from django.contrib.auth.decorators import login_required
 from django.utils.text import slugify
 from django.db.models import Count
-import json
 from django.http import HttpResponse
 from .models import bleach_clean
 from django.db import IntegrityError
@@ -16,9 +15,7 @@ from django.http import JsonResponse
 from django.utils.translation import gettext as _
 from pages.models import PublishedTree
 from users.models import CustomUser, Profile
-
-VERSION = 0.1
-LOGIC_TYPE = 'jsonLogic version X'
+from django.conf import settings
 
 @login_required
 def dashboard_view(request):
@@ -93,7 +90,7 @@ def tree_view(request, slug):
 
 @login_required
 def export_tree(request, slug):
-    if os.environ.get('DJANGO_PRODUCTION') is not None:
+    if True:#os.environ.get('DJANGO_PRODUCTION') is not None:
         context = {
         'production' : 'true',
         'selected_tree' : DecisionTree.objects.filter(owner=request.user).get(slug=slug),
@@ -137,10 +134,10 @@ def check_tree(slug, request):
         l = []
         for d in json.loads(n.data_logic):
             if d['action'] == 'go_to':
-                if d['var_to_modify'] == '':
+                if d['target'] == '':
                     errors['no_var'][n.id] = d['answers_logic']
                 else:
-                    l.append(d['var_to_modify'])
+                    l.append(d['target'])
         paths['nodes'][n.id]['childs'] = l
     paths['end_nodes'] = [e.id for e in end_nodes]
     build_paths(paths)
@@ -256,11 +253,11 @@ def build_tree (slug, request):
     export = {}
 # Set some header data to ensure proper processing of the created tree
     export['header'] = {
-        'version' : VERSION,
+        'version' : settings.DATAFORMAT_VERSION,
         #'localization': request.POST.get('localization', 'de-de'),
         'build_date': date.today(),
-        'logic_type': LOGIC_TYPE,
-        'owner': DecisionTree.objects.filter(owner=request.user).get(slug=slug).owner.username,
+        #'logic_type': settings.LOGIC_TYPE,
+        #'owner': DecisionTree.objects.filter(owner=request.user).get(slug=slug).owner.username,
 
         'tree_name' : DecisionTree.objects.filter(owner=request.user).get(slug=slug).name,
         'tree_slug' : slug,
@@ -272,95 +269,159 @@ def build_tree (slug, request):
     for n in all_nodes:
         export[n.slug] = {
         'name': n.name,
-        'question': n.question,
-        'input_type': n.input_type,
-        'end_node': n.end_node,
+        'text': n.question,
+        'inputs': [],
         'rules': {},
+        'destination': {},
+        'action': {},
         }
+
+        try:
+            input_type = json.loads(n.inputs)[0]['input_type']
+        except (KeyError, IndexError):
+            input_type = 'button'
+
+        if input_type not in ['button','free_text', 'end_node']:
+            data_input = json.loads(n.inputs)
+            data_logic = data_input.pop()
+        else:
+            data_input = json.loads(n.inputs)
+            data_logic = None
+
+        for idx, i in enumerate(data_input):
+
 # Build the answer value according to the selected input_type
 # When the user needs to enter a number, date or if the node is an end-node, no
 # answers need to be displayed
-        if (n.input_type == 'number') or (n.input_type == 'date') or (n.input_type == 'end_node'):
-            export[n.slug]['answers'] = []
-        elif n.input_type == 'button':
-            export[n.slug]['answers'] = [single_answer['answer'].strip() for single_answer in json.loads(n.data_answer)]
-# For lists answers separated by line breaks are split into a list of single answers
-        elif n.input_type == 'list':
-            temp_answers = json.loads(n.data_answer)[0]['answer'].splitlines()
-            export[n.slug]['answers'] = [single_answer.strip() for single_answer in temp_answers]
+
+            if input_type == 'button':
+            # Each button  is one input in the  builder atm but saved as one
+            # input elem in the dataformat
+                try:
+                    #Check if a list of buttons already exist
+                    if export[n.slug]['inputs'][-1]['type'] == 'buttons':
+                        export[n.slug]['inputs'][-1]['options'].append(i['text'])
+                    else:
+                    #If the existing last input elem was not for buttons
+                        export[n.slug]['inputs'].append(
+                        {
+                        'type': 'buttons',
+                        'display_as': 'buttons',
+                        'label': '',
+                        'options': [i['text']]
+                        })
+                except IndexError:
+                    #If no inputs exist yet
+                    export[n.slug]['inputs'].append(
+                    {
+                    'type': 'buttons',
+                    'display_as': 'buttons',
+                    'label': '',
+                    'options': [i['text']]
+                    })
+                # Add destination
+                export[n.slug]['destination'][i['text']] = all_nodes.get(id = i['destination']).slug
+
+            elif input_type == 'list':
+                export[n.slug]['inputs'].append(
+                {
+                'type': 'list',
+                'label': '',
+                # For lists answers separated by line breaks are split into a list of single answers
+                'options': [single_answer.strip() for single_answer in i['text'].splitlines()],
+                })
+
+            elif input_type == 'number':
+                export[n.slug]['inputs'].append(
+                {
+                'type': 'number',
+                'label': '',
+                })
+
+            elif input_type == 'free_text':
+                if 'destination' in i:
+                    export[n.slug]['destination']['default'] = all_nodes.get(id = i['destination']).slug
+
+                export[n.slug]['inputs'].append(
+                {
+                'type': i['validation'],
+                'label': i['text'],
+                'id': slugify(i['text'])
+                })
+
+            # End-nodes have no inputs by  definition
+            elif input_type == 'end_node':
+                export[n.slug]['inputs'] = []
+                break
 
 
 # Build the logic dict
 
 #todo: refactor code to use a counter within the forloop to know if the dict exists
 #todo: option to set a value for variables
+        if data_logic:
+            for idx, l in enumerate(data_logic):
+                # Loop through logic forms
 
-        for l in json.loads(n.data_logic):
-            # Loop through logic forms
+                if (input_type == 'number') or (input_type =='date'):
+                    # Build the rules first
+                    # If dict already exists
+                    if 'if' in export[n.slug]['rules']:
+                        export[n.slug]['rules']['if'].extend(
+                        [
+                            {l['operator']: [{"var":"a"}, l['compare_to']]},
+                            str(idx),
+                            ])
+                    # If dict does not exist
+                    else:
+                        export[n.slug]['rules'] = {
+                        'if' : [
+                            {l['operator']: [{"var":"a"}, l['compare_to']]}, "0",
+                        ]}
 
-            if (n.input_type == 'number') or (n.input_type =='date') or (n.input_type == 'button'):
-                # Build the rules first
-                # If dict already exists
-                try:
-                    export[n.slug]['rules']['if'].extend(
-                    [
-                        {l['operator']: [{"var":"answer"}, l['answers_logic'].strip()]},
-                        str(int(len(export[n.slug]['rules']['if'])/2)),
-                        ])
-                # If dict does not exist
-                except KeyError:
-                    export[n.slug]['rules'] = {
-                    'if' : [
-                        {l['operator']: [{"var":"answer"}, l['answers_logic'].strip()]}, "0",
-                    ]}
+                    # Then build the results block - the old way
+                    #if l['action'] == 'go_to':
+                    #data = {'destination': all_nodes.get(id = l['target']).slug}
 
-                # Then build the results block
-                if l['action'] == 'go_to':
-                    data = {'destination': all_nodes.get(id = l['var_to_modify']).slug}
+                    export[n.slug]['destination'][str(idx)] = all_nodes.get(id = l['target']).slug
 
-                # Commented out as the value for the var cannot be set yet
-                # elif l['action'] == 'set'::
-                #     data = {'set': {
-                #         'name': l['var_to_modify'],
-                #         'value': # cannot be set by user yet
-                #         }}
-                #
-                #     export['header']['vars'][l['var_to_modify']] = {
-                #     'type': '',
-                #     'set_in_node': n.slug,
-                #     }
+                    # Commented out as the value for the var cannot be set yet
+                    # elif l['action'] == 'set'::
+                    #     data = {'set': {
+                    #         'name': l['target'],
+                    #         'value': # cannot be set by user yet
+                    #         }}
+                    #
+                    #     export['header']['vars'][l['target']] = {
+                    #     'type': '',
+                    #     'set_in_node': n.slug,
+                    #     }
 
+                elif input_type == 'list':
 
-            elif n.input_type == 'end_node':
-                data = {}
+                    if 'if' in export[n.slug]['rules']:
+                        compare_to_split = [single_answer.strip() for single_answer in l['compare_to'].splitlines()]
+                        export[n.slug]['rules']['if'].extend(
+                        [
+                            {'in': [{"var":"a"},compare_to_split]},
+                            str(idx),
+                            ])
 
-            elif n.input_type == 'list':
-                try:
-                    temp_answers_logic = l['answers_logic'].splitlines()
-                    temp_answers_logic = [single_answer.strip() for single_answer in temp_answers_logic]
-                    export[n.slug]['rules']['if'].extend(
-                    [
-                        {'in': [{"var":"answer"},temp_answers_logic]},
-                        str(int(len(export[n.slug]['rules']['if'])/2)),
-                        ])
-                # If dict does not exist
-                except KeyError:
-                    temp_answers_logic = l['answers_logic'].splitlines()
-                    temp_answers_logic = [single_answer.strip() for single_answer in temp_answers_logic]
-                    export[n.slug]['rules'] = {
-                    'if' : [
-                        {'in': [{"var":"answer"}, temp_answers_logic]}, "0",
-                    ]}
+                    # If dict does not exist
+                    else:
+                        compare_to_split = [single_answer.strip() for single_answer in l['compare_to'].splitlines()]
+                        export[n.slug]['rules'] = {
+                        'if' : [
+                            {'in': [{"var":"a"}, compare_to_split]}, "0",
+                        ]}
 
-                # Then build the results block
-                if l['action'] == 'go_to':
-                    data = {'destination': all_nodes.get(id = l['var_to_modify']).slug}
+                    # Then build the results block
+                    #if l['action'] == 'go_to':
+                    #data = {'destination': all_nodes.get(id = l['target']).slug}
+                    export[n.slug]['destination'][str(idx)] = all_nodes.get(id = l['target']).slug
 
-            try:
-                export[n.slug]['results'][str(int(len(export[n.slug]['results'])))] = data
-            except KeyError:
-                export[n.slug]['results'] = {}
-                export[n.slug]['results']['0'] = data
+            #End of the loop for l in logic
+
     return export
 
 @login_required

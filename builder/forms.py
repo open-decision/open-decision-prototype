@@ -1,140 +1,152 @@
 from django import forms
 from django.forms.formsets import BaseFormSet
 from ckeditor.widgets import CKEditorWidget
+from django.utils.translation import gettext_lazy as _
 
+INPUT_CHOICES = (
+        ('button', _('Button')),
+        ('list', _('Selectlist')),
+    #    ('multiple_select', 'Mehrfachauswahl'),
+        ('free_text', _('Free text')),
+    #    ('long_text', 'Großes Textfeld'),
+        ('number', _('Numberfield')),
+    #    ('date', _('Datefield')),
+        ('end_node', _('End-node - no input')))
+
+VALIDATION_CHOICES = (
+        ('short_text', _('Short Text')),
+        ('long_text', _('Long Text')),
+        ('number', _('Number')),
+        #('e-mail', _('E-Mail')),
+        #('phone', _('Phone Number')),
+        )
 
 class NodeForm(forms.Form):
-    INPUT_CHOICES = (
-    ('button', 'Buttons'),
-    ('list', 'Auswahlliste'),
-#    ('multiple_select', 'Mehrfachauswahl'),
-#    ('short_text', 'Textfeld'),
-#    ('long_text', 'Großes Textfeld'),
-    ('number', 'Zahleneingabe'),
-    ('date', 'Datum'),
-    ('end_node', 'Endknoten - keine Eingabe')
-    )
-    name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Knotenname', 'class' : 'node_create_name'}), max_length="25")
+    name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': _('Node name'), 'class' : 'node_create_name'}), max_length="25")
     question = forms.CharField(required=False, widget=CKEditorWidget())
-    input_type = forms.ChoiceField(label='Eingabeart', choices = INPUT_CHOICES)
 
 class NodeFormVisualBuilder(NodeForm):
     question = forms.CharField(widget=CKEditorWidget(config_name='visualbuilder'))
 
+class InputForm (forms.Form):
+    input_type = forms.ChoiceField(required=False, choices = INPUT_CHOICES, label= _('Input Type'))
+    text = forms.CharField(required=False)
+    def __init__(self, *args, **kwargs):
+        self.input_type = kwargs.pop('input_type', 'button')
+        super(InputForm, self).__init__(*args, **kwargs)
 
+        if self.input_type == 'button':
+            self.fields['text'].widget.attrs['placeholder'] = _('Button Text')
+            self.fields['destination'] = forms.CharField(required=False, max_length="25", widget=forms.TextInput(attrs={'placeholder': _('Destination')}))
 
-class ButtonAnswersForm(forms.Form):
-    answer = forms.CharField(label='Antwort')
+        if self.input_type == 'list':
+            self.fields['input_type'].default = INPUT_CHOICES[1][1]
+            self.fields['text'] = forms.CharField(required=False, widget=forms.Textarea(attrs={'placeholder': _('List of all choices')}))
 
-class ListAnswersForms(forms.Form):
-    answer = forms.CharField(widget=forms.Textarea, label='Liste aller Antwortmöglichkeiten')
+        if (self.input_type == 'number') or (self.input_type == 'date'):
+            self.fields['text'].widget = forms.HiddenInput()
 
-#Disabled till integration of AND/OR
-#class MultipleSelectAnswersForm(forms.Form):
-    #answer = forms.CharField(label='Antwort')
+        if self.input_type == 'free_text':
+            self.fields['text'].widget.attrs['placeholder'] = _('Label')
+            #Deactivated until we send data from interpreter to someone
+            # self.fields['required'] = forms.BooleanField()
+            self.fields['validation'] = forms.ChoiceField(label=_('then'), required=False, choices = VALIDATION_CHOICES)
 
-
-#Num and Date Forms could be empty
-class NumberAnswersForm(forms.Form):
-    pass
-
-class DateAnswerForm(forms.Form):
-    pass
-
-
-#Build seperate getInfo-Node, with possibility to set label, type of input, no. per field
-class ShortTextAnswersForm(forms.Form):
-    answer = forms.CharField(label='Was soll der Nutzer als Feldname sehen?')
-
-
-class LongTextAnswersForm(forms.Form):
-    answer = forms.CharField(label='Was soll der Nutzer als Feldname sehen?')
-
-class EndNodeAnswersForm(forms.Form):
-    pass
+        if self.input_type == 'end_node':
+            self.fields['input_type'].default = INPUT_CHOICES[4][1]
+            self.fields['text'].widget = forms.HiddenInput()
 
 class LogicForm(forms.Form):
-    operator = forms.ChoiceField(label='Wenn die Antwort', choices = [], required=False)
-    answers_logic = forms.CharField(label='', required=False)
-    action = forms.ChoiceField(label='dann', required=False, choices = (
-    ('go_to', 'gehe zu'),
-    ('set', 'setze')))
-    var_to_modify = forms.CharField(label='', required=False, max_length="25")
+    compare_to = forms.CharField(required=False)
+    operator = forms.ChoiceField(label=_('If the  answer'), choices = [], required=False)
+    target = forms.CharField(required=False, max_length="25")
+    action = forms.ChoiceField(label=_('then'), required=False, choices = (
+    ('go_to', _('go to')),
+    ('set', _('set'))
+    )
+    )
+
 
     def __init__(self, *args, **kwargs):
-        self.input_type = kwargs.pop('input_type', None)
-        self.action = kwargs.pop('action', None)
+        self.input_type = kwargs.pop('input_type', 'button')
+        self.action = kwargs.pop('action', 'go_to')
         super(LogicForm, self).__init__(*args, **kwargs)
 
 #        if self.action == 'go_to':
-#            self.fields['var_to_modify'].widget = forms.ChoiceField()
+#            self.fields['target'].widget = forms.ChoiceField()
 
 #        elif self.action == 'set':
-#            self.fields['var_to_modify'].widget = forms.CharField()
+#            self.fields['target'].widget = forms.CharField()
 #            self.fields['value_to_set'] = forms.CharField()
 
         if self.input_type == 'button':
-            self.fields['operator'].choices = (
-            ('==', 'vorliegt'),
-            ('!=', 'nicht vorliegt'))
+            # self.fields['operator'].choices = (
+            # ('==', _('is')),
+            # ('!=', _('is not'))
+            # )
+            self.fields['compare_to'].widget=forms.HiddenInput()
+            self.fields['operator'].widget = forms.HiddenInput()
+            self.fields['action'].widget = forms.HiddenInput()
+            self.fields['target'].widget = forms.HiddenInput()
 
         elif self.input_type == 'list':
-            self.fields['answers_logic'] = forms.CharField(widget=forms.Textarea, label='wenn')
+            self.fields['action'].widget = forms.HiddenInput()
+            self.fields['compare_to'].widget = forms.Textarea()
             self.fields['operator'].choices = (
-            ('==', 'vorliegt'),
-            ('!=', 'nicht vorliegt'))
+            ('==', _('is  in')),
+#            ('!=', _('is not in'))
+            )
 
-        elif self.input_type == 'short_text':
-            self.fields['operator'] = forms.CharField(widget=forms.HiddenInput())
-            self.fields['answers_logic'] = forms.CharField(label='Nehme die Antwort aus')
-            self.fields['action'].choices = (
-            ('set', 'speicher den Wert als Variable'),
-            ('set', 'speicher den Wert als Variable'))
-            self.fields['action'].label = 'und dann'
-            self.fields['operator'].choices = (
-            ('==', 'gleich'),
-            ('==', 'gleich'))
+        elif self.input_type == 'free_text':
+            self.fields['compare_to'].widget=forms.HiddenInput()
+            self.fields['operator'].widget = forms.HiddenInput()
+            self.fields['action'].widget = forms.HiddenInput()
+            self.fields['target'].widget = forms.HiddenInput()
 
-        elif self.input_type == 'long_text':
-            self.fields['operator'] = forms.CharField(widget=forms.HiddenInput())
-            self.fields['answers_logic'] = forms.CharField(label='Nehme die Antwort aus')
-            self.fields['action'].choices = (
-            ('set', 'speicher den Wert als Variable'),
-            ('set', 'speicher den Wert als Variable'))
-            self.fields['action'].label = 'und dann'
-            self.fields['operator'].choices = (
-            ('==', 'gleich'),
-            ('==', 'gleich'))
+        # elif self.input_type == 'long_text':
+        #     self.fields['operator'] = forms.CharField(widget=forms.HiddenInput())
+        #     self.fields['answers_logic'] = forms.CharField(label=_('Take the  answer from'))
+        #     self.fields['action'].choices = (
+        #     ('set', _('save value as')),
+        #     ('set', _('save value as'))
+        #     )
+        #     self.fields['action']widget.attrs['placeholder'] = _('and then')
+        #     self.fields['operator'].choices = (
+        #     ('==', _('equal')),
+        #     ('==', _('equal'))
+        #     )
 
         elif self.input_type == 'number':
-            self.fields['answers_logic'] = forms.FloatField()
+            self.fields['action'].widget = forms.HiddenInput()
+            self.fields['compare_to'] = forms.FloatField(required=False)
             self.fields['operator'].choices = (
-            ('==', 'gleich'),
-            ('!=', 'nicht'),
-            ('<', 'kleiner als'),
-            ('<=', 'kleiner gleich'),
-            ('>', 'größer als'),
-            ('>=', 'größer gleich')
+            ('==', _('equal')),
+            ('!=', _('not')),
+            ('<', _('less than')),
+            ('<=', _('less than or equal')),
+            ('>', _('greater')),
+            ('>=', _('greater or equal'))
             )
 
         elif self.input_type == 'date':
-            self.fields['answers_logic'] = forms.DateField(widget=forms.TextInput(attrs=
+            self.fields['action'].widget = forms.HiddenInput()
+            self.fields['compare_to'] = forms.DateField(required=False, widget=forms.TextInput(attrs=
                                 {
                                     'class':'datepicker'
                                 }))
             self.fields['operator'].choices = (
-            ('==', 'gleich'),
-            ('!=', 'nicht'),
-            ('<', 'kleiner als'),
-            ('<=', 'kleiner gleich'),
-            ('>', 'größer als'),
-            ('>=', 'größer gleich')
-            )
+        ('==', _('equal')),
+        ('!=', _('not')),
+        ('<', _('less than')),
+        ('<=', _('less than or equal')),
+        ('>', _('greater')),
+        ('>=', _('greater or equal'))
+        )
 
-        # elif self.input_type == 'end_node':
-        #     self.fields['operator'].choices = forms.HiddenInput()
-        #     self.fields['answers_logic'] = forms.HiddenInput()
-        #     self.fields['action'].choices = forms.HiddenInput()
-        #     self.fields['var_to_modify'].choices = forms.HiddenInput()
+        elif self.input_type == 'end_node':
+            self.fields['compare_to'].widget=forms.HiddenInput()
+            self.fields['operator'].widget = forms.HiddenInput()
+            self.fields['action'].widget = forms.HiddenInput()
+            self.fields['target'].widget = forms.HiddenInput()
         else:
             pass

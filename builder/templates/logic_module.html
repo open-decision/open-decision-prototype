@@ -1,0 +1,79 @@
+
+{% load static %}
+{% if edit %}
+  {{ logic_formset_init.management_form }}
+  {% for logic_form in logic_formset_init %}
+    <div class="logic-formset">
+      {{ logic_form.as_p }}
+    </div>
+      {% endfor %}
+
+{% else %}
+  {{ logic_formset.management_form }}
+  <div class="logic-formset">
+  {% for logic_form in logic_formset %}
+    {{ logic_form }}
+  {% endfor %}
+  </div>
+{% endif %}
+
+<input type="hidden" id="input_hidden_field" value="" >
+<input type="hidden" id="create_new_node" value="" >
+<link rel="stylesheet" href="{% static '/jquery.datetimepicker.min.css' %}"/>
+<script defer src="{% static '/jquery.datetimepicker.full.min.js' %}"></script>
+<script defer src="{% static '/jquery.formset.js' %}"></script>
+
+<script>
+$('.logic-formset').formset({
+    addText: 'Add Logic Module',
+    deleteText: 'Remove Logic Module',
+    addCssClass: "btn btn-primary btn-sm formset-button mt-5 mb-5",
+    deleteCssClass: "btn btn-secondary btn-sm formset-button mt-0 mb-5",
+    prefix: 'logic',
+    formCssClass:'logic-formset',
+    added: attachEventHandlers,
+});
+
+  function attachEventHandlers(...args){
+    $(".datepicker").datetimepicker({
+      timepicker:false,
+      format:'d.m.Y',
+    })
+
+    var availableNodes = $('#input_hidden_field').val();
+    if (availableNodes){
+      availableNodes = JSON.parse(availableNodes);
+    $( "input[id$='target']").autocomplete({
+      source: availableNodes,
+      response: function(event, ui) {
+            if (ui.content.length === 0) {
+              $(event.target).css("background-color","#4CAF50");
+            } else {
+                $(event.target).css("background-color","");
+              }
+            }
+          })
+        }
+      }
+  $(function () {
+    attachEventHandlers()
+  });
+
+ {% if visualbuilder is not True %}
+
+  $(function() {
+    var loadNodesUrl="{% url 'ajax_load_nodes' %}";
+    var selectedTree = $("#selected-tree").val();
+    $.ajax({
+      url: loadNodesUrl,
+      data: {
+        'selected_tree': selectedTree
+      },
+      success: function (data) {
+        $('#input_hidden_field').val(JSON.stringify(data));
+        attachEventHandlers();
+      }
+    })
+  });
+  {% endif %}
+</script>

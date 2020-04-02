@@ -15,10 +15,10 @@
   <title>open decision</title>
 
   <!-- Custom fonts for this template-->
-  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" >
   <!-- Custom styles for this template-->
-  <link href="{% static 'css/sb-admin-2.css' %}" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.min.css' %}">
+  <link rel="stylesheet"  type="text/css" href="{% static 'css/sb-admin-2.min.css' %}">
+  <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.min.css' %}"> -->
   <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
   <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" />
@@ -57,7 +57,7 @@
 <body id="page-top">
   <!-- Page Wrapper -->
   <div id="wrapper">
-    <input type="hidden" name="static-path" id="static-path" value="{% static '' %}">
+    <input type="hidden" name="static-path" id="static-path" value="https://od-static.azureedge.net/static/">
 
     <!-- Sidebar -->
     {% if user.is_authenticated %}
@@ -84,11 +84,11 @@
           <i class="fas fa-globe-americas"></i>
           <span>{% trans "Published Trees" %}</span></a>
       </li>
-      <li id="visualbuilder-link" class="nav-item">
+      <!-- <li id="visualbuilder-link" class="nav-item">
         <a class="nav-link" href="/visualbuilder/">
           <i class="fas fa-project-diagram"></i>
-          <span>{% trans "Visualbuilder - Alpha" %}</span></a>
-      </li>
+          <span>{% trans "Visualbuilder - Deprecated" %}</span></a>
+      </li> -->
       <li class="nav-item">
         <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
           <i class="fas fa-sign-out-alt"></i>
@@ -234,6 +234,13 @@
                 </a>
               </div>
             </li>
+            <li class="nav-item mx-1 mt-3">
+              <div id="lang-flag" class="">
+                <div class="lang-img-div">
+                  <img class="rounded-circle lang-img" src="{% static 'img/flags/'|add:request.LANGUAGE_CODE|add:'.svg' %}" width="30" alt="'{{ request.LANGUAGE_CODE }} flag'">
+                </div>
+              </div>
+            </li>
             {% else %}
             <!-- Sidebar Toggle (Topbar) -->
             <a class="navbar-brand" href="/"><img src="{% static 'img/favicon.ico' %}" width="50" height="50" alt="opendecision"></a>
@@ -256,10 +263,19 @@
                   </li> -->
                 <li class="nav-item">
                   <a class="nav-link" href="/accounts/login/" role="button">
-
                     <span class="mr-2 d-none d-lg-inline text-gray-800 medium">{% trans "Login" %}</span>
                     <i class="fas fa-sign-in-alt"></i>
                   </a>
+                </li>
+                <li class="nav-item dropdown" >
+                  <a class="nav-link" href="/accounts/login/" role="button">
+                    <span class="mr-2 d-none d-lg-inline text-gray-800 medium">{% trans "Login" %}</span>
+                  </a>
+                </li>
+                <li id="lang-flag" class="nav-item mx-1 mt-3">
+                  <div class="lang-img-div">
+                    <img class="rounded-circle lang-img" src="{% static 'img/flags/'|add:request.LANGUAGE_CODE|add:'.svg' %}" width="30" alt="'{{ request.LANGUAGE_CODE }} flag'">
+                  </div>
                 </li>
               </ul>
             </div>
@@ -270,18 +286,15 @@
 
         <!-- JavaScript-->
         <script type="text/javascript" src="{% static 'jquery.js' %}"></script>
-        <script type="text/javascript" src="{% static 'jquery-ui.min.js' %}"></script>
-        <script type="text/javascript" src="{% static 'popper.min.js' %}"></script>
-        <!-- <script type="text/javascript" src="{% static 'bootstrap.min.js' %}"></script>-->
-        <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
-        <script type="text/javascript" src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <!-- <script type="text/javascript" src="{% static 'popper.min.js' %}"></script> -->
+        <script defer type="text/javascript" src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
 
         <!-- Core plugin JavaScript-->
-        <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+        <script defer src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
 
         <!-- Custom scripts for all pages-->
-        <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+        <script defer src="{% static 'js/sb-admin-2.min.js' %}"></script>
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
@@ -304,8 +317,31 @@
         </div>
       </footer>
       <script type="text/javascript">
-        $(document).ready(function() {
+        window.addEventListener('DOMContentLoaded', function() {
           $('a[href="' + this.location.pathname + '"]').closest('.nav-item').addClass('active');
+          document.getElementById("lang-flag").addEventListener("click", function() {
+            var lang;
+            switch('{{ request.LANGUAGE_CODE }}') {
+                case 'de':
+                  lang = 'en';
+                  break;
+                case 'en':
+                  lang = 'de';
+                  break;
+              }
+            $.ajax({
+              url: "{% url 'set_language' %}",
+              type: "POST",
+              data: {
+                'language': lang,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+              },
+              success: function (data) {
+                 location.reload();
+                  }
+                });
+
+          });
         });
       </script>
       <!-- End of Footer -->

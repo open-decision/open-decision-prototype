@@ -4,60 +4,59 @@
 {% load custom_filters %}
 {% load i18n %}
 
-<form method="POST" id='nodeForm' answer-form-url="{% url 'ajax_load_answer_field' %}" logic-form-url="{% url 'ajax_load_logic_field' %}" load-nodes-url="{% url 'ajax_load_nodes' %}">{%csrf_token%}
+<form method="POST" id='nodeForm' input-form-url="{% url 'ajax_load_input_form' %}" logic-form-url="{% url 'ajax_load_logic_module' %}" load-nodes-url="{% url 'ajax_load_nodes' %}">{%csrf_token%}
 {{ form.media }}
 <h2 class="pageheader"><a href="/trees/{{ selected_tree.slug }}" class="back_button">&#x2190;</a> {% trans "Editing" %} {{ form.name }}{{ form.name.errors }}</h2>
 <input type="hidden" id="selected-tree" value="{{ selected_tree.slug }}" >
+<input type="hidden" id="init-short-text-destination" value="{{ free_text_destination }}" >
 <input type="hidden" id="available_token" data-token-url="{% url 'ajax_load_token' %}" value="" >
-
+{% if error %}
+{{ error }}
+{% endif %}
 <div id='question-field'>
       {{ form.question }}
       {{ form.question.errors }}<!--creates ul (class="errorlist") with errors-->
 </div>
 
-<div id='inputtype-field'>
-      {{ form.input_type }}
-      {{ form.input_type.errors }}
-</div>
-
-<div id="answer-field">
+<div id="input-form">
   <div class="node_create_topbar" style="border-right:1px solid grey; border-bottom:1px solid grey;">
-    <p style="float:left;margin:0;">Antworten</p>
-    <a href="javascript:void(0)" class="answer_add2" id="add_a_2" style="float:right; padding:0;">+</a>
+    <p style="float:left;margin:0;">{% trans "Inputs" %}</p>
   </div>
-    <div class='formset' id='answer-formset'>
-{% if edit == 'true' %}
-  {{ answer_formset_init }}
+    <div class='formset' id='input-formset'>
+{% if edit %}
+  {{ input_formset_init }}
 {% endif %}
-  </div>
-</div>
-<div id="logic-field">
-  <div class="node_create_topbar" style="border-bottom:1px solid grey;">
-    <p style="float:left;margin:0;">Logik</p>
-    <a href="javascript:void(0)" class="logic_add2" id="add_l_2" style="float:right; padding:0;">+</a>
-  </div>  <div class='formset' id='logic-formset'>
-  {% if edit == 'true' %}
-    {{ logic_formset_init }}
-  {% endif %}
   </div>
 </div>
 
 {{ form.non_field_errors }}<!--creates ul (class="errorlist nonfield") with nonfield errors-->
 
-{% if edit == 'true' %}
-<a class="btn btn-danger btn-sm btn-block" href="/trees/{{ selected_tree.slug }}" role="button" style="float:left; width:100%;">{% trans "Cancel" %}</a>
+{% if edit %}
+<a class="btn btn-danger btn-sm btn-block mt-3" href="/trees/{{ selected_tree.slug }}" role="button" style="float:left; width:100%;">{% trans "Cancel" %}</a>
 {% endif %}
 <button type="submit" name="save" value='True' class="btn btn-primary btn-sm btn-block" style="float:left; width:100%;margin-bottom:1em;">{% trans "Save Node" %}</button>
 </form>
 
-<script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
-
-
+<script async type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+<script defer type="text/javascript" src="{% static '/jquery-ui.min.js' %}"></script>
 <script>
-$(document).ready(function(){
+window.addEventListener('DOMContentLoaded', function() {
 
-{% if edit != 'true' %}
-$.fn.loadForms();
+{% if not edit %}
+  loadForms();
+{% else %}
+  shortTextDestination('{{input_type}}');
+  let inputType = document.getElementById('id_input-0-input_type').value;
+  if (inputType === 'button' || inputType === 'free_text'){
+    let inputSelector = document.querySelectorAll("[id$=input_type]");
+    for (var i=1;i<inputSelector.length;i++){
+      inputSelector[i].style.display = "none";
+      document.querySelector('label[for=' + inputSelector[i].id+']').style.display = "none";
+      if (inputType === 'free_text'){
+        document.querySelector('.input-formset').querySelector('a').style.display = "none";
+      }
+    }
+  }
 {% endif %}
 
 CKEDITOR.on('dialogDefinition', function(event) {
@@ -84,8 +83,8 @@ var selectedTree = $('#selected-tree').val();
   }
 });
 
-  $("#id_input_type").change(function () {
-    $.fn.loadForms();
+  $("#id_input-0-input_type").change(function () {
+    loadForms();
       });
 
       $("#add_a_2").click(function() {
@@ -96,33 +95,32 @@ var selectedTree = $('#selected-tree').val();
         $('.logic_add').trigger("click" );
       });
 
-  $("#answer-formset").on('blur',"input[name^='answer']",
-      function(){
-        let answer_given = $(this).val(),
-            input_type = $('#id_input_type').val();
-
-      if (input_type == 'button' || input_type == 'short_text' || input_type == 'long_text' && answer_given !== '') {
-            let answers = $("#id_answer-TOTAL_FORMS").val(),
-                logics = $("#id_logic-TOTAL_FORMS").val(),
-                diff = answers - logics,
-                num = $(this).attr('id').match(/\d+/);
-                console.log(diff);
-          if (diff > 0) {
-            let i;
-            for (i = 0; i < diff; i++) {
-            $('.logic_add').trigger("click" );
-          };
-        };
-          $("#id_logic-"+ num +"-answers_logic").val(answer_given);
-        };
-});
-   });
-   $.fn.loadForms = function(){
+   function loadForms (){
+     var inputFormUrl = $("#nodeForm").attr("input-form-url");
      var logicFormUrl = $("#nodeForm").attr("logic-form-url");
-     var answerFormUrl = $("#nodeForm").attr("answer-form-url");
-     var inputType = $("#id_input_type").val();
+     var inputType;
+     inputType = $("#id_input-0-input_type").val();
+     if (inputType === undefined) {
+       inputType = 'button'
+     }
 
-     if (inputType === "end_node") {
+     $.ajax({
+       url: inputFormUrl,
+       async:false,
+       data: {
+         'input_type': inputType
+       },
+       success: function (data) {
+         $("#input-formset").html(data);
+         $("#id_input-0-input_type").val(inputType);
+         $("#id_input-0-input_type").change(function () {
+           loadForms();
+             });
+             shortTextDestination(inputType);
+       }
+     });
+
+     if ((inputType === "end_node") || (inputType === "button") || (inputType === "free_text")){
        $(".logic-formset").hide();
      } else {
        $(".logic-formset").show();
@@ -137,16 +135,29 @@ var selectedTree = $('#selected-tree').val();
        }
      });
 }
-     $.ajax({
-       url: answerFormUrl,
-       data: {
-         'input_type': inputType
-       },
-       success: function (data) {
-         $("#answer-formset").html(data);
-       }
-     });
-   };
 
+   };
+function shortTextDestination(inputType){
+   if (inputType === 'free_text'){
+     let el = document.querySelector('.input-formset');
+     let x = document.createElement('INPUT');
+         x.setAttribute('type', 'text');
+         x.setAttribute('id', 'short-text-destination');
+         x.setAttribute('placeholder', 'Destination');
+         x.setAttribute('name', 'short-text-destination');
+         x.setAttribute('maxlength', '25');
+         try {
+           let initDest = document.getElementById('init-short-text-destination').value;
+           x.setAttribute('value', initDest);
+         } catch {
+           {}
+         }
+         el.querySelector('.input-fields').appendChild(x);
+         el.querySelector('a').style.display = "none";
+   }
+   }
+
+
+});
 </script>
 {% endblock %}

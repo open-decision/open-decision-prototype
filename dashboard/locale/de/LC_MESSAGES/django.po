@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-04 22:02+0000\n"
+"POT-Creation-Date: 2020-03-29 13:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,95 +41,131 @@ msgstr "In Progress"
 
 #: dashboard/templates/dashboard.html:58
 #: dashboard/templates/dashboard_table_row.html:30
-#: dashboard/templates/tree_view.html:52 dashboard/templates/tree_view.html:93
+#: dashboard/templates/tree_view.html:52 dashboard/templates/tree_view.html:95
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: dashboard/templates/dashboard.html:69 dashboard/templates/dashboard.html:143
+#: dashboard/templates/dashboard.html:69 dashboard/templates/dashboard.html:141
 #: dashboard/templates/dashboard_table_row.html:41
-#: dashboard/templates/tree_view.html:63 dashboard/templates/tree_view.html:104
-#: dashboard/templates/tree_view.html:180
+#: dashboard/templates/tree_view.html:64 dashboard/templates/tree_view.html:106
+#: dashboard/templates/tree_view.html:192
 msgid "Delete"
 msgstr "Löschen"
 
 #: dashboard/templates/dashboard.html:73
 #: dashboard/templates/dashboard_table_row.html:45
-#: dashboard/templates/export.html:180
 msgid "Export"
 msgstr "Export"
 
+#: dashboard/templates/dashboard.html:93
+#: dashboard/templates/published_trees.html:91
+msgid "It's so empty here..."
+msgstr "Es ist so leer hier..."
+
 #: dashboard/templates/dashboard.html:94
-#: dashboard/templates/dashboard_table_row.html:66
 msgid "Enter a name and click the blue button to get started!"
 msgstr "Um anzufangen, gib einen Namen ein und klicke den blauen Button!"
 
-#: dashboard/templates/dashboard.html:119
+#: dashboard/templates/dashboard.html:117
 msgid "Create new Tree"
 msgstr "Neuen Baum erstellen"
 
-#: dashboard/templates/dashboard.html:134
-#: dashboard/templates/dashboard.html:142
-#: dashboard/templates/tree_view.html:171
+#: dashboard/templates/dashboard.html:132
+#: dashboard/templates/published_trees.html:114
+#: dashboard/templates/tree_view.html:183
 msgid "Confirm"
 msgstr "Bestätigen"
+
+#: dashboard/templates/dashboard.html:140
+#: dashboard/templates/published_trees.html:122
+#: dashboard/templates/tree_view.html:191
+msgid "Cancel"
+msgstr "Abbrechen"
 
 #: dashboard/templates/export.html:5
 msgid "Export of the Tree "
 msgstr "Baum exportieren "
 
+#: dashboard/templates/export.html:8
+msgid "Warning"
+msgstr "Warnung"
+
 #: dashboard/templates/export.html:9
+msgid ""
+"Due to the ongoing development, the check tree system is currently disabled. "
+"Please consider the trees as experimental and don't use the software to "
+"provide services for end-users. "
+msgstr ""
+"Da sich der Logikcheck noch in der Entwicklung befindet, ist diese Funktion "
+"momentan deaktiviert.Bitte betrachte die Entscheidungsbäume als "
+"experimentell und benutze die Software noch nicht,um Services für Endnutzer "
+"anzubieten."
+
+#: dashboard/templates/export.html:10
+msgid ""
+"However, if your tree is carefully build and without errors, you still will "
+"be able to export it using the buttons below."
+msgstr ""
+"Wenn der Baum ohne Fehler erstellt worden ist, kann dieser trotzdemmit den "
+"Button unten exportiert werden."
+
+#: dashboard/templates/export.html:14
+msgid "This is the result of the integrity check."
+msgstr "Dies ist das Ergebnis des Logikchecks."
+
+#: dashboard/templates/export.html:18
 #, fuzzy
 #| msgid "Please correct the errors and click the 'Check again'-Button"
 msgid "Please correct the errors and click the 'Check again Button'."
 msgstr "Bitte korrigiere die Fehler und klicke dann auf 'Erneut prüfen'"
 
-#: dashboard/templates/export.html:11
+#: dashboard/templates/export.html:20
 msgid "Looks good, no errors were found!"
 msgstr "Das sieht gut aus, es wurden keine Fehler gefunden!"
 
-#: dashboard/templates/export.html:16
+#: dashboard/templates/export.html:25
 msgid "In this nodes there were no answers for the users provided."
 msgstr "In diesen Knoten wurden keine Antworten für den Nutzer vorgegeben."
 
-#: dashboard/templates/export.html:19 dashboard/templates/export.html:46
-#: dashboard/templates/export.html:73 dashboard/templates/export.html:144
+#: dashboard/templates/export.html:28 dashboard/templates/export.html:55
+#: dashboard/templates/export.html:82 dashboard/templates/export.html:153
 #: dashboard/templates/tree_view.html:22
 msgid "Node name"
 msgstr "Knotenname"
 
-#: dashboard/templates/export.html:20 dashboard/templates/export.html:145
+#: dashboard/templates/export.html:29 dashboard/templates/export.html:154
 #: dashboard/templates/tree_view.html:23
 msgid "Question"
 msgstr "Frage"
 
-#: dashboard/templates/export.html:27 dashboard/templates/export.html:54
-#: dashboard/templates/export.html:82 dashboard/templates/export.html:154
+#: dashboard/templates/export.html:36 dashboard/templates/export.html:63
+#: dashboard/templates/export.html:91 dashboard/templates/export.html:163
 msgid "Correct"
 msgstr "Korrigieren"
 
-#: dashboard/templates/export.html:35
+#: dashboard/templates/export.html:44
 msgid "All nodes have answers."
 msgstr "Alle Knoten haben Antworten."
 
-#: dashboard/templates/export.html:42
+#: dashboard/templates/export.html:51
 msgid "Missing logic modules"
 msgstr "Fehlende Logikbausteine"
 
-#: dashboard/templates/export.html:43
+#: dashboard/templates/export.html:52
 msgid "In this node there are no logic modules."
 msgstr "In diesen Knoten wurden keinerlei Logikbausteine erstellt."
 
-#: dashboard/templates/export.html:62
+#: dashboard/templates/export.html:71
 #, fuzzy
 #| msgid "All nodes have logic modules"
 msgid "All nodes have logic modules."
 msgstr "Alle Knoten haben Logikbausteine."
 
-#: dashboard/templates/export.html:69
+#: dashboard/templates/export.html:78
 msgid "Missing connection to start-node"
 msgstr "Fehlende Verknüpfung zum Startknoten"
 
-#: dashboard/templates/export.html:70
+#: dashboard/templates/export.html:79
 msgid ""
 "This nodes are not connected to the start-node and therefore cannot be "
 "accessed by the user."
@@ -137,112 +173,172 @@ msgstr ""
 "Diese Knoten sind nicht mit dem Startknoten verknüpft und können deswegen "
 "vom Nutzer nicht aufgerufen werden."
 
-#: dashboard/templates/export.html:90
+#: dashboard/templates/export.html:99
 #, fuzzy
 #| msgid "All nodes are connected to an end-node"
 msgid "All nodes are connected to the start-node."
 msgstr "Alle Knoten sind mit einem Endknoten verbunden."
 
-#: dashboard/templates/export.html:97
+#: dashboard/templates/export.html:106
 msgid "Missing connection to an end-node"
-msgstr ""
+msgstr "Fehlende Verbindung zu einem Endknoten"
 
-#: dashboard/templates/export.html:98
+#: dashboard/templates/export.html:107
 msgid "This path doesn't end with a end-node."
-msgstr ""
+msgstr "Dieser Pfand endet nicht mit einem Endknoten."
 
-#: dashboard/templates/export.html:110
+#: dashboard/templates/export.html:119
 msgid "This nodes are at the end of an path, are they end-nodes?"
 msgstr ""
+"Diese Knoten sind am Ende eines Pfades, handelt es sich dabei um Endknoten?"
 
-#: dashboard/templates/export.html:121
+#: dashboard/templates/export.html:130
 msgid "Set as end-node"
 msgstr "In Endknoten umwandeln"
 
-#: dashboard/templates/export.html:124
+#: dashboard/templates/export.html:133
 msgid "Edit node"
 msgstr "Knoten bearbeiten"
 
-#: dashboard/templates/export.html:132
+#: dashboard/templates/export.html:141
 #, fuzzy
 #| msgid "All nodes are connected to an end-node"
 msgid "All nodes are connected to an end-node."
 msgstr "Alle Knoten sind mit einem Endknoten verbunden."
 
-#: dashboard/templates/export.html:140
+#: dashboard/templates/export.html:149
 msgid "Incomplete logic modules"
 msgstr "Unvollständige Logikbausteine"
 
-#: dashboard/templates/export.html:141
+#: dashboard/templates/export.html:150
 msgid ""
 "The connection to the next node is missing in the logic modules of this "
 "nodes."
 msgstr ""
-"Die Verbindung zum nächsten Knoten fehlt in den Logikbausteinen dieses"
+"Die Verbindung zum nächsten Knoten fehlt in den Logikbausteinen dieses "
 "Knotens."
 
-#: dashboard/templates/export.html:146
+#: dashboard/templates/export.html:155
 msgid "Faulty answer"
 msgstr "Fehlerhafte Antwort"
 
-#: dashboard/templates/export.html:162
+#: dashboard/templates/export.html:171
 #, fuzzy
 #| msgid "All nodes have logic modules"
 msgid "All nodes have complete logic modules."
 msgstr "Alle Knoten haben Logikbausteine."
 
-#: dashboard/templates/export.html:172
+#: dashboard/templates/export.html:181
 msgid "Yes, I want to license the decision-tree under  CC 4.0 BY."
-msgstr ""
+msgstr "Ja, ich will den Entscheidungsbaum unter CC 4.0 BY lizenzieren."
 
-#: dashboard/templates/export.html:173
+#: dashboard/templates/export.html:182
 msgid "Yes, publish under CC 4.0 BY."
-msgstr ""
+msgstr "Ja, unter CC 4.0 BY veröffentlichen."
 
-#: dashboard/templates/export.html:174
+#: dashboard/templates/export.html:183
 msgid "Read more"
-msgstr ""
+msgstr "Mehr Infos"
 
-#: dashboard/templates/export.html:177
+#: dashboard/templates/export.html:186
 msgid "Export anyway"
-msgstr ""
+msgstr "Trotzdem exportieren"
 
-#: dashboard/templates/export.html:178
+#: dashboard/templates/export.html:187
 msgid "Check again"
 msgstr "Erneut prüfen"
 
+#: dashboard/templates/export.html:190
+msgid "Download Tree"
+msgstr "Baum herunterladen"
+
+#: dashboard/templates/export.html:191
+msgid "Publish Tree"
+msgstr "Baum veröffentlichen"
+
+#: dashboard/templates/published_trees.html:15
+msgid "Published Trees"
+msgstr "Veröffentlichte Bäume"
+
+#: dashboard/templates/published_trees.html:21
+#, fuzzy
+#| msgid "Export of the Tree "
+msgid "Exported Tree"
+msgstr "Baum exportieren "
+
+#: dashboard/templates/published_trees.html:22
+#, fuzzy
+#| msgid "Export"
+msgid "Export Date"
+msgstr "Export Datum"
+
+#: dashboard/templates/published_trees.html:23
+msgid "Link"
+msgstr "Link"
+
+#: dashboard/templates/published_trees.html:24
+#: dashboard/templates/published_trees.html:52
+msgid "Copy Link"
+msgstr "Link kopieren"
+
+#: dashboard/templates/published_trees.html:25
+msgid "iFrame Code"
+msgstr "iFrame Quellcode"
+
+#: dashboard/templates/published_trees.html:60
+msgid "Embed Tree"
+msgstr "Baum einbinden"
+
+#: dashboard/templates/published_trees.html:71
+#: dashboard/templates/published_trees.html:123
+msgid "Unpublish"
+msgstr "Veröffentlichung rückgängig machen"
+
+#: dashboard/templates/published_trees.html:92
+msgid "Build your first tree and publish it in the export-section."
+msgstr ""
+"Baue deinen ersten Entscheidungsbaum und veröffentliche diesen im Export-"
+"Bereich."
+
 #: dashboard/templates/tree_view.html:15
 msgid "Nodes of: "
-msgstr ""
+msgstr "Knoten von:"
 
 #: dashboard/templates/tree_view.html:40
 msgid "Start-Node"
-msgstr ""
+msgstr "Startknoten"
 
-#: dashboard/templates/tree_view.html:81
+#: dashboard/templates/tree_view.html:40 dashboard/templates/tree_view.html:83
+msgid "End-Node"
+msgstr "Endknoten"
+
+#: dashboard/templates/tree_view.html:83
 msgid "New Node"
-msgstr ""
+msgstr "Neuer Knoten"
 
-#: dashboard/templates/tree_view.html:125
+#: dashboard/templates/tree_view.html:127
 msgid "It feels so empty here..."
-msgstr ""
+msgstr "Es ist so leer hier..."
 
-#: dashboard/templates/tree_view.html:126
+#: dashboard/templates/tree_view.html:128
 msgid "Let's click the blue button and create a new Node!"
-msgstr ""
+msgstr "Klicke auf den blauen Button und erstelle einen neuen Knoten!"
 
-#: dashboard/templates/tree_view.html:147
+#: dashboard/templates/tree_view.html:149
 msgid "Create new node"
-msgstr ""
+msgstr "Neuen Knoten erstellen"
 
-#: dashboard/templates/tree_view.html:156
+#: dashboard/templates/tree_view.html:158
 msgid "Export tree"
-msgstr ""
+msgstr "Baum exportieren"
 
-#: dashboard/templates/tree_view.html:179
-msgid "Cancel"
-msgstr ""
+#: dashboard/templates/tree_view.html:166
+msgid "Preview tree"
+msgstr "Vorschau anzeigen"
 
-#: dashboard/views.py:40
-msgid "<p>Please choose another name, this one is  already taken.</p>"
+#: dashboard/views.py:54
+msgid ""
+"<p>Please choose another name, you already have a tree with this name.</p>"
 msgstr ""
+"<p>Bitte wähle einen anderen Namen, du hast bereits einen Baum mit diesem "
+"Namen.</p>"

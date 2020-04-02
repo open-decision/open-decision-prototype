@@ -21,11 +21,12 @@
 </body>
 </html>
 
-<script type="text/javascript" src="{% static 'logic.js' %}"></script>
-<script type="text/javascript" src="{% static 'od-js-interpreter.js' %}"></script>
+<script defer type="text/javascript" src="{% static 'logic.js' %}"></script>
+<script defer type="text/javascript" src="{% static 'od-js-interpreter.js' %}"></script>
 <script type="text/javascript">
+  window.addEventListener('DOMContentLoaded', function() {
 var  publishedTree = {{tree_data|safe}};
 openDecision.init (publishedTree, "publish-div");
-
+});
 </script>
 {%endblock%}

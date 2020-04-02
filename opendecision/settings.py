@@ -13,10 +13,19 @@ import os
 from .ckeditor_settings import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+#BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-AUTH_USER_MODEL = 'users.CustomUser'
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+STATICFILES_DIRS = (os.path.join(
+    BASE_DIR, "opendecision", "static"),)
+STATIC_ROOT = os.path.join(
+    BASE_DIR, "production", "collected_static")
+MEDIA_ROOT = os.path.join(BASE_DIR, "production", "media")
+
+# Heroku Settings
 if os.environ.get('HEROKU') is not None:
     ALLOWED_HOSTS = ['.herokuapp.com']
 
@@ -31,10 +40,32 @@ if os.environ.get('HEROKU') is not None:
     db_from_env = dj_database_url.config(conn_max_age=500)
     DATABASES['default'].update(db_from_env)
 
+    STATIC_URL = os.path.join(
+        os.path.dirname(BASE_DIR), "production", "collected_static")
+    CKEDITOR_BASEPATH = f'{STATIC_URL}/ckeditor/ckeditor/'
 
+    MIDDLEWARE = [
+        'django.middleware.security.SecurityMiddleware',
+        'whitenoise.middleware.WhiteNoiseMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.locale.LocaleMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    ]
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
+#Azure Settings
 elif os.environ.get('AZURE') is not None:
-    ALLOWED_HOSTS = ['*']
+    ALLOWED_HOSTS = [
+        'od-prod.azurewebsites.net',
+        'opendecision.azureedge.net',
+        'open-decision.azureedge.net',
+        'od-static.azureedge.net',
+        '127.0.0.1',
+    ]
 
     DATABASES = {
     'default': {
@@ -49,16 +80,45 @@ elif os.environ.get('AZURE') is not None:
         }
     }
 }
+    MIDDLEWARE = [
+        'django.middleware.security.SecurityMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.locale.LocaleMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    ]
 
+    DEFAULT_FILE_STORAGE = 'opendecision.custom_azure.AzureMediaStorage'
+    STATICFILES_STORAGE = 'opendecision.custom_azure.AzureStaticStorage'
 
-    #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    STATIC_LOCATION = "static"
+    MEDIA_LOCATION = "media"
+
+    AZURE_ACCOUNT_NAME = os.environ.get('STORAGE_ACCOUNT_NAME')
+    AZURE_CUSTOM_DOMAIN = 'od-static.azureedge.net'
+    STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
+    MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
+    CKEDITOR_BASEPATH = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/ckeditor/ckeditor/'
 
 if os.environ.get('DJANGO_PRODUCTION') is not None:
-    # SECURITY WARNING: don't run with debug turned on in production!
-    DEBUG = False
 
-    # SECURITY WARNING: keep the secret key used in production secret!
+    # SECURITY
+    DEBUG = False
     SECRET_KEY = os.environ.get('SECRET_KEY')
+
+    #SECURE_SSL_REDIRECT = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_HSTS_SECONDS = 30
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    #SECURE_HSTS_PRELOAD = True
+    SECURE_REFERRER_POLICY = 'same-origin'
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+
+
 
     # E-Mail configuration
     EMAIL_HOST = os.environ.get('SMTP_SERVER')
@@ -73,16 +133,6 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
 
     # Admin  configuration
     ADMINS = [(os.environ.get('ADMIN1_NAME'), os.environ.get('ADMIN1_EMAIL'))]
-    MIDDLEWARE = [
-        'django.middleware.security.SecurityMiddleware',
-        'whitenoise.middleware.WhiteNoiseMiddleware',
-        'django.contrib.sessions.middleware.SessionMiddleware',
-        'django.middleware.common.CommonMiddleware',
-        'django.middleware.csrf.CsrfViewMiddleware',
-        'django.contrib.auth.middleware.AuthenticationMiddleware',
-        'django.contrib.messages.middleware.MessageMiddleware',
-        'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    ]
 
     INSTALLED_APPS = [
         'django.contrib.admin',
@@ -98,6 +148,7 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
         'allauth.account',
         'allauth.socialaccount',
         'django_inlinecss',
+        'storages',
 
         'users',
         'interpreter',
@@ -107,8 +158,11 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
         'visualbuilder',
     ]
 
+
 else:
     DEBUG = True
+    CKEDITOR_BASEPATH = "/opendecision/static/ckeditor/ckeditor/"
+    STATIC_URL = '/opendecision/static/'
     SECRET_KEY = '678&exk6aus^#z8j+#tco4%_bgv6mvd6!kcf!gokhza$)3sjql'
     INSTALLED_APPS = [
         'django.contrib.admin',
@@ -137,6 +191,7 @@ else:
     MIDDLEWARE = [
         'django.middleware.security.SecurityMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.locale.LocaleMiddleware',
         'debug_toolbar.middleware.DebugToolbarMiddleware',
         'django.middleware.common.CommonMiddleware',
         'django.middleware.csrf.CsrfViewMiddleware',
@@ -193,6 +248,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'users.CustomUser'
 AUTHENTICATION_BACKENDS = (
 
     'django.contrib.auth.backends.ModelBackend',
@@ -207,7 +263,7 @@ ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-LOGIN_REDIRECT_URL = 'dashboard'
+LOGIN_REDIRECT_URL = '/dashboard/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 ACCOUNT_EMAIL_SUBJECT_PREFIX = 'Open Decision - '
 #ACCOUNT_FORMS = {'signup': 'users.forms.CustomUserCreationForm'}
@@ -225,18 +281,15 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.2/howto/static-files/
-
-STATIC_URL = '/static/'
-STATICFILES_DIRS = ( os.path.join('static'), )
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
-
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
 
-# Redirect to home URL after login (Default redirects to /accounts/profile/)
-LOGIN_REDIRECT_URL = '/dashboard/'
+LOCALE_PATHS = [
+os.path.join(
+    BASE_DIR, "locale"),
+]
+
+# Custom Data for Open Decision
+DATAFORMAT_VERSION = 0.1
+LOGIC_TYPE = 'jsonLogic'

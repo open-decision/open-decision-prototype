@@ -4,9 +4,9 @@ from ckeditor.fields import RichTextField
 import bleach
 
 ALLOWED_TAGS = set(bleach.ALLOWED_TAGS + [
-    'a', 'blockquote', 'code', 'del', 'dd', 'dl', 'dt',
+    'a',  'abbr', 'blockquote', 'code', 'del', 'dd', 'dl', 'dt',
     'h1', 'h2', 'h3', 'h3', 'h4', 'h5', 'i', 'img', 'kbd',
-    'li', 'ol', 'ul', 'p', 'pre', 's', 'sup', 'sub', 'em',
+    'li', 'ol', 'ul', 'p', 'pre', 's', 'span', 'sup', 'sub', 'em',
     'strong', 'strike', 'ul', 'br', 'hr' ])
 
 ALLOWED_STYLES = set(bleach.ALLOWED_STYLES + [
@@ -17,7 +17,7 @@ ALLOWED_STYLES = set(bleach.ALLOWED_STYLES + [
 ALLOWED_ATTRIBUTES = {}
 ALLOWED_ATTRIBUTES.update(bleach.ALLOWED_ATTRIBUTES)
 ALLOWED_ATTRIBUTES.update({
-    '*': ['class', 'title'],
+    '*': ['id', 'class', 'title'],
     'a': ['href', 'rel'],
     'img': ['alt', 'src', 'width', 'height', 'align', 'style'],
 })
@@ -56,13 +56,13 @@ class Node(models.Model):
     name            = models.CharField(max_length=240)
     slug            = models.SlugField(default="")
     decision_tree   = models.ForeignKey(DecisionTree, on_delete=models.CASCADE)
+    path            = models.TextField(null=True, blank=True)
     question        = RichTextBleachField()
-    input_type      = models.CharField(max_length=240)
-    data_answer     = models.TextField(null=True, blank=True)
-    data_logic      = models.TextField(null=True, blank=True)
+    inputs          = models.TextField(null=True, blank=True)
     new_node        = models.BooleanField()
     start_node      = models.BooleanField()
     end_node        = models.BooleanField()
+    extra_data      = models.TextField(null=True, blank=True)
 
     class Meta:
         constraints = [

@@ -10,8 +10,6 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from django.views.decorators.clickjacking import xframe_options_exempt
 
-
-
 # Create your views here.
 def home_view(request):
     if request.user.is_authenticated:
@@ -28,6 +26,10 @@ def contact_view(request):
 def test_view(request, *args, **kwargs):
     context = {}
     return render(request, 'test.html', context)
+
+def lang_view(request, *args, **kwargs):
+    context = {}
+    return render(request, 'set_language.html', context)
 
 def handler403(request, exception):
     return render(request, '403.html', status=403)

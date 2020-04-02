@@ -8,37 +8,55 @@ from dashboard.models import DecisionTree, Node
 from django.utils.text import slugify
 import json
 from django.template.loader import render_to_string
+from dashboard.models import bleach_clean
+from django.db import IntegrityError
+from django.utils.translation import gettext as _
+from django.contrib import messages
 
 @login_required
 def node_create_view(request, slug):
     if request.method == 'GET':
         node_form = NodeForm
-        NodeButtonFormSet = formset_factory(ButtonAnswersForm)
         context = {
         'form': node_form,
         'selected_tree': DecisionTree.objects.filter(owner=request.user).filter(slug=slug).values()[0],
         }
         return render(request, 'node_create.html', context)
     elif request.method == 'POST' and request.POST.get('save'):
-        save_node(request, slug)
-        return redirect('/trees/'+str(slug)+'/')
-
+        result = save_node(request, slug)
+        if True: #result == True:
+            return redirect('/trees/'+str(slug)+'/')
+        else:
+             messages.error(request, "Error")
+        #return render(request, 'node_create.html', context)
 @login_required
 def node_edit_view(request, slug, node_slug):
     if request.method == 'GET':
         data_node = Node.objects.filter(decision_tree__owner=request.user).get(slug=node_slug)
-        input_type = data_node.input_type
-        if input_type == '':
+        node_form = NodeForm({'name': data_node.name, 'question': data_node.question})
+
+        try:
+            input_type = json.loads(data_node.inputs)[0]['input_type']
+        except (KeyError, IndexError):
             input_type = 'button'
-        node_form = NodeForm({'name': data_node.name, 'question': data_node.question, 'input_type': data_node.input_type})
-        answer_formset_init = load_answer_field(request, input_type, data_node)
-        logic_formset_init = load_logic_field(request, input_type, data_node)
+        if input_type not in ['button','free_text', 'end_node']:
+            data_input = json.loads(data_node.inputs)
+            data_logic = data_input.pop()
+            logic_formset_init = load_logic_module(request, input_type, data_logic)
+        else:
+            data_input = json.loads(data_node.inputs)
+            logic_formset_init = None
+
+        free_text_destination_id = json.loads(data_node.inputs)[0].pop('destination', '') if input_type == 'free_text' else ''
+        free_text_destination = Node.objects.filter(decision_tree__owner=request.user).get(id=free_text_destination_id).slug if input_type == 'free_text' else ''
+        input_formset_init = load_input_form(request, input_type, data_input, logic_formset_init)
         context = {
             'form': node_form,
             'selected_tree': DecisionTree.objects.filter(owner=request.user).filter(slug=slug).values()[0],
-            'answer_formset_init': answer_formset_init,
-            'logic_formset_init': logic_formset_init,
-            'edit': 'true',
+            'input_formset_init': input_formset_init,
+            'edit': True,
+            'free_text_destination': free_text_destination,
+            'input_type': input_type,
             }
         return render(request, 'node_create.html', context)
 
@@ -55,96 +73,83 @@ def load_token(request):
 
 
 @login_required
-def load_answer_field(request, *args):
-    try:
-# This will fail, if the fct is not called by the edit view
-            input_type = args[0]
-            data_node = args[1]
-    except:
-        input_type = False
-# If called by edit view
-    if input_type:
-        returned = set_answer_form(input_type)
-        answer_form = returned[0]
-        expandable = returned[1]
-        data = json.loads(data_node.data_answer)
-        AnswerFormSet = formset_factory(answer_form, extra=0)
-        answer_formset_init = AnswerFormSet(initial=data, prefix='answer')
-        context = {
-            'answer_formset_init': answer_formset_init,
-            'expandable': expandable,
-            'edit': 'true',
-            }
-        rendered = render_to_string('answer_field.html', context)
-        return rendered
-# If called by ajax when creating new node
-    else:
-        input_type = request.GET['input_type']
-        returned = set_answer_form(input_type)
-        answer_form = returned[0]
-        expandable = returned[1]
-        AnswerFormSet = formset_factory(answer_form)
-        answer_formset = AnswerFormSet(prefix='answer')
-        context = {
-        'answer_formset': answer_formset,
-        'expandable': expandable,
-        }
-        return render(request, 'answer_field.html', context)
-
-def set_answer_form(input_type):
-    if input_type == 'button':
-        answer_form = ButtonAnswersForm
-        expandable = True
-    elif input_type == 'list':
-        answer_form = ListAnswersForms
-        expandable = False
-    elif input_type == 'multiple_select':
-        answer_form = MultipleSelectAnswersForm
-        expandable = True
-    elif input_type == 'short_text':
-        answer_form = ShortTextAnswersForm
-        expandable = True
-    elif input_type == 'long_text':
-        answer_form = LongTextAnswersForm
-        expandable = True
-    elif input_type == 'number':
-        answer_form = NumberAnswersForm
-        expandable = False
-    elif input_type == 'date':
-        answer_form = DateAnswerForm
-        expandable = False
-    elif input_type == 'end_node':
-        answer_form = EndNodeAnswersForm
-        expandable = False
-    else:
-        raise Exception('Invalid input type.')
-    return [answer_form, expandable]
-
-@login_required
-def load_logic_field(request, *args):
+def load_input_form(request, *args):
     try:
 # This will fail, if the fct is not called by the edit view
         input_type = args[0]
-        data_node = args[1]
+        data_input = args[1]
+        logic_formset_init = args[2]
     except:
-        input_type = False
+        data_input = False
 # If called by edit view
-    if input_type:
-        data = json.loads(data_node.data_logic)
-        for logic_form in data:
-            if logic_form['var_to_modify'] != '':
+    if data_input:
+        for form in data_input:
+            if 'target' in form and form['target'] != '':
+                dest_key = 'target'
+            elif 'destination' in form and form['destination'] != '':
+                dest_key = 'destination'
+            else:
+                dest_key = False
+            if dest_key:
                 try:
-                    node_slug= Node.objects.filter(decision_tree__owner=request.user).get(id=logic_form['var_to_modify']).slug
+                    node_slug= Node.objects.filter(decision_tree__owner=request.user).get(id=form[dest_key]).slug
                 except:
                     node_slug = ''
-                logic_form['var_to_modify']= node_slug
+                form[dest_key]= node_slug
+        InputFormSet = formset_factory(InputForm, extra=0)
+        input_formset_init = InputFormSet(initial=data_input, form_kwargs={'input_type': input_type}, prefix='input')
+        context = {
+            'input_formset_init': input_formset_init,
+            'expandable': True if (input_type=='button' or input_type == 'free_text') else False,
+            'edit': True,
+            }
+        if logic_formset_init:
+            context['logic_formset_init'] = logic_formset_init
+        rendered = render_to_string('input_form.html', context)
+        return rendered
+# If called by ajax when creating new node
+    else:
+        input_type = request.GET.get('input_type', 'button')
+        InputFormSet = formset_factory(InputForm)
+        context = {
+        'input_formset': InputFormSet(form_kwargs={'input_type': input_type}, prefix='input'),
+        'expandable': True if (input_type=='button' or input_type == 'free_text') else False,
+        }
+        return render(request, 'input_form.html', context)
+
+
+@login_required
+def load_logic_module(request, *args):
+    try:
+# This will fail, if the fct is not called by the edit view
+        input_type = args[0]
+        data_logic = args[1]
+    except:
+        data_logic = False
+# If called by edit view
+    print(data_logic)
+    if data_logic:
+        for form in data_logic:
+            if 'target' in form and form['target'] != '':
+                dest_key = 'target'
+            elif 'destination' in form and form['destination'] != '':
+                dest_key = 'destination'
+            else:
+                dest_key = False
+            print (dest_key)
+            if dest_key:
+                try:
+                    node_slug= Node.objects.filter(decision_tree__owner=request.user).get(id=form[dest_key]).slug
+                except:
+                    node_slug = ''
+                form[dest_key]= node_slug
         LogicFormSet = formset_factory(LogicForm, extra=0)
-        logic_formset_init = LogicFormSet(initial=data, form_kwargs={'input_type': input_type}, prefix='logic')
+        logic_formset_init = LogicFormSet(initial=data_logic, form_kwargs={'input_type': input_type}, prefix='logic')
         context = {
         'logic_formset_init': logic_formset_init,
-        'edit': 'true',
+        'edit': 'True',
         }
-        rendered = render_to_string('logic_field.html', context)
+        rendered = render_to_string('logic_module.html', context)
         return rendered
 # If called by ajax when creating new node
     else:
@@ -156,7 +161,7 @@ def load_logic_field(request, *args):
         }
         if request.GET.get('visualbuilder'):
             context['visualbuilder'] = True
-        return render(request, 'logic_field.html', context)
+        return render(request, 'logic_module.html', context)
 
 @login_required
 def load_nodes(request):
@@ -171,100 +176,148 @@ def load_nodes(request):
 @login_required
 def save_node(request, slug, *args):
 #ToDo: Process errors properly -  build error dict, display to user
+    print(request.POST)
     node_dirty = {
             'name'      : request.POST.get('name'),
             'question'  : request.POST.get('question'),
-            'input_type': request.POST.get('input_type'),
             }
 #Clean node data, TODO unify naming/syntax with logic and answers
     node_form = NodeForm(node_dirty)
     if node_form.is_valid():
         node_clean = node_form.cleaned_data
-#Clean answer data
-    data_answer = []
-    data_answer_dirty = {
-    'answer-TOTAL_FORMS'  : request.POST.get('answer-TOTAL_FORMS'),
-    'answer-INITIAL_FORMS': request.POST.get('answer-INITIAL_FORMS'),
-    'answer-MIN_NUM_FORMS': request.POST.get('answer-MIN_NUM_FORMS'),
-    'answer-MAX_NUM_FORMS': request.POST.get('answer-MAX_NUM_FORMS')
-    }
-    for i in range(int(data_answer_dirty['answer-TOTAL_FORMS'])):
-        data_answer_dirty['answer-'+ str(i) +'-answer'] = request.POST.get('answer-'+ str(i) +'-answer')
-#Perform Logic Formset Validation
-    AnswerFormUsed = set_answer_form(node_clean['input_type'])[0]
-    AnswerFormSet = formset_factory(AnswerFormUsed)
-    answer_form_instance = AnswerFormSet(data_answer_dirty, prefix='answer')
-    if answer_form_instance.is_valid():
-        data_answer = answer_form_instance.cleaned_data
-#Clean Logic data
-#Build data logic dirty form
+#Save data from request
+    data_input_dirty = {}
+    data_input = []
+    data_logic_dirty = {}
     data_logic = []
-    data_logic_dirty = {
-    'logic-TOTAL_FORMS'  : request.POST.get('logic-TOTAL_FORMS'),
-    'logic-INITIAL_FORMS': request.POST.get('logic-INITIAL_FORMS'),
-    'logic-MIN_NUM_FORMS': request.POST.get('logic-MIN_NUM_FORMS'),
-    'logic-MAX_NUM_FORMS': request.POST.get('logic-MAX_NUM_FORMS')
-    }
-    for i in range(int(data_logic_dirty['logic-TOTAL_FORMS'])):
-        data_logic_dirty['logic-'+ str(i) +'-operator'] = request.POST.get('logic-'+ str(i) +'-operator')
-        data_logic_dirty['logic-'+ str(i) +'-answers_logic'] = request.POST.get('logic-'+ str(i) +'-answers_logic')
-        data_logic_dirty['logic-'+ str(i) +'-action'] = request.POST.get('logic-'+ str(i) +'-action')
-        data_logic_dirty['logic-'+ str(i) +'-var_to_modify'] = request.POST.get('logic-'+ str(i) +'-var_to_modify')
+
+    for key, value in request.POST.items():
+        if key.startswith('input-'):
+            data_input_dirty[key] = value
+        if key.startswith('logic-'):
+            data_logic_dirty[key] = value
 #Perform Logic Formset Validation
-    LogicFormSet = formset_factory(LogicForm)
-    logic_form_instance = LogicFormSet(data_logic_dirty, form_kwargs={'input_type': node_clean['input_type']}, prefix='logic')
-    if logic_form_instance.is_valid():
-        data_logic= logic_form_instance.cleaned_data
+    InputFormSet = formset_factory(InputForm)
+    Input_form_instance = InputFormSet(data_input_dirty, form_kwargs={'input_type': request.POST.get('input-0-input_type')}, prefix='input')
+    if Input_form_instance.is_valid():
+        data_input = Input_form_instance.cleaned_data
+    else:
+        print(Input_form_instance.errors)
+
+    if data_input and (data_input[0]['input_type'] == 'free_text'):
+        data_input[0]['destination'] = bleach_clean(request.POST.get('short-text-destination'))
+    print(data_input)
+#Clean Logic data
+#Perform Logic Formset Validation
+    if len(data_logic_dirty) != 0:
+        LogicFormSet = formset_factory(LogicForm)
+        logic_form_instance = LogicFormSet(data_logic_dirty, form_kwargs={'input_type': request.POST.get('input-0-input_type')}, prefix='logic')
+        if logic_form_instance.is_valid():
+            data_logic= logic_form_instance.cleaned_data
+
+    is_end_node = True if (data_input and (data_input[0]['input_type'])) == 'end_node' else False
+
 #Check if connected nodes already exist
     is_start_node = False if Node.objects.filter(decision_tree__owner=request.user).filter(decision_tree__slug=slug) else True
-    for i in range(len(data_logic)):
-        if data_logic[i]['var_to_modify'] != '':
+    print(data_input)
+    dest_key= False
+    for i in range(len(data_input)):
+        if 'target' in data_input[i]:
+            if data_input[i]['target'] != '':
+                dest_key = 'target'
+        elif 'destination' in data_input[i]:
+            if data_input[i]['destination'] != '':
+                dest_key = 'destination'
+        if dest_key:
             try:
                 #If yes, get ID to avoid issues if connected node is renamed
-                id= Node.objects.filter(decision_tree__owner=request.user).get(slug=slugify(data_logic[i]['var_to_modify'])).id
-                data_logic[i]['var_to_modify'] = id
+                id= Node.objects.filter(decision_tree__owner=request.user).get(slug=slugify(data_input[i][dest_key])).id
+                data_input[i][dest_key] = id
+                dest_key = False
             except:
                 #If not, create new node
-                new = Node(name= data_logic[i]['var_to_modify'],
-                slug= slugify(data_logic[i]['var_to_modify']),
+                new = Node(
+                name= data_input[i][dest_key],
+                slug= slugify(data_input[i][dest_key]),
                 decision_tree= DecisionTree.objects.filter(owner=request.user).get(slug=slug),
-                input_type= 'button',
-                data_answer= json.dumps([]),
-                data_logic= json.dumps([]),
+                #path= json.dumps([]),
+                inputs= json.dumps([{}]),
                 new_node= True,
                 start_node= False,
                 end_node= False,
                         )
                 new.save()
-                data_logic[i]['var_to_modify'] = new.id
-#Save the node, todo: change to JSON field for saving answer and logic
+                data_input[i][dest_key] = new.id
+                dest_key = False
+        dest_key= False
+
+        if data_logic:
+
+            for i in range(len(data_logic)):
+                if 'target' in data_logic[i]:
+                    if data_logic[i]['target'] != '':
+                        dest_key = 'target'
+                elif 'destination' in data_logic[i]:
+                    if data_logic[i]['destination'] != '':
+                        dest_key = 'destination'
+                if dest_key:
+                    try:
+                        #If yes, get ID to avoid issues if connected node is renamed
+                        id= Node.objects.filter(decision_tree__owner=request.user).get(slug=slugify(data_logic[i][dest_key])).id
+                        data_logic[i][dest_key] = id
+                        dest_key = False
+                    except:
+                        #If not, create new node
+                        print(data_logic[i][dest_key])
+                        new = Node(
+                        name= data_logic[i][dest_key],
+                        slug= slugify(data_logic[i][dest_key]),
+                        decision_tree= DecisionTree.objects.filter(owner=request.user).get(slug=slug),
+                        #path= json.dumps([]),
+                        inputs= json.dumps([{}]),
+                        new_node= True,
+                        start_node= False,
+                        end_node= False,
+                                )
+                        new.save()
+                        data_logic[i][dest_key] = new.id
+                        dest_key = False
+#Save the node, todo: change to postgres JSON field
+
+#Perform input and logic matching, currently not necessary
+# atm not necessary, only append logic to input data
+    if len(data_logic) != 0:
+        data_input.append(data_logic)
     try:
         id = args[0]
     except:
         id = False
-    is_end_node = True if  node_form.cleaned_data['input_type'] == 'end_node' else False
     if id:
         Node.objects.filter(id=id).update(
-        name= node_clean['name'],
+            name= node_clean['name'],
             slug= slugify(node_clean['name']),
             decision_tree= DecisionTree.objects.filter(owner=request.user).get(slug=slug),
+            #path =  json.dumps([] if not is_start_node else []),
             question= node_form.cleaned_data['question'],
-            input_type= node_form.cleaned_data['input_type'],
-            data_answer= json.dumps(data_answer),
-            data_logic= json.dumps(data_logic),
+            inputs= json.dumps(data_input),
             new_node= False,
             end_node= is_end_node,
         )
+        return True
     else:
-        n = Node(name= node_clean['name'],
-        slug= slugify(node_clean['name']),
-        decision_tree= DecisionTree.objects.filter(owner=request.user).get(slug=slug),
-        question= node_form.cleaned_data['question'],
-        input_type= node_form.cleaned_data['input_type'],
-        data_answer= json.dumps(data_answer),
-        data_logic= json.dumps(data_logic),
-        new_node= False,
-        start_node= is_start_node,
-        end_node= is_end_node,
-        )
-        n.save()
+        try:
+            n = Node(
+            name= node_clean['name'],
+            slug= slugify(node_clean['name']),
+            decision_tree= DecisionTree.objects.filter(owner=request.user).get(slug=slug),
+            #path =  json.dumps([] if not is_start_node else []),
+            question= node_form.cleaned_data['question'],
+            inputs= json.dumps(data_input),
+            new_node= False,
+            start_node= is_start_node,
+            end_node= is_end_node,
+            )
+            n.save()
+            return True
+        except IntegrityError:
+            return '<div class="border-left-danger pl-2">'+ _('<p>Please choose another name, you already have a node with this name.</p>') + '</div>'
