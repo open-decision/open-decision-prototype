@@ -40,8 +40,7 @@ if os.environ.get('HEROKU') is not None:
     db_from_env = dj_database_url.config(conn_max_age=500)
     DATABASES['default'].update(db_from_env)
 
-    STATIC_URL = os.path.join(
-        os.path.dirname(BASE_DIR), "production", "collected_static")
+    STATIC_URL = f'{BASE_DIR}/production/collected_static/'
     CKEDITOR_BASEPATH = f'{STATIC_URL}/ckeditor/ckeditor/'
 
     MIDDLEWARE = [
