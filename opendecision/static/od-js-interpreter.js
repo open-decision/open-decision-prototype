@@ -14,15 +14,35 @@ selectedDiv,
 supportsVibration,
 // Object  to expose the internal functions
  expose = {};
+ //version of  the Interpreter
+ const COMPATIBLE_VERSIONS = [0.1];
 
 expose.init = function (path, divId) {
   tree = path;
   selectedDiv = divId;
+
   try{
     window.navigator.vibrate(1);
     supportsVibration = true;
   }catch(e){supportsVibration = false;
   }
+
+  let compatible = false;
+  for (var i=0;i<COMPATIBLE_VERSIONS.length;i++){
+    if (COMPATIBLE_VERSIONS[i] === tree.header.version){
+      compatible = true
+    }
+  }
+
+  if (!compatible){
+    throw {
+    name: "IncompatibleVersion",
+    message: "The provided file used the Open Decision dataformat version "  + tree.header.version + "this library only supports versions " + COMPATIBLE_VERSIONS,
+    toString: function() {
+      return this.name + ": " + this.message;
+    }
+  }
+}
   displayTree();
 };
 
@@ -43,6 +63,9 @@ window.onhashchange = function() {
         displayNode();
     }
 };
+
+//Change log to dict
+
 
 function displayTree  () {
   currentNode = tree.header.start_node;

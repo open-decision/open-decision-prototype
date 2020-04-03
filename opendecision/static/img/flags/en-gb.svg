@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   viewBox="0 0 104 104"
+   width="520"
+   height="520"
+   version="1.1"
+   id="svg3791"
+   sodipodi:docname="en.svg"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06">
+  <metadata
+     id="metadata3797">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs3795">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3841">
+      <rect
+         id="rect3843"
+         width="120"
+         height="103.42857"
+         x="3.3966088"
+         y="0.57337922"
+         style="stroke-width:0.2" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3845">
+      <rect
+         id="rect3847"
+         width="120"
+         height="103.42857"
+         x="3.3966088"
+         y="0.57337922"
+         style="stroke-width:0.2" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath43">
+      <rect
+         id="rect45"
+         width="104"
+         height="104"
+         x="10.991724"
+         y="0.58471221"
+         style="stroke-width:0.20701389" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath47">
+      <rect
+         id="rect49"
+         width="104"
+         height="104"
+         x="10.991724"
+         y="0.58471221"
+         style="stroke-width:0.20701389" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1114"
+     inkscape:window-height="703"
+     id="namedview3793"
+     showgrid="false"
+     inkscape:zoom="0.73952369"
+     inkscape:cx="244.37959"
+     inkscape:cy="232.1276"
+     inkscape:window-x="396"
+     inkscape:window-y="7"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg3791" />
+  <clipPath
+     id="t">
+    <path
+       d="m 63,52 h 63 v 52 z m 0,0 v 52 H 0 Z m 0,0 H 0 V 0 Z m 0,0 V 0 h 63 z"
+       id="path3774"
+       inkscape:connector-curvature="0" />
+  </clipPath>
+  <rect
+     width="126"
+     height="104"
+     id="rect3777"
+     clip-path="url(#clipPath47)"
+     x="0"
+     y="0"
+     transform="translate(-10.991724,-0.58471221)"
+     style="fill:#00247d" />
+  <g
+     id="g3789"
+     clip-path="url(#clipPath43)"
+     transform="translate(-10.991724,-0.58471221)"
+     style="fill:none;stroke:#ffffff;stroke-width:18">
+    <path
+       d="M 0,0 126,104 M 126,0 0,104"
+       id="path3779"
+       inkscape:connector-curvature="0" />
+    <path
+       d="M 0,0 126,104 M 126,0 0,104"
+       clip-path="url(#t)"
+       id="path3781"
+       inkscape:connector-curvature="0"
+       style="stroke-width:21" />
+    <path
+       d="M 0,0 126,104 M 126,0 0,104"
+       clip-path="url(#t)"
+       id="path3783"
+       inkscape:connector-curvature="0"
+       style="stroke:#cf142b;stroke-width:16" />
+    <path
+       d="M 63,0 V 104 M 0,52 h 126"
+       id="path3785"
+       inkscape:connector-curvature="0"
+       style="stroke-width:26" />
+    <path
+       d="M 63,0 V 104 M 0,52 h 126"
+       id="path3787"
+       inkscape:connector-curvature="0"
+       style="stroke:#cf142b" />
+  </g>
+</svg>
