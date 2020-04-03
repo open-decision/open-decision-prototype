@@ -22,6 +22,11 @@ ALLOWED_ATTRIBUTES.update({
     'img': ['alt', 'src', 'width', 'height', 'align', 'style'],
 })
 
+ALLOWED_TAGS_STRICT = set(bleach.ALLOWED_TAGS + [
+    'blockquote', 'code', 'del', 'dd', 'dl', 'dt',
+    'h1', 'h2', 'h3', 'h3', 'h4', 'h5', 'i', 'img', 'kbd',
+    'li', 'ol', 'ul', 'p', 'pre', 's', 'span', 'sup', 'sub', 'em',
+    'strong', 'strike', 'ul', 'br', 'hr' ])
 
 def bleach_clean(html):
     """ Cleans given HTML with bleach.clean() """
@@ -32,6 +37,15 @@ def bleach_clean(html):
         styles=ALLOWED_STYLES,
         strip=True
     )
+
+def bleach_clean_strict(html):
+    """ Cleans given HTML with bleach.clean() """
+    return bleach.clean(
+        html,
+        tags=['b'],
+        strip=True
+    )
+
 
 class RichTextBleachField(RichTextField):
     def __init__(self, *args, **kwargs):

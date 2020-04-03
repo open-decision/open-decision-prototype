@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.text import slugify
 from django.db.models import Count
 from django.http import HttpResponse
-from .models import bleach_clean
+from .models import bleach_clean, bleach_clean_strict
 from django.db import IntegrityError
 from datetime import date
 from django.core import serializers
@@ -20,11 +20,13 @@ from django.conf import settings
 @login_required
 def dashboard_view(request):
     if request.method == 'GET':
-        form = DecisionTreeForm()
         context = {
+        # List of existing decision trees of the user
          'decisiontree_list': DecisionTree.objects.filter(owner=request.user).annotate(node_number=Count("node")),
-         'form':form,
+         # Form to create a new tree
+         'form':DecisionTreeForm(),
          }
+         # USER TOUR - tour shown when user  visits page for first time to highlight UI elements
         if request.user.profile.saw_dashboard:
              context['start_tour'] = False
         else:
@@ -42,7 +44,9 @@ def published_tree_view(request):
          }
     return render(request, 'published_trees.html', context)
 
+
 @login_required
+# Called by AJAX in dashboard to create new tree
 def add_tree(request):
     f = DecisionTreeForm(request.POST)
     try:
@@ -59,6 +63,7 @@ def add_tree(request):
     return render(request, 'dashboard_table_row.html', context)
 
 @login_required
+# Called by AJAX in dashboard to delete tree
 def delete_tree (request):
     id = request.POST.get('tree_id')
     id_clean = bleach_clean(id)
@@ -67,6 +72,7 @@ def delete_tree (request):
     return HttpResponse()
 
 @login_required
+# Called by AJAX in published_trees to delete published tree
 def unpublish_tree (request):
     id = request.POST.get('tree_id')
     id_clean = bleach_clean(id)
@@ -78,6 +84,9 @@ def unpublish_tree (request):
 @login_required
 def tree_view(request, slug):
     existing_nodes = Node.objects.filter(decision_tree__owner=request.user).filter(decision_tree__slug=slug).filter(new_node=False).order_by('-created_at')
+    # for node in existing_nodes:
+    #     node.update(question= bleach_clean_strict(node.question))
+
     new_nodes = Node.objects.filter(decision_tree__owner=request.user).filter(decision_tree__slug=slug).filter(new_node=True).order_by('-created_at')
 
     if request.method == 'GET':
@@ -295,12 +304,12 @@ def build_tree (slug, request):
 # answers need to be displayed
 
             if input_type == 'button':
-            # Each button  is one input in the  builder atm but saved as one
+            # Each button is one input in the  builder atm but saved as one
             # input elem in the dataformat
                 try:
                     #Check if a list of buttons already exist
                     if export[n.slug]['inputs'][-1]['type'] == 'button':
-                        export[n.slug]['inputs'][-1]['options'].append(i['text'])
+                        export[n.slug]['inputs'][-1]['options'].append(i['text'].strip())
                     else:
                     #If the existing last input elem was not for buttons
                         export[n.slug]['inputs'].append(
@@ -308,7 +317,7 @@ def build_tree (slug, request):
                         'type': 'button',
                         'display_as': 'button',
                         'label': '',
-                        'options': [i['text']]
+                        'options': [i['text'].strip()]
                         })
                 except IndexError:
                     #If no inputs exist yet
@@ -317,10 +326,10 @@ def build_tree (slug, request):
                     'type': 'button',
                     'display_as': 'button',
                     'label': '',
-                    'options': [i['text']]
+                    'options': [i['text'].strip()]
                     })
                 # Add destination
-                export[n.slug]['destination'][i['text']] = all_nodes.get(id = i['destination']).slug
+                export[n.slug]['destination'][idx] = all_nodes.get(id = i['destination']).slug
 
             elif input_type == 'list':
                 export[n.slug]['inputs'].append(
@@ -426,6 +435,7 @@ def build_tree (slug, request):
     return export
 
 @login_required
+# AJAX endpoint to get built tree as JSON in preview function
 def load_tree(request):
     selected_tree = request.GET.get('selected_tree')
     data = build_tree(selected_tree, request)

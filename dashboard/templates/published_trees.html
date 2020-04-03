@@ -30,7 +30,6 @@
                   {% if published_tree_list %}
                         {% for decisiontree in published_tree_list %}
                     <tr id="tr_{{ decisiontree.id }}" class="tr-clickable" data-href='/publish/{{ decisiontree.url }}'>
-                    </th>
                     <td>
                       {{ decisiontree.decision_tree.name |truncatechars:40}}
                     </td>
@@ -94,7 +93,6 @@
                             </div>
                             </div>
                           </div>
-                        </div>
                       </td>
                     </th>
                   </tr>
@@ -126,7 +124,7 @@
       </div>
     </div>
 
-    <!-- <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script> -->
+    <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
     <script>
     window.addEventListener('DOMContentLoaded', function() {
 

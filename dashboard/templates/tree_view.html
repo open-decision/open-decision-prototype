@@ -32,7 +32,7 @@
                     <th scope="row">
                       <div class="media align-items-center">
                         <div class="media-body">
-                          <span class="mb-0 text-sm" id="tree-counter">{{ forloop.revcounter }}</span>
+                          <!-- <span class="mb-0 text-sm" id="tree-counter">{{ forloop.revcounter }}</span> -->
                         </div>
                       </div>
                     </th>
@@ -211,8 +211,9 @@
     </div>
 
     <!-- <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script> -->
-    <script defer type="text/javascript" src="{% static 'logic.js' %}"></script>
-    <script defer type="text/javascript" src="{% static 'od-js-interpreter.js' %}"></script>
+    <script defer type="text/javascript" src="{% static 'vendor/json-logic/logic.js' %}"></script>
+    <script defer type="text/javascript" src="{% static 'vendor/od-js-interpreter/od-js-interpreter.js' %}"></script>
+    <script async type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
 
     <script>
     window.addEventListener('DOMContentLoaded', function() {
