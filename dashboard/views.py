@@ -299,14 +299,14 @@ def build_tree (slug, request):
             # input elem in the dataformat
                 try:
                     #Check if a list of buttons already exist
-                    if export[n.slug]['inputs'][-1]['type'] == 'buttons':
+                    if export[n.slug]['inputs'][-1]['type'] == 'button':
                         export[n.slug]['inputs'][-1]['options'].append(i['text'])
                     else:
                     #If the existing last input elem was not for buttons
                         export[n.slug]['inputs'].append(
                         {
-                        'type': 'buttons',
-                        'display_as': 'buttons',
+                        'type': 'button',
+                        'display_as': 'button',
                         'label': '',
                         'options': [i['text']]
                         })
@@ -314,8 +314,8 @@ def build_tree (slug, request):
                     #If no inputs exist yet
                     export[n.slug]['inputs'].append(
                     {
-                    'type': 'buttons',
-                    'display_as': 'buttons',
+                    'type': 'button',
+                    'display_as': 'button',
                     'label': '',
                     'options': [i['text']]
                     })
@@ -344,7 +344,8 @@ def build_tree (slug, request):
 
                 export[n.slug]['inputs'].append(
                 {
-                'type': i['validation'],
+                'type': 'free_text',
+                'validation': i['validation'],
                 'label': i['text'],
                 'id': slugify(i['text'])
                 })

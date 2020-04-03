@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 import os
 from .ckeditor_settings import *
+from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 #BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -41,7 +42,7 @@ if os.environ.get('HEROKU') is not None:
     DATABASES['default'].update(db_from_env)
 
     STATIC_URL = f'{BASE_DIR}/production/collected_static/'
-    CKEDITOR_BASEPATH = f'{STATIC_URL}/ckeditor/ckeditor/'
+    CKEDITOR_BASEPATH = f'{STATIC_URL}ckeditor/ckeditor/'
 
     MIDDLEWARE = [
         'django.middleware.security.SecurityMiddleware',
@@ -108,14 +109,14 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
     DEBUG = False
     SECRET_KEY = os.environ.get('SECRET_KEY')
 
-    #SECURE_SSL_REDIRECT = True
-    SECURE_BROWSER_XSS_FILTER = True
-    SECURE_HSTS_SECONDS = 30
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    #SECURE_HSTS_PRELOAD = True
-    SECURE_REFERRER_POLICY = 'same-origin'
-    CSRF_COOKIE_SECURE = True
-    SESSION_COOKIE_SECURE = True
+    # #SECURE_SSL_REDIRECT = True
+    # SECURE_BROWSER_XSS_FILTER = True
+    # SECURE_HSTS_SECONDS = 30
+    # SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    # #SECURE_HSTS_PRELOAD = True
+    # SECURE_REFERRER_POLICY = 'same-origin'
+    # CSRF_COOKIE_SECURE = True
+    # SESSION_COOKIE_SECURE = True
 
 
 
@@ -271,6 +272,11 @@ ACCOUNT_EMAIL_SUBJECT_PREFIX = 'Open Decision - '
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
+
+LANGUAGES = (
+    ('en', _('English')),
+    ('de', _('German')),
+)
 
 TIME_ZONE = 'UTC'
 
