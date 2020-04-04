@@ -199,6 +199,9 @@
   border-left:3px solid #4e73df;
 }
 
+#input-formset #logic-formset .logic-formset textarea{
+float:left;
+}
 
 /*node_create form END*/
 
