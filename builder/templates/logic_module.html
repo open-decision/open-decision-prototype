@@ -19,9 +19,10 @@
 
 <input type="hidden" id="input_hidden_field" value="" >
 <input type="hidden" id="create_new_node" value="" >
-<link rel="stylesheet" href="{% static 'vendor/datetimepicker/jquery.datetimepicker.min.css' %}"/>
-<script defer src="{% static 'vendor/datetimepicker/jquery.datetimepicker.full.min.js' %}"></script>
-<script defer src="{% static 'vendor/jquery-formset/jquery.formset.js' %}"></script>
+<!-- <link rel="stylesheet" href="{% static 'vendor/datetimepicker/css/jquery.datetimepicker.min.css' %}"/>
+<script defer src="{% static 'vendor/datetimepicker/js/jquery.datetimepicker.full.min.js' %}"></script> -->
+<script defer src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'vendor/jquery-formset/jquery.formset.js' %}"></script>
 
 <script>
 $('.logic-formset').formset({
@@ -35,10 +36,10 @@ $('.logic-formset').formset({
 });
 
   function attachEventHandlers(...args){
-    $(".datepicker").datetimepicker({
-      timepicker:false,
-      format:'d.m.Y',
-    })
+    // $(".datepicker").datetimepicker({
+    //   timepicker:false,
+    //   format:'d.m.Y',
+    // })
 
     var availableNodes = $('#input_hidden_field').val();
     if (availableNodes){
