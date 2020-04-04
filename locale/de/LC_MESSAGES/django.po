@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-04 12:09+0000\n"
+"POT-Creation-Date: 2020-04-04 13:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -382,63 +382,39 @@ msgstr "Veröffentlichte Bäume"
 msgid "Visualbuilder - Deprecated"
 msgstr "Visueller Builder - Demo"
 
-#: templates/base.html:95 templates/base.html:374
+#: templates/base.html:95 templates/base.html:358
 msgid "Logout"
 msgstr "Logout"
 
-#: templates/base.html:101 templates/base.html:386
+#: templates/base.html:101 templates/base.html:370
 msgid "Help"
 msgstr "Hilfe"
 
-#: templates/base.html:252
-msgid "Home"
-msgstr "Home"
-
-#: templates/base.html:257
-msgid "Get in touch"
-msgstr "Kontakt"
-
-#: templates/base.html:262
-msgid "Interpreter (Demo)"
-msgstr "Interpreter (Demo)"
-
-#: templates/base.html:268
+#: templates/base.html:254
 msgid "Login"
 msgstr "Login"
 
-#: templates/base.html:312
-msgid "Support"
-msgstr "Support"
-
-#: templates/base.html:312
-msgid "Imprint"
-msgstr "Impressum"
-
-#: templates/base.html:312
-msgid "Privacy policy"
-msgstr "Datenschutzerklärung"
-
-#: templates/base.html:362
+#: templates/base.html:346
 msgid "Ready to Leave?"
 msgstr "Willst Du schon gehen?"
 
-#: templates/base.html:368
+#: templates/base.html:352
 msgid "Select 'Logout' below if you are ready to end your current session."
 msgstr "Klicke auf 'Logout', wenn Du die Sitzung beenden möchtest."
 
-#: templates/base.html:375
+#: templates/base.html:359
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: templates/base.html:391
+#: templates/base.html:375
 msgid "How can we help you?"
 msgstr "Wie können wir dir helfen?"
 
-#: templates/base.html:395
+#: templates/base.html:379
 msgid "Restart Tour"
 msgstr "Tour neustarten"
 
-#: templates/base.html:396
+#: templates/base.html:380
 msgid "User Guides"
 msgstr "Nutzerhandbuch"
 
@@ -500,3 +476,21 @@ msgstr "Antworten"
 #: visualbuilder/templates/visualbuilder.html:119
 msgid "Logic"
 msgstr "Logik"
+
+#~ msgid "Home"
+#~ msgstr "Home"
+
+#~ msgid "Get in touch"
+#~ msgstr "Kontakt"
+
+#~ msgid "Interpreter (Demo)"
+#~ msgstr "Interpreter (Demo)"
+
+#~ msgid "Support"
+#~ msgstr "Support"
+
+#~ msgid "Imprint"
+#~ msgstr "Impressum"
+
+#~ msgid "Privacy policy"
+#~ msgstr "Datenschutzerklärung"

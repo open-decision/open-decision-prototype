@@ -57,8 +57,8 @@ class InputForm (forms.Form):
             self.fields['text'].widget = forms.HiddenInput()
 
 class LogicForm(forms.Form):
-    compare_to = forms.CharField(required=False)
     operator = forms.ChoiceField(label=_('If the  answer'), choices = [], required=False)
+    compare_to = forms.CharField(required=False)
     target = forms.CharField(required=False, max_length="25", widget=forms.TextInput(attrs={'placeholder': _('Destination')}))
     action = forms.ChoiceField(label=_('then'), required=False, choices = (
     ('go_to', _('go to')),

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-04 12:09+0000\n"
+"POT-Creation-Date: 2020-04-04 13:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -82,7 +82,7 @@ msgstr "Beschriftung des Feldes"
 msgid "then"
 msgstr "dann"
 
-#: builder/forms.py:61
+#: builder/forms.py:60
 msgid "If the  answer"
 msgstr "Wenn die Antwort"
 
@@ -121,6 +121,10 @@ msgstr "größer"
 #: builder/forms.py:129 builder/forms.py:144
 msgid "greater or equal"
 msgstr "größer gleich"
+
+#: builder/templates/logic_module.html:3
+msgid "Logic-Modules"
+msgstr "Logikbausteine"
 
 #: builder/templates/node_create.html:9
 msgid "Editing"
