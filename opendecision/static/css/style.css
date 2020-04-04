@@ -43,19 +43,13 @@
   }
 
 	.footer{
-		overflow-x: hidden;
 		background-color:grey;
-    width: 100%;
-
+    color: white;
 	}
 
 	.footer a {
-	  float: right;
 	  color: white;
-	  text-align: center;
-	  padding: 6px 8px;
 	  text-decoration: none;
-    font-size:0.8em;
 	}
 
 	.footer a:hover {
@@ -68,6 +62,7 @@
 	  background-color: #dfdfdf;
 	  color: white;
 	}
+
 
 /*basic setup END*/
 

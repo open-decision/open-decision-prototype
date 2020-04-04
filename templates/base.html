@@ -217,7 +217,7 @@
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ user.get_short_name }}</span>
-                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                <img class="img-profile rounded-circle" src="https://images.unsplash.com/photo-1548252891-1e56ca65578d?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=60&ixid=eyJhcHBfaWQiOjF9&ixlib=rb-1.2.1&q=80&w=60">
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -247,22 +247,7 @@
             <!-- Sidebar Toggle (Topbar) -->
             <a class="navbar-brand" href="/"><img src="{% static 'img/od-brand/favicon.ico' %}" width="50" height="50" alt="opendecision"></a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                  <a class="nav-link" href="/"><span class="mr-2 d-none d-lg-inline text-gray-800 medium">{% trans "Home" %}</span>
-                    <i class="fas fa-home"></i>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/contact"><span class="mr-2 d-none d-lg-inline text-gray-800 medium">{% trans "Get in touch" %}</span>
-                    <i class="fas fa-sms"></i>
-                  </a>
-                </li>
-                <!-- <li class="nav-item">
-                    <a class="nav-link" href="/interpreter"><span class="mr-2 d-none d-lg-inline text-gray-800 medium">{% trans "Interpreter (Demo)" %}</span>
-                    <i class="fas fa-suitcase"></i>
-                    </a>
-                  </li> -->
+              <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                   <a class="nav-link" href="/accounts/login/" role="button">
                     <span class="mr-2 d-none d-lg-inline text-gray-800 medium">{% trans "Login" %}</span>
@@ -304,13 +289,10 @@
       <!-- End of Main Content -->
 
       <!-- Footer -->
-      <footer class="footer">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <footer class="footer">
-              <span><a href="http://open-decision.org" target="_blank">Made with <img src="{% static 'vendor/flowy/assets/heart.svg' %}"> by the Open Decision Project</a> <a href="https://github.com/fbennets/open-decision" target="_blank">| Github |</a> <a
-                  href="/">{% trans "Support" %}</a> <a href="/">{% trans "Imprint" %}</a> <a href="/">{% trans "Privacy policy" %}</a></span>
-          </div>
+      <footer class="page-footer footer">
+        <div class="container text-center py-2">
+          <a href="http://open-decision.org" target="_blank">Made with <img src="{% static 'vendor/flowy/assets/heart.svg' %}"> by the Open Decision Project</a>
+          | <a href="https://github.com/fbennets/open-decision" target="_blank">Github</a>
         </div>
       </footer>
       <script type="text/javascript">
