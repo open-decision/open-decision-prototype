@@ -13,28 +13,29 @@
 {% if error %}
 {{ error }}
 {% endif %}
-<div id='question-field'>
-      {{ form.question }}
-      {{ form.question.errors }}<!--creates ul (class="errorlist") with errors-->
-</div>
-
-<div id="input-form">
-  <div class="node_create_topbar" style="border-right:1px solid grey; border-bottom:1px solid grey;">
-    <p style="float:left;margin:0;">{% trans "Inputs" %}</p>
+<div class="container">
+  <div id='question-field'>
+    {{ form.question }}
+    {{ form.question.errors }}<!--creates ul (class="errorlist") with errors-->
   </div>
+
+  <div id="input-form">
+    <h2 style="margin:10px; float:left;">{% trans "Inputs" %}</h2>
     <div class='formset' id='input-formset'>
-{% if edit %}
-  {{ input_formset_init }}
-{% endif %}
+      {% if edit %}
+        {{ input_formset_init }}
+      {% endif %}
+    </div>
   </div>
-</div>
 
-{{ form.non_field_errors }}<!--creates ul (class="errorlist nonfield") with nonfield errors-->
+  <div class="m-2">
+    {{ form.non_field_errors }}<!--creates ul (class="errorlist nonfield") with nonfield errors-->
 
-{% if edit %}
-<a class="btn btn-danger btn-sm btn-block mt-3" href="/trees/{{ selected_tree.slug }}" role="button" style="float:left; width:100%;">{% trans "Cancel" %}</a>
-{% endif %}
-<button type="submit" name="save" value='True' class="btn btn-primary btn-sm btn-block" style="float:left; width:100%;margin-bottom:1em;">{% trans "Save Node" %}</button>
+    {% if edit %}
+      <a class="btn btn-danger btn-sm btn-block mt-3" href="/trees/{{ selected_tree.slug }}" role="button">{% trans "Cancel" %}</a>
+      {% endif %}
+      <button type="submit" name="save" value='True' class="btn btn-success btn-sm btn-block">{% trans "Save Node" %}</button>
+  </div>
 </form>
 
 <script async type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>

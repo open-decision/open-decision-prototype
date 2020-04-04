@@ -21,7 +21,7 @@
   <!-- <link rel="stylesheet" type="text/css" href="{% static 'vendor/jquery-ui/css/jquery-ui.min.css' %}"> -->
   <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-  <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" />
+  <link rel="shortcut icon" href="{% static 'img/od-brand/favicon.ico' %}" />
   <!-- Matomo -->
   <script type="text/javascript">
     var _paq = window._paq || [];
@@ -66,7 +66,7 @@
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
         <div class="sidebar-brand-icon rotate-n-0">
-          <img src="{% static 'img/od_logo_white_circle.png' %}" height="50" width="50">
+          <img class="rounded-circle" src="{% static 'img/od-brand/od_logo_white.png' %}" style="border: 2px solid white" height="50" width="50">
         </div>
         <div class="sidebar-brand-text mx-3">open decision</div>
       </a>
@@ -121,7 +121,7 @@
           </button>
 
 
-          <!-- Topbar Search-->
+          <!-- Topbar Search
           <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
             <div class="input-group">
               <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
@@ -131,17 +131,18 @@
                 </button>
               </div>
             </div>
-          </form>
+          </form>-->
 
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
 
-            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+            <!-- Nav Item - Search Dropdown (Visible Only XS)
             <li class="nav-item dropdown no-arrow d-sm-none">
               <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-search fa-fw"></i>
               </a>
-              <!-- Dropdown - Messages -->
+
+              <!-- Dropdown - Messages
               <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
                 <form class="form-inline mr-auto w-100 navbar-search">
                   <div class="input-group">
@@ -155,6 +156,7 @@
                 </form>
               </div>
             </li>
+            -->
 
             <!-- Nav Item - Alerts -->
             <li class="nav-item dropdown no-arrow mx-1">
@@ -243,7 +245,7 @@
             </li>
             {% else %}
             <!-- Sidebar Toggle (Topbar) -->
-            <a class="navbar-brand" href="/"><img src="{% static 'img/favicon.ico' %}" width="50" height="50" alt="opendecision"></a>
+            <a class="navbar-brand" href="/"><img src="{% static 'img/od-brand/favicon.ico' %}" width="50" height="50" alt="opendecision"></a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
