@@ -10597,7 +10597,7 @@ a:focus {
 }
 
 .bg-login-image {
-  background: url("static/login.svg");
+  background: url("static/undraw/login.svg");
   background-position: center;
   background-size: cover;
 }
