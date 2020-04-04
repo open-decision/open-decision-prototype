@@ -181,30 +181,27 @@
   padding: 10px;
   display:inline-block;
 
-  border:1px solid grey;
+
   background-color:#ddd;
+  border-left:3px solid #4e73df;
 
   text-align:center;
 }
 
-#logic-formset .logic-formset .logic-modules {
+#input-formset #logic-formset {
   width: 98%;
-  margin:1%;
-  padding: 10px;
-  display:inline-block;
+  background-color:#eee;
 
-  border:1px solid grey;
-  background-color:#bbb;
 }
 
-#logic-formset .logic-formset {
+#input-formset #logic-formset .logic-formset {
   width: 98%;
   margin:1%;
   padding: 10px;
   display:inline-block;
 
-  border:1px solid grey;
-  background-color:#999;
+  background-color:#ccc;
+  border-left:3px solid #4e73df;
 }
 
 
