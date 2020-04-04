@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-29 13:23+0200\n"
+"POT-Creation-Date: 2020-04-04 12:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: opendecision/settings.py:277
+msgid "English"
+msgstr ""
+
+#: opendecision/settings.py:278
+msgid "German"
+msgstr ""
 
 #: templates/account/account_inactive.html:5
 #: templates/account/account_inactive.html:8
@@ -105,8 +113,8 @@ msgid ""
 msgstr ""
 "\n"
 "Hast Du dein Passwort für open-decision.org vergessen?\n"
-"Du erhälst diese E-Mail, weil du oder jemand anders ein neues Passwort "
-"für deinen Nutzer-Account angefordert hat.\n"
+"Du erhälst diese E-Mail, weil du oder jemand anders ein neues Passwort für "
+"deinen Nutzer-Account angefordert hat.\n"
 "Wenn du die Zurücksetzung deines Passwortes nicht angefordert hast, kannst "
 "du diese Nachricht sicher ignorieren. Klicke den Link unten, um dein "
 "Passwort zurückzusetzen.\n"
@@ -374,63 +382,63 @@ msgstr "Veröffentlichte Bäume"
 msgid "Visualbuilder - Deprecated"
 msgstr "Visueller Builder - Demo"
 
-#: templates/base.html:95 templates/base.html:338
+#: templates/base.html:95 templates/base.html:374
 msgid "Logout"
 msgstr "Logout"
 
-#: templates/base.html:101 templates/base.html:350
+#: templates/base.html:101 templates/base.html:386
 msgid "Help"
 msgstr "Hilfe"
 
-#: templates/base.html:243
+#: templates/base.html:252
 msgid "Home"
 msgstr "Home"
 
-#: templates/base.html:248
+#: templates/base.html:257
 msgid "Get in touch"
 msgstr "Kontakt"
 
-#: templates/base.html:253
+#: templates/base.html:262
 msgid "Interpreter (Demo)"
 msgstr "Interpreter (Demo)"
 
-#: templates/base.html:260
+#: templates/base.html:268
 msgid "Login"
 msgstr "Login"
 
-#: templates/base.html:299
+#: templates/base.html:312
 msgid "Support"
 msgstr "Support"
 
-#: templates/base.html:299
+#: templates/base.html:312
 msgid "Imprint"
 msgstr "Impressum"
 
-#: templates/base.html:299
+#: templates/base.html:312
 msgid "Privacy policy"
 msgstr "Datenschutzerklärung"
 
-#: templates/base.html:326
+#: templates/base.html:362
 msgid "Ready to Leave?"
 msgstr "Willst Du schon gehen?"
 
-#: templates/base.html:332
+#: templates/base.html:368
 msgid "Select 'Logout' below if you are ready to end your current session."
 msgstr "Klicke auf 'Logout', wenn Du die Sitzung beenden möchtest."
 
-#: templates/base.html:339
+#: templates/base.html:375
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: templates/base.html:355
+#: templates/base.html:391
 msgid "How can we help you?"
 msgstr "Wie können wir dir helfen?"
 
-#: templates/base.html:359
+#: templates/base.html:395
 msgid "Restart Tour"
 msgstr "Tour neustarten"
 
-#: templates/base.html:360
+#: templates/base.html:396
 msgid "User Guides"
 msgstr "Nutzerhandbuch"
 
