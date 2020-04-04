@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-29 13:23+0200\n"
+"POT-Creation-Date: 2020-04-04 13:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,76 +39,92 @@ msgid "End-node - no input"
 msgstr "Endknoten - keine Eingabe"
 
 #: builder/forms.py:17
+msgid "Short Text"
+msgstr ""
+
+#: builder/forms.py:18
+#, fuzzy
+#| msgid "Button Text"
+msgid "Long Text"
+msgstr "Beschriftung des Buttons"
+
+#: builder/forms.py:19
+#, fuzzy
+#| msgid "Numberfield"
+msgid "Number"
+msgstr "Zahleneingabe"
+
+#: builder/forms.py:25
 msgid "Node name"
 msgstr "Knotenname"
 
-#: builder/forms.py:24
+#: builder/forms.py:32
 msgid "Input Type"
 msgstr "Eingabetyp"
 
-#: builder/forms.py:31
+#: builder/forms.py:39
 msgid "Button Text"
 msgstr "Beschriftung des Buttons"
 
-#: builder/forms.py:32
+#: builder/forms.py:40 builder/forms.py:62
 msgid "Destination"
 msgstr "Nächster Knoten"
 
-#: builder/forms.py:36
+#: builder/forms.py:44
 msgid "List of all choices"
 msgstr "List aller Auswahlmöglichkeiten"
 
-#: builder/forms.py:42
+#: builder/forms.py:50
 msgid "Label"
 msgstr "Beschriftung des Feldes"
 
-#: builder/forms.py:56
-msgid "If the  answer"
-msgstr "Wenn die Antwort"
-
-#: builder/forms.py:58
+#: builder/forms.py:53 builder/forms.py:63
 msgid "then"
 msgstr "dann"
 
-#: builder/forms.py:59
+#: builder/forms.py:60
+msgid "If the  answer"
+msgstr "Wenn die Antwort"
+
+#: builder/forms.py:64
 msgid "go to"
 msgstr "gehe zu"
 
-#: builder/forms.py:60
+#: builder/forms.py:65
 msgid "set"
 msgstr "setze"
 
-#: builder/forms.py:91
-msgid "is  in"
-msgstr "ist enthalten"
+#: builder/forms.py:94
+msgid "Choices"
+msgstr "Auswahlmöglichkeiten"
 
-#: builder/forms.py:92
-msgid "is not in"
-msgstr "ist nicht enthalten"
-
-#: builder/forms.py:118 builder/forms.py:133
+#: builder/forms.py:124 builder/forms.py:139
 msgid "equal"
 msgstr "gleich"
 
-#: builder/forms.py:119 builder/forms.py:134
+#: builder/forms.py:125 builder/forms.py:140
 msgid "not"
 msgstr "nicht"
 
-#: builder/forms.py:120 builder/forms.py:135
+#: builder/forms.py:126 builder/forms.py:141
 msgid "less than"
 msgstr "kleiner als"
 
-#: builder/forms.py:121 builder/forms.py:136
+#: builder/forms.py:127 builder/forms.py:142
 msgid "less than or equal"
 msgstr "kleiner gleich"
 
-#: builder/forms.py:122 builder/forms.py:137
+#: builder/forms.py:128 builder/forms.py:143
 msgid "greater"
 msgstr "größer"
 
-#: builder/forms.py:123 builder/forms.py:138
+#: builder/forms.py:129 builder/forms.py:144
 msgid "greater or equal"
 msgstr "größer gleich"
+
+#: builder/templates/logic_module.html:3
+msgid "Logic-Modules"
+msgstr "Logikbausteine"
 
 #: builder/templates/node_create.html:9
 msgid "Editing"
@@ -126,11 +142,18 @@ msgstr "Abbrechen"
 msgid "Save Node"
 msgstr "Knoten speichern"
 
-#: builder/views.py:286
+#: builder/views.py:323
 msgid ""
 "<p>Please choose another name, you already have a node with this name.</p>"
 msgstr ""
-"<p>Bitte wähle einen anderen Namen, du  hast bereits einen Knoten mit diesem Namen.</p>"
+"<p>Bitte wähle einen anderen Namen, du  hast bereits einen Knoten mit diesem "
+"Namen.</p>"
+
+#~ msgid "is  in"
+#~ msgstr "ist enthalten"
+
+#~ msgid "is not in"
+#~ msgstr "ist nicht enthalten"
 
 #~ msgid "Datefield"
 #~ msgstr "Datumseingabe"

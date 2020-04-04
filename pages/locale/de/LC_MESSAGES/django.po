@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-29 13:23+0200\n"
+"POT-Creation-Date: 2020-04-04 13:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,7 +59,7 @@ msgstr " oder kontaktiere uns auf"
 msgid "Further information at"
 msgstr "Weitere Informationen auf"
 
-#: pages/templates/home.html:21
+#: pages/templates/home.html:20
 msgid ""
 "The open decision project aims to create an open source platform for "
 "decision automation. Using an intuitive web interface, experts can process "
@@ -74,15 +74,15 @@ msgstr ""
 "exportiert und Nutzern online oder per App in Form einer Abfrage präsentiert "
 "werden."
 
-#: pages/templates/home.html:27
+#: pages/templates/home.html:25
 msgid "Try now"
 msgstr "Los geht's!"
 
-#: pages/templates/home.html:41
+#: pages/templates/home.html:39
 msgid "Concept"
 msgstr "Konzept"
 
-#: pages/templates/home.html:42
+#: pages/templates/home.html:40
 msgid ""
 "The platform is divided into two modules. The Builder offers a simple web "
 "interface for the creation of decision trees. The counterpart is the "
@@ -98,11 +98,11 @@ msgstr ""
 "per App oder in Chat-Bots erfolgen. Die Kommunikation zwischen Builder und "
 "Interpreter läuft über ein standardisiertes Datenformat ab."
 
-#: pages/templates/home.html:59
+#: pages/templates/home.html:57
 msgid "Builder"
 msgstr "Builder"
 
-#: pages/templates/home.html:60
+#: pages/templates/home.html:58
 msgid ""
 "The Builder acts as a translator of legal ideas into a uniform, machine-"
 "readable data format. It is therefore essential that this process takes "
@@ -124,11 +124,11 @@ msgstr ""
 "durch Experten (Volljuristen) aufbereitet, um höchste Qualitätsstandards zu "
 "gewährleisten."
 
-#: pages/templates/home.html:77
+#: pages/templates/home.html:75
 msgid "Interpreter"
 msgstr "Interpreter"
 
-#: pages/templates/home.html:78
+#: pages/templates/home.html:76
 msgid ""
 "To ensure low-threshold access, we offer a simple user interface on a "
 "variety of channels. Internally, we have already successfully launched a "

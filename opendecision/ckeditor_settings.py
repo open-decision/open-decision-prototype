@@ -2,7 +2,6 @@ CKEDITOR_BASEPATH = "static/ckeditor/ckeditor"
 CKEDITOR_CONFIGS = {
 
     'default': {
-        #'skin': 'bootstrapck',
         'toolbar_Basic': [
             ['Source', '-', 'Bold', 'Italic']
         ],
@@ -28,16 +27,12 @@ CKEDITOR_CONFIGS = {
 
 
         'toolbar': 'NodeCreateToolbar',
-        # 'toolbarGroups': [{ 'name': 'document', 'groups': [ 'mode', 'document', 'doctools' ] }],
-        # 'height': 291,
-        # 'width': '100%',
-        # 'filebrowserWindowHeight': 725,
-        # 'filebrowserWindowWidth': 940,
         'toolbarCanCollapse': True,
         'tabSpaces': 4,
         'tokenStart': '[[',
         'tokenEnd': ']]',
         'extraAllowedContent': 'abbr',
+        'width': '100%',
         'extraPlugins': ','.join([
             'autolink',
             'autoembed',

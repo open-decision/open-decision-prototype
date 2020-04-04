@@ -1,5 +1,6 @@
-
 {% load static %}
+{% load i18n %}
+<h3 style="float:left;margin:10px;">{% trans "Logic-Modules" %}</h3>
 {% if edit %}
   {{ logic_formset_init.management_form }}
   {% for logic_form in logic_formset_init %}
@@ -19,26 +20,27 @@
 
 <input type="hidden" id="input_hidden_field" value="" >
 <input type="hidden" id="create_new_node" value="" >
-<link rel="stylesheet" href="{% static '/jquery.datetimepicker.min.css' %}"/>
-<script defer src="{% static '/jquery.datetimepicker.full.min.js' %}"></script>
-<script defer src="{% static '/jquery.formset.js' %}"></script>
+<!-- <link rel="stylesheet" href="{% static 'vendor/datetimepicker/css/jquery.datetimepicker.min.css' %}"/>
+<script defer src="{% static 'vendor/datetimepicker/js/jquery.datetimepicker.full.min.js' %}"></script> -->
+<script defer src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'vendor/jquery-formset/jquery.formset.js' %}"></script>
 
 <script>
 $('.logic-formset').formset({
     addText: 'Add Logic Module',
     deleteText: 'Remove Logic Module',
-    addCssClass: "btn btn-primary btn-sm formset-button mt-5 mb-5",
-    deleteCssClass: "btn btn-secondary btn-sm formset-button mt-0 mb-5",
+    addCssClass: "btn btn-primary btn-sm formset-button mb-2 mt-2",
+    deleteCssClass: "btn btn-secondary btn-sm formset-button",
     prefix: 'logic',
     formCssClass:'logic-formset',
     added: attachEventHandlers,
 });
 
   function attachEventHandlers(...args){
-    $(".datepicker").datetimepicker({
-      timepicker:false,
-      format:'d.m.Y',
-    })
+    // $(".datepicker").datetimepicker({
+    //   timepicker:false,
+    //   format:'d.m.Y',
+    // })
 
     var availableNodes = $('#input_hidden_field').val();
     if (availableNodes){

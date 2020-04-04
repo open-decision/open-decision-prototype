@@ -57,9 +57,9 @@ class InputForm (forms.Form):
             self.fields['text'].widget = forms.HiddenInput()
 
 class LogicForm(forms.Form):
-    compare_to = forms.CharField(required=False)
     operator = forms.ChoiceField(label=_('If the  answer'), choices = [], required=False)
-    target = forms.CharField(required=False, max_length="25")
+    compare_to = forms.CharField(required=False)
+    target = forms.CharField(required=False, max_length="25", widget=forms.TextInput(attrs={'placeholder': _('Destination')}))
     action = forms.ChoiceField(label=_('then'), required=False, choices = (
     ('go_to', _('go to')),
     ('set', _('set'))
@@ -91,11 +91,12 @@ class LogicForm(forms.Form):
 
         elif self.input_type == 'list':
             self.fields['action'].widget = forms.HiddenInput()
-            self.fields['compare_to'].widget = forms.Textarea()
-            self.fields['operator'].choices = (
-            ('==', _('is  in')),
-#            ('!=', _('is not in'))
-            )
+            self.fields['compare_to'].widget = forms.Textarea(attrs={'placeholder': _('Choices')})
+            self.fields['operator'].widget = forms.HiddenInput()
+#             self.fields['operator'].choices = (
+#             ('==', _('is  in')),
+# #            ('!=', _('is not in'))
+#             )
 
         elif self.input_type == 'free_text':
             self.fields['compare_to'].widget=forms.HiddenInput()

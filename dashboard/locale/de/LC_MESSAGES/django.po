@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-29 13:23+0200\n"
+"POT-Creation-Date: 2020-04-04 13:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,7 +58,7 @@ msgid "Export"
 msgstr "Export"
 
 #: dashboard/templates/dashboard.html:93
-#: dashboard/templates/published_trees.html:91
+#: dashboard/templates/published_trees.html:90
 msgid "It's so empty here..."
 msgstr "Es ist so leer hier..."
 
@@ -71,13 +71,13 @@ msgid "Create new Tree"
 msgstr "Neuen Baum erstellen"
 
 #: dashboard/templates/dashboard.html:132
-#: dashboard/templates/published_trees.html:114
+#: dashboard/templates/published_trees.html:112
 #: dashboard/templates/tree_view.html:183
 msgid "Confirm"
 msgstr "Bestätigen"
 
 #: dashboard/templates/dashboard.html:140
-#: dashboard/templates/published_trees.html:122
+#: dashboard/templates/published_trees.html:120
 #: dashboard/templates/tree_view.html:191
 msgid "Cancel"
 msgstr "Abbrechen"
@@ -277,7 +277,7 @@ msgid "Link"
 msgstr "Link"
 
 #: dashboard/templates/published_trees.html:24
-#: dashboard/templates/published_trees.html:52
+#: dashboard/templates/published_trees.html:51
 msgid "Copy Link"
 msgstr "Link kopieren"
 
@@ -285,16 +285,16 @@ msgstr "Link kopieren"
 msgid "iFrame Code"
 msgstr "iFrame Quellcode"
 
-#: dashboard/templates/published_trees.html:60
+#: dashboard/templates/published_trees.html:59
 msgid "Embed Tree"
 msgstr "Baum einbinden"
 
-#: dashboard/templates/published_trees.html:71
-#: dashboard/templates/published_trees.html:123
+#: dashboard/templates/published_trees.html:70
+#: dashboard/templates/published_trees.html:121
 msgid "Unpublish"
 msgstr "Veröffentlichung rückgängig machen"
 
-#: dashboard/templates/published_trees.html:92
+#: dashboard/templates/published_trees.html:91
 msgid "Build your first tree and publish it in the export-section."
 msgstr ""
 "Baue deinen ersten Entscheidungsbaum und veröffentliche diesen im Export-"
@@ -336,7 +336,7 @@ msgstr "Baum exportieren"
 msgid "Preview tree"
 msgstr "Vorschau anzeigen"
 
-#: dashboard/views.py:54
+#: dashboard/views.py:58
 msgid ""
 "<p>Please choose another name, you already have a tree with this name.</p>"
 msgstr ""
