@@ -151,7 +151,6 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
         'storages',
 
         'users',
-        'interpreter',
         'pages',
         'builder',
         'dashboard',
@@ -181,7 +180,6 @@ else:
         'django_inlinecss',
 
         'users',
-        'interpreter',
         'pages',
         'builder',
         'dashboard',
