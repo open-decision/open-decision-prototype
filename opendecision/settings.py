@@ -60,9 +60,9 @@ if os.environ.get('HEROKU') is not None:
 #Azure Settings
 elif os.environ.get('AZURE') is not None:
     ALLOWED_HOSTS = [
+        '.open-decision.org'
+        'open-decision.azureedge.net'
         'od-prod.azurewebsites.net',
-        'opendecision.azureedge.net',
-        'open-decision.azureedge.net',
         'od-static.azureedge.net',
         '127.0.0.1',
     ]
@@ -115,8 +115,8 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     #SECURE_HSTS_PRELOAD = True
     SECURE_REFERRER_POLICY = 'same-origin'
-    CSRF_COOKIE_SECURE = True
-    SESSION_COOKIE_SECURE = True
+    # CSRF_COOKIE_SECURE = True
+    # SESSION_COOKIE_SECURE = True
 
 
 
