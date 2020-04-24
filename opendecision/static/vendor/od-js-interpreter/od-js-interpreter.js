@@ -1,5 +1,7 @@
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 /*!
  * Open Decision JavaScript Interpreter v0.1
  * https://open-decision.org/
@@ -8,7 +10,7 @@
  * Released under the MIT license
  * https://github.com/fbennets/open-decision/blob/master/LICENSE
  *
- * Date: 2020-04-03
+ * Date: 2020-04-21
  */
 window.openDecision = function () {
   "use strict"; // The node of the tree the user is currently seeing
@@ -25,13 +27,38 @@ window.openDecision = function () {
       // Boolean to determine if the device can vibrate
   supportsVibration,
       // Object  to expose the internal functions
-  expose = {}; //version of  the Interpreter
+  expose = {},
+      //CSS for UI elements
+  css = {}; //version of  the Interpreter
 
-  var COMPATIBLE_VERSIONS = [0.1];
+  var COMPATIBLE_VERSIONS = [0.1],
+      //default CSS for UI elements
+  defaultCss = {
+    heading: "",
+    inputContainer: "",
+    answerButton: "btn btn-primary ml-2",
+    answerList: "",
+    numberInput: "",
+    dateInput: "",
+    freeText: {
+      short: "",
+      long: "",
+      number: ""
+    },
+    controls: {
+      submitButton: "btn btn-primary ml-2 mt-3",
+      restartButton: "btn btn-primary ml-2 mt-3",
+      backButton: "btn btn-primary ml-2 mt-3"
+    }
+  };
 
   expose.init = function (path, divId) {
+    var customCss = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
     tree = path;
     selectedDiv = divId;
+    css = { ...defaultCss,
+      ...customCss
+    };
 
     try {
       window.navigator.vibrate(1);
@@ -88,7 +115,7 @@ window.openDecision = function () {
 
   function displayTree() {
     currentNode = tree.header.start_node;
-    preString = "<h3>".concat(tree.header.tree_name, "</h3><br>");
+    preString = "<h3 class=\"".concat(css.heading, "\">").concat(tree.header.tree_name, "</h3><br>");
     log = {
       'nodes': [],
       'answers': {}
@@ -100,7 +127,43 @@ window.openDecision = function () {
 
   function displayNode() {
     location.hash = currentNode;
-    var string = "".concat(preString).concat(tree[currentNode].text, "<br><div id=\"od-input-div\">");
+    var question = tree[currentNode].text; //Replace vars
+    //Match double square brackets
+
+    var regExp = /\[\[([^\]]+)]]/g;
+    var match = regExp.exec(question);
+
+    while (match != null) {
+      var answer = void 0;
+      match[1] = match[1].trim();
+      var period = match[1].indexOf('.');
+
+      if (period !== -1) {
+        var node = match[1].substring(0, period);
+        var id = match[1].substring(period + 1);
+        answer = node in log.answers ? log.answers[node][id] : "MISSING";
+      } else {
+        answer = match[1] in log.answers ? log.answers[match[1]] : "MISSING";
+      }
+
+      if (typeof answer === 'number') {
+        try {
+          var answerText = tree[match[1]].inputs[0].options[answer];
+
+          if (answerText !== undefined) {
+            answer = answerText;
+          }
+        } catch {}
+      } else if (_typeof(answer) === 'object') {
+        answer = log.answers[match[1]].a;
+      }
+
+      ;
+      question = question.replace(match[0], answer);
+      match = regExp.exec(question);
+    }
+
+    var string = "".concat(preString).concat(question, "<br><div id=\"od-input-div\" class=\"").concat(css.inputContainer, "\">");
     var inputCounter = {
       'buttonsCount': 0,
       'listCount': 0,
@@ -112,35 +175,32 @@ window.openDecision = function () {
     for (var j = 0; j < tree[currentNode].inputs.length; j++) {
       if (tree[currentNode].inputs[j].type === 'button') {
         for (var i = 0; i < tree[currentNode].inputs[j].options.length; i++) {
-          string += "<button type=\"button\" id=\"answer-button\" class=\"btn btn-primary ml-2 answer-button\" data-index=\"".concat(j, "\" value=\"").concat(i, "\">").concat(tree[currentNode].inputs[j].options[i], "</button>");
+          string += "<button type=\"button\" id=\"answer-button\" class=\"".concat(css.answerButton, "\" data-index=\"").concat(j, "\" value=\"").concat(i, "\">").concat(tree[currentNode].inputs[j].options[i], "</button>");
         }
 
         inputCounter['buttonsCount'] = +1;
       } else if (tree[currentNode].inputs[j].type === 'list') {
-        string += "<select id=\"list-select\" class=\"od-input list-select\" data-index=\"".concat(j, "\">");
+        string += "<select id=\"list-select\" class=\"od-input list-select ".concat(css.answerList, "\" data-index=\"").concat(j, "\">");
 
         for (var _i = 0; _i < tree[currentNode].inputs[j].options.length; _i++) {
           string += "<option value=".concat(_i, ">").concat(tree[currentNode].inputs[j].options[_i], "</option>");
         }
 
-        string += '</select>'; //<br><button type="button" class="btn btn-primary ml-2 mt-3" id="submit-list-button">Submit</button>';
-
+        string += '</select>';
         inputCounter['listCount'] = +1;
       } else if (tree[currentNode].inputs[j].type === 'number') {
-        string += "<input type=\"number\" id=\"number-input\" class=\"od-input number-input\" data-index=\"".concat(j, "\">"); // string += '<br><button type="button" class="btn btn-primary ml-2 mt-3" id="submit-number-button">Submit</button>';
-
+        string += "<input type=\"number\" id=\"number-input\" class=\"od-input number-input ".concat(css.numberInput, "\" data-index=\"").concat(j, "\">");
         inputCounter['numberCount'] = +1;
       } else if (tree[currentNode].inputs[j].type === 'date') {
-        string += "<input type=\"number\" id=\"date-input\" class=\"od-input date-input\" data-index=\"".concat(j, "\">"); // string += '<br><button type="button" class="btn btn-primary ml-2 mt-3" id="submit-number-button">Submit</button>';
-
+        string += "<input type=\"number\" id=\"date-input\" class=\"od-input date-input ".concat(css.dateInput, "\" data-index=\"").concat(j, "\">");
         inputCounter['dateCount'] = +1;
       } else if (tree[currentNode].inputs[j].type === 'free_text') {
         if (tree[currentNode].inputs[j].validation === 'short_text') {
-          string += "<label for=\"".concat(tree[currentNode].inputs[j].id, "\" >").concat(tree[currentNode].inputs[j].label, "<br><input type=\"text\" id=\"").concat(tree[currentNode].inputs[j].id, "\" class=\"free-text short-text od-input\" data-index=\"").concat(j, "\"></label>"); // string += '<br><button type="button" class="btn btn-primary ml-2 mt-3" id="submit-free-text-button">Submit</button>';
+          string += "<label for=\"".concat(tree[currentNode].inputs[j].id, "\" >").concat(tree[currentNode].inputs[j].label, "<br><input type=\"text\" id=\"").concat(tree[currentNode].inputs[j].id, "\" class=\"free-text short-text od-input ").concat(css.freeText.short, "\" data-index=\"").concat(j, "\"></label>");
         } else if (tree[currentNode].inputs[j].validation === 'long_text') {
-          string += "<textarea id=\"".concat(tree[currentNode].inputs[j].id, "\" class=\"free-text long-text  od-input\" data-index=\"").concat(j, "\" rows=\"4\" cols=\"10\"></textarea>"); // string += '<br><button type="button" class="btn btn-primary ml-2 mt-3" id="submit-free-text-button">Submit</button>';
+          string += "<textarea id=\"".concat(tree[currentNode].inputs[j].id, "\" class=\"free-text long-text  od-input ").concat(css.freeText.long, "\" data-index=\"").concat(j, "\" rows=\"4\" cols=\"10\"></textarea>");
         } else if (tree[currentNode].inputs[j].validation === 'number') {
-          string += "<input type=\"number\" id=\"".concat(tree[currentNode].inputs[j].id, "\" class=\"free-text number od-input\" data-index=\"").concat(j, "\">"); // string += '<br><button type="button" class="btn btn-primary ml-2 mt-3" id="submit-free-text-button">Submit</button>';
+          string += "<input type=\"number\" id=\"".concat(tree[currentNode].inputs[j].id, "\" class=\"free-text number od-input ").concat(css.freeText.number, "\" data-index=\"").concat(j, "\">");
         }
 
         inputCounter['freeTextCount'] = +1;
@@ -149,11 +209,11 @@ window.openDecision = function () {
 
     ;
 
-    if ((tree[currentNode].inputs.length !== 0)&&(tree[currentNode].inputs[0].type !== 'button')){
-      string += '<br><button type="button" class="btn btn-primary ml-2 mt-3" id="submit-button">Submit</button>';
+    if (tree[currentNode].inputs.length !== 0 && tree[currentNode].inputs[0].type !== 'button') {
+      string += "<br><button type=\"button\" class=\"".concat(css.controls.submitButton, "\" id=\"submit-button\">Submit</button>");
     }
 
-    string += '</div><br><button type="button" class="btn btn-primary ml-2 mt-3" id="restart-button">Restart</button><button type="button" class="btn btn-primary ml-2 mt-3" id="back-button">Back</button>';
+    string += "</div><br><button type=\"button\" class=\" ".concat(css.controls.restartButton, "\" id=\"restart-button\">Restart</button><button type=\"button\" class=\"").concat(css.controls.backButton, "\" id=\"back-button\">Back</button>");
     document.getElementById(selectedDiv).innerHTML = string;
     document.addEventListener("click", listener);
   }
@@ -233,14 +293,10 @@ window.openDecision = function () {
     displayNode();
   }
 
-  ; // Initiate with path(s) for trees and div to display everything in, CSS classes later
-  // Show question (display as safe html, look for variables) and display answers
-  // list: take answers from a list in display selectfield with listener attached
-  // date/number: show numberfield or datefield with datepicker attached, attach listener
-  // end_node: show restart or save-button
+  ; // To do:
   // Save/download progress function
   // Validate user input and give errors
-  //Todo: JS translation
+  // JS translation
 
   return expose;
 }();
