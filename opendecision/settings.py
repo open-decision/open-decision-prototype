@@ -60,8 +60,8 @@ if os.environ.get('HEROKU') is not None:
 #Azure Settings
 elif os.environ.get('AZURE') is not None:
     ALLOWED_HOSTS = [
-        '.open-decision.org'
-        'open-decision.azureedge.net'
+        '.open-decision.org',
+        'open-decision.azureedge.net',
         'od-prod.azurewebsites.net',
         'od-static.azureedge.net',
         '127.0.0.1',
