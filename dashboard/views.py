@@ -309,7 +309,7 @@ def build_tree (slug, request):
                 try:
                     #Check if a list of buttons already exist
                     if export[n.slug]['inputs'][-1]['type'] == 'button':
-                        export[n.slug]['inputs'][-1]['options'].append(i['text'].strip())
+                        export[n.slug]['inputs'][-1]['options'].append(i.get('text', 'EMPTY').strip())
                     else:
                     #If the existing last input elem was not for buttons
                         export[n.slug]['inputs'].append(
@@ -317,7 +317,7 @@ def build_tree (slug, request):
                         'type': 'button',
                         'display_as': 'button',
                         'label': '',
-                        'options': [i['text'].strip()]
+                        'options': [i.get('text', 'EMPTY').strip()]
                         })
                 except IndexError:
                     #If no inputs exist yet
@@ -326,10 +326,14 @@ def build_tree (slug, request):
                     'type': 'button',
                     'display_as': 'button',
                     'label': '',
-                    'options': [i['text'].strip()]
+                    'options': [i.get('text', 'EMPTY').strip()]
                     })
                 # Add destination
-                export[n.slug]['destination'][idx] = all_nodes.get(id = i['destination']).slug
+                try:
+                    export[n.slug]['destination'][idx] = all_nodes.get(id = i.get('destination')).slug
+                except:
+                    #TODO: Give EMPTY error
+                    pass
 
             elif input_type == 'list':
                 export[n.slug]['inputs'].append(
@@ -337,7 +341,7 @@ def build_tree (slug, request):
                 'type': 'list',
                 'label': '',
                 # For lists answers separated by line breaks are split into a list of single answers
-                'options': [single_answer.strip() for single_answer in i['text'].splitlines()],
+                'options': [single_answer.strip() for single_answer in i.get('text', 'EMPTY').splitlines()],
                 })
 
             elif input_type == 'number':
@@ -354,9 +358,9 @@ def build_tree (slug, request):
                 export[n.slug]['inputs'].append(
                 {
                 'type': 'free_text',
-                'validation': i['validation'],
-                'label': i['text'],
-                'id': slugify(i['text'])
+                'validation': i.get('validation', 'EMPTY'),
+                'label': i.get('text', 'EMPTY'),
+                'id': slugify(i.get('text', 'EMPTY'))
                 })
 
             # End-nodes have no inputs by  definition
@@ -379,21 +383,21 @@ def build_tree (slug, request):
                     if 'if' in export[n.slug]['rules']:
                         export[n.slug]['rules']['if'].extend(
                         [
-                            {l['operator']: [{"var":"a"}, l['compare_to']]},
+                            {l.get('operator', 'EMPTY'): [{"var":"a"}, l.get('compare_to', 'EMPTY')]},
                             str(idx),
                             ])
                     # If dict does not exist
                     else:
                         export[n.slug]['rules'] = {
                         'if' : [
-                            {l['operator']: [{"var":"a"}, l['compare_to']]}, "0",
+                            {l.get('operator', 'EMPTY'): [{"var":"a"}, l.get('compare_to', 'EMPTY')]}, "0",
                         ]}
 
                     # Then build the results block - the old way
                     #if l['action'] == 'go_to':
                     #data = {'destination': all_nodes.get(id = l['target']).slug}
 
-                    export[n.slug]['destination'][str(idx)] = all_nodes.get(id = l['target']).slug
+                    export[n.slug]['destination'][str(idx)] = all_nodes.get(id = l.get('target', 'EMPTY')).slug
 
                     # Commented out as the value for the var cannot be set yet
                     # elif l['action'] == 'set'::
@@ -410,7 +414,7 @@ def build_tree (slug, request):
                 elif input_type == 'list':
 
                     if 'if' in export[n.slug]['rules']:
-                        compare_to_split = [single_answer.strip() for single_answer in l['compare_to'].splitlines()]
+                        compare_to_split = [single_answer.strip() for single_answer in l.get('compare_to', 'EMPTY').splitlines()]
                         export[n.slug]['rules']['if'].extend(
                         [
                             {'in': [{"var":"a"},compare_to_split]},
@@ -419,7 +423,7 @@ def build_tree (slug, request):
 
                     # If dict does not exist
                     else:
-                        compare_to_split = [single_answer.strip() for single_answer in l['compare_to'].splitlines()]
+                        compare_to_split = [single_answer.strip() for single_answer in l.get('compare_to', 'EMPTY').splitlines()]
                         export[n.slug]['rules'] = {
                         'if' : [
                             {'in': [{"var":"a"}, compare_to_split]}, "0",
@@ -428,7 +432,12 @@ def build_tree (slug, request):
                     # Then build the results block
                     #if l['action'] == 'go_to':
                     #data = {'destination': all_nodes.get(id = l['target']).slug}
-                    export[n.slug]['destination'][str(idx)] = all_nodes.get(id = l['target']).slug
+                    try:
+                        export[n.slug]['destination'][str(idx)] = all_nodes.get(id = l['target']).slug
+                    except:
+                        #TODO: Give EMPTY error
+                        pass
+
 
             #End of the loop for l in logic
 

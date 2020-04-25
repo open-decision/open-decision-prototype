@@ -60,9 +60,10 @@ if os.environ.get('HEROKU') is not None:
 #Azure Settings
 elif os.environ.get('AZURE') is not None:
     ALLOWED_HOSTS = [
-        'od-prod.azurewebsites.net',
-        'opendecision.azureedge.net',
+        '.open-decision.org',
         'open-decision.azureedge.net',
+        'od-prod.azurewebsites.net',
+        'od-prod-od-staging.azurewebsites.net',
         'od-static.azureedge.net',
         '127.0.0.1',
     ]
@@ -115,8 +116,8 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     #SECURE_HSTS_PRELOAD = True
     SECURE_REFERRER_POLICY = 'same-origin'
-    CSRF_COOKIE_SECURE = True
-    SESSION_COOKIE_SECURE = True
+    # CSRF_COOKIE_SECURE = True
+    # SESSION_COOKIE_SECURE = True
 
 
 
@@ -262,7 +263,7 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 LOGIN_REDIRECT_URL = '/dashboard/'
-ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/logout-redirect'
 ACCOUNT_EMAIL_SUBJECT_PREFIX = 'Open Decision - '
 #ACCOUNT_FORMS = {'signup': 'users.forms.CustomUserCreationForm'}
 

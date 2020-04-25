@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.contrib.auth import login, authenticate
 from users.forms import CustomUserCreationForm
 from .models import PublishedTree
-import random, string, json
+import random, string, json, os
 from dashboard.views import build_tree
 from dashboard.models import DecisionTree
 from django.contrib.auth.decorators import login_required
@@ -39,6 +39,9 @@ def handler404(request, exception):
 
 def handler500(request):
     return render(request, '500.html', status=500)
+
+def logout_redirect(request):
+    return HttpResponseRedirect(os.environ.get('LOGOUT_REDIRECT_URL', 'https://open-decision.org'))
 
 @xframe_options_exempt
 def show_published_tree(request, slug):
