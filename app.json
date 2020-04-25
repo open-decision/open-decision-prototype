@@ -6,20 +6,20 @@
 	"website": "https://open-decision.org/",
 	"env": {
 		"DJANGO_PRODUCTION": {
-			"description": "Set Open Decision to a prroduction state.",
-			"generator": "True"
+			"description": "Set Open Decision to a production state.",
+			"value": "True"
 		},
 		"HEROKU": {
 			"description": "Tell Open Decision its running on Heroku.",
-			"generator": "True"
+			"value": "True"
 		},
 		"SECRET_KEY": {
 			"description": "A secret key for Django, after deploying a unique one will be created using djecrety.",
-			"generator": "zv*v-@xodg5@atfci@=j$gke&b_&$+(dgzfbdotg1*vb%-up1$"
+			"value": "zv*v-@xodg5@atfci@=j$gke&b_&$+(dgzfbdotg1*vb%-up1$"
 		},
 		"DJANGO_ADMIN_URL": {
-			"description": "A secret key for verifying the integrity of signed cookies.",
-			"generator": "admin/"
+			"description": "URL to access the admin dashboard.",
+			"value": "admin/"
 		}
 	},
 	"scripts": {
