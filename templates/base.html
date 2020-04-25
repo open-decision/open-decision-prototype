@@ -23,35 +23,29 @@
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
   <link rel="shortcut icon" href="{% static 'img/od-brand/favicon.ico' %}" />
   <!-- Matomo -->
-  <script type="text/javascript">
-    var _paq = window._paq || [];
-    //Deactivated for GDPR compliance
-    // var userName = '{{ user.username }}';
-    // /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-    // if (userName !== '') {
-    //   _paq.push(['setUserId', userName]);
-    // } else {
-    //   _paq.push(['resetUserId']);
-    // }
-    // Disable cookies for the moment
-    _paq.push(['disableCookies']);
-    _paq.push(['trackPageView']);
-    _paq.push(['enableLinkTracking']);
-    (function() {
-      var u = "//odmatomo.uber.space/matomo/";
-      _paq.push(['setTrackerUrl', u + 'matomo.php']);
-      _paq.push(['setSiteId', '1']);
-      var d = document,
-        g = d.createElement('script'),
-        s = d.getElementsByTagName('script')[0];
-      g.type = 'text/javascript';
-      g.async = true;
-      g.defer = true;
-      g.src = u + 'matomo.js';
-      s.parentNode.insertBefore(g, s);
-    })();
-  </script>
-  <!-- End Matomo Code -->
+<script type="text/javascript">
+  var _paq = window._paq || [];
+  //Deactivated for GDPR compliance
+  // var userName = '{{ user.username }}';
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  // if (userName !== '') {
+  //   _paq.push(['setUserId', userName]);
+  // } else {
+  //   _paq.push(['resetUserId']);
+  // }
+  // Disable cookies for the moment
+      _paq.push(['disableCookies']);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//odmatomo.uber.space/matomo/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '2']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- End Matomo Code -->
 </head>
 
 <body id="page-top">
@@ -246,13 +240,15 @@
             {% else %}
             <!-- Sidebar Toggle (Topbar) -->
             <div class="container">
-            <a class="navbar-brand" href="/"><img src="{% static 'img/od-brand/favicon.ico' %}" width="50" height="50" alt="opendecision"></a>
+            <a class="navbar-brand" href="/">
+              <!-- <img src="{% static 'img/od-brand/favicon.ico' %}" width="50" height="50" alt="opendecision"> -->
+            </a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                  <a class="nav-link" href="/accounts/login/" role="button">
-                    <span class="mr-2 d-none d-lg-inline text-gray-800 medium">{% trans "Login" %}</span>
-                    <i class="fas fa-sign-in-alt"></i>
+                  <a onclick="event.preventDefault();history.go(-1); "class="nav-link" href="#" role="button">
+                  <i class="fas fa-arrow-left mr-2"></i>
+                    <span class="mr-2 d-none d-lg-inline text-gray-800 medium">{% trans "Go back" %}</span>
                   </a>
                 </li>
                 <li id="lang-flag" class="nav-item mx-1 mt-3">
@@ -321,15 +317,13 @@
                  location.reload();
                   }
                 });
-
           });
+
         });
       </script>
       <!-- End of Footer -->
-
     </div>
     <!-- End of Content Wrapper -->
-
   </div>
   <!-- End of Page Wrapper -->
 
