@@ -63,6 +63,7 @@ elif os.environ.get('AZURE') is not None:
         '.open-decision.org',
         'open-decision.azureedge.net',
         'od-prod.azurewebsites.net',
+        'od-prod-od-staging.azurewebsites.net',
         'od-static.azureedge.net',
         '127.0.0.1',
     ]
@@ -262,7 +263,7 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 LOGIN_REDIRECT_URL = '/dashboard/'
-ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/logout-redirect'
 ACCOUNT_EMAIL_SUBJECT_PREFIX = 'Open Decision - '
 #ACCOUNT_FORMS = {'signup': 'users.forms.CustomUserCreationForm'}
 
