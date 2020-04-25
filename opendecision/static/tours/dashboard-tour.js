@@ -69,21 +69,6 @@ window.StartTour =  function(){
                   ]
                 },
                 {
-                  id: 'visualbuilder-link',
-                  text: 'Wanna try something cool? Head over to our Visualbuilder - but be aware, its still undergoing constructions.',
-                  attachTo: {
-                    element: '#visualbuilder-link',
-                    on: 'bottom'
-                  },
-                  classes: 'example-step-extra-class',
-                  buttons: [
-                    {
-                      text: 'Next',
-                      action: tour.next
-                    }
-                  ]
-                },
-                {
                   id: 'tree-name-form',
                   text: 'Enter a name for your new tree and click the button to get started.',
                   attachTo: {
