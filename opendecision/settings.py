@@ -150,6 +150,7 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
         'allauth.socialaccount',
         'django_inlinecss',
         'storages',
+        'djecrety',
 
         'users',
         'pages',
