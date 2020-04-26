@@ -14,15 +14,12 @@
 			"value": "True"
 		},
 		"SECRET_KEY": {
-			"description": "A secret key for Django, after deploying a unique one will be created using djecrety.",
+			"description": "Replace ASAP, generate a Key https://djecrety.ir",
 			"value": "zv*v-@xodg5@atfci@=j$gke&b_&$+(dgzfbdotg1*vb%-up1$"
 		},
 		"DJANGO_ADMIN_URL": {
 			"description": "URL to access the admin dashboard.",
 			"value": "admin/"
 		}
-	},
-	"scripts": {
-		"postdeploy": "python manage.py djecrety -d opendecision -s "
 	}
 }

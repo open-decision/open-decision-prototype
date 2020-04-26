@@ -26,15 +26,9 @@ STATIC_ROOT = os.path.join(
     BASE_DIR, "production", "collected_static")
 MEDIA_ROOT = os.path.join(BASE_DIR, "production", "media")
 
-SECRET_KEY = '678&exk6aus^#z8j+#tco4%_bgv6mvd6!kcf!gokhza$)3sjql'
-
 # Heroku Settings
 if os.environ.get('HEROKU') is not None:
     ALLOWED_HOSTS = ['.herokuapp.com']
-    BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-
-if SECRET_KEY == '678&exk6aus^#z8j+#tco4%_bgv6mvd6!kcf!gokhza$)3sjql':
-    SECRET_KEY = os.environ.get('SECRET_KEY')
 
     DATABASES = {
         'default': {
@@ -65,7 +59,6 @@ if SECRET_KEY == '678&exk6aus^#z8j+#tco4%_bgv6mvd6!kcf!gokhza$)3sjql':
 
 #Azure Settings
 elif os.environ.get('AZURE') is not None:
-    SECRET_KEY = os.environ.get('SECRET_KEY')
     ALLOWED_HOSTS = [
         '.open-decision.org',
         'open-decision.azureedge.net',
@@ -115,6 +108,7 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
 
     # SECURITY
     DEBUG = False
+    SECRET_KEY = os.environ.get('SECRET_KEY')
 
     #SECURE_SSL_REDIRECT = True
     SECURE_BROWSER_XSS_FILTER = True
@@ -126,20 +120,20 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
     # SESSION_COOKIE_SECURE = True
 
 
+    if os.environ.get('SMTP_SERVER') is not None:
+        # E-Mail configuration
+        EMAIL_HOST = os.environ.get('SMTP_SERVER')
+        EMAIL_PORT = 587
+        EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
+        EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
+        EMAIL_USE_TLS = True
 
-    # E-Mail configuration
-    EMAIL_HOST = os.environ.get('SMTP_SERVER')
-    EMAIL_PORT = 587
-    EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
-    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
-    EMAIL_USE_TLS = True
+        # Sender mails
+        SERVER_EMAIL = os.environ.get('SERVER_EMAIL')
+        DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
 
-    # Sender mails
-    SERVER_EMAIL = os.environ.get('SERVER_EMAIL')
-    DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
-
-    # Admin  configuration
-    ADMINS = [(os.environ.get('ADMIN1_NAME'), os.environ.get('ADMIN1_EMAIL'))]
+        # Admin  configuration
+        ADMINS = [(os.environ.get('ADMIN1_NAME'), os.environ.get('ADMIN1_EMAIL'))]
 
     INSTALLED_APPS = [
         'django.contrib.admin',
@@ -170,6 +164,7 @@ else:
     DEBUG = True
     CKEDITOR_BASEPATH = "/opendecision/static/ckeditor/ckeditor/"
     STATIC_URL = '/opendecision/static/'
+    SECRET_KEY = '678&exk6aus^#z8j+#tco4%_bgv6mvd6!kcf!gokhza$)3sjql'
     INSTALLED_APPS = [
         'django.contrib.admin',
         'django.contrib.auth',
@@ -255,12 +250,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = 'users.CustomUser'
 AUTHENTICATION_BACKENDS = (
-
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
-
 )
-SITE_ID = 1
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False

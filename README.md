@@ -32,7 +32,10 @@ Feel free to pick an issue, open a bug report, feature request or fork the proje
 
 ## Deploy in the Cloud
 With one click, you can deploy your own instance of Open Decision for free on Heroku.
+
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
+Make sure to replace the SECRET_KEY-variable as soon as possible to secure your instance. [Click here](https://djecrety.ir/) to generate a unique secret key and [replace it in the Heroku Dashboard.](https://devcenter.heroku.com/articles/config-vars#using-the-heroku-dashboard)
 
 ## Local Set-up
 
