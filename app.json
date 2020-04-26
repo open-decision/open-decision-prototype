@@ -23,6 +23,6 @@
 		}
 	},
 	"scripts": {
-		"postdeploy": "python manage.py djecrety -s"
+		"postdeploy": "python manage.py djecrety -d opendecision -s "
 	}
 }

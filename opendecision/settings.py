@@ -26,9 +26,15 @@ STATIC_ROOT = os.path.join(
     BASE_DIR, "production", "collected_static")
 MEDIA_ROOT = os.path.join(BASE_DIR, "production", "media")
 
+SECRET_KEY = '678&exk6aus^#z8j+#tco4%_bgv6mvd6!kcf!gokhza$)3sjql'
+
 # Heroku Settings
 if os.environ.get('HEROKU') is not None:
     ALLOWED_HOSTS = ['.herokuapp.com']
+    BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
+if SECRET_KEY == '678&exk6aus^#z8j+#tco4%_bgv6mvd6!kcf!gokhza$)3sjql':
+    SECRET_KEY = os.environ.get('SECRET_KEY')
 
     DATABASES = {
         'default': {
@@ -59,6 +65,7 @@ if os.environ.get('HEROKU') is not None:
 
 #Azure Settings
 elif os.environ.get('AZURE') is not None:
+    SECRET_KEY = os.environ.get('SECRET_KEY')
     ALLOWED_HOSTS = [
         '.open-decision.org',
         'open-decision.azureedge.net',
@@ -108,7 +115,6 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
 
     # SECURITY
     DEBUG = False
-    SECRET_KEY = os.environ.get('SECRET_KEY')
 
     #SECURE_SSL_REDIRECT = True
     SECURE_BROWSER_XSS_FILTER = True
@@ -164,7 +170,6 @@ else:
     DEBUG = True
     CKEDITOR_BASEPATH = "/opendecision/static/ckeditor/ckeditor/"
     STATIC_URL = '/opendecision/static/'
-    SECRET_KEY = '678&exk6aus^#z8j+#tco4%_bgv6mvd6!kcf!gokhza$)3sjql'
     INSTALLED_APPS = [
         'django.contrib.admin',
         'django.contrib.auth',
