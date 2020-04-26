@@ -4,7 +4,6 @@ Open Decision is an Open-Source Decision Automation System, that is optimized fo
 
 Further information about the project on www.open-decision.org
 
-D
 ## Table of content
 - [Getting Started](#getting-started)
 - [Participate](#participate)
