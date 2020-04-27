@@ -7,9 +7,10 @@ Further information about the project on www.open-decision.org
 ## Table of content
 - [Getting Started](#getting-started)
 - [Participate](#participate)
-    - [Experts, Lawyers, Designers, Ambassadors & Enthusiasts](#for-experts-lawyers-designers-ambassadors-enthusiasts)
+    - [Experts, Lawyers, Designers, Ambassadors & Enthusiasts](#for-experts-lawyers-designers-ambassadors--enthusiasts)
     - [Developers](#for-developers)
-- [Set-Up](#set-up)
+- [Deploy in the Cloud](#deploy-in-the-cloud)
+- [Local Set-Up](#local-set-up)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [Built with](#built-with)
@@ -91,6 +92,7 @@ Now you can create an account and start playing around or use the demo-account t
 User: test@test.com
 Password: Testuser1
 ```
+If the demo-account doesn't work, simply create an own one, you don't need to use a valid email adress.
 
 ## Built With
 
