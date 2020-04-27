@@ -7,7 +7,7 @@ Further information about the project on www.open-decision.org
 ## Table of content
 - [Getting Started](#getting-started)
 - [Participate](#participate)
-    - [Experts, Lawyers, Designers, Ambassadors, Enthusiasts & Unicorns](#for-experts-lawyers-designers-ambassadors-enthusiasts)
+    - [Experts, Lawyers, Designers, Ambassadors & Enthusiasts](#for-experts-lawyers-designers-ambassadors-enthusiasts)
     - [Developers](#for-developers)
 - [Set-Up](#set-up)
   - [Prerequisites](#prerequisites)
@@ -17,14 +17,11 @@ Further information about the project on www.open-decision.org
 - [License](#license)
 - [Links](#links)
 
-
-## Getting Started
-
 ## Participate
 
 We are happy about any contributions and currently preparing everything for a smooth process. Please join the [Slack-Channel](https://join.slack.com/t/opendecision/shared_invite/enQtNjM2NDUxNTQyNzU4LWYwMzJlZjlhOWJkMmIxMTBmMjYwMDE0Y2Y2OGUyZDBiY2FmOWU4OTVmMDFhMjNhNTIxYWZkZTNkNDRmNjQ4MmM) to stay up to date.
 
-### For Experts, Lawyers, Designers, Ambassadors, Enthusiasts
+### For Experts, Lawyers, Designers, Ambassadors & Enthusiasts
 
 Non-code contributions are soon coordinated via Trello. For the moment, please contact us on Slack or Email if you want to contribute.
 
@@ -32,7 +29,14 @@ Non-code contributions are soon coordinated via Trello. For the moment, please c
 
 Feel free to pick an issue, open a bug report, feature request or fork the project. We are open to any input or suggestions on how to bring the project forward.
 
-## Set-up
+## Deploy in the Cloud
+With one click, you can deploy your own instance of Open Decision for free on Heroku.
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
+Make sure to replace the SECRET_KEY-variable as soon as possible to secure your instance. [Click here](https://djecrety.ir/) to generate a unique secret key and [replace it in the Heroku Dashboard.](https://devcenter.heroku.com/articles/config-vars#using-the-heroku-dashboard)
+
+## Local Set-up
 
 The instructions down below will get you a copy of the project up and running on your local machine for development and testing purposes.
 

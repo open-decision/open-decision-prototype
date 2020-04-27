@@ -1,0 +1,25 @@
+{
+	"name": "Open Decision",
+	"description": "An Open Source No-Code Expertsystem ",
+	"repository": "https://github.com/fbennets/open-decision",
+	"logo": "https://od-static.azureedge.net/static/img/od-brand/od_logo_grey.png",
+	"website": "https://open-decision.org/",
+	"env": {
+		"DJANGO_PRODUCTION": {
+			"description": "Set Open Decision to a production state.",
+			"value": "True"
+		},
+		"HEROKU": {
+			"description": "Tell Open Decision its running on Heroku.",
+			"value": "True"
+		},
+		"SECRET_KEY": {
+			"description": "Replace ASAP, generate a Key https://djecrety.ir",
+			"value": "zv*v-@xodg5@atfci@=j$gke&b_&$+(dgzfbdotg1*vb%-up1$"
+		},
+		"DJANGO_ADMIN_URL": {
+			"description": "URL to access the admin dashboard.",
+			"value": "admin/"
+		}
+	}
+}
