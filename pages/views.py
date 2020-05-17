@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.contrib.auth import login, authenticate
 from users.forms import CustomUserCreationForm
 from .models import PublishedTree
-import random, string, json, os
+import random, string, json, os, re
 from dashboard.views import build_tree
 from dashboard.models import DecisionTree
 from django.contrib.auth.decorators import login_required
@@ -74,5 +74,15 @@ def publish(request, slug):
 
 def get_published_tree(request):
     tree_query = request.GET.get('selected_tree')
-    tree_data = json.loads(PublishedTree.objects.get(url=tree_query).tree_data)
-    return JsonResponse(tree_data, safe=False)
+    if re.match("^[a-z]{10}$", tree_query):
+        try:
+            tree_data = json.loads(PublishedTree.objects.get(url=tree_query).tree_data)
+            return JsonResponse(tree_data, safe=False)
+        except:
+            response = JsonResponse({"TreeNotFound": "No tree matching the query"})
+            response.status_code = 404
+            return response
+    else:
+        response = JsonResponse({"InvalidTreeIdentifier": "The tree identifier is invalid"})
+        response.status_code = 400
+        return response
