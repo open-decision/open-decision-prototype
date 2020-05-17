@@ -268,11 +268,11 @@ ACCOUNT_EMAIL_SUBJECT_PREFIX = 'Open Decision - '
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
-LANGUAGES = (
-    ('en', _('English')),
-    ('de', _('German')),
-)
+# 
+# LANGUAGES = (
+#     ('en', _('English')),
+#     ('de', _('German')),
+# )
 
 TIME_ZONE = 'UTC'
 
