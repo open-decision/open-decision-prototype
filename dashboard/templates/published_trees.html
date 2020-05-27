@@ -20,9 +20,10 @@
                   <tr>
                     <th scope="col">{% trans "Exported Tree" %}</th>
                     <th scope="col">{% trans "Export Date" %}</th>
-                    <th scope="col">{% trans "Link" %}</th>
+                    <th scope="col">{% trans "Access Code" %}</th>
                     <th scope="col">{% trans "Copy Link" %}</th>
                     <th scope="col">{% trans "iFrame Code" %}</th>
+                    <th scope="col">{% trans "Telegram Bot Link" %}</th>
                     <th scope="col"></th>
                   </tr>
                 </thead>
@@ -40,7 +41,7 @@
                     </td>
                     <td>
                       <div class="d-flex align-items-center">
-                        <span class="mr-2"><a href="/publish/{{ decisiontree.url }}">/publish/{{ decisiontree.url }}</a></span>
+                        <span class="mr-2"><a href="/publish/{{ decisiontree.url }}">{{ decisiontree.url }}</a></span>
                       </div>
                     </td>
                     <td class="no-bubbling">
@@ -56,7 +57,15 @@
                         <span class="icon text-white-50 no-bubbling">
                           <i class="far fa-copy no-bubbling"></i>
                         </span>
-                        <span class="text no-bubbling">{% trans "Embed Tree" %}</span>
+                        <span class="text no-bubbling">{% trans "Copy iFrame Link" %}</span>
+                      </button>
+                    </td>
+                    <td class="no-bubbling">
+                      <button id="copy-btn" data-telegram="true" type="button" data-url="{{ decisiontree.url }}" class="btn btn-secondary btn-icon-split btn-sm no-bubbling" name="button">
+                        <span class="icon text-white-50 no-bubbling">
+                          <i class="far fa-copy no-bubbling"></i>
+                        </span>
+                        <span class="text no-bubbling">{% trans "Telegram-Bot Link" %}</span>
                       </button>
                     </td>
                     <td class="text-center">
@@ -162,7 +171,11 @@
       if (event.target.closest('#copy-btn').hasAttribute('data-iframe')) {
         var iframe = '<iframe src="' + url + '"width="1000" height="600">Your browser does not support iFrames</iframe>';
         copyTextToClipboard(iframe);
-      }
+        }
+        else if (event.target.closest('#copy-btn').hasAttribute('data-telegram')) {
+              var telegram_url = 'https://t.me/opendecision_bot?start=' + event.target.closest('#copy-btn').getAttribute('data-url');
+              copyTextToClipboard(telegram_url);
+            }
       else {
         copyTextToClipboard(url);
       }
