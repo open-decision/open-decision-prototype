@@ -36,6 +36,11 @@
                 <div class="text-center">
                   <h1 class="h4 text-gray-900 mb-4">{% trans "Welcome Back!" %}</h1>
                 </div>
+                <div class="border-left-danger">
+                  <h5 class="m-3">Warning: Alpha Version</h5>
+                  <p class="m-3">We would love you to try and test our current builder! However, please be aware that the current version is in a very early stage.</p>
+                  <p class="m-3">We are still making major changes regarding technology and design. This can lead to data-loss or incompatibilities. Feel free to contact us at any point!</p>
+                </div>
                 <form class="container-fluid text-center" id="login_form" method="POST" action="{% url 'account_login' %}">
                   {% csrf_token %}
                   {% if form.errors %}
