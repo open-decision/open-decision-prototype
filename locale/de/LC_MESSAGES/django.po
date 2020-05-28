@@ -290,7 +290,7 @@ msgid "Set Password"
 msgstr "Passwort setzen"
 
 #: templates/account/signup.html:34
-msgid "Yeah, create an Account!"
+msgid "Create an Account!"
 msgstr "Erstelle dir einen Account!"
 
 #: templates/account/signup.html:97

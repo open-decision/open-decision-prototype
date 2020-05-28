@@ -3,7 +3,7 @@
 {% load custom_filters %}
 {% load static %}
 {% load i18n %}
-<div class="container bg-gradient-primary">
+<div class="container">
   {% block messages %}
   {% if messages %}
   <div>
@@ -24,7 +24,7 @@
 
     <div class="col-xl-10 col-lg-12 col-md-9">
 
-      <div class="card o-hidden border-0 shadow-lg my-5">
+      <div class="card o-hidden border-0 shadow-lg mb-5">
         <div class="card-body p-0">
           <!-- Nested Row within Card Body -->
           <div class="row">
@@ -32,14 +32,14 @@
               <img class="img-fluid mt-3 p-5" src="{% static 'img/undraw/login.svg' %}" alt="Login Illustration">
             </div>
             <div class="col-lg-6">
-              <div class="p-5">
+              <div class="py-5 px-3">
                 <div class="text-center">
                   <h1 class="h4 text-gray-900 mb-4">{% trans "Welcome Back!" %}</h1>
                 </div>
                 <div class="border-left-danger">
-                  <h5 class="m-3">Warning: Alpha Version</h5>
-                  <p class="m-3">We would love you to try and test our current builder! However, please be aware that the current version is in a very early stage.</p>
-                  <p class="m-3">We are still making major changes regarding technology and design. This can lead to data-loss or incompatibilities. Feel free to contact us at any point!</p>
+                  <h5 class="m-3">Warning: Prototype only</h5>
+                  <p class="m-3">We would love you to try and test our prototype! However, please be aware that this version is in a very early stage.</p>
+                  <p class="m-3">The final design and experience will greatly differ from the version you are looking at. Changes in architecture can lead to data-loss or incompatibilities. Feel free to contact us at any point!</p>
                 </div>
                 <form class="container-fluid text-center" id="login_form" method="POST" action="{% url 'account_login' %}">
                   {% csrf_token %}
@@ -58,15 +58,15 @@
 
                   {% endif %}
 
-                  <button class="btn btn-outline-primary " type="submit">{% trans "Sign In" %}</button>
-                  <a class="btn btn-outline-dark" href="{% url 'account_reset_password' %}">{% trans "Forgot Password ?" %}</a>
+                  <button class="btn btn-primary mb-1" type="submit">{% trans "Sign In" %}</button>
+                  <a class="btn btn-dark mb-1" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
                 </form>
                 {% load account socialaccount %}
 
                 {% get_providers as socialaccount_providers %}
                 <ul class="social_providers_list">
                   {% for provider in socialaccount_providers %}
-                  <a title="{{provider.name}}" class="btn btn-outline-dark" href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}"><i class="fa fa-{{provider.name}}" id="social_icon"></i>{{provider.name}}</a>
+                  <a title="{{provider.name}}" class="btn btn-dark" href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}"><i class="fa fa-{{provider.name}}" id="social_icon"></i>{{provider.name}}</a>
                   {% endfor %}
                 </ul>
                 <div class="text-center">

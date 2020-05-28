@@ -5,7 +5,7 @@
 {% load i18n %}
 
 <div class="container">
-  <div class="card o-hidden border-0 shadow-lg my-5">
+  <div class="card o-hidden border-0 shadow-lg mb-5">
     <div class="card-body p-0">
       <!-- Nested Row within Card Body -->
       {% block messages %}
@@ -29,14 +29,14 @@
           <img class="img-fluid ml-3 mt-5 p-1" src="{% static 'img/undraw/celebration.svg' %}" alt="Celebration Illustration">
         </div>
         <div class="col-lg-7">
-          <div class="p-5">
+          <div class="py-5 px-3">
             <div class="text-center">
-              <h1 class="h4 text-gray-900 mb-4">{% trans "Yeah, create an Account!" %}</h1>
+              <h1 class="h4 text-gray-900 mb-4">{% trans "Create an Account!" %}</h1>
             </div>
             <div class="border-left-danger">
-              <h5 class="m-3">Warning: Alpha Version</h5>
-              <p class="m-3">We would love you to try and test our current builder! However, please be aware that the current version is in a very early stage.</p>
-              <p class="m-3">We are still making major changes regarding technology and design. This can lead to data-loss or incompatibilities. Feel free to contact us at any point!</p>
+              <h5 class="m-3">Warning: Prototype only</h5>
+              <p class="m-3">We would love you to try and test our prototype! However, please be aware that this version is in a very early stage.</p>
+              <p class="m-3">The final design and experience will greatly differ from the version you are looking at. Changes in architecture can lead to data-loss or incompatibilities. Feel free to contact us at any point!</p>
             </div>
             <form class="container-fluid text-center" id="signup_form" method="post" action="{% url 'account_signup' %}">
               {% csrf_token %}
@@ -98,7 +98,7 @@
               {% if redirect_field_value %}
               <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
               {% endif %}
-              <div class="form-check mb-2" >
+              <div class="form-check mb-2">
               <input class="form-check-input" id="GDPR-consent" type="checkbox" required name="GDPR-consent">
               <label for="GDPR-consent" class="form-check-label">I agree that my data may be processed to create and maintain my account. I have read the <a href="https://open-decision.org/legal" target="blank">privacy statement</a> and hereby accept it. I can revoke my consent at any time with effect for the future.</label>
               </div>
