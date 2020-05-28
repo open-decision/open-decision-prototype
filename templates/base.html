@@ -246,9 +246,8 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                  <a onclick="event.preventDefault();history.go(-1); "class="nav-link" href="#" role="button">
-                  <i class="fas fa-arrow-left mr-2"></i>
-                    <span class="mr-2 d-none d-lg-inline text-gray-800 medium">{% trans "Go back" %}</span>
+                  <a "class="nav-link" href="https://open-decision.org" role="button">
+                  <i class="fas fa-arrow-left"></i><span class="mr-2 d-none d-lg-inline"> to open-decision.org</span>
                   </a>
                 </li>
                 <!-- <li id="lang-flag" class="nav-item mx-1 mt-3">
@@ -287,7 +286,7 @@
       <!-- End of Main Content -->
 
       <!-- Footer -->
-      <footer class="page-footer footer" style="position:absolute; bottom:0; width: 100%">
+      <footer class="page-footer footer">
         <div class="container text-center py-2">
           <a href="http://open-decision.org" target="_blank">Made with <img src="{% static 'vendor/flowy/assets/heart.svg' %}"> by the Open Decision Project</a>
           | <a href="https://github.com/fbennets/open-decision" target="_blank">Github</a>
@@ -355,8 +354,8 @@
             {% if redirect_field_value %}
             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
             {% endif %}
-            <button class="btn btn-outline-success" type="submit">{% trans 'Logout' %}</button>
-            <a class="btn btn-outline-danger" id="custom_logout_no" href="/dashboard/">{% trans 'Cancel' %}</a>
+            <button class="btn btn-success" type="submit">{% trans 'Logout' %}</button>
+            <a class="btn btn-danger" id="custom_logout_no" href="/dashboard/">{% trans 'Cancel' %}</a>
           </form>
         </div>
       </div>

@@ -17,7 +17,7 @@
 
 	<form method="post" class="container-fluid text-center" action="{% url 'account_confirm_email' confirmation.key %}">
 	{% csrf_token %}
-    	<button class="btn btn-outline-primary btn-lg" type="submit">{% trans 'Confirm' %}</button>
+    	<button class="btn btn-primary btn-lg" type="submit">{% trans 'Confirm' %}</button>
 	</form>
 
 {% else %}
@@ -28,7 +28,7 @@
 	<script>
 	setTimeout("location.href = '{% url 'account_login' %}';",5000);
 	</script>
-	
+
 {% endif %}
 
 {% endblock %}
