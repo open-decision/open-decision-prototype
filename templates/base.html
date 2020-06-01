@@ -152,61 +152,6 @@
             </li>
             -->
 
-            <!-- Nav Item - Alerts -->
-            <li class="nav-item dropdown no-arrow mx-1">
-              <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-bell fa-fw"></i>
-                <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">1</span>
-              </a>
-              <!-- Dropdown - Alerts -->
-              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-                <h6 class="dropdown-header">
-                  Alerts Center
-                </h6>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <div class="icon-circle bg-primary">
-                      <i class="fas fa-file-alt text-white"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 12, 2019</div>
-                    <span class="font-weight-bold">This is a demo Alert.</span>
-                  </div>
-                </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-              </div>
-            </li>
-
-            <!-- Nav Item - Messages -->
-            <li class="nav-item dropdown no-arrow mx-1">
-              <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-envelope fa-fw"></i>
-                <!-- Counter - Messages -->
-                <span class="badge badge-danger badge-counter">1</span>
-              </a>
-              <!-- Dropdown - Messages -->
-              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
-                <h6 class="dropdown-header">
-                  Message Center
-                </h6>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="">
-                    <div class="status-indicator bg-success"></div>
-                  </div>
-                  <div>
-                    <div class="text-truncate">This is a demo message.</div>
-                    <div class="small text-gray-500">Testdog · 1d</div>
-                  </div>
-                </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
-              </div>
-            </li>
-
-            <div class="topbar-divider d-none d-sm-block"></div>
-
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -217,11 +162,11 @@
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Profile
+                  Profile (tba)
                 </a>
                 <a class="dropdown-item" href="#">
                   <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Settings
+                  Settings (tba)
                 </a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
@@ -246,9 +191,8 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                  <a onclick="event.preventDefault();history.go(-1); "class="nav-link" href="#" role="button">
-                  <i class="fas fa-arrow-left mr-2"></i>
-                    <span class="mr-2 d-none d-lg-inline text-gray-800 medium">{% trans "Go back" %}</span>
+                  <a "class="nav-link" href="https://open-decision.org" role="button">
+                  <i class="fas fa-arrow-left"></i><span class="mr-2 d-none d-lg-inline"> to open-decision.org</span>
                   </a>
                 </li>
                 <!-- <li id="lang-flag" class="nav-item mx-1 mt-3">
@@ -287,7 +231,7 @@
       <!-- End of Main Content -->
 
       <!-- Footer -->
-      <footer class="page-footer footer" style="position:absolute; bottom:0; width: 100%">
+      <footer class="page-footer footer">
         <div class="container text-center py-2">
           <a href="http://open-decision.org" target="_blank">Made with <img src="{% static 'vendor/flowy/assets/heart.svg' %}"> by the Open Decision Project</a>
           | <a href="https://github.com/fbennets/open-decision" target="_blank">Github</a>
@@ -355,8 +299,8 @@
             {% if redirect_field_value %}
             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
             {% endif %}
-            <button class="btn btn-outline-success" type="submit">{% trans 'Logout' %}</button>
-            <a class="btn btn-outline-danger" id="custom_logout_no" href="/dashboard/">{% trans 'Cancel' %}</a>
+            <button class="btn btn-success" type="submit">{% trans 'Logout' %}</button>
+            <a class="btn btn-danger" id="custom_logout_no" href="/dashboard/">{% trans 'Cancel' %}</a>
           </form>
         </div>
       </div>
