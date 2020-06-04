@@ -147,20 +147,23 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
         'allauth.socialaccount',
         'django_inlinecss',
         'storages',
+        'graphene_django',
 
         'users',
         'pages',
         'builder',
         'dashboard',
+        'api',
         'visualbuilder',
     ]
-
+    API_TEST_USER_MAIL = os.environ.get('API_TEST_USER_MAIL')
 
 else:
     DEBUG = True
     CKEDITOR_BASEPATH = "/opendecision/static/ckeditor/ckeditor/"
     STATIC_URL = '/opendecision/static/'
     SECRET_KEY = '678&exk6aus^#z8j+#tco4%_bgv6mvd6!kcf!gokhza$)3sjql'
+    API_TEST_USER_MAIL = os.environ.get('API_TEST_USER_MAIL', 'test@open-decision.org')
     INSTALLED_APPS = [
         'django.contrib.admin',
         'django.contrib.auth',
@@ -176,11 +179,13 @@ else:
         'allauth.account',
         'allauth.socialaccount',
         'django_inlinecss',
+        'graphene_django',
 
         'users',
         'pages',
         'builder',
         'dashboard',
+        'api',
         'visualbuilder',
     ]
 
@@ -226,6 +231,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'opendecision.wsgi.application'
 
+GRAPHENE = {
+    'SCHEMA': 'opendecision.schema.schema'
+}
+
+
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
@@ -268,7 +278,7 @@ ACCOUNT_EMAIL_SUBJECT_PREFIX = 'Open Decision - '
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-#
+
 # LANGUAGES = (
 #     ('en', _('English')),
 #     ('de', _('German')),
