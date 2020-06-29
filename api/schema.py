@@ -14,7 +14,7 @@ class DecisionTreeNode(DjangoObjectType):
     class Meta:
         model = DecisionTree
         filter_fields = '__all__'
-        fields = ('created_at', 'name', 'owner', 'slug', 'node_set')
+        fields = ('created_at', 'name', 'owner', 'slug', 'node_set', 'tags', 'extra_data')
         interfaces = (relay.Node, )
 
     @classmethod
