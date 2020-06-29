@@ -42,8 +42,8 @@ if os.environ.get('HEROKU') is not None:
     CKEDITOR_BASEPATH = f'{STATIC_URL}ckeditor/ckeditor/'
 
     MIDDLEWARE = [
-        'django.middleware.security.SecurityMiddleware',
         'corsheaders.middleware.CorsMiddleware',
+        'django.middleware.security.SecurityMiddleware',
         'whitenoise.middleware.WhiteNoiseMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.locale.LocaleMiddleware',
@@ -80,8 +80,8 @@ elif os.environ.get('AZURE') is not None:
     }
 }
     MIDDLEWARE = [
-        'django.middleware.security.SecurityMiddleware',
         'corsheaders.middleware.CorsMiddleware',
+        'django.middleware.security.SecurityMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.locale.LocaleMiddleware',
         'django.middleware.common.CommonMiddleware',
@@ -194,8 +194,8 @@ else:
     ]
 
     MIDDLEWARE = [
-        'django.middleware.security.SecurityMiddleware',
         'corsheaders.middleware.CorsMiddleware',
+        'django.middleware.security.SecurityMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.locale.LocaleMiddleware',
         'debug_toolbar.middleware.DebugToolbarMiddleware',
@@ -310,11 +310,5 @@ os.path.join(
 DATAFORMAT_VERSION = 0.1
 LOGIC_TYPE = 'jsonLogic'
 
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-    'https://localhost:3000',
-    'http://127.0.0.1:3000',
-    'https://127.0.0.1:3000',
-    ]
-
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
