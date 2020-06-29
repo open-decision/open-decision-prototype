@@ -71,29 +71,17 @@ class Query(graphene.ObjectType):
 
     user = relay.Node.Field(UserNode)
 
-#
-#
-# class QuestionType(DjangoObjectType):
-#     class Meta:
-#         model = Question
-#
-#
-# class QuestionMutation(graphene.Mutation):
-#     class Arguments:
-#         # The input arguments for this mutation
+
+# class QuestionMutation(relay.ClientIDMutation):
+#     class Input:
 #         text = graphene.String(required=True)
 #         id = graphene.ID()
 #
-#     # The class attributes define the response of the mutation
 #     question = graphene.Field(QuestionType)
 #
-#     def mutate(self, info, text, id):
-#         question = Question.objects.get(pk=id)
+#     @classmethod
+#     def mutate_and_get_payload(cls, root, info, text, id):
+#         question = Question.objects.get(pk=from_global_id(id)[1])
 #         question.text = text
 #         question.save()
-#         # Notice we return an instance of this mutation
 #         return QuestionMutation(question=question)
-#
-#
-# class Mutation(graphene.ObjectType):
-#     update_question = QuestionMutation.Field()
