@@ -43,6 +43,7 @@ if os.environ.get('HEROKU') is not None:
 
     MIDDLEWARE = [
         'django.middleware.security.SecurityMiddleware',
+        'corsheaders.middleware.CorsMiddleware',
         'whitenoise.middleware.WhiteNoiseMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.locale.LocaleMiddleware',
@@ -51,7 +52,6 @@ if os.environ.get('HEROKU') is not None:
         'django.contrib.auth.middleware.AuthenticationMiddleware',
         'django.contrib.messages.middleware.MessageMiddleware',
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
-        'corsheaders.middleware.CorsMiddleware',
     ]
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
@@ -81,6 +81,7 @@ elif os.environ.get('AZURE') is not None:
 }
     MIDDLEWARE = [
         'django.middleware.security.SecurityMiddleware',
+        'corsheaders.middleware.CorsMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.locale.LocaleMiddleware',
         'django.middleware.common.CommonMiddleware',
@@ -88,7 +89,6 @@ elif os.environ.get('AZURE') is not None:
         'django.contrib.auth.middleware.AuthenticationMiddleware',
         'django.contrib.messages.middleware.MessageMiddleware',
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
-        'corsheaders.middleware.CorsMiddleware',
     ]
 
     DEFAULT_FILE_STORAGE = 'opendecision.custom_azure.AzureMediaStorage'
@@ -195,6 +195,7 @@ else:
 
     MIDDLEWARE = [
         'django.middleware.security.SecurityMiddleware',
+        'corsheaders.middleware.CorsMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.locale.LocaleMiddleware',
         'debug_toolbar.middleware.DebugToolbarMiddleware',
@@ -203,7 +204,6 @@ else:
         'django.contrib.auth.middleware.AuthenticationMiddleware',
         'django.contrib.messages.middleware.MessageMiddleware',
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
-        'corsheaders.middleware.CorsMiddleware',
     ]
 
     DATABASES = {
