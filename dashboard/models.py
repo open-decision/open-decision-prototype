@@ -61,7 +61,8 @@ class DecisionTree(models.Model):
     name       = models.CharField(max_length=200)
     owner      = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     slug       = models.SlugField(default="")
-    #tags       = models.TextField(null=True, blank=True)
+    tags       = models.TextField(null=True, blank=True)
+    extra_data      = models.TextField(null=True, blank=True)
 
     class Meta:
         constraints = [
