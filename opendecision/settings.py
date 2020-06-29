@@ -51,6 +51,7 @@ if os.environ.get('HEROKU') is not None:
         'django.contrib.auth.middleware.AuthenticationMiddleware',
         'django.contrib.messages.middleware.MessageMiddleware',
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
+        'corsheaders.middleware.CorsMiddleware',
     ]
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
@@ -87,6 +88,7 @@ elif os.environ.get('AZURE') is not None:
         'django.contrib.auth.middleware.AuthenticationMiddleware',
         'django.contrib.messages.middleware.MessageMiddleware',
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
+        'corsheaders.middleware.CorsMiddleware',
     ]
 
     DEFAULT_FILE_STORAGE = 'opendecision.custom_azure.AzureMediaStorage'
@@ -148,6 +150,7 @@ if os.environ.get('DJANGO_PRODUCTION') is not None:
         'django_inlinecss',
         'storages',
         'graphene_django',
+        'corsheaders',
 
         'users',
         'pages',
@@ -180,6 +183,7 @@ else:
         'allauth.socialaccount',
         'django_inlinecss',
         'graphene_django',
+        'corsheaders',
 
         'users',
         'pages',
@@ -199,6 +203,7 @@ else:
         'django.contrib.auth.middleware.AuthenticationMiddleware',
         'django.contrib.messages.middleware.MessageMiddleware',
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
+        'corsheaders.middleware.CorsMiddleware',
     ]
 
     DATABASES = {
@@ -304,3 +309,12 @@ os.path.join(
 # Custom Data for Open Decision
 DATAFORMAT_VERSION = 0.1
 LOGIC_TYPE = 'jsonLogic'
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+    'https://localhost:3000',
+    'http://127.0.0.1:3000',
+    'https://127.0.0.1:3000',
+    ]
+
+CORS_ALLOW_CREDENTIALS = True
