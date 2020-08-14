@@ -1,6 +1,6 @@
 # Open Decision
 
-This is the first prototype of Open Decision. Open Decision is an Open Source Decision Automation System optimized for legal processes. A new frontend is being
+This is the first prototype of Open Decision. Open Decision is an Open Source Decision Automation System optimized for legal processes.
 
 Further information about the project on www.open-decision.org
 
@@ -105,4 +105,3 @@ This project is licensed under the MIT License - see the [LICENSE](https://githu
 
 * [Project Website](http://open-decision.org)
 * [Join our Slack-Workspace](https://join.slack.com/t/opendecision/shared_invite/enQtNjM2NDUxNTQyNzU4LWYwMzJlZjlhOWJkMmIxMTBmMjYwMDE0Y2Y2OGUyZDBiY2FmOWU4OTVmMDFhMjNhNTIxYWZkZTNkNDRmNjQ4MmM)
-* [Documentation](https://open-decision.readthedocs.io/en/latest/)
