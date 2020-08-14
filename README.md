@@ -1,14 +1,12 @@
 # Open Decision
 
-Open Decision is an Open-Source Decision Automation System, that is optimized for legal processes. The system will be used to build a platform to provide free legal advice for consumers.
+This is the first prototype of Open Decision. Open Decision is an Open Source Decision Automation System optimized for legal processes. A new frontend is being
 
 Further information about the project on www.open-decision.org
 
 ## Table of content
 - [Getting Started](#getting-started)
 - [Participate](#participate)
-    - [Experts, Lawyers, Designers, Ambassadors & Enthusiasts](#for-experts-lawyers-designers-ambassadors--enthusiasts)
-    - [Developers](#for-developers)
 - [Deploy in the Cloud](#deploy-in-the-cloud)
 - [Local Set-Up](#local-set-up)
   - [Prerequisites](#prerequisites)
@@ -20,15 +18,11 @@ Further information about the project on www.open-decision.org
 
 ## Participate
 
-We are happy about any contributions and currently preparing everything for a smooth process. Please join the [Slack-Channel](https://join.slack.com/t/opendecision/shared_invite/enQtNjM2NDUxNTQyNzU4LWYwMzJlZjlhOWJkMmIxMTBmMjYwMDE0Y2Y2OGUyZDBiY2FmOWU4OTVmMDFhMjNhNTIxYWZkZTNkNDRmNjQ4MmM) to stay up to date.
-
-### For Experts, Lawyers, Designers, Ambassadors & Enthusiasts
-
-Non-code contributions are soon coordinated via Trello. For the moment, please contact us on Slack or Email if you want to contribute.
-
-### For Developers
+Join our growing community and socialize in [our Slack-Workspace](https://join.slack.com/t/opendecision/shared_invite/enQtNjM2NDUxNTQyNzU4LWYwMzJlZjlhOWJkMmIxMTBmMjYwMDE0Y2Y2OGUyZDBiY2FmOWU4OTVmMDFhMjNhNTIxYWZkZTNkNDRmNjQ4MmM).
 
 Feel free to pick an issue, open a bug report, feature request or fork the project. We are open to any input or suggestions on how to bring the project forward.
+
+If you want to join our team, contact us at [contact@open-decision.org](mailto:contact@open-decision.org).
 
 ## Deploy in the Cloud
 With one click, you can deploy your own instance of Open Decision for free on Heroku.
@@ -110,5 +104,5 @@ This project is licensed under the MIT License - see the [LICENSE](https://githu
 ## Links
 
 * [Project Website](http://open-decision.org)
-* [Join our Slack-Channel](https://join.slack.com/t/opendecision/shared_invite/enQtNjM2NDUxNTQyNzU4LWYwMzJlZjlhOWJkMmIxMTBmMjYwMDE0Y2Y2OGUyZDBiY2FmOWU4OTVmMDFhMjNhNTIxYWZkZTNkNDRmNjQ4MmM)
+* [Join our Slack-Workspace](https://join.slack.com/t/opendecision/shared_invite/enQtNjM2NDUxNTQyNzU4LWYwMzJlZjlhOWJkMmIxMTBmMjYwMDE0Y2Y2OGUyZDBiY2FmOWU4OTVmMDFhMjNhNTIxYWZkZTNkNDRmNjQ4MmM)
 * [Documentation](https://open-decision.readthedocs.io/en/latest/)
