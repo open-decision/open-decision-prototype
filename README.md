@@ -1,6 +1,8 @@
-# Open Decision
+# Open Decision Prototype
 
 This is the first prototype of Open Decision. Open Decision is an Open Source Decision Automation System optimized for legal processes.
+
+The new front-end can be found on https://github.com/open-decision/open-decision-frontend
 
 Further information about the project on www.open-decision.org
 
