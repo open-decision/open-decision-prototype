@@ -1,8 +1,10 @@
 # Open Decision Prototype
 
+WARNING: Prototype. Code is no longer maintained.
+
 This is the first prototype of Open Decision. Open Decision is an Open Source Decision Automation System optimized for legal processes.
 
-The new front-end can be found on https://github.com/open-decision/open-decision-frontend
+The new version can be found here https://github.com/open-decision/
 
 Further information about the project on www.open-decision.org
 
@@ -20,9 +22,7 @@ Further information about the project on www.open-decision.org
 
 ## Participate
 
-Join our growing community and socialize in [our Slack-Workspace](https://join.slack.com/t/opendecision/shared_invite/enQtNjM2NDUxNTQyNzU4LWYwMzJlZjlhOWJkMmIxMTBmMjYwMDE0Y2Y2OGUyZDBiY2FmOWU4OTVmMDFhMjNhNTIxYWZkZTNkNDRmNjQ4MmM).
-
-Feel free to pick an issue, open a bug report, feature request or fork the project. We are open to any input or suggestions on how to bring the project forward.
+Join our growing community and socialize in [our Slack-Workspace](https://slack.open-decision.org).
 
 If you want to join our team, contact us at [contact@open-decision.org](mailto:contact@open-decision.org).
 
@@ -106,4 +106,4 @@ This project is licensed under the MIT License - see the [LICENSE](https://githu
 ## Links
 
 * [Project Website](http://open-decision.org)
-* [Join our Slack-Workspace](https://join.slack.com/t/opendecision/shared_invite/enQtNjM2NDUxNTQyNzU4LWYwMzJlZjlhOWJkMmIxMTBmMjYwMDE0Y2Y2OGUyZDBiY2FmOWU4OTVmMDFhMjNhNTIxYWZkZTNkNDRmNjQ4MmM)
+* [Join our Slack-Workspace](https://slack.open-decision.org)
